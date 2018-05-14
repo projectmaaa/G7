@@ -30,10 +30,19 @@ public class Client extends AbstractClient {
 		openConnection();
 	}
 
+	/**
+	 * This method handles all data that comes in from the server.
+	 *
+	 * @param msg
+	 *            The message from the server.
+	 */
 	@Override
-	protected void handleMessageFromServer(Object msg) {
-		
-	}
-	
+	public void handleMessageFromServer(Object obj) {
+		if (obj == null) {
+			// add something
+			return;
+		}
 
+	} 
+	
 }
