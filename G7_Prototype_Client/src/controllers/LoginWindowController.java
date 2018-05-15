@@ -55,6 +55,10 @@ public class LoginWindowController extends Application implements Initializable 
 		getStage().close();
 	}
 
+	public void setStage(Stage stage) {
+		LoginWindowController.stage = stage;
+	}
+
 	public void handleTab(KeyEvent event) {
 		KeyCode code = event.getCode();
 		if (code == KeyCode.TAB) {
@@ -95,7 +99,7 @@ public class LoginWindowController extends Application implements Initializable 
 	public void start(Stage arg0) throws Exception {
 		try {
 			Stage stage = new Stage();
-			// setStage(stage);
+			setStage(stage);
 			URL url = new File("src/boundaries/LoginWindow.fxml").toURL();
 			Parent root = FXMLLoader.load(url);
 			Scene scene = new Scene(root);

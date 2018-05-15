@@ -48,31 +48,24 @@ public class Client extends AbstractClient {
 		}
 
 	}
-	
-	  /**
-	   * This method waits for input from the console.  Once it is 
-	   * received, it sends it to the client's message handler.
-	   */
-	  public void accept() 
-	  {
-	    try
-	    {
-	      BufferedReader fromConsole = 
-	        new BufferedReader(new InputStreamReader(System.in));
-	      String message;
 
-	      while (true) 
-	      {
-	        message = fromConsole.readLine();
-	        client.handleMessageFromClientUI(message);
-	      }
-	    } 
-	    catch (Exception ex) 
-	    {
-	      System.out.println
-	        ("Unexpected error while reading from console!");
-	    }
-	  }
+	/**
+	 * This method waits for input from the console. Once it is received, it sends
+	 * it to the client's message handler.
+	 */
+	public void accept() {
+		try {
+			BufferedReader fromConsole = new BufferedReader(new InputStreamReader(System.in));
+			String message;
+
+			while (true) {
+				message = fromConsole.readLine();
+				client.handleMessageFromClientUI(message);
+			}
+		} catch (Exception ex) {
+			System.out.println("Unexpected error while reading from console!");
+		}
+	}
 
 	public static void main(String[] args) {
 		LoginWindowController.go();
