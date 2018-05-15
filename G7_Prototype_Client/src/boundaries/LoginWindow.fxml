@@ -7,7 +7,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="signIn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="295.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginWindowController">
+<AnchorPane fx:id="signIn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="295.0" stylesheets="@login.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginWindowController">
 	<children>
 		<ImageView fitHeight="506.0" fitWidth="295.0" pickOnBounds="true">
 			<image>
@@ -20,9 +20,9 @@
 			</image>
 		</ImageView>
 		<Text fx:id="TextGroup7" fill="#f8f8f8" layoutX="61.0" layoutY="487.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
-		<TextField fx:id="un" focusTraversable="false" layoutX="48.0" layoutY="161.0" prefHeight="31.0" prefWidth="200.0" promptText="Username" />
-		<PasswordField fx:id="pw" focusTraversable="false" layoutX="48.0" layoutY="218.0" prefHeight="31.0" prefWidth="200.0" promptText="Password" />
-		<Button fx:id="login" layoutX="109.0" layoutY="318.0" mnemonicParsing="false" onAction="#loginButtonHandler" text="Login" textAlignment="CENTER">
+		<TextField fx:id="un" focusTraversable="false" layoutX="48.0" layoutY="161.0" onKeyPressed="#handleTab" prefHeight="31.0" prefWidth="200.0" promptText="Username" />
+		<PasswordField fx:id="pw" focusTraversable="false" layoutX="48.0" layoutY="218.0" onKeyPressed="#handleTab" prefHeight="31.0" prefWidth="200.0" promptText="Password" />
+		<Button fx:id="login" layoutX="109.0" layoutY="318.0" mnemonicParsing="false" onKeyPressed="#handleTab" prefHeight="0.0" prefWidth="78.0" text="Login" textAlignment="CENTER">
 			<font>
 				<Font size="20.0" />
 			</font>
@@ -33,6 +33,6 @@
 			</font>
 		</Text>
 		<Label fx:id="loginLabel" alignment="CENTER" layoutX="8.0" layoutY="268.0" prefHeight="21.0" prefWidth="280.0" textAlignment="JUSTIFY" visible="false" />
-      <Text fx:id="date" layoutX="209.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="78.0" />
+      <Text fx:id="date" layoutX="109.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="78.0" />
 	</children>
 </AnchorPane>

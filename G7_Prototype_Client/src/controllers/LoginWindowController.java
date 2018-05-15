@@ -1,22 +1,29 @@
 package controllers;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import resources.Utilities;
-import userManagement.User;
-import userManagement.Users;
 
-public class LoginWindowController implements Initializable {
+public class LoginWindowController extends Application implements Initializable {
 
 	@FXML
 	private PasswordField pw;
@@ -36,41 +43,36 @@ public class LoginWindowController implements Initializable {
 	@FXML
 	private Text date;
 
-	public void loginButtonHandler(ActionEvent event) throws Exception {
-		try {
-			Users.updateList();
-			User user = userExist();
-			if ((user != null) && (user.getLogged() == 0)) {
-				clearFields();
-				loginLabel.setVisible(false);
-				activeWindowType(user);
-			} else if (user.getLogged() == 1) {
-				loginLabel.setText("This user is already logged in."); // syntax fix by AsafYus
-			}
-		} catch (NullPointerException ex) {
-			loginLabel.setText("Incorrect username or password."); // syntax fix by AsafYus
-		} finally {
-			loginLabel.setVisible(true);
-		}
+	private int fieldFlag;
+
+	private static Stage stage;
+
+	public static Stage getStage() {
+		return stage;
 	}
 
-	/**
-	 * This method check if the user exist in the database.
-	 * 
-	 * <pre>
-	 * If yes return the user.
-	 * 
-	 * <pre>
-	 * Else return null.
-	 */
-	private User userExist() throws NullPointerException {
-		User user = Users.getUser(un.getText());
-		if (user != null) {
-			if (user.getPassWord().equals(pw.getText())) {
-				return user;
+	public static void closeStage() {
+		getStage().close();
+	}
+
+	public void handleTab(KeyEvent event) {
+		KeyCode code = event.getCode();
+		if (code == KeyCode.TAB) {
+			switch (fieldFlag) {
+			case 0:
+				pw.requestFocus();
+				fieldFlag = 1;
+				break;
+			case 1:
+				login.requestFocus();
+				fieldFlag = 2;
+				break;
+			case 2:
+				fieldFlag = 0;
+				un.requestFocus();
+				break;
 			}
 		}
-		return null;
 	}
 
 	/**
@@ -82,33 +84,34 @@ public class LoginWindowController implements Initializable {
 		loginLabel.setText("");
 	}
 
-	/**
-	 * This method get user and according to his type active the right window
-	 * 
-	 * @param user
-	 * @throws Exception
-	 */
-	private void activeWindowType(User user) throws Exception {
-		if (user.getType().equals("Teacher")) {
-			user.setActiveUser(user);
-			User.updateUserLogged(user.getiD(), 1);
-			LoginWindow.closeStage();
-			TeacherWindow maintainWindow = new TeacherWindow();
-			maintainWindow.go();
-		} else if (user.getType().equals("Principal")) {
-			System.out.println("Principal Window In work");
-			loginLabel.setText("Principal Window In work");
-		} else if (user.getType().equals("Student")) {
-			System.out.println("Student Window In work");
-			loginLabel.setText("Student Window In work");
-		} else {
-			System.out.println("Undefinded type");
-			loginLabel.setText("Undefinded type");
-		}
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		fieldFlag = 0;
+		// login.addEventHandler(KeyEvent event, handleTab);
+		date.setText(Utilities.setDate());
 	}
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		date.setText(Utilities.setDateS());
+	public void start(Stage arg0) throws Exception {
+		try {
+			Stage stage = new Stage();
+			// setStage(stage);
+			URL url = new File("src/boundaries/LoginWindow.fxml").toURL();
+			Parent root = FXMLLoader.load(url);
+			Scene scene = new Scene(root);
+			Image image = new Image(new File("src/boundaries.Images/AES2.PNG").toURI().toString());
+			stage.getIcons().add(image);
+			stage.setResizable(false);
+			stage.setScene(scene);
+			stage.setTitle("AES");
+			stage.sizeToScene();
+			stage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void go() {
+		launch();
 	}
 }

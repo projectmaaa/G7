@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-10"/>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/OCSF"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Prototype"/>
+	<classpathentry excluding="controllers/LoginWindow.java" kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre-10.0.1"/>
+	<classpathentry kind="lib" path="/G7_Prototype_Server/libs/ocsf.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
