@@ -24,7 +24,9 @@ public class Server extends AbstractServer {
 		this.sendToAllClients(msg);
 	}
 
-	/* returns the selected question details (if exists) */
+	/**
+	 *  returns the selected question details (if exists) 
+	 */
 	public String requestedQuestion(String questionID) throws SQLException {
 		Statement statement = connection.createStatement();
 		String question = "There's no such question with the requested ID";
