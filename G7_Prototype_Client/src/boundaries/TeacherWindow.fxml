@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="anchorPane" focusTraversable="false" prefHeight="570.0" prefWidth="861.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TeacherWindowController">
+   <children>
+      <ImageView fitHeight="669.0" fitWidth="985.0" pickOnBounds="true">
+         <image>
+            <Image url="@../bigstock-Stack-Of-Books-70033240.jpg" />
+         </image>
+         <effect>
+            <ColorAdjust brightness="-0.24" />
+         </effect>
+      </ImageView>
+      <Text fx:id="welcomeText" fill="WHITE" layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="370.0">
+         <font>
+            <Font size="24.0" />
+         </font></Text>
+      <Text fx:id="TextGroup7" layoutX="365.0" layoutY="664.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
+      <ImageView fx:id="Group7Logo" blendMode="MULTIPLY" fitHeight="150.0" fitWidth="200.0" layoutX="348.0" layoutY="572.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../logo.jpg" />
+         </image>
+      </ImageView>
+      <Text fx:id="date" fill="#fffdfd" layoutX="730.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="140.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Button fx:id="logoutButton" layoutX="870.0" layoutY="13.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
+      <ScrollPane layoutX="3.0" layoutY="170.0" prefHeight="397.0" prefWidth="980.0" visible="false">
+         <content>
+            <CheckBox mnemonicParsing="false" />
+         </content>
+      </ScrollPane>
+      <MenuBar focusTraversable="false" layoutY="52.0" prefHeight="115.0" prefWidth="784.0" stylesheets="@menuBarTeacher.css">
+        <menus>
+          <Menu mnemonicParsing="false" text="Maintain Questions">
+            <items>
+              <MenuItem fx:id="addQuestion" mnemonicParsing="false" text="Add Question" />
+                  <MenuItem fx:id="editOrRemoveQuestion" mnemonicParsing="false" onAction="#openEditorRemove" text="Edit\Remove Question" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Maintain Exams">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Work in progress" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Order Reports">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Work in progress" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Confirm Grades">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Work in progress" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <TableView fx:id="tableView" editable="true" layoutX="4.0" layoutY="88.0" prefHeight="581.0" prefWidth="980.0" stylesheets="@table%20view.css">
+        <columns>
+          <TableColumn fx:id="questionIDColumn" prefWidth="95.0" text="Question ID" />
+          <TableColumn fx:id="authorColumn" prefWidth="102.0" text="Author" />
+            <TableColumn fx:id="questionTextColumn" prefWidth="480.0" text="Question Text" />
+            <TableColumn fx:id="possibleAnswersColumn" prefWidth="171.0" text="Possible Answers" />
+            <TableColumn fx:id="correctAnswerColumn" prefWidth="131.0" text="Correct Answer" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

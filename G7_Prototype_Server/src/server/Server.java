@@ -1,10 +1,13 @@
 package server;
 
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import controllers.TeacherWindowController;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -15,22 +18,53 @@ public class Server extends AbstractServer {
 
 	public Server(int port) {
 		super(port);
-		connection = SqlConnection.connection();
+		connection = SqlUtilities.connection();
 	}
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		System.out.println("Message received: " + msg + " from " + client);
-		this.sendToAllClients(msg);
+		if (msg == null) {
+
+			return;
+		}
+		if (!(msg instanceof String)) {
+			// this.sendToAllClients(msg);
+			return;
+		}
+		ResultSet rs;
+		String str = (String) msg;
+		String[] strArray = str.split(" ");
+		try {
+			switch (strArray[0]) {
+			case "#login":
+				PreparedStatement login = connection.prepareStatement(SqlUtilities.Login_SELECT_User_From_Users);
+				login.setString(1, strArray[1]);
+				login.setString(2, strArray[2]);
+				rs = login.executeQuery();
+				if (rs.next()) {
+					System.out.println("Teacher");
+					client.sendToClient("Teacher");
+					return;
+				} else {
+					client.sendToClient("No");
+					return;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
-	 *  returns the selected question details (if exists) 
+	 * returns the selected question details (if exists)
 	 */
 	public String requestedQuestion(String questionID) throws SQLException {
 		Statement statement = connection.createStatement();
 		String question = "There's no such question with the requested ID";
-		ResultSet rs = statement.executeQuery("SELECT * FROM Questions;");
+		ResultSet rs = statement.executeQuery(SqlUtilities.SELECT_All_FROM_Questions);
 		while (rs.next()) {
 			/* if the question exists */
 			if (rs.getString(1).equals(questionID)) {

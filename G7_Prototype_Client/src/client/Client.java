@@ -1,10 +1,12 @@
 package client;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 import controllers.LoginWindowController;
+import controllers.TeacherWindowController;
 import javafx.stage.Stage;
 import ocsf.client.AbstractClient;
 
@@ -41,10 +43,34 @@ public class Client extends AbstractClient {
 	 *            The message from the server.
 	 */
 	@Override
-	public void handleMessageFromServer(Object obj) {
-		if (obj == null) {
+	public void handleMessageFromServer(Object msg) {
+		if (msg == null) {
 			// add something
 			return;
+		}
+		if (!(msg instanceof String)) {
+			// this.sendToAllClients(msg);
+			return;
+		}
+		String str = (String) msg;
+		switch (str) {
+		case "Teacher":
+			try {
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			break;
+		case "No":
+			// try {
+			// this.closeConnection();
+			// } catch (IOException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			System.out.println("Close connection");
+			break;
 		}
 
 	}

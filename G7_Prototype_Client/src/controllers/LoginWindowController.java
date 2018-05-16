@@ -1,23 +1,17 @@
 package controllers;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import client.Client;
 import client.MainApp;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -26,7 +20,7 @@ import javafx.stage.Stage;
 import resources.Message;
 import resources.Utilities;
 
-public class LoginWindowController extends Application implements Initializable {
+public class LoginWindowController implements Initializable {
 
 	@FXML
 	private PasswordField pw;
@@ -70,27 +64,7 @@ public class LoginWindowController extends Application implements Initializable 
 			loginLabel.setVisible(true);
 		}
 		client.handleMessageFromClientUI(Message.login + " " + un.getText() + " " + pw.getText());
-
 	}
-
-	/**
-	 * This method check if the user exist in the database.
-	 * 
-	 * <pre>
-	 * If yes return the user.
-	 * 
-	 * <pre>
-	 * Else return null.
-	 */
-	// private User userExist() throws NullPointerException {
-	// User user = Users.getUser(un.getText());
-	// if (user != null) {
-	// if (user.getPassWord().equals(pw.getText())) {
-	// return user;
-	// }
-	// }
-	// return null;
-	// }
 
 	/**
 	 * This handler is for move between fields with tab.
@@ -133,28 +107,4 @@ public class LoginWindowController extends Application implements Initializable 
 		date.setText(Utilities.setDate());
 	}
 
-	@SuppressWarnings("deprecation")
-	@Override
-	public void start(Stage arg0) throws Exception {
-		try {
-			Stage stage = new Stage();
-			setStage(stage);
-			URL url = new File("src/boundaries/LoginWindow.fxml").toURL();
-			Parent root = FXMLLoader.load(url);
-			Scene scene = new Scene(root);
-			Image image = new Image(new File("src/boundaries.Images/AES2.PNG").toURI().toString());
-			stage.getIcons().add(image);
-			stage.setResizable(false);
-			stage.setScene(scene);
-			stage.setTitle("AES");
-			stage.sizeToScene();
-			stage.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void go() {
-		launch();
-	}
 }
