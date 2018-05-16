@@ -59,7 +59,40 @@ public class LoginWindowController extends Application implements Initializable 
 		LoginWindowController.stage = stage;
 	}
 
-	public void handleTab(KeyEvent event) {
+	public void loginButtonHandler(ActionEvent event) {
+		if ((un.getText().isEmpty()) || (pw.getText().isEmpty())) {
+			loginLabel.setText("Incorrect username or password.");
+			loginLabel.setVisible(true);
+		}
+		
+
+	}
+
+	/**
+	 * This method check if the user exist in the database.
+	 * 
+	 * <pre>
+	 * If yes return the user.
+	 * 
+	 * <pre>
+	 * Else return null.
+	 */
+	// private User userExist() throws NullPointerException {
+	// User user = Users.getUser(un.getText());
+	// if (user != null) {
+	// if (user.getPassWord().equals(pw.getText())) {
+	// return user;
+	// }
+	// }
+	// return null;
+	// }
+
+	/**
+	 * This handler is for move between fields with tab.
+	 * 
+	 * @param event
+	 */
+	public void tabHandler(KeyEvent event) {
 		KeyCode code = event.getCode();
 		if (code == KeyCode.TAB) {
 			switch (fieldFlag) {
@@ -91,10 +124,10 @@ public class LoginWindowController extends Application implements Initializable 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		fieldFlag = 0;
-		// login.addEventHandler(KeyEvent event, handleTab);
 		date.setText(Utilities.setDate());
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void start(Stage arg0) throws Exception {
 		try {

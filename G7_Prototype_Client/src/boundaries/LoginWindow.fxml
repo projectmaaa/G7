@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -14,15 +15,23 @@
 				<Image url="@Images/bg-login.jpg" />
 			</image>
 		</ImageView>
+      <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="251.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/settings_icon.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </ImageView>
 		<ImageView fx:id="Group7Logo" blendMode="COLOR_BURN" fitHeight="150.0" fitWidth="200.0" layoutX="48.0" layoutY="401.0" pickOnBounds="true" preserveRatio="true">
 			<image>
 				<Image url="@Images/logo.jpg" />
 			</image>
 		</ImageView>
 		<Text fx:id="TextGroup7" fill="#f8f8f8" layoutX="61.0" layoutY="487.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
-		<TextField fx:id="un" focusTraversable="false" layoutX="48.0" layoutY="161.0" onKeyPressed="#handleTab" prefHeight="31.0" prefWidth="200.0" promptText="Username" />
-		<PasswordField fx:id="pw" focusTraversable="false" layoutX="48.0" layoutY="218.0" onKeyPressed="#handleTab" prefHeight="31.0" prefWidth="200.0" promptText="Password" />
-		<Button fx:id="login" layoutX="109.0" layoutY="318.0" mnemonicParsing="false" onKeyPressed="#handleTab" prefHeight="0.0" prefWidth="78.0" text="Login" textAlignment="CENTER">
+		<TextField fx:id="un" focusTraversable="false" layoutX="48.0" layoutY="161.0" onKeyPressed="#tabHandler" prefHeight="31.0" prefWidth="200.0" promptText="Username" />
+		<PasswordField fx:id="pw" focusTraversable="false" layoutX="48.0" layoutY="218.0" onKeyPressed="#tabHandler" prefHeight="31.0" prefWidth="200.0" promptText="Password" />
+		<Button fx:id="login" layoutX="109.0" layoutY="318.0" mnemonicParsing="false" onAction="#loginButtonHandler" onKeyPressed="#tabHandler" prefHeight="0.0" prefWidth="78.0" text="Login" textAlignment="CENTER">
 			<font>
 				<Font size="20.0" />
 			</font>
