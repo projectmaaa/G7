@@ -1,0 +1,24 @@
+.menu-bar{
+    -fx-background-color: transparent;
+}
+
+.menu-bar .label {
+    -fx-font-style: italic;
+    -fx-font-size: 20 pt;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+}
+
+
+.menu:hover {
+    -fx-background-color: transparent;
+}
+
+.menu-item .label{
+    -fx-font-size: 20 pt;
+    -fx-background-color: transparent;
+    -fx-label-line-length: 8;
+    -fx-text-fill: #000000;
+}

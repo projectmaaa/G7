@@ -1,16 +1,11 @@
 package client;
 
-import java.io.BufferedReader;
-
 import java.io.IOException;
-import java.io.InputStreamReader;
-
-import controllers.LoginWindowController;
-import controllers.TeacherWindowController;
-import javafx.stage.Stage;
+import controllers.IScreenController;
+import controllers.ScreensController;
 import ocsf.client.AbstractClient;
 
-public class Client extends AbstractClient {
+public class Client extends AbstractClient implements IScreenController {
 
 	// Class variables *************************************************
 
@@ -18,6 +13,8 @@ public class Client extends AbstractClient {
 	 * The default port to connect on.
 	 */
 	final public static int DEFAULT_PORT = 5555;
+
+	private ScreensController myController;
 
 	// Constructors ****************************************************
 
@@ -31,8 +28,9 @@ public class Client extends AbstractClient {
 	 * @param clientUI
 	 *            The interface type variable.
 	 */
-	public Client(String host, int port) throws IOException {
+	public Client(String host, int port, ScreensController screenParent) throws IOException {
 		super(host, port); // Call the superclass constructor
+		setScreenParent(screenParent);
 		openConnection();
 	}
 
@@ -56,7 +54,7 @@ public class Client extends AbstractClient {
 		switch (str) {
 		case "Teacher":
 			try {
-
+				myController.setScreen(MainApp.screen2ID);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -118,6 +116,10 @@ public class Client extends AbstractClient {
 		// } catch (Exception ex) {
 		// System.out.println("Unexpected error while reading from console!");
 		// }
+	}
+
+	public void setScreenParent(ScreensController screenParent) {
+		myController = screenParent;
 	}
 
 }

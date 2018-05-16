@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import resources.Message;
 import resources.Utilities;
 
-public class LoginWindowController implements Initializable {
+public class LoginWindowController implements Initializable, IScreenController {
 
 	@FXML
 	private PasswordField pw;
@@ -46,6 +46,12 @@ public class LoginWindowController implements Initializable {
 
 	private Client client;
 
+	private ScreensController myController;
+
+	public ScreensController getMyController() {
+		return myController;
+	}
+
 	public static Stage getStage() {
 		return stage;
 	}
@@ -58,6 +64,7 @@ public class LoginWindowController implements Initializable {
 		LoginWindowController.stage = stage;
 	}
 
+	@FXML
 	public void loginButtonHandler(ActionEvent event) {
 		if ((un.getText().isEmpty()) || (pw.getText().isEmpty())) {
 			loginLabel.setText("Incorrect username or password.");
@@ -105,6 +112,11 @@ public class LoginWindowController implements Initializable {
 		fieldFlag = 0;
 		this.client = MainApp.getClient();
 		date.setText(Utilities.setDate());
+	}
+
+	@Override
+	public void setScreenParent(ScreensController screenParent) {
+		myController = screenParent;
 	}
 
 }
