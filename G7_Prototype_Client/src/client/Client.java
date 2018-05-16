@@ -50,6 +50,32 @@ public class Client extends AbstractClient {
 	}
 
 	/**
+	 * This method handles all data coming from the UI
+	 *
+	 * @param message
+	 *            The message from the UI.
+	 */
+	public void handleMessageFromClientUI(String message) {
+		try {
+			sendToServer(message);
+		} catch (IOException e) {
+			// clientUI.display("Could not send message to server. Terminating client.");
+			quit();
+		}
+	}
+
+	/**
+	 * This method terminates the client.
+	 */
+	public void quit() {
+		try {
+			closeConnection();
+		} catch (IOException e) {
+		}
+		System.exit(0);
+	}
+
+	/**
 	 * This method waits for input from the console. Once it is received, it sends
 	 * it to the client's message handler.
 	 */
@@ -66,10 +92,6 @@ public class Client extends AbstractClient {
 		// } catch (Exception ex) {
 		// System.out.println("Unexpected error while reading from console!");
 		// }
-	}
-
-	public static void main(String[] args) {
-		LoginWindowController.go();
 	}
 
 }

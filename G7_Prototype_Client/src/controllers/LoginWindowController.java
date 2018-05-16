@@ -4,6 +4,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.Client;
+import client.MainApp;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +23,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import resources.Message;
 import resources.Utilities;
 
 public class LoginWindowController extends Application implements Initializable {
@@ -47,6 +50,8 @@ public class LoginWindowController extends Application implements Initializable 
 
 	private static Stage stage;
 
+	private Client client;
+
 	public static Stage getStage() {
 		return stage;
 	}
@@ -64,7 +69,7 @@ public class LoginWindowController extends Application implements Initializable 
 			loginLabel.setText("Incorrect username or password.");
 			loginLabel.setVisible(true);
 		}
-		
+		client.handleMessageFromClientUI(Message.login + " " + un.getText() + " " + pw.getText());
 
 	}
 
@@ -124,6 +129,7 @@ public class LoginWindowController extends Application implements Initializable 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		fieldFlag = 0;
+		this.client = MainApp.getClient();
 		date.setText(Utilities.setDate());
 	}
 
