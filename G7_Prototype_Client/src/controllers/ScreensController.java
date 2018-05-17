@@ -52,7 +52,7 @@ public class ScreensController extends StackPane {
 	}
 
 	/**
-	 * Loads the fxml file, add the screen to the screns collection and finally
+	 * Loads the fxml file, add the screen to the screen collection and finally
 	 * 
 	 * injects the screenPane to the controller.
 	 * 

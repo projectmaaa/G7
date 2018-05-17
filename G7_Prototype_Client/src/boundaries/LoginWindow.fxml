@@ -8,40 +8,77 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="signIn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="295.0" stylesheets="@login.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginWindowController">
+<AnchorPane fx:id="signIn" maxHeight="-Infinity"
+	maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+	prefHeight="600.0" prefWidth="850.0" stylesheets="@login.css"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="controllers.LoginWindowController">
 	<children>
-		<ImageView fitHeight="506.0" fitWidth="295.0" pickOnBounds="true">
+		<ImageView fitHeight="600.0" fitWidth="860.0"
+			pickOnBounds="true">
 			<image>
 				<Image url="@Images/bg-login.jpg" />
 			</image>
 		</ImageView>
-      <ImageView fitHeight="38.0" fitWidth="37.0" layoutX="251.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/settings_icon.png" />
-         </image>
-         <cursor>
-            <Cursor fx:constant="DEFAULT" />
-         </cursor>
-      </ImageView>
-		<ImageView fx:id="Group7Logo" blendMode="COLOR_BURN" fitHeight="150.0" fitWidth="200.0" layoutX="48.0" layoutY="401.0" pickOnBounds="true" preserveRatio="true">
+		<ImageView fitHeight="38.0" fitWidth="37.0" layoutX="799.0"
+			layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+			<image>
+				<Image url="@Images/settings_icon.png" />
+			</image>
+			<cursor>
+				<Cursor fx:constant="DEFAULT" />
+			</cursor>
+		</ImageView>
+		<ImageView fx:id="Group7Logo" blendMode="COLOR_BURN"
+			fitHeight="150.0" fitWidth="200.0" layoutX="330.0" layoutY="489.0"
+			pickOnBounds="true" preserveRatio="true">
 			<image>
 				<Image url="@Images/logo.jpg" />
 			</image>
 		</ImageView>
-		<Text fx:id="TextGroup7" fill="#f8f8f8" layoutX="61.0" layoutY="487.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
-		<TextField fx:id="un" focusTraversable="false" layoutX="48.0" layoutY="161.0" onKeyPressed="#tabHandler" prefHeight="31.0" prefWidth="200.0" promptText="Username" />
-		<PasswordField fx:id="pw" focusTraversable="false" layoutX="48.0" layoutY="218.0" onKeyPressed="#tabHandler" prefHeight="31.0" prefWidth="200.0" promptText="Password" />
-		<Button fx:id="login" layoutX="109.0" layoutY="318.0" mnemonicParsing="false" onAction="#loginButtonHandler" onKeyPressed="#tabHandler" prefHeight="0.0" prefWidth="78.0" text="Login" textAlignment="CENTER">
+		<Text fx:id="TextGroup7" fill="#f8f8f8" layoutX="343.0"
+			layoutY="581.0" strokeType="OUTSIDE" strokeWidth="0.0"
+			text="Copyright © 2018 Group7" />
+		<TextField fx:id="un" focusTraversable="false"
+			layoutX="330.0" layoutY="206.0" onKeyPressed="#tabHandler"
+			prefHeight="31.0" prefWidth="200.0" promptText="Username" />
+		<PasswordField fx:id="pw" focusTraversable="false"
+			layoutX="330.0" layoutY="263.0" onKeyPressed="#tabHandler"
+			prefHeight="31.0" prefWidth="200.0" promptText="Password" />
+		<Button fx:id="login" layoutX="391.0" layoutY="382.0"
+			mnemonicParsing="false" onAction="#loginButtonHandler"
+			onKeyPressed="#tabHandler" prefHeight="0.0" prefWidth="78.0"
+			text="Login" textAlignment="CENTER">
 			<font>
 				<Font size="20.0" />
 			</font>
 		</Button>
-		<Text layoutX="17.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign in">
+		<Text layoutX="299.0" layoutY="183.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Sign in">
 			<font>
 				<Font name="Harvest Regular" size="60.0" />
 			</font>
 		</Text>
-		<Label fx:id="loginLabel" alignment="CENTER" layoutX="8.0" layoutY="268.0" prefHeight="21.0" prefWidth="280.0" textAlignment="JUSTIFY" visible="false" />
-      <Text fx:id="date" layoutX="109.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="78.0" />
+		<Label fx:id="loginLabel" alignment="CENTER" layoutX="8.0"
+			layoutY="268.0" prefHeight="21.0" prefWidth="280.0"
+			textAlignment="JUSTIFY" visible="false" />
+		<Text fx:id="date" layoutX="595.0" layoutY="43.0"
+			strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="173.115234375">
+			<font>
+				<Font size="30.0" />
+			</font>
+		</Text>
+		<ImageView fitHeight="68.0" fitWidth="30.0" layoutX="299.0"
+			layoutY="264.0" pickOnBounds="true" preserveRatio="true">
+			<image>
+				<Image url="@Images/Lock-64x64.png" />
+			</image>
+		</ImageView>
+		<ImageView fitHeight="68.0" fitWidth="30.0" layoutX="299.0"
+			layoutY="207.0" pickOnBounds="true" preserveRatio="true">
+			<image>
+				<Image url="@Images/Office-Customer-Male-Light-icon.png" />
+			</image>
+		</ImageView>
 	</children>
 </AnchorPane>
