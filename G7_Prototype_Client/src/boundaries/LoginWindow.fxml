@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -61,10 +62,18 @@
          <font>
             <Font name="Narkisim" size="160.0" />
          </font>
+         <fill>
+            <LinearGradient endX="0.519047619047619" endY="0.01428571428571429" startX="0.4809523809523809" startY="1.0">
+               <stops>
+                  <Stop color="#512ccd" />
+                  <Stop color="BLACK" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
       </Text>
       <ImageView fitHeight="75.0" fitWidth="71.0" layoutX="243.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" rotate="14.0">
          <image>
-            <Image url="@../../../../../Pictures/v1.png" />
+            <Image url="@../../../../../../Pictures/v1.png" />
          </image>
       </ImageView>
 	</children>
