@@ -3,6 +3,8 @@ package controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.MainApp;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -98,13 +100,13 @@ public class TeacherWindowController implements Initializable, IScreenController
 	// @FXML
 	// private ScrollPane scrollPaneEditOrRemoveQuestions;
 
-	//
-	// public void logOutButtonHandler(ActionEvent event) throws Exception {
-	// TeacherWindowController.getStage().close();
-	// LoginWindowController.getStage().show();
-	// LoginWindowController.getStage().sizeToScene();
-	// // User.updateUserLogged(User.getActiveUser().getiD(), 0);
-	// }
+	public void logOutButtonHandler(ActionEvent event) throws Exception {
+		myController.setScreen(MainApp.screen1ID);
+		// TeacherWindowController.getStage().close();
+		// LoginWindowController.getStage().show();
+		// LoginWindowController.getStage().sizeToScene();
+		// User.updateUserLogged(User.getActiveUser().getiD(), 0);
+	}
 	//
 	// /* Edit\Remove Question was pressed */
 	// public void openEditorRemove(ActionEvent event) {
