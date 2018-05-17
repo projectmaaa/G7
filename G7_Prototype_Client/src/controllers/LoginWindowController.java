@@ -66,11 +66,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 
 	@FXML
 	public void loginButtonHandler(ActionEvent event) {
-		if ((un.getText().isEmpty()) || (pw.getText().isEmpty())) {
-			loginLabel.setText("Incorrect username or password.");
-			loginLabel.setVisible(true);
-		}
-		client.handleMessageFromClientUI(Message.login + " " + un.getText() + " " + pw.getText());
+		loginCheck();
 	}
 
 	/**
@@ -78,7 +74,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	 * 
 	 * @param event
 	 */
-	public void tabHandler(KeyEvent event) {
+	public void keyHandler(KeyEvent event) {
 		KeyCode code = event.getCode();
 		if (code == KeyCode.TAB) {
 			switch (fieldFlag) {
@@ -95,7 +91,17 @@ public class LoginWindowController implements Initializable, IScreenController {
 				un.requestFocus();
 				break;
 			}
+		} else if (code == KeyCode.ENTER) {
+			loginCheck();
 		}
+	}
+
+	private void loginCheck() {
+		if ((un.getText().isEmpty()) || (pw.getText().isEmpty())) {
+			loginLabel.setText("Incorrect username or password.");
+			loginLabel.setVisible(true);
+		}
+		client.handleMessageFromClientUI(Message.login + " " + un.getText() + " " + pw.getText());
 	}
 
 	/**

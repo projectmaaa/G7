@@ -10,8 +10,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import resources.Question;
 
-
-
 public class SqlUtilities {
 
 	public final static String SELECT_All_FROM_Questions = "SELECT * FROM Questions;";
@@ -37,7 +35,7 @@ public class SqlUtilities {
 		}
 		return null;
 	}
-	
+
 	// /**
 	// * returns the whole table of questions for the table view
 	// */
