@@ -48,6 +48,9 @@ public class Server extends AbstractServer {
 					client.sendToClient("No");
 					return;
 				}
+			case "#EditorRemovePressed":
+				client.sendToClient(SqlUtilities.getQuestions());
+				break;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

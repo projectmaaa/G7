@@ -1,10 +1,5 @@
 package controllers;
 
-/**
- * 
- * @author Alex
- *
- */
 public interface IScreenController {
 
 	/**

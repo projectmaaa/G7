@@ -2,18 +2,23 @@ package controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
+import client.Client;
 import client.MainApp;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import resources.Question;
 import resources.Utilities;
-//import userManagement.User;
 
 public class TeacherWindowController implements Initializable, IScreenController {
 
@@ -35,55 +40,48 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private Text welcomeText;
 
-	private ScreensController myController;
+	@FXML
+	private MenuItem editOrRemoveQuestion;
+	@FXML
+	private TableView<Question> tableView;
+	@FXML
+	private TableColumn<Question, String> questionIDColumn;
+	@FXML
+	private TableColumn<Question, String> authorColumn;
+	@FXML
+	private TableColumn<Question, String> questionTextColumn;
+	@FXML
+	private TableColumn<Question, String> possibleAnswersColumn;
+	@FXML
+	private TableColumn<Question, String> correctAnswerColumn;
 
-	// @FXML
-	// private Button maintainQuestionButton;
-
-	// @FXML
-	// private Button addQuestion;
-
-	// @FXML
-	// private MenuItem editOrRemoveQuestion;
-	// @FXML
-	// private TableView<Question> tableView;
-	// @FXML
-	// private TableColumn questionIDColumn;
-	// @FXML
-	// private TableColumn authorColumn;
-	// @FXML
-	// private TableColumn questionTextColumn;
-	// @FXML
-	// private TableColumn possibleAnswersColumn;
-	// @FXML
-	// private TableColumn correctAnswerColumn;
-	//
 	// private boolean clickedOnMaintainQuestion;
-
+	private ScreensController screensController;
+	private Client client;
 	private static Stage stage;
 
 	// private TeacherWindowController controller;
 
-	@SuppressWarnings("deprecation")
-	public static void start() throws Exception {
-		// try {
-		// Stage stage = new Stage();
-		// setStage(stage);
-		// URL url = new File("src/boundaries/TeacherWindow.fxml").toURL();
-		// Parent root1 = FXMLLoader.load(url);
-		// Scene scene = new Scene(root1);
-		// Image image = new Image(new
-		// File("src/boundaries.Images/AES2.PNG").toURI().toString());
-		// stage.getIcons().add(image);
-		// stage.setResizable(false);
-		// stage.sizeToScene();
-		// stage.setScene(scene);
-		// stage.setTitle("AES");
-		// stage.show();
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-	}
+	// @SuppressWarnings("deprecation")
+	// public static void start() throws Exception {
+	// try {
+	// Stage stage = new Stage();
+	// setStage(stage);
+	// URL url = new File("src/boundaries/TeacherWindow.fxml").toURL();
+	// Parent root1 = FXMLLoader.load(url);
+	// Scene scene = new Scene(root1);
+	// Image image = new Image(new
+	// File("src/boundaries.Images/AES2.PNG").toURI().toString());
+	// stage.getIcons().add(image);
+	// stage.setResizable(false);
+	// stage.sizeToScene();
+	// stage.setScene(scene);
+	// stage.setTitle("AES");
+	// stage.show();
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 	public static Stage getStage() {
 		return stage;
@@ -97,30 +95,37 @@ public class TeacherWindowController implements Initializable, IScreenController
 		getStage().close();
 	}
 
-	// @FXML
-	// private ScrollPane scrollPaneEditOrRemoveQuestions;
-
 	public void logOutButtonHandler(ActionEvent event) throws Exception {
-		myController.setScreen(MainApp.screen1ID);
+		screensController.setScreen(MainApp.screen1ID);
 		// TeacherWindowController.getStage().close();
 		// LoginWindowController.getStage().show();
 		// LoginWindowController.getStage().sizeToScene();
 		// User.updateUserLogged(User.getActiveUser().getiD(), 0);
 	}
-	//
-	// /* Edit\Remove Question was pressed */
-	// public void openEditorRemove(ActionEvent event) {
-	// try {
-	// ObservableList<Question> data = controller.getQuestions();
-	// clickedOnMaintainQuestion = true;
-	// System.out.println("Enter");
-	// tableView.setVisible(true);
-	// tableView.setItems(data);
-	// Platform.runLater(() -> {
-	// tableView.refresh();
-	// });
-	// } catch (Throwable e) {
-	// e.printStackTrace();
+
+	/* Edit\Remove Question was pressed */
+	@SuppressWarnings("unchecked")
+	public void openEditorRemove(ActionEvent event) {
+		try {
+			System.out.println("Edit\\Remove Was pressed");
+			setColumns();
+			client.handleMessageFromClientUI(resources.Message.EditorRemove);
+			ObservableList<Question> questions=(ObservableList<Question>) client.getQuestions();
+			tableView.setItems(questions);
+			tableView.setVisible(true);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+
+	/* define the columns */
+	private void setColumns() {
+		questionIDColumn.setCellValueFactory(new PropertyValueFactory<>("questionID"));
+		authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+		questionTextColumn.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+		possibleAnswersColumn.setCellValueFactory(new PropertyValueFactory<>("possibleAnswers"));
+		correctAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
+	}
 
 	// public void maintainQuestionHideOption(MouseEvent event) {
 	// try {
@@ -145,12 +150,13 @@ public class TeacherWindowController implements Initializable, IScreenController
 		// User.getActiveUser().getFirstName() + " "
 		// + User.getActiveUser().getLastName());
 		date.setText(Utilities.setDate());
-		// tableView.setVisible(false);
+		tableView.setVisible(false);
+		this.client = MainApp.getClient();
 	}
 
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
-		myController = screenParent;
+		screensController = screenParent;
 	}
 
 }

@@ -3,7 +3,9 @@ package client;
 import java.io.IOException;
 import controllers.IScreenController;
 import controllers.ScreensController;
+import javafx.collections.ObservableList;
 import ocsf.client.AbstractClient;
+import resources.Question;
 
 public class Client extends AbstractClient implements IScreenController {
 
@@ -13,7 +15,7 @@ public class Client extends AbstractClient implements IScreenController {
 	 * The default port to connect on.
 	 */
 	final public static int DEFAULT_PORT = 5555;
-
+	private ObservableList<?> listFromDB;
 	private ScreensController myController;
 
 	// Constructors ****************************************************
@@ -46,29 +48,30 @@ public class Client extends AbstractClient implements IScreenController {
 			// add something
 			return;
 		}
-		if (!(msg instanceof String)) {
-			// this.sendToAllClients(msg);
-			return;
-		}
-		String str = (String) msg;
-		switch (str) {
-		case "Teacher":
-			try {
-				myController.setScreen(MainApp.screen2ID);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		if (msg instanceof String) {
+			String str = (String) msg;
+			switch (str) {
+			case "Teacher":
+				try {
+					myController.setScreen(MainApp.screen2ID);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-			break;
-		case "No":
-			// try {
-			// this.closeConnection();
-			// } catch (IOException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			System.out.println("Close connection");
-			break;
+				break;
+			case "No":
+				// try {
+				// this.closeConnection();
+				// } catch (IOException e) {
+				// // TODO Auto-generated catch block
+				// e.printStackTrace();
+				// }
+				System.out.println("Close connection");
+				break;
+			}
+		}
+		if(msg instanceof ObservableList<?>) {
+			setQuestions((ObservableList<?>)msg);
 		}
 
 	}
@@ -120,6 +123,14 @@ public class Client extends AbstractClient implements IScreenController {
 
 	public void setScreenParent(ScreensController screenParent) {
 		myController = screenParent;
+	}
+
+	public ObservableList<?> getQuestions() {
+		return listFromDB;
+	}
+
+	public void setQuestions(ObservableList<?> questions) {
+		this.listFromDB = questions;
 	}
 
 }

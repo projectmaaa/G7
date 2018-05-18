@@ -7,7 +7,6 @@ import java.util.Date;
 /**
  * This class will have method for general use
  * 
- * @author Alex
  *
  */
 public class Utilities {
