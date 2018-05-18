@@ -5,8 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.ArrayList;
 import resources.Question;
 
 public class SqlUtilities {
@@ -38,8 +37,18 @@ public class SqlUtilities {
 	/**
 	 * returns the whole table of questions for the table view
 	 */
-	public static ObservableList<Question> getQuestions() throws SQLException {
-		ObservableList<Question> questions = FXCollections.observableArrayList();
+	/*
+	 * public static ObservableList<Question> getQuestions() throws SQLException {
+	 * ObservableList<Question> questions = FXCollections.observableArrayList();
+	 * Statement statement = SqlUtilities.connection().createStatement(); ResultSet
+	 * rs = statement.executeQuery("SELECT * FROM Questions;"); while (rs.next()) {
+	 * questions.add( new Question(rs.getString(1), rs.getString(2),
+	 * rs.getString(3), rs.getString(4), rs.getString(5))); } rs.close(); return
+	 * questions; }
+	 */
+
+	public static ArrayList<Question> getQuestions() throws SQLException {
+		ArrayList<Question> questions = new ArrayList<Question>();
 		Statement statement = SqlUtilities.connection().createStatement();
 		ResultSet rs = statement.executeQuery("SELECT * FROM Questions;");
 		while (rs.next()) {
@@ -49,5 +58,5 @@ public class SqlUtilities {
 		rs.close();
 		return questions;
 	}
-	
+
 } /* end of class */

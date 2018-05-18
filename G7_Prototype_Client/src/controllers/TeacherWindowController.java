@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import client.Client;
 import client.MainApp;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -104,15 +103,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/* Edit\Remove Question was pressed */
-	@SuppressWarnings("unchecked")
 	public void openEditorRemove(ActionEvent event) {
 		try {
 			System.out.println("Edit\\Remove Was pressed");
-			setColumns();
 			client.handleMessageFromClientUI(resources.Message.EditorRemove);
-			ObservableList<Question> questions=(ObservableList<Question>) client.getQuestions();
-			tableView.setItems(questions);
-			//tableView.setVisible(true);
+			setColumns();
+			tableView.setItems(client.getQuestionsFromDB());
+			tableView.refresh();
+			tableView.setVisible(true);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -150,7 +148,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		// User.getActiveUser().getFirstName() + " "
 		// + User.getActiveUser().getLastName());
 		date.setText(Utilities.setDate());
-		//tableView.setVisible(false);
+		tableView.setVisible(false);
 		this.client = MainApp.getClient();
 	}
 

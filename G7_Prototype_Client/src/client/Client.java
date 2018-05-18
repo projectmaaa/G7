@@ -1,8 +1,11 @@
 package client;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import controllers.IScreenController;
 import controllers.ScreensController;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ocsf.client.AbstractClient;
 import resources.Question;
@@ -15,7 +18,7 @@ public class Client extends AbstractClient implements IScreenController {
 	 * The default port to connect on.
 	 */
 	final public static int DEFAULT_PORT = 5555;
-	private ObservableList<?> listFromDB;
+	private ObservableList<Question> questionsFromDB = FXCollections.observableArrayList();
 	private ScreensController myController;
 
 	// Constructors ****************************************************
@@ -42,6 +45,7 @@ public class Client extends AbstractClient implements IScreenController {
 	 * @param msg
 	 *            The message from the server.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void handleMessageFromServer(Object msg) {
 		if (msg == null) {
@@ -70,8 +74,9 @@ public class Client extends AbstractClient implements IScreenController {
 				break;
 			}
 		}
-		if(msg instanceof ObservableList<?>) {
-			setQuestions((ObservableList<?>)msg);
+		if (msg instanceof ArrayList<?>) {
+			if (((ArrayList<?>) msg).get(0) instanceof Question) /* if it's from the questions table */
+				setQuestionsFromDB((ArrayList<Question>) msg);
 		}
 
 	}
@@ -125,12 +130,17 @@ public class Client extends AbstractClient implements IScreenController {
 		myController = screenParent;
 	}
 
-	public ObservableList<?> getQuestions() {
-		return listFromDB;
+	public ObservableList<Question> getQuestionsFromDB() {
+		return questionsFromDB;
 	}
 
-	public void setQuestions(ObservableList<?> questions) {
-		this.listFromDB = questions;
+	/*
+	 * set the questions observable list from the returned array list of
+	 * SqlUtilities.getQuestions
+	 */
+	public void setQuestionsFromDB(ArrayList<Question> questions) {
+		for (Question question : questions)
+			questionsFromDB.add(question);
 	}
 
 }
