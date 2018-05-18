@@ -2,6 +2,8 @@ package controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
+
 import client.Client;
 import client.MainApp;
 import javafx.event.ActionEvent;
@@ -86,6 +88,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	// region Public Methods
 
 	public void logOutButtonHandler(ActionEvent event) throws Exception {
+		if (tableView.isVisible()) {
+			tableView.setVisible(false);
+		}
 		screensController.setScreen(MainApp.screen1ID);
 	}
 
@@ -99,6 +104,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			setColumns();
 			tableView.setItems(client.getQuestionsFromDB());
 			tableView.refresh();
+			TimeUnit.SECONDS.sleep(1);
 			tableView.setVisible(true);
 		} catch (Throwable e) {
 			e.printStackTrace();

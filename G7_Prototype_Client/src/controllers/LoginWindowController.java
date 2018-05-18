@@ -113,12 +113,12 @@ public class LoginWindowController implements Initializable, IScreenController {
 			loginLabel.setVisible(true);
 		}
 		client.handleMessageFromClientUI(Message.login + " " + un.getText() + " " + pw.getText());
+		clearFields();
 	}
 
 	/**
 	 * This method clears the userName and password fields
 	 */
-	@SuppressWarnings("unused")
 	private void clearFields() {
 		un.clear();
 		pw.clear();

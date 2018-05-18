@@ -75,7 +75,7 @@ public class Server extends AbstractServer {
 				login.setString(2, strArray[2]);
 				rs = login.executeQuery();
 				if (rs.next()) {
-					System.out.println("Teacher");
+					// System.out.println("Teacher");
 					client.sendToClient("Teacher");
 					return;
 				} else {

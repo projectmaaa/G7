@@ -3,8 +3,8 @@
 }
 
 .menu-bar .label {
-    -fx-font-style: italic;
-    -fx-font-size: 20 pt;
+
+    -fx-font-size: 18 pt;
     -fx-text-fill: #ffffff;
     -fx-font-weight: bold;
     -fx-background-radius: 5,4,3,5;
@@ -17,7 +17,7 @@
 }
 
 .menu-item .label{
-    -fx-font-size: 20 pt;
+    -fx-font-size: 18 pt;
     -fx-background-color: transparent;
     -fx-label-line-length: 8;
     -fx-text-fill: #000000;
