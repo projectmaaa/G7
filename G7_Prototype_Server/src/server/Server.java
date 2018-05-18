@@ -57,11 +57,11 @@ public class Server extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		if (msg == null) {
-
+			//add error screen
 			return;
 		}
 		if (!(msg instanceof String)) {
-			// this.sendToAllClients(msg);
+			//add error screen
 			return;
 		}
 		ResultSet rs;
@@ -83,7 +83,7 @@ public class Server extends AbstractServer {
 					return;
 				}
 			case "#EditorRemovePressed":
-				client.sendToClient((Object) SqlUtilities.getQuestions());
+				client.sendToClient(SqlUtilities.getQuestions());
 				break;
 			}
 		} catch (SQLException e) {

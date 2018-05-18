@@ -134,13 +134,6 @@ public class Client extends AbstractClient implements IScreenController {
 		System.exit(0);
 	}
 
-	/**
-	 * This method waits for input from the console. Once it is received, it sends
-	 * it to the client's message handler.
-	 */
-	// public void accept() {
-	// }
-
 	// end region -> Public Methods
 
 }

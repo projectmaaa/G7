@@ -103,8 +103,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			client.handleMessageFromClientUI(resources.Message.EditorRemove);
 			setColumns();
 			tableView.setItems(client.getQuestionsFromDB());
-			tableView.refresh();
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(2);
 			tableView.setVisible(true);
 		} catch (Throwable e) {
 			e.printStackTrace();
