@@ -112,7 +112,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			client.handleMessageFromClientUI(resources.Message.EditorRemove);
 			ObservableList<Question> questions=(ObservableList<Question>) client.getQuestions();
 			tableView.setItems(questions);
-			tableView.setVisible(true);
+			//tableView.setVisible(true);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -150,7 +150,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		// User.getActiveUser().getFirstName() + " "
 		// + User.getActiveUser().getLastName());
 		date.setText(Utilities.setDate());
-		tableView.setVisible(false);
+		//tableView.setVisible(false);
 		this.client = MainApp.getClient();
 	}
 
