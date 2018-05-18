@@ -1,6 +1,13 @@
 package controllers;
 
+/**
+ * 
+ * @author Alex
+ *
+ */
 public interface IScreenController {
+
+	// region Public Methods
 
 	/**
 	 * This method will allow the injection of the Parent ScreenPane
@@ -8,4 +15,6 @@ public interface IScreenController {
 	 * @param screenPage
 	 */
 	public void setScreenParent(ScreensController screenPage);
+
+	// end region -> Public Methods
 }

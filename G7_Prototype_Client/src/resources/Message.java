@@ -1,8 +1,18 @@
 package resources;
 
+/**
+ * 
+ * @author Alex
+ *
+ */
 public class Message {
-	
-	public final static String login="#login";
-	public final static String EditorRemove="#EditorRemovePressed"; 
+
+	// region Constants
+
+	public final static String login = "#login";
+
+	public final static String EditorRemove = "#EditorRemovePressed";
+
+	// end region -> Constants
 
 }

@@ -15,14 +15,24 @@ import javafx.util.Duration;
 
 public class ScreensController extends StackPane {
 
+	// region Fields
+
 	/**
 	 * Holds the screens to be displayed
 	 */
 	private HashMap<String, Node> screens = new HashMap<>();
 
+	// end region -> Fields
+
+	// region Constructors
+
 	public ScreensController() {
 		super();
 	}
+
+	// end region -> Constructors
+
+	// region Public Methods
 
 	/**
 	 * Add the screen to the collection
@@ -120,4 +130,7 @@ public class ScreensController extends StackPane {
 			return true;
 		}
 	}
+
+	// end region -> Public Methods
+
 }

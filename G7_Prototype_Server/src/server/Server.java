@@ -11,13 +11,48 @@ import ocsf.server.ConnectionToClient;
 
 public class Server extends AbstractServer {
 
+	// region Constants
+
 	final public static int DEFAULT_PORT = 5555;
+
 	private final Connection connection;
+
+	// end region -> Constants
+
+	// region Constructors
 
 	public Server(int port) {
 		super(port);
 		connection = SqlUtilities.connection();
 	}
+
+	// end region -> Constructors
+
+	// region Public Methods
+
+	/**
+	 * returns the selected question details (if exists)
+	 */
+	public String requestedQuestion(String questionID) throws SQLException {
+		Statement statement = connection.createStatement();
+		String question = "There's no such question with the requested ID";
+		ResultSet rs = statement.executeQuery(SqlUtilities.SELECT_All_FROM_Questions);
+		while (rs.next()) {
+			/* if the question exists */
+			if (rs.getString(1).equals(questionID)) {
+				question = "Your Question Details:\nID: " + rs.getString(1) + "\nAuthor: " + rs.getString(2)
+						+ "\nText: " + rs.getString(3) + "\nPossible Answers: " + rs.getString(4) + "\nCorrect Answer: "
+						+ rs.getString(5);
+				break;
+			}
+		}
+		rs.close();
+		return question;
+	}
+
+	// end region -> Public Methods
+
+	// region Protected Methods
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
@@ -48,7 +83,7 @@ public class Server extends AbstractServer {
 					return;
 				}
 			case "#EditorRemovePressed":
-				client.sendToClient(SqlUtilities.getQuestions());
+				client.sendToClient((Object) SqlUtilities.getQuestions());
 				break;
 			}
 		} catch (SQLException e) {
@@ -57,26 +92,6 @@ public class Server extends AbstractServer {
 			e.printStackTrace();
 		}
 
-	}
-
-	/**
-	 * returns the selected question details (if exists)
-	 */
-	public String requestedQuestion(String questionID) throws SQLException {
-		Statement statement = connection.createStatement();
-		String question = "There's no such question with the requested ID";
-		ResultSet rs = statement.executeQuery(SqlUtilities.SELECT_All_FROM_Questions);
-		while (rs.next()) {
-			/* if the question exists */
-			if (rs.getString(1).equals(questionID)) {
-				question = "Your Question Details:\nID: " + rs.getString(1) + "\nAuthor: " + rs.getString(2)
-						+ "\nText: " + rs.getString(3) + "\nPossible Answers: " + rs.getString(4) + "\nCorrect Answer: "
-						+ rs.getString(5);
-				break;
-			}
-		}
-		rs.close();
-		return question;
 	}
 
 	/**
@@ -96,6 +111,8 @@ public class Server extends AbstractServer {
 	protected void serverStopped() {
 		System.out.println("Server has stopped listening for connections.");
 	}
+
+	// end region -> Protected Methods
 
 	public static void main(String[] args) {
 		int port = 0; // Port to listen on

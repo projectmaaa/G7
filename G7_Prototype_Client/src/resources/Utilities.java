@@ -11,6 +11,8 @@ import java.util.Date;
  */
 public class Utilities {
 
+	// region Public Methods
+
 	/**
 	 * This method will return the date
 	 * 
@@ -21,4 +23,7 @@ public class Utilities {
 		Date date = new Date();
 		return (dateFormat.format(date));
 	}
+
+	// end region -> Public Methods
+
 }

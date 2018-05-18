@@ -2,17 +2,34 @@ package resources;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author Arkady
+ *
+ */
 public class Question implements Serializable {
 
-	/**
-	 * 
-	 */
+	// region Constants
+
 	private static final long serialVersionUID = 1L;
+
+	// end region -> Constants
+
+	// region Fields
+
 	private String questionID;
+
 	private String author;
+
 	private String questionText;
+
 	private String possibleAnswers;
+
 	private String correctAnswer;
+
+	// end region -> Fields
+
+	// region Constructors
 
 	public Question(String questionID, String author, String questionText, String possibleAnswers,
 			String correctAnswer) {
@@ -22,6 +39,10 @@ public class Question implements Serializable {
 		this.possibleAnswers = possibleAnswers;
 		this.correctAnswer = correctAnswer;
 	}
+
+	// end region -> Constructors
+
+	// region Setters
 
 	public String getQuestionID() {
 		return questionID;
@@ -62,4 +83,7 @@ public class Question implements Serializable {
 	public void setCorrectAnswer(String correctAnswer) {
 		this.correctAnswer = correctAnswer;
 	}
+
+	// end region -> Setters
+
 }

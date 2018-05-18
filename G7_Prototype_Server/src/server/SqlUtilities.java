@@ -8,10 +8,22 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import resources.Question;
 
+/**
+ * 
+ * @author Alex
+ *
+ */
 public class SqlUtilities {
 
+	// region Constants
+
 	public final static String SELECT_All_FROM_Questions = "SELECT * FROM Questions;";
+
 	public final static String Login_SELECT_User_From_Users = "SELECT * FROM Users WHERE idUsers=? AND passWord=?;";
+
+	// region Public Methods
+
+	// end region -> Constants
 
 	@SuppressWarnings("deprecation")
 	public static Connection connection() {
@@ -58,5 +70,7 @@ public class SqlUtilities {
 		rs.close();
 		return questions;
 	}
+
+	// end region -> Public Methods
 
 } /* end of class */

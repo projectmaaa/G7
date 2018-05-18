@@ -14,12 +14,24 @@ public class Client extends AbstractClient implements IScreenController {
 
 	// Class variables *************************************************
 
+	// region Constants
+
 	/**
 	 * The default port to connect on.
 	 */
 	final public static int DEFAULT_PORT = 5555;
+
+	// end region -> Constants
+
+	// region Fields
+
 	private ObservableList<Question> questionsFromDB = FXCollections.observableArrayList();
+
 	private ScreensController myController;
+
+	// end region -> Fields
+
+	// region Constructors
 
 	// Constructors ****************************************************
 
@@ -38,6 +50,29 @@ public class Client extends AbstractClient implements IScreenController {
 		setScreenParent(screenParent);
 		openConnection();
 	}
+
+	// region Setters
+
+	public void setScreenParent(ScreensController screenParent) {
+		myController = screenParent;
+	}
+
+	public ObservableList<Question> getQuestionsFromDB() {
+		return questionsFromDB;
+	}
+
+	/*
+	 * set the questions observable list from the returned array list of
+	 * SqlUtilities.getQuestions
+	 */
+	public void setQuestionsFromDB(ArrayList<Question> questions) {
+		for (Question question : questions)
+			questionsFromDB.add(question);
+	}
+
+	// end region -> Setters
+
+	// region Public Methods
 
 	/**
 	 * This method handles all data that comes in from the server.
@@ -61,16 +96,9 @@ public class Client extends AbstractClient implements IScreenController {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
 				break;
 			case "No":
-				// try {
-				// this.closeConnection();
-				// } catch (IOException e) {
-				// // TODO Auto-generated catch block
-				// e.printStackTrace();
-				// }
-				System.out.println("Close connection");
+				System.out.println("Wrong login details");
 				break;
 			}
 		}
@@ -78,7 +106,6 @@ public class Client extends AbstractClient implements IScreenController {
 			if (((ArrayList<?>) msg).get(0) instanceof Question) /* if it's from the questions table */
 				setQuestionsFromDB((ArrayList<Question>) msg);
 		}
-
 	}
 
 	/**
@@ -111,36 +138,9 @@ public class Client extends AbstractClient implements IScreenController {
 	 * This method waits for input from the console. Once it is received, it sends
 	 * it to the client's message handler.
 	 */
-	public void accept() {
-		// try {
-		// BufferedReader fromConsole = new BufferedReader(new
-		// InputStreamReader(System.in));
-		// String message;
-		//
-		// while (true) {
-		// message = fromConsole.readLine();
-		// client.handleMessageFromClientUI(message);
-		// }
-		// } catch (Exception ex) {
-		// System.out.println("Unexpected error while reading from console!");
-		// }
-	}
+	// public void accept() {
+	// }
 
-	public void setScreenParent(ScreensController screenParent) {
-		myController = screenParent;
-	}
-
-	public ObservableList<Question> getQuestionsFromDB() {
-		return questionsFromDB;
-	}
-
-	/*
-	 * set the questions observable list from the returned array list of
-	 * SqlUtilities.getQuestions
-	 */
-	public void setQuestionsFromDB(ArrayList<Question> questions) {
-		for (Question question : questions)
-			questionsFromDB.add(question);
-	}
+	// end region -> Public Methods
 
 }

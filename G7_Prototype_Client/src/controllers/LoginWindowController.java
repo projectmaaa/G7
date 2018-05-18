@@ -16,11 +16,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import resources.Message;
 import resources.Utilities;
 
 public class LoginWindowController implements Initializable, IScreenController {
+
+	// region Fields
 
 	@FXML
 	private PasswordField pw;
@@ -42,27 +43,33 @@ public class LoginWindowController implements Initializable, IScreenController {
 
 	private int fieldFlag;
 
-	private static Stage stage;
-
 	private Client client;
 
 	private ScreensController myController;
+
+	// end region -> Fields
+
+	// region Setters
 
 	public ScreensController getMyController() {
 		return myController;
 	}
 
-	public static Stage getStage() {
-		return stage;
+	@Override
+	public void setScreenParent(ScreensController screenParent) {
+		myController = screenParent;
 	}
 
-	public static void closeStage() {
-		getStage().close();
+	// end region -> Setters
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		fieldFlag = 0;
+		this.client = MainApp.getClient();
+		date.setText(Utilities.setDate());
 	}
 
-	public void setStage(Stage stage) {
-		LoginWindowController.stage = stage;
-	}
+	// region Public Methods
 
 	@FXML
 	public void loginButtonHandler(ActionEvent event) {
@@ -96,6 +103,10 @@ public class LoginWindowController implements Initializable, IScreenController {
 		}
 	}
 
+	// end region -> Public Methods
+
+	// region Private Methods
+
 	private void loginCheck() {
 		if ((un.getText().isEmpty()) || (pw.getText().isEmpty())) {
 			loginLabel.setText("Incorrect username or password.");
@@ -107,22 +118,13 @@ public class LoginWindowController implements Initializable, IScreenController {
 	/**
 	 * This method clears the userName and password fields
 	 */
+	@SuppressWarnings("unused")
 	private void clearFields() {
 		un.clear();
 		pw.clear();
 		loginLabel.setText("");
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		fieldFlag = 0;
-		this.client = MainApp.getClient();
-		date.setText(Utilities.setDate());
-	}
-
-	@Override
-	public void setScreenParent(ScreensController screenParent) {
-		myController = screenParent;
-	}
+	// end region -> Private Methods
 
 }

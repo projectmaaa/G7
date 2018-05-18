@@ -12,7 +12,17 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
+	// region Constants
+
 	public static Client client;
+	public static String screen1ID = "LoginScreen";
+	public static String screen1File = "/boundaries/LoginWindow.fxml";
+	public static String screen2ID = "TeacherScreen";
+	public static String screen2File = "/boundaries/TeacherWindow.fxml";
+
+	// end region -> Constants
+
+	// region Setters
 
 	public static Client getClient() {
 		return client;
@@ -22,16 +32,13 @@ public class MainApp extends Application {
 		MainApp.client = client;
 	}
 
-	public static String screen1ID = "LoginScreen";
-	public static String screen1File = "/boundaries/LoginWindow.fxml";
-	public static String screen2ID = "TeacherScreen";
-	public static String screen2File = "/boundaries/TeacherWindow.fxml";
-
 	public static void main(String[] args) throws IOException {
-
-		// MainApp.client = new Client("localhost", Client.DEFAULT_PORT);
 		launch(args);
 	}
+
+	// end region -> Setters
+
+	// region Public Methods
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -50,18 +57,8 @@ public class MainApp extends Application {
 		primaryStage.setTitle("AES");
 		primaryStage.sizeToScene();
 		primaryStage.show();
-		// try {
-		// // FXMLLoader loader = new FXMLLoader(;
-		// Parent root =
-		// FXMLLoader.load(getClass().getResource("/boundaries/LoginWindow.fxml"));
-		// Scene scene = new Scene(root);
-
-		// primaryStage.setScene(scene);
-
-		// primaryStage.show();
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
 	}
+
+	// end region -> Public Methods
 
 }
