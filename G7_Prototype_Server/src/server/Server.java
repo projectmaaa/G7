@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -28,40 +27,16 @@ public class Server extends AbstractServer {
 
 	// end region -> Constructors
 
-	// region Public Methods
-
-	/**
-	 * returns the selected question details (if exists)
-	 */
-	public String requestedQuestion(String questionID) throws SQLException {
-		Statement statement = connection.createStatement();
-		String question = "There's no such question with the requested ID";
-		ResultSet rs = statement.executeQuery(SqlUtilities.SELECT_All_FROM_Questions);
-		while (rs.next()) {
-			/* if the question exists */
-			if (rs.getString(1).equals(questionID)) {
-				question = "Your Question Details:\nID: " + rs.getString(1) + "\nAuthor: " + rs.getString(2)
-						+ "\nText: " + rs.getString(3) + "\nPossible Answers: " + rs.getString(4) + "\nCorrect Answer: "
-						+ rs.getString(5);
-				break;
-			}
-		}
-		rs.close();
-		return question;
-	}
-
-	// end region -> Public Methods
-
 	// region Protected Methods
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		if (msg == null) {
-			//add error screen
+			// add error screen
 			return;
 		}
 		if (!(msg instanceof String)) {
-			//add error screen
+			// add error screen
 			return;
 		}
 		ResultSet rs;
