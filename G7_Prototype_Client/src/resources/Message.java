@@ -13,6 +13,8 @@ public class Message {
 
 	public final static String EditorRemove = "#EditorRemovePressed";
 
+	public final static String SaveTable = "#TableSaved";
+
 	// end region -> Constants
 
 }

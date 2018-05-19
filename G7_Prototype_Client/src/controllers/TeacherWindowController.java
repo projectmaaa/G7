@@ -1,9 +1,12 @@
 package controllers;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import client.Client;
 import client.MainApp;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -116,6 +119,18 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 	}
 
+	/*
+	 * sends message to the server to update the data base
+	 */
+	public void saveButtonHandler(ActionEvent event) {
+		ObservableList<Question> newQuestions = FXCollections.observableArrayList();
+		ArrayList<Question> updateDB = new ArrayList<Question>();
+		newQuestions = tableView.getItems();
+		for (Question question : newQuestions)
+			updateDB.add(question);
+		client.handleMessageFromClientUI(updateDB);
+	}
+
 	// end region -> Public Methods
 
 	// region Private Methods
@@ -132,14 +147,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 		// define the columns editable
 
-		questionIDColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-		questionIDColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
-			@Override
-			public void handle(CellEditEvent<Question, String> t) {
-				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-						.setQuestionID(t.getNewValue());
-			}
-		});
 		authorColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		authorColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
 			@Override

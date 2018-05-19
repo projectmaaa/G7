@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.sql.PreparedStatement;
 import resources.Question;
 
 /**
@@ -20,6 +21,8 @@ public class SqlUtilities {
 	public final static String SELECT_All_FROM_Questions = "SELECT * FROM Questions;";
 
 	public final static String Login_SELECT_User_From_Users = "SELECT * FROM Users WHERE idUsers=? AND passWord=?;";
+
+	public final static String UPDATE_Questions_Table = "UPDATE Questions SET teacherName=?, questionText=?, possibleAnswers=?, correctAnswer=? WHERE questionID=?";
 
 	// region Public Methods
 
@@ -52,7 +55,7 @@ public class SqlUtilities {
 	public static ArrayList<Question> getQuestions() throws SQLException {
 		ArrayList<Question> questions = new ArrayList<Question>();
 		Statement statement = SqlUtilities.connection().createStatement();
-		ResultSet rs = statement.executeQuery("SELECT * FROM Questions;");
+		ResultSet rs = statement.executeQuery(SELECT_All_FROM_Questions);
 		while (rs.next()) {
 			questions.add(
 					new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
@@ -60,39 +63,21 @@ public class SqlUtilities {
 		rs.close();
 		return questions;
 	}
-	
+
 	/*
-	 * currently changes only the correct answer field in the DB but will be
-	 * expanded to whole question
+	 * updates the table in the data base
 	 */
-	public boolean editQuestion(String questionID, String newCorrectAnswer) throws SQLException {
-		Statement statement = SqlUtilities.connection().createStatement();
-		ResultSet rs = statement.executeQuery("SELECT * FROM Questions;");
-		while (rs.next()) {
-			/* if the question exists */
-			if (rs.getString(1).equals(questionID)) {
-				/* if the new correct answer is the same as the old one */
-				if (rs.getString(5).equals(newCorrectAnswer)) {
-					System.out.println("This is the same answer");
-					rs.close();
-					return false;
-				}
-				/* if the new answer is not one of the options */
-				else if (!rs.getString(4).contains(newCorrectAnswer)) {
-					System.out.println("The new answer is not one of the given options");
-					rs.close();
-					return false;
-				} else {
-					statement.executeUpdate("UPDATE Questions SET correctAnswer='" + newCorrectAnswer
-							+ "' WHERE questionID='" + questionID + "';");
-					rs.close();
-					return true;
-				}
-			}
+	public static void editTable(ArrayList<Question> newQuestions) throws SQLException {
+		PreparedStatement update = SqlUtilities.connection()
+				.prepareStatement(SqlUtilities.UPDATE_Questions_Table);
+		for (Question question : newQuestions) {
+			update.setString(1, question.getAuthor());
+			update.setString(2, question.getQuestionText());
+			update.setString(3, question.getPossibleAnswers());
+			update.setString(4, question.getCorrectAnswer());
+			update.setString(5, question.getQuestionID());
 		}
-		rs.close();
-		System.out.println("The question doesn't exist");
-		return false;
+		update.executeUpdate();
 	}
 
 	// end region -> Public Methods

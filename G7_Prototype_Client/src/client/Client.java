@@ -104,6 +104,9 @@ public class Client extends AbstractClient implements IScreenController {
 			case "No":
 				System.out.println("Wrong login details");
 				break;
+			case "#TableSaved":
+				System.out.println("Data Base Updated successfully");
+				break;
 			}
 		}
 		if (msg instanceof ArrayList<?>) {
@@ -118,7 +121,7 @@ public class Client extends AbstractClient implements IScreenController {
 	 * @param message
 	 *            The message from the UI.
 	 */
-	public void handleMessageFromClientUI(String message) {
+	public void handleMessageFromClientUI(Object message) {
 		try {
 			sendToServer(message);
 		} catch (IOException e) {

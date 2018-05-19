@@ -77,6 +77,6 @@
 				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
 			</columnResizePolicy>
 		</TableView>
-		<Button fx:id="saveTableChangesButton" layoutX="392.0" layoutY="458.0" mnemonicParsing="false" text="Save" />
+		<Button fx:id="saveTableChangesButton" layoutX="392.0" layoutY="458.0" mnemonicParsing="false" onAction="#saveButtonHandler" text="Save" />
 	</children>
 </AnchorPane>
