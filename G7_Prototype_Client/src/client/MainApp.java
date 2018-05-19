@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import controllers.ScreensController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -56,6 +57,15 @@ public class MainApp extends Application {
 		primaryStage.setResizable(false);
 		primaryStage.setTitle("AES");
 		primaryStage.sizeToScene();
+		primaryStage.setOnCloseRequest(e -> {
+			try {
+				System.out.println("Close");
+				client.closeConnection();
+				Platform.exit();
+			} catch (IOException event) {
+				event.printStackTrace();
+			}
+		});
 		primaryStage.show();
 	}
 

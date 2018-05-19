@@ -45,10 +45,14 @@ public class Client extends AbstractClient implements IScreenController {
 	 * @param clientUI
 	 *            The interface type variable.
 	 */
-	public Client(String host, int port, ScreensController screenParent) throws IOException {
+	public Client(String host, int port, ScreensController screenParent) {
 		super(host, port); // Call the superclass constructor
 		setScreenParent(screenParent);
-		openConnection();
+		try {
+			openConnection();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	// region Setters

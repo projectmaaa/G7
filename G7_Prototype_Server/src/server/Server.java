@@ -75,6 +75,7 @@ public class Server extends AbstractServer {
 	 */
 	@Override
 	protected void serverStarted() {
+		System.out.println("Server Started");
 		System.out.println("Server listening for connections on port " + getPort());
 	}
 
