@@ -126,8 +126,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 		ObservableList<Question> newQuestions = FXCollections.observableArrayList();
 		ArrayList<Question> updateDB = new ArrayList<Question>();
 		newQuestions = tableView.getItems();
-		for (Question question : newQuestions)
+		for (Question question : newQuestions) {
+			int answerNumber = Integer.parseInt(question.getCorrectAnswer());
+			if (answerNumber < 1 || answerNumber > 4) {
+				// add error window
+				return;
+			}
 			updateDB.add(question);
+		}
 		client.handleMessageFromClientUI(updateDB);
 	}
 
