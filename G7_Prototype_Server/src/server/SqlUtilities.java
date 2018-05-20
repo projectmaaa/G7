@@ -68,16 +68,15 @@ public class SqlUtilities {
 	 * updates the table in the data base
 	 */
 	public static void editTable(ArrayList<Question> newQuestions) throws SQLException {
-		PreparedStatement update = SqlUtilities.connection()
-				.prepareStatement(SqlUtilities.UPDATE_Questions_Table);
+		PreparedStatement update = SqlUtilities.connection().prepareStatement(SqlUtilities.UPDATE_Questions_Table);
 		for (Question question : newQuestions) {
 			update.setString(1, question.getAuthor());
 			update.setString(2, question.getQuestionText());
 			update.setString(3, question.getPossibleAnswers());
 			update.setString(4, question.getCorrectAnswer());
 			update.setString(5, question.getQuestionID());
+			update.executeUpdate();
 		}
-		update.executeUpdate();
 	}
 
 	// end region -> Public Methods

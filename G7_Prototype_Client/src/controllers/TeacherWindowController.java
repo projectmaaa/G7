@@ -101,7 +101,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	public void logOutButtonHandler(ActionEvent event) throws Exception {
 		if (tableView.isVisible()) {
+			tableView.getItems().clear();
+			client.handleMessageFromClientUI(resources.Message.EditorRemove);
 			tableView.setVisible(false);
+			tableView.setItems(client.getQuestionsFromDB());
 		}
 		screensController.setScreen(MainApp.screen1ID);
 	}
@@ -130,6 +133,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			int answerNumber = Integer.parseInt(question.getCorrectAnswer());
 			if (answerNumber < 1 || answerNumber > 4) {
 				// add error window
+				System.out.println("answerNumber 1<-->4");
 				return;
 			}
 			updateDB.add(question);
