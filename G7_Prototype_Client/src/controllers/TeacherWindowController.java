@@ -106,7 +106,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			tableView.setVisible(false);
 			tableView.setItems(client.getQuestionsFromDB());
 		}
-		screensController.setScreen(MainApp.screen1ID);
+		screensController.setScreen(MainApp.loginScreenID);
 	}
 
 	/**

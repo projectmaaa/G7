@@ -16,10 +16,11 @@ public class MainApp extends Application {
 	// region Constants
 
 	public static Client client;
-	public static String screen1ID = "LoginScreen";
-	public static String screen1File = "/boundaries/LoginWindow.fxml";
-	public static String screen2ID = "TeacherScreen";
-	public static String screen2File = "/boundaries/TeacherWindow.fxml";
+	public static String loginScreenID = "LoginScreen";
+	public static String loginScreenFile = "/boundaries/LoginWindow.fxml";
+	public static String teacherScreenID = "TeacherScreen";
+	public static String teacherScreenFile = "/boundaries/TeacherWindow.fxml";
+	private static String host = "";
 
 	// end region -> Constants
 
@@ -34,6 +35,11 @@ public class MainApp extends Application {
 	}
 
 	public static void main(String[] args) throws IOException {
+		try {
+			host = args[0];
+		} catch (ArrayIndexOutOfBoundsException e) {
+			host = "localhost";
+		}
 		launch(args);
 	}
 
@@ -44,10 +50,10 @@ public class MainApp extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		ScreensController mainContainer = new ScreensController();
-		MainApp.client = new Client("localhost", Client.DEFAULT_PORT, mainContainer);
-		mainContainer.loadScreen(MainApp.screen1ID, MainApp.screen1File);
-		mainContainer.loadScreen(MainApp.screen2ID, MainApp.screen2File);
-		mainContainer.setScreen(MainApp.screen1ID);
+		MainApp.client = new Client(host, Client.DEFAULT_PORT, mainContainer);
+		mainContainer.loadScreen(MainApp.loginScreenID, MainApp.loginScreenFile);
+		mainContainer.loadScreen(MainApp.teacherScreenID, MainApp.teacherScreenFile);
+		mainContainer.setScreen(MainApp.loginScreenID);
 		Group root = new Group();
 		root.getChildren().addAll(mainContainer);
 		Scene scene = new Scene(root);
