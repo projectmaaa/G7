@@ -24,6 +24,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import resources.Message;
 import resources.Question;
 import resources.Utilities;
 
@@ -142,12 +143,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		date.setText(Utilities.setDate());
-		tableView.setVisible(false);
-		saveTableChangesButton.setVisible(false);
 		this.client = MainApp.getClient();
-		client.handleMessageFromClientUI(resources.Message.EditorRemove);
 		setColumns();
-		tableView.setItems(client.getQuestionsFromDB());
+		setQuestionsTableInfo();
 		tableView.setEditable(true);
 		addQuestionAnchorPane.setVisible(false);
 	}
@@ -157,10 +155,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void logOutButtonHandler(ActionEvent event) throws Exception {
 		if (tableView.isVisible()) {
 			tableView.getItems().clear();
-			client.handleMessageFromClientUI(resources.Message.EditorRemove);
-			tableView.setVisible(false);
-			tableView.setItems(client.getQuestionsFromDB());
+			setQuestionsTableInfo();
 		}
+		this.client.handleMessageFromClientUI(resources.Message.logout);
 		screensController.setScreen(MainApp.loginScreenID);
 	}
 
@@ -169,7 +166,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 */
 	public void openEditorRemove(ActionEvent event) {
 		try {
-			// System.out.println("Edit\\Remove Was pressed");
 			tableView.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
 			saveTableChangesButton.setVisible(true);
@@ -255,6 +251,16 @@ public class TeacherWindowController implements Initializable, IScreenController
 						.setCorrectAnswer(t.getNewValue());
 			}
 		});
+	}
+	
+	/*
+	 * Updates the GUI questions table from the data base
+	 */
+	private void setQuestionsTableInfo() {
+		tableView.setVisible(false);
+		saveTableChangesButton.setVisible(false);
+		client.handleMessageFromClientUI(resources.Message.EditorRemove);
+		tableView.setItems(client.getQuestionsFromDB());
 	}
 
 	// end region -> Private Methods
