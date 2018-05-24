@@ -12,10 +12,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
@@ -69,6 +72,57 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private TableColumn<Question, String> correctAnswerColumn;
+	
+	@FXML
+	private AnchorPane addQuestionAnchorPane; 
+	
+	@FXML
+	private Label subject;
+	
+	@FXML
+	private ComboBox<String> subjectComboBox;
+
+	@FXML
+	private Label course;
+	
+	@FXML
+	private ComboBox<String> courseComboBox;
+
+	@FXML
+	private Label questionText;
+	
+	@FXML
+	private TextField questionTextField;
+	
+	@FXML
+	private Label firstAnswer;
+	
+	@FXML
+	private TextField firstAnswerField;
+	
+	@FXML
+	private Label secondAnswer;
+	
+	@FXML
+	private TextField secondAnswerField;
+	
+	@FXML
+	private Label thirdAnswer;
+	
+	@FXML
+	private TextField thirdAnswerField;
+	
+	@FXML
+	private Label fourthAnswer;
+	
+	@FXML
+	private TextField forthAnswerField;
+	
+	@FXML
+	private Label correcthAnswer;
+	
+	@FXML
+	private ComboBox<String> correctAnswerComboBox;
 
 	private ScreensController screensController;
 
@@ -95,6 +149,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setColumns();
 		tableView.setItems(client.getQuestionsFromDB());
 		tableView.setEditable(true);
+		addQuestionAnchorPane.setVisible(false);
 	}
 
 	// region Public Methods
@@ -116,6 +171,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		try {
 			// System.out.println("Edit\\Remove Was pressed");
 			tableView.setVisible(true);
+			addQuestionAnchorPane.setVisible(false);
 			saveTableChangesButton.setVisible(true);
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -139,6 +195,17 @@ public class TeacherWindowController implements Initializable, IScreenController
 			updateDB.add(question);
 		}
 		client.handleMessageFromClientUI(updateDB);
+	}
+	/**
+	 * Add Question was pressed
+	 */
+	public void openAddQuestion(ActionEvent event) {
+		try {
+			addQuestionAnchorPane.setVisible(true);
+			tableView.setVisible(false);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 
 	// end region -> Public Methods
