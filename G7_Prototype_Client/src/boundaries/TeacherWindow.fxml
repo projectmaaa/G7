@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -81,7 +82,7 @@
 			</columnResizePolicy>
 		</TableView>
 		<Button fx:id="saveTableChangesButton" layoutX="392.0" layoutY="458.0" mnemonicParsing="false" onAction="#saveButtonHandler" text="Save" visible="false" />
-      <AnchorPane fx:id="addQuestionAnchorPane" layoutX="13.0" layoutY="94.0" prefHeight="432.0" prefWidth="660.0">
+      <AnchorPane fx:id="addQuestionAnchorPane" layoutX="6.0" layoutY="94.0" prefHeight="432.0" prefWidth="660.0">
          <children>
             <Label fx:id="questionText" layoutX="19.0" layoutY="137.0" text="Question Text" textFill="#fcfafa">
                <font>
@@ -119,19 +120,21 @@
                </font>
             </Label>
             <Button layoutX="230.0" layoutY="393.0" mnemonicParsing="false" text="Create question" />
-            <ComboBox fx:id="subjectComboBox" layoutX="127.0" layoutY="37.0" prefWidth="150.0" />
-            <ComboBox fx:id="courseComboBox" layoutX="127.0" layoutY="82.0" prefWidth="150.0" />
-            <Label fx:id="subject" layoutX="48.0" layoutY="37.0" text="Subject" textFill="WHITE">
+            <ComboBox fx:id="subjectComboBox" layoutX="127.0" layoutY="90.0" prefHeight="25.0" prefWidth="155.0" />
+            <Label fx:id="subject" layoutX="48.0" layoutY="91.0" text="Subject" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="course" layoutX="48.0" layoutY="86.0" text="Course" textFill="WHITE">
+            <ComboBox fx:id="correctAnswerComboBox" layoutX="166.0" layoutY="346.0" prefHeight="25.0" prefWidth="74.0" />
+            <Label layoutX="20.0" layoutY="35.0" text="Add Question" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>
-                  <Font name="System Bold" size="13.0" />
+                  <Font name="Maiandra GD" size="24.0" />
                </font>
+               <effect>
+                  <Bloom />
+               </effect>
             </Label>
-            <ComboBox fx:id="correctAnswerComboBox" layoutX="166.0" layoutY="346.0" prefHeight="25.0" prefWidth="34.0" promptText="Select Subject" />
          </children>
       </AnchorPane>
 	</children>

@@ -84,12 +84,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private ComboBox<String> subjectComboBox;
 
 	@FXML
-	private Label course;
-	
-	@FXML
-	private ComboBox<String> courseComboBox;
-
-	@FXML
 	private Label questionText;
 	
 	@FXML
@@ -200,6 +194,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			addQuestionAnchorPane.setVisible(true);
 			tableView.setVisible(false);
 			saveTableChangesButton.setVisible(false);
+			subjectComboBox.setPromptText("Select Subject");
+			subjectComboBox.getItems().addAll("Software","Math");
+			correctAnswerComboBox.setPromptText("Select");
+			correctAnswerComboBox.getItems().addAll("1","2","3","4");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
