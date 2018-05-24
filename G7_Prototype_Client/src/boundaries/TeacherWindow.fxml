@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorPane" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TeacherWindowController">
+<AnchorPane fx:id="mainAnchorPane" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TeacherWindowController">
 	<children>
 		<ImageView fitHeight="619.0" fitWidth="867.0" pickOnBounds="true">
 			<image>
@@ -69,20 +69,7 @@
 				</Menu>
 			</menus>
 		</MenuBar>
-		<TableView fx:id="tableView" editable="true" fixedCellSize="0.0" layoutX="6.0" layoutY="91.0" prefHeight="362.0" prefWidth="846.0" stylesheets="@table%20view.css" visible="false">
-			<columns>
-				<TableColumn fx:id="questionIDColumn" maxWidth="200.0" minWidth="90.0" prefWidth="90.0" text="Question ID" />
-				<TableColumn fx:id="authorColumn" maxWidth="200.0" minWidth="55.0" prefWidth="55.0" text="Author" />
-				<TableColumn fx:id="questionTextColumn" prefWidth="383.0" text="Question Text" />
-				<TableColumn fx:id="possibleAnswersColumn" prefWidth="182.0" text="Possible Answers" />
-				<TableColumn fx:id="correctAnswerColumn" maxWidth="200.0" minWidth="120.0" prefWidth="120.0" text="Correct Answer" />
-			</columns>
-			<columnResizePolicy>
-				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-			</columnResizePolicy>
-		</TableView>
-		<Button fx:id="saveTableChangesButton" layoutX="392.0" layoutY="458.0" mnemonicParsing="false" onAction="#saveButtonHandler" text="Save" visible="false" />
-      <AnchorPane fx:id="addQuestionAnchorPane" layoutX="6.0" layoutY="94.0" prefHeight="432.0" prefWidth="660.0">
+      <AnchorPane fx:id="addQuestionAnchorPane" layoutX="6.0" layoutY="94.0" prefHeight="432.0" prefWidth="846.0" visible="false">
          <children>
             <Label fx:id="questionText" layoutX="19.0" layoutY="137.0" text="Question Text" textFill="#fcfafa">
                <font>
@@ -135,6 +122,23 @@
                   <Bloom />
                </effect>
             </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="questionsTableAnchorPane" layoutX="6.0" layoutY="95.0" prefHeight="395.0" prefWidth="846.0" visible="false">
+         <children>
+      		<TableView fx:id="tableView" editable="true" fixedCellSize="0.0" prefHeight="362.0" prefWidth="846.0" stylesheets="@table%20view.css">
+      			<columns>
+      				<TableColumn fx:id="questionIDColumn" maxWidth="200.0" minWidth="90.0" prefWidth="90.0" text="Question ID" />
+      				<TableColumn fx:id="authorColumn" maxWidth="200.0" minWidth="55.0" prefWidth="55.0" text="Author" />
+      				<TableColumn fx:id="questionTextColumn" prefWidth="383.0" text="Question Text" />
+      				<TableColumn fx:id="possibleAnswersColumn" prefWidth="182.0" text="Possible Answers" />
+      				<TableColumn fx:id="correctAnswerColumn" maxWidth="200.0" minWidth="120.0" prefWidth="120.0" text="Correct Answer" />
+      			</columns>
+      			<columnResizePolicy>
+      				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+      			</columnResizePolicy>
+      		</TableView>
+      		<Button fx:id="saveButton" layoutX="392.0" layoutY="366.0" mnemonicParsing="false" onAction="#saveButtonHandler" text="Save" />
          </children>
       </AnchorPane>
 	</children>

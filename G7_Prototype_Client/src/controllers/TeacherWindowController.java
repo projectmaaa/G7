@@ -33,7 +33,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	// region Fields
 
 	@FXML
-	private AnchorPane anchorPane;
+	private AnchorPane mainAnchorPane;
 
 	@FXML
 	private Text TextGroup7;
@@ -45,9 +45,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private Button logoutButton;
 
 	@FXML
-	private Button saveTableChangesButton;
-
-	@FXML
 	private Text date;
 
 	@FXML
@@ -55,6 +52,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private MenuItem editOrRemoveQuestion;
+	
+	@FXML
+	private AnchorPane questionsTableAnchorPane;
 
 	@FXML
 	private TableView<Question> tableView;
@@ -73,6 +73,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private TableColumn<Question, String> correctAnswerColumn;
+	
+	@FXML
+	private Button saveButton;
 	
 	@FXML
 	private AnchorPane addQuestionAnchorPane; 
@@ -109,7 +112,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	
 	@FXML
 	private Label fourthAnswer;
-	//
+
 	@FXML
 	private TextField forthAnswerField;
 	
@@ -160,9 +163,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 */
 	public void openEditorRemove(ActionEvent event) {
 		try {
-			tableView.setVisible(true);
+			questionsTableAnchorPane.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
-			saveTableChangesButton.setVisible(true);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -192,8 +194,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void openAddQuestion(ActionEvent event) {
 		try {
 			addQuestionAnchorPane.setVisible(true);
-			tableView.setVisible(false);
-			saveTableChangesButton.setVisible(false);
+//			tableView.setVisible(false);
+//			saveButton.setVisible(false);
+			questionsTableAnchorPane.setVisible(false);
 			subjectComboBox.setPromptText("Select Subject");
 			subjectComboBox.getItems().addAll("Software","Math");
 			correctAnswerComboBox.setPromptText("Select");
@@ -256,8 +259,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * Updates the GUI questions table from the data base
 	 */
 	private void setQuestionsTableInfo() {
-		tableView.setVisible(false);
-		saveTableChangesButton.setVisible(false);
+//		tableView.setVisible(false);
+//		saveButton.setVisible(false);
+		questionsTableAnchorPane.setVisible(false);
 		client.handleMessageFromClientUI(resources.Message.EditorRemove);
 		tableView.setItems(client.getQuestionsFromDB());
 	}
