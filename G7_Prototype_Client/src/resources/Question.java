@@ -1,17 +1,15 @@
 package resources;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
-/**
- * 
- * @author Arkady
- *
- */
 public class Question implements Serializable {
 
 	// region Constants
 
 	private static final long serialVersionUID = 1L;
+
+	private static int count;
 
 	// end region -> Constants
 
@@ -23,7 +21,7 @@ public class Question implements Serializable {
 
 	private String questionText;
 
-	private String possibleAnswers;
+	private ArrayList<String> possibleAnswers;
 
 	private String correctAnswer;
 
@@ -31,9 +29,9 @@ public class Question implements Serializable {
 
 	// region Constructors
 
-	public Question(String questionID, String author, String questionText, String possibleAnswers,
+	public Question(String subject, String author, String questionText, ArrayList<String> possibleAnswers,
 			String correctAnswer) {
-		this.questionID = questionID;
+		setNewQuestionID(subject);
 		this.author = author;
 		this.questionText = questionText;
 		this.possibleAnswers = possibleAnswers;
@@ -68,11 +66,11 @@ public class Question implements Serializable {
 		this.questionText = questionText;
 	}
 
-	public String getPossibleAnswers() {
+	public ArrayList<String> getPossibleAnswers() {
 		return possibleAnswers;
 	}
 
-	public void setPossibleAnswers(String possibleAnswers) {
+	public void setPossibleAnswers(ArrayList<String> possibleAnswers) {
 		this.possibleAnswers = possibleAnswers;
 	}
 
@@ -86,4 +84,22 @@ public class Question implements Serializable {
 
 	// end region -> Setters
 
-}
+	/*
+	 * sets the question ID for new question
+	 */
+	private void setNewQuestionID(String subject) {
+		count++;
+		switch (subject) {
+		case "Software":
+			questionID += "01";
+		case "Math":
+			questionID += "02";
+		}
+		if (count < 10)
+			questionID += "00";
+		else if (count < 100)
+			questionID += "0";
+		questionID += count;
+	}
+
+}// end of class Question

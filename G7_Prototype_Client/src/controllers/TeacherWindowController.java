@@ -157,7 +157,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			tableView.getItems().clear();
 			setQuestionsTableInfo();
 		}
-		this.client.handleMessageFromClientUI(resources.Message.logout);
+		this.client.handleMessageFromClientUI(Message.logout);
 		screensController.setScreen(MainApp.loginScreenID);
 	}
 
