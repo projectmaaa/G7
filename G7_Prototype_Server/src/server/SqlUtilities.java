@@ -20,7 +20,11 @@ public class SqlUtilities {
 
 	public final static String SELECT_All_FROM_Questions = "SELECT * FROM Questions;";
 
-	public final static String Login_SELECT_User_From_Users = "SELECT * FROM Users WHERE idUsers=? AND passWord=?;";
+	public final static String Login_SELECT_UserID_From_Users = "SELECT idUsers FROM Users WHERE idUsers=? AND passWord=?;";
+
+	public final static String Login_getlog_Status = "SELECT logged FROM Users WHERE idUsers=? AND passWord=?;";
+
+	public final static String Login_UpdateUser_logStatus = "UPDATE Users SET logged=1 WHERE idUsers=? AND passWord=?;";
 
 	public final static String UPDATE_Questions_Table = "UPDATE Questions SET teacherName=?, questionText=?, possibleAnswers=?, correctAnswer=? WHERE questionID=?";
 

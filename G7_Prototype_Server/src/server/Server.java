@@ -59,16 +59,32 @@ public class Server extends AbstractServer {
 			try {
 				switch (strArray[0]) {
 				case "#login":
-					PreparedStatement login = connection.prepareStatement(SqlUtilities.Login_SELECT_User_From_Users);
+					PreparedStatement login = connection.prepareStatement(SqlUtilities.Login_SELECT_UserID_From_Users);
 					login.setString(1, strArray[1]);
 					login.setString(2, strArray[2]);
 					ResultSet rs;
 					rs = login.executeQuery();
-					if (rs.next()) {
-						client.sendToClient("Teacher");
-						return;
+					rs.next();
+					if (rs.getString(1).equals(strArray[1])) {
+						login = connection.prepareStatement(SqlUtilities.Login_getlog_Status);
+						login.setString(1, strArray[1]);
+						login.setString(2, strArray[2]);
+						rs = login.executeQuery();
+						rs.next();
+						if (rs.getInt(1) == 0) {
+							client.sendToClient("#Teacher");
+							login = connection.prepareStatement(SqlUtilities.Login_UpdateUser_logStatus);
+							login.setString(1, strArray[1]);
+							login.setString(2, strArray[2]);
+							login.executeUpdate();
+							return;
+						} else {
+							client.sendToClient("#UserAlreadyConnected");
+							System.out.println("UserAlreadyConnected");
+							return;
+						}
 					} else {
-						client.sendToClient("No");
+						client.sendToClient("No such user");
 						return;
 					}
 				case "#EditorRemovePressed":
@@ -81,6 +97,7 @@ public class Server extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+
 	}
 
 	/**

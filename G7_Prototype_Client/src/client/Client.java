@@ -94,19 +94,21 @@ public class Client extends AbstractClient implements IScreenController {
 		if (msg instanceof String) {
 			String str = (String) msg;
 			switch (str) {
-			case "Teacher":
+			case "#Teacher":
 				try {
 					myController.setScreen(MainApp.teacherScreenID);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
-			case "No":
+			case "#No":
 				System.out.println("Wrong login details");
 				break;
 			case "#TableSaved":
 				System.out.println("Data Base Updated successfully");
 				break;
+			case "#UserAlreadyConnected":
+				// myController.getScreen(MainApp.loginScreenID).getStyleClass()
 			}
 		}
 		if (msg instanceof ArrayList<?>) {
