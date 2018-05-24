@@ -21,6 +21,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import resources.Message;
 import resources.Question;
 import resources.Utilities;
 
@@ -101,6 +102,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			tableView.getItems().clear();
 			setQuestionsTableInfo();
 		}
+		this.client.handleMessageFromClientUI(resources.Message.logout);
 		screensController.setScreen(MainApp.loginScreenID);
 	}
 

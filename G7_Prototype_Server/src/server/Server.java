@@ -73,10 +73,11 @@ public class Server extends AbstractServer {
 						rs.next();
 						if (rs.getInt(1) == 0) {
 							client.sendToClient("#Teacher");
-							login = connection.prepareStatement(SqlUtilities.Login_UpdateUser_logStatus);
+							login = connection.prepareStatement(SqlUtilities.Login_UpdateUser_logStatus_Connected);
 							login.setString(1, strArray[1]);
 							login.setString(2, strArray[2]);
 							login.executeUpdate();
+							client.setInfo("#login", strArray[1] + " " + strArray[2]);
 							return;
 						} else {
 							client.sendToClient("#UserAlreadyConnected");
@@ -90,6 +91,14 @@ public class Server extends AbstractServer {
 				case "#EditorRemovePressed":
 					client.sendToClient(SqlUtilities.getQuestions());
 					break;
+				case "#logout":
+					int i = 1;
+					PreparedStatement logout = connection.prepareStatement(SqlUtilities.Login_UpdateUser_logStatus_DisConnected);
+					for (String string : client.getInfo("#login").toString().split(" ")) {
+						logout.setString(i++, string);
+					}
+					logout.executeUpdate();
+					return;					
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

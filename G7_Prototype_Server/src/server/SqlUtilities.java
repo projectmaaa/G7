@@ -24,7 +24,9 @@ public class SqlUtilities {
 
 	public final static String Login_getlog_Status = "SELECT logged FROM Users WHERE idUsers=? AND passWord=?;";
 
-	public final static String Login_UpdateUser_logStatus = "UPDATE Users SET logged=1 WHERE idUsers=? AND passWord=?;";
+	public final static String Login_UpdateUser_logStatus_Connected = "UPDATE Users SET logged=1 WHERE idUsers=? AND passWord=?;";
+	
+	public final static String Login_UpdateUser_logStatus_DisConnected = "UPDATE Users SET logged=0 WHERE idUsers=? AND passWord=?;";
 
 	public final static String UPDATE_Questions_Table = "UPDATE Questions SET teacherName=?, questionText=?, possibleAnswers=?, correctAnswer=? WHERE questionID=?";
 
