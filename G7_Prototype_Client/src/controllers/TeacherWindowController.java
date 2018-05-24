@@ -24,9 +24,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import resources.Message;
-import resources.Question;
-import resources.Utilities;
+import resources.*;
 
 public class TeacherWindowController implements Initializable, IScreenController {
 
@@ -34,96 +32,66 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private AnchorPane mainAnchorPane;
-
 	@FXML
 	private Text TextGroup7;
-
 	@FXML
 	private ImageView Group7Logo;
-
 	@FXML
 	private Button logoutButton;
-
 	@FXML
 	private Text date;
-
 	@FXML
 	private Text welcomeText;
-
 	@FXML
-	private MenuItem editOrRemoveQuestion;
-	
+	private MenuItem editOrRemoveQuestion;	
 	@FXML
 	private AnchorPane questionsTableAnchorPane;
-
 	@FXML
 	private TableView<Question> tableView;
-
 	@FXML
 	private TableColumn<Question, String> questionIDColumn;
-
 	@FXML
 	private TableColumn<Question, String> authorColumn;
-
 	@FXML
 	private TableColumn<Question, String> questionTextColumn;
-
 	@FXML
 	private TableColumn<Question, String> possibleAnswersColumn;
-
 	@FXML
-	private TableColumn<Question, String> correctAnswerColumn;
-	
+	private TableColumn<Question, String> correctAnswerColumn;	
 	@FXML
-	private Button saveButton;
-	
+	private Button saveButton;	
 	@FXML
-	private AnchorPane addQuestionAnchorPane; 
-	
+	private AnchorPane addQuestionAnchorPane; 	
 	@FXML
-	private Label subject;
-	
+	private Label subject;	
 	@FXML
 	private ComboBox<String> subjectComboBox;
-
 	@FXML
-	private Label questionText;
-	
+	private Label questionText;	
 	@FXML
-	private TextField questionTextField;
-	
+	private TextField questionTextField;	
 	@FXML
-	private Label firstAnswer;
-	
+	private Label firstAnswer;	
 	@FXML
-	private TextField firstAnswerField;
-	
+	private TextField firstAnswerField;	
 	@FXML
-	private Label secondAnswer;
-	
+	private Label secondAnswer;	
 	@FXML
 	private TextField secondAnswerField;
-	
 	@FXML
-	private Label thirdAnswer;
-	
+	private Label thirdAnswer;	
 	@FXML
-	private TextField thirdAnswerField;
-	
+	private TextField thirdAnswerField;	
 	@FXML
 	private Label fourthAnswer;
-
 	@FXML
 	private TextField forthAnswerField;
-	
 	@FXML
 	private Label correcthAnswer;
-	
 	@FXML
 	private ComboBox<String> correctAnswerComboBox;
 
 	private ScreensController screensController;
-
 	private Client client;
 
 	// end region -> Fields
@@ -158,7 +126,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		screensController.setScreen(MainApp.loginScreenID);
 	}
 
-	/**
+	/*
 	 * Edit\Remove Question was pressed
 	 */
 	public void openEditorRemove(ActionEvent event) {
@@ -188,14 +156,12 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 		client.handleMessageFromClientUI(updateDB);
 	}
-	/**
+	/*
 	 * Add Question was pressed
 	 */
 	public void openAddQuestion(ActionEvent event) {
 		try {
 			addQuestionAnchorPane.setVisible(true);
-//			tableView.setVisible(false);
-//			saveButton.setVisible(false);
 			questionsTableAnchorPane.setVisible(false);
 			subjectComboBox.setPromptText("Select Subject");
 			subjectComboBox.getItems().addAll("Software","Math");
@@ -210,7 +176,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	// region Private Methods
 
-	/**
+	/*
 	 * Define the columns
 	 */
 	private void setColumns() {
@@ -259,10 +225,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * Updates the GUI questions table from the data base
 	 */
 	private void setQuestionsTableInfo() {
-//		tableView.setVisible(false);
-//		saveButton.setVisible(false);
 		questionsTableAnchorPane.setVisible(false);
-		client.handleMessageFromClientUI(resources.Message.EditorRemove);
+		client.handleMessageFromClientUI(Message.EditorRemove);
 		tableView.setItems(client.getQuestionsFromDB());
 	}
 
