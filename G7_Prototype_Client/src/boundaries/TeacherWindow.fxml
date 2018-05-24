@@ -131,7 +131,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <ComboBox fx:id="correctAnswerComboBox" layoutX="166.0" layoutY="346.0" prefHeight="25.0" prefWidth="34.0" />
+            <ComboBox fx:id="correctAnswerComboBox" layoutX="166.0" layoutY="346.0" prefHeight="25.0" prefWidth="34.0" promptText="Select Subject" />
          </children>
       </AnchorPane>
 	</children>
