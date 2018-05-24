@@ -199,6 +199,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		try {
 			addQuestionAnchorPane.setVisible(true);
 			tableView.setVisible(false);
+			saveTableChangesButton.setVisible(false);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
