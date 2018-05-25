@@ -32,7 +32,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private AnchorPane mainAnchorPane;
-	
+	//
 	@FXML
 	private AnchorPane welcomeAnchorPane;
 
