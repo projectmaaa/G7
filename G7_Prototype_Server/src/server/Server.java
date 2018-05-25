@@ -17,7 +17,7 @@ public class Server extends AbstractServer {
 
 	final public static int DEFAULT_PORT = 5555;
 
-	private final Connection connection;
+	private Connection connection;
 
 	// end region -> Constants
  
@@ -25,10 +25,17 @@ public class Server extends AbstractServer {
 
 	public Server(int port) {
 		super(port);
-		connection = SqlUtilities.connection();
 	}
 
 	// end region -> Constructors
+
+	public Connection getConnection() {
+		return connection;
+	}
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
 
 	// region Protected Methods
 
@@ -103,12 +110,13 @@ public class Server extends AbstractServer {
 					break;
 				case "#logout":
 					int i = 1;
-					PreparedStatement logout = connection.prepareStatement(SqlUtilities.Login_UpdateUser_logStatus_DisConnected);
+					PreparedStatement logout = connection
+							.prepareStatement(SqlUtilities.Login_UpdateUser_logStatus_DisConnected);
 					for (String string : client.getInfo("#login").toString().split(" ")) {
 						logout.setString(i++, string);
 					}
 					logout.executeUpdate();
-					return;					
+					return;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -140,18 +148,4 @@ public class Server extends AbstractServer {
 
 	// end region -> Protected Methods
 
-	public static void main(String[] args) {
-		int port = 0; // Port to listen on
-		try {
-			port = Integer.parseInt(args[0]); // Get port from command line
-		} catch (Throwable t) {
-			port = DEFAULT_PORT; // Set port to 5555
-		}
-		Server server = new Server(port);
-		try {
-			server.listen(); // Start listening for connections
-		} catch (Exception ex) {
-			System.out.println("ERROR - Could not listen for clients!");
-		}
-	}
 }
