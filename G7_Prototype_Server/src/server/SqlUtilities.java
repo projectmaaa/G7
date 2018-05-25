@@ -77,7 +77,7 @@ public class SqlUtilities {
 	/*
 	 * updates the table in the data base
 	 */
-	public static void editTable(ArrayList<Question> newQuestions,Connection connection) throws SQLException {
+	public static void editTable(ArrayList<Question> newQuestions, Connection connection) throws SQLException {
 		PreparedStatement update = connection.prepareStatement(SqlUtilities.UPDATE_Questions_Table);
 		for (Question question : newQuestions) {
 			update.setString(1, question.getQuestionText());
@@ -91,7 +91,7 @@ public class SqlUtilities {
 		}
 	}
 
-	public static void insertNewQuestion(Question question,Connection connection) throws SQLException {
+	public static void insertNewQuestion(Question question, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_Question);
 		insert.setString(1, question.getQuestionID());
 		insert.setString(2, question.getAuthor());

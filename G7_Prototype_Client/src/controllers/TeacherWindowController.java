@@ -131,7 +131,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private ComboBox<String> correctAnswerComboBox;
-	
+
 	@FXML
 	private Button createQuestionButton;
 
@@ -158,6 +158,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setQuestionsTableInfo();
 		tableView.setEditable(true);
 		addQuestionAnchorPane.setVisible(false);
+		initAddQuestionOption();
 	}
 
 	// region Public Methods
@@ -167,6 +168,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 			tableView.getItems().clear();
 			setQuestionsTableInfo();
 		}
+		if (addQuestionAnchorPane.isVisible()) {
+			clearAddQuestionFields();
+			addQuestionAnchorPane.setVisible(false);
+		}
+		welcomeAnchorPane.setVisible(true);
 		this.client.handleMessageFromClientUI(Message.logout);
 		screensController.setScreen(MainAppClient.loginScreenID);
 	}
@@ -180,6 +186,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			setQuestionsTableInfo();
 			questionsTableAnchorPane.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
+			clearAddQuestionFields();
 			welcomeAnchorPane.setVisible(false);
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -213,10 +220,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 			addQuestionAnchorPane.setVisible(true);
 			questionsTableAnchorPane.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
-			subjectComboBox.setPromptText("Select Subject");
-			subjectComboBox.getItems().addAll("Software", "Math","Physics");
-			correctAnswerComboBox.setPromptText("Select");
-			correctAnswerComboBox.getItems().addAll("1", "2", "3", "4");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -226,9 +229,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 */
 
 	public void addNewQuestion(ActionEvent event) {
-		Question question=new Question(subjectComboBox.getValue(), "Malki Grossman", questionTextField.getText(),firstAnswerField.getText(),
-			secondAnswerField.getText(), thirdAnswerField.getText(), forthAnswerField.getText(),
-			correctAnswerComboBox.getValue());
+		Question question = new Question(subjectComboBox.getValue(), "Malki Grossman", questionTextField.getText(),
+				firstAnswerField.getText(), secondAnswerField.getText(), thirdAnswerField.getText(),
+				forthAnswerField.getText(), correctAnswerComboBox.getValue());
 		client.handleMessageFromClientUI(question);
 	}
 
@@ -243,14 +246,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		questionIDColumn.setCellValueFactory(new PropertyValueFactory<>("questionID"));
 		authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
 		questionTextColumn.setCellValueFactory(new PropertyValueFactory<>("questionText"));
-		firstPossibleAnswerColumn
-				.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
-		secondPossibleAnswerColumn
-				.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
-		thirdPossibleAnswerColumn
-				.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
-		fourthPossibleAnswerColumn
-				.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
+		firstPossibleAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
+		secondPossibleAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
+		thirdPossibleAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
+		fourthPossibleAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
 		correctAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 
 		// define the columns editable
@@ -313,7 +312,31 @@ public class TeacherWindowController implements Initializable, IScreenController
 		client.handleMessageFromClientUI(Message.EditorRemove);
 		tableView.setItems(client.getQuestionsFromDB());
 	}
-	
+
+	/*
+	 * init's the fields of the 'Add Question' option
+	 */
+	private void initAddQuestionOption() {
+		subjectComboBox.setPromptText("Select Subject");
+		subjectComboBox.getItems().addAll("Software", "Math", "Physics");
+		correctAnswerComboBox.setPromptText("Select");
+		correctAnswerComboBox.getItems().addAll("1", "2", "3", "4");
+	}
+
+	/*
+	 * clear the fields of the last question that was added
+	 */
+	private void clearAddQuestionFields() {
+		subjectComboBox.getSelectionModel().clearSelection();
+		subjectComboBox.setPromptText("Select Subject");
+		correctAnswerComboBox.getSelectionModel().clearSelection();
+		correctAnswerComboBox.setPromptText("Select");
+		questionTextField.clear();
+		firstAnswerField.clear();
+		secondAnswerField.clear();
+		thirdAnswerField.clear();
+		forthAnswerField.clear();
+	}
 
 	// end region -> Private Methods
 
