@@ -47,3 +47,7 @@
     -fx-background-insets: 0;
     -fx-background-radius: 1;
 }*/
+
+.table-column {
+  -fx-alignment: CENTER;
+}
