@@ -150,6 +150,9 @@ public class Question implements Serializable {
 		case "Math":
 			questionID += "02";
 			break;
+		case "Physics":
+			questionID += "03";
+			break;
 		}
 		if (count < 10)
 			questionID += "00";
