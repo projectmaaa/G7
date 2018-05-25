@@ -57,7 +57,7 @@ public class MainApp extends Application {
 		root.getChildren().addAll(mainContainer);
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
-		Image image = new Image(new File("src/boundaries.Images/AES2.PNG").toURI().toString());
+		Image image = new Image(new File("boundaries.Images/AES2.PNG").toURI().toString());
 		primaryStage.getIcons().add(image);
 		primaryStage.setResizable(false);
 		primaryStage.setTitle("AES");
