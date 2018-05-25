@@ -41,6 +41,7 @@ public class Question implements Serializable {
 	public Question(String subject, String author, String questionText, String firstPossibleAnswer,
 			String secondPossibleAnswer, String thirdPossibleAnswer, String fourthPossibleAnswer,
 			String correctAnswer) {
+		questionID="";
 		setNewQuestionID(subject);
 		this.author = author;
 		this.questionText = questionText;
@@ -145,8 +146,10 @@ public class Question implements Serializable {
 		switch (subject) {
 		case "Software":
 			questionID += "01";
+			break;
 		case "Math":
 			questionID += "02";
+			break;
 		}
 		if (count < 10)
 			questionID += "00";

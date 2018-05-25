@@ -1,10 +1,5 @@
 package resources;
 
-/**
- * 
- * @author Alex
- *
- */
 public class Message {
 
 	// region Constants

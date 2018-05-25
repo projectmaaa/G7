@@ -91,7 +91,7 @@ public class Client extends AbstractClient implements IScreenController {
 			// add something
 			return;
 		}
-		if (msg instanceof String) {
+		else if (msg instanceof String) {
 			String str = (String) msg;
 			switch (str) {
 			case "#Teacher":
@@ -109,9 +109,10 @@ public class Client extends AbstractClient implements IScreenController {
 				break;
 			case "#UserAlreadyConnected":
 				// myController.getScreen(MainApp.loginScreenID).getStyleClass()
+				break;
 			}
 		}
-		if (msg instanceof ArrayList<?>) {
+		else if (msg instanceof ArrayList<?>) {
 			if (((ArrayList<?>) msg).get(0) instanceof Question) /* if it's from the questions table */
 				setQuestionsFromDB((ArrayList<Question>) msg);
 		}

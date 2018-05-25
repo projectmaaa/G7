@@ -20,7 +20,7 @@ public class Server extends AbstractServer {
 	private final Connection connection;
 
 	// end region -> Constants
-
+ 
 	// region Constructors
 
 	public Server(int port) {
@@ -39,7 +39,17 @@ public class Server extends AbstractServer {
 			// add error screen
 			return;
 		}
-		if (msg instanceof ArrayList<?>) {
+		else if (msg instanceof Question) {
+			try {
+				SqlUtilities.insertNewQuestion((Question) msg);
+				client.sendToClient(Message.SaveTable);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else if (msg instanceof ArrayList<?>) {
 
 			// if it's from the questions table
 			if (((ArrayList<?>) msg).get(0) instanceof Question) {
@@ -53,7 +63,7 @@ public class Server extends AbstractServer {
 				}
 			}
 		}
-		if (msg instanceof String) {
+		else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
 			try {

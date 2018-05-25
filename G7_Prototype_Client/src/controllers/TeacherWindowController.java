@@ -131,6 +131,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private ComboBox<String> correctAnswerComboBox;
+	
+	@FXML
+	private Button createQuestionButton;
 
 	private ScreensController screensController;
 
@@ -173,6 +176,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 */
 	public void openEditorRemove(ActionEvent event) {
 		try {
+			tableView.getItems().clear();
+			setQuestionsTableInfo();
 			questionsTableAnchorPane.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
@@ -201,7 +206,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/*
-	 * Add Question was pressed
+	 * 'Add Question' was pressed
 	 */
 	public void openAddQuestion(ActionEvent event) {
 		try {
@@ -209,12 +214,22 @@ public class TeacherWindowController implements Initializable, IScreenController
 			questionsTableAnchorPane.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
 			subjectComboBox.setPromptText("Select Subject");
-			subjectComboBox.getItems().addAll("01 - Software", "02 - Math","03 - Physics");
+			subjectComboBox.getItems().addAll("Software", "Math","Physics");
 			correctAnswerComboBox.setPromptText("Select");
 			correctAnswerComboBox.getItems().addAll("1", "2", "3", "4");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+	}
+	/*
+	 * 'Create question' button was pressed - add Question to DB
+	 */
+
+	public void addNewQuestion(ActionEvent event) {
+		Question question=new Question(subjectComboBox.getValue(), "Malki Grossman", questionTextField.getText(),firstAnswerField.getText(),
+			secondAnswerField.getText(), thirdAnswerField.getText(), forthAnswerField.getText(),
+			correctAnswerComboBox.getValue());
+		client.handleMessageFromClientUI(question);
 	}
 
 	// end region -> Public Methods
@@ -298,6 +313,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		client.handleMessageFromClientUI(Message.EditorRemove);
 		tableView.setItems(client.getQuestionsFromDB());
 	}
+	
 
 	// end region -> Private Methods
 

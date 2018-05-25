@@ -54,17 +54,20 @@
 				</Menu>
 				<Menu mnemonicParsing="false" text="Maintain Exams">
 					<items>
-						<MenuItem mnemonicParsing="false" text="Work in progress" />
-					</items>
-				</Menu>
-				<Menu mnemonicParsing="false" text="Order Reports">
-					<items>
-						<MenuItem mnemonicParsing="false" text="Work in progress" />
+						<MenuItem mnemonicParsing="false" text="Create Exam" />
+                  <MenuItem mnemonicParsing="false" text="Exam Managment" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Confirm Grades">
 					<items>
-						<MenuItem mnemonicParsing="false" text="Work in progress" />
+						<MenuItem mnemonicParsing="false" text="Grade Managment" />
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Order Reports">
+					<items>
+                  <MenuItem mnemonicParsing="false" text="Teacher Report" />
+                  <MenuItem mnemonicParsing="false" text="Course Report" />
+                  <MenuItem mnemonicParsing="false" text="Student Report" />
 					</items>
 				</Menu>
 			</menus>
@@ -106,7 +109,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Button layoutX="230.0" layoutY="393.0" mnemonicParsing="false" text="Create question" />
+            <Button fx:id="createQuestionButton" layoutX="230.0" layoutY="393.0" mnemonicParsing="false" onAction="#addNewQuestion" text="Create question" />
             <ComboBox fx:id="subjectComboBox" layoutX="127.0" layoutY="90.0" prefHeight="25.0" prefWidth="155.0" />
             <Label fx:id="subject" layoutX="48.0" layoutY="91.0" text="Subject" textFill="WHITE">
                <font>

@@ -25,6 +25,8 @@ public class SqlUtilities {
 
 	public final static String UPDATE_Questions_Table = "UPDATE Questions SET questionText=?, firstAnswer=?, secondAnswer=?, thirdAnswer=?, fourthAnswer=?, correctAnswer=? WHERE questionID=?";
 
+	public final static String INSERT_Question = "INSERT INTO Questions VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
 	// region Public Methods
 
 	// end region -> Constants
@@ -87,6 +89,19 @@ public class SqlUtilities {
 			update.setString(7, question.getQuestionID());
 			update.executeUpdate();
 		}
+	}
+
+	public static void insertNewQuestion(Question question) throws SQLException {
+		PreparedStatement insert = SqlUtilities.connection().prepareStatement(SqlUtilities.INSERT_Question);
+		insert.setString(1, question.getQuestionID());
+		insert.setString(2, question.getAuthor());
+		insert.setString(3, question.getQuestionText());
+		insert.setString(4, question.getFirstPossibleAnswer());
+		insert.setString(5, question.getSecondPossibleAnswer());
+		insert.setString(6, question.getThirdPossibleAnswer());
+		insert.setString(7, question.getFourthPossibleAnswer());
+		insert.setString(8, question.getCorrectAnswer());
+		insert.executeUpdate();
 	}
 
 	// end region -> Public Methods
