@@ -3,10 +3,6 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
-
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import server.MainApp;
+import server.MainAppServer;
 import server.Server;
 import server.SqlUtilities;
 
@@ -64,6 +60,8 @@ public class ServerController implements Initializable {
 	public void openSetting(MouseEvent event) {
 		if (!turnSettings) {
 			portField.setText(Integer.toString(Server.DEFAULT_PORT));
+			dbUserNameField.setText(server.getUserNameDBcon());
+			dbPasswordField.setText(server.getPassWordDBcon());
 			anchorPaneSetting.setVisible(true);
 			turnSettings = true;
 		} else {
@@ -71,6 +69,14 @@ public class ServerController implements Initializable {
 			anchorPaneSetting.setVisible(false);
 			turnSettings = false;
 		}
+	}
+
+	public void saveSettings(MouseEvent event) {
+		server.setPort(Integer.parseInt(portField.getText()));
+		server.setUserNameDBcon(dbUserNameField.getText());
+		server.setPassWordDBcon(dbPasswordField.getText());
+		clearSettings();
+		anchorPaneSetting.setVisible(false);
 	}
 
 	public void turnOnOffServer(MouseEvent event) {
@@ -97,9 +103,9 @@ public class ServerController implements Initializable {
 	public void turnOnOffDB(MouseEvent event) {
 		if (dbButton.getText().equals("Off")) {
 			translateAnimationDB.setByX(50);
-			server.setConnection(SqlUtilities.connection());
-			dbButton.setText("On");
 			translateAnimationDB.play();
+			server.setConnection(SqlUtilities.connection(server.getUserNameDBcon(), server.getPassWordDBcon()));
+			dbButton.setText("On");
 		}
 	}
 
@@ -111,7 +117,7 @@ public class ServerController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		this.server = MainApp.getServer();
+		this.server = MainAppServer.getServer();
 		translateAnimationServer.setNode(serverButton);
 		translateAnimationDB.setNode(dbButton);
 	}

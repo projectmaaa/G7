@@ -96,7 +96,7 @@ public class Client extends AbstractClient implements IScreenController {
 			switch (str) {
 			case "#Teacher":
 				try {
-					myController.setScreen(MainApp.teacherScreenID);
+					myController.setScreen(MainAppClient.teacherScreenID);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -4,7 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import client.Client;
-import client.MainApp;
+import client.MainAppClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -65,7 +65,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		fieldFlag = 0;
-		this.client = MainApp.getClient();
+		this.client = MainAppClient.getClient();
 		date.setText(Utilities.setDate());
 	}
 

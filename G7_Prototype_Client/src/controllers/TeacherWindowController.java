@@ -4,7 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import client.Client;
-import client.MainApp;
+import client.MainAppClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -153,7 +153,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		date.setText(Utilities.setDate());
-		this.client = MainApp.getClient();
+		this.client = MainAppClient.getClient();
 		setColumns();
 		setQuestionsTableInfo();
 		tableView.setEditable(true);
@@ -168,7 +168,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			setQuestionsTableInfo();
 		}
 		this.client.handleMessageFromClientUI(Message.logout);
-		screensController.setScreen(MainApp.loginScreenID);
+		screensController.setScreen(MainAppClient.loginScreenID);
 	}
 
 	/*

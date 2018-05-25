@@ -9,8 +9,9 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import resources.Message;
 
-public class MainApp extends Application {
+public class MainAppClient extends Application {
 
 	// region Constants
 
@@ -30,7 +31,7 @@ public class MainApp extends Application {
 	}
 
 	public static void setClient(Client client) {
-		MainApp.client = client;
+		MainAppClient.client = client;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -49,10 +50,10 @@ public class MainApp extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		ScreensController mainContainer = new ScreensController();
-		MainApp.client = new Client(host, Client.DEFAULT_PORT, mainContainer);
-		mainContainer.loadScreen(MainApp.loginScreenID, MainApp.loginScreenFile);
-		mainContainer.loadScreen(MainApp.teacherScreenID, MainApp.teacherScreenFile);
-		mainContainer.setScreen(MainApp.loginScreenID);
+		MainAppClient.client = new Client(host, Client.DEFAULT_PORT, mainContainer);
+		mainContainer.loadScreen(MainAppClient.loginScreenID, MainAppClient.loginScreenFile);
+		mainContainer.loadScreen(MainAppClient.teacherScreenID, MainAppClient.teacherScreenFile);
+		mainContainer.setScreen(MainAppClient.loginScreenID);
 		Group root = new Group();
 		root.getChildren().addAll(mainContainer);
 		Scene scene = new Scene(root);
@@ -65,6 +66,7 @@ public class MainApp extends Application {
 		primaryStage.setOnCloseRequest(e -> {
 			try {
 				System.out.println("Close");
+				client.handleMessageFromClientUI(Message.logout);
 				client.closeConnection();
 				Platform.exit();
 			} catch (IOException event) {

@@ -19,8 +19,12 @@ public class Server extends AbstractServer {
 
 	private Connection connection;
 
+	private String userNameDBcon = "app";
+
+	private String passWordDBcon = "project7";
+
 	// end region -> Constants
- 
+
 	// region Constructors
 
 	public Server(int port) {
@@ -37,6 +41,22 @@ public class Server extends AbstractServer {
 		this.connection = connection;
 	}
 
+	public String getUserNameDBcon() {
+		return userNameDBcon;
+	}
+
+	public void setUserNameDBcon(String userNameDBcon) {
+		this.userNameDBcon = userNameDBcon;
+	}
+
+	public String getPassWordDBcon() {
+		return passWordDBcon;
+	}
+
+	public void setPassWordDBcon(String passWordDBcon) {
+		this.passWordDBcon = passWordDBcon;
+	}
+
 	// region Protected Methods
 
 	@SuppressWarnings("unchecked")
@@ -45,23 +65,21 @@ public class Server extends AbstractServer {
 		if (msg == null) {
 			// add error screen
 			return;
-		}
-		else if (msg instanceof Question) {
+		} else if (msg instanceof Question) {
 			try {
-				SqlUtilities.insertNewQuestion((Question) msg);
+				SqlUtilities.insertNewQuestion((Question) msg, connection);
 				client.sendToClient(Message.SaveTable);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-		else if (msg instanceof ArrayList<?>) {
+		} else if (msg instanceof ArrayList<?>) {
 
 			// if it's from the questions table
 			if (((ArrayList<?>) msg).get(0) instanceof Question) {
 				try {
-					SqlUtilities.editTable((ArrayList<Question>) msg);
+					SqlUtilities.editTable((ArrayList<Question>) msg, connection);
 					client.sendToClient(Message.SaveTable);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -69,8 +87,7 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-		}
-		else if (msg instanceof String) {
+		} else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
 			try {
@@ -106,7 +123,7 @@ public class Server extends AbstractServer {
 						return;
 					}
 				case "#EditorRemovePressed":
-					client.sendToClient(SqlUtilities.getQuestions());
+					client.sendToClient(SqlUtilities.getQuestions(connection));
 					break;
 				case "#logout":
 					int i = 1;

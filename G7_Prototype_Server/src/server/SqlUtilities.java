@@ -32,7 +32,7 @@ public class SqlUtilities {
 	// end region -> Constants
 
 	@SuppressWarnings("deprecation")
-	public static Connection connection() {
+	public static Connection connection(String userName, String passWord) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (Exception ex) {
@@ -40,8 +40,8 @@ public class SqlUtilities {
 		}
 		try {
 			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://group7project.c2ntivjwkagb.eu-central-1.rds.amazonaws.com:3306/group7db", "app",
-					"project7");
+					"jdbc:mysql://group7project.c2ntivjwkagb.eu-central-1.rds.amazonaws.com:3306/group7db", userName,
+					passWord);
 			System.out.println("SQL connection succeed");
 			return conn;
 		} catch (SQLException ex) {/* handle any errors */
@@ -55,10 +55,10 @@ public class SqlUtilities {
 	/**
 	 * returns the whole table of questions for the table view
 	 */
-	public static ArrayList<Question> getQuestions() throws SQLException {
+	public static ArrayList<Question> getQuestions(Connection connection) throws SQLException {
 		ArrayList<Question> questions = new ArrayList<Question>();
 		ArrayList<String> possibleAnswers = new ArrayList<String>(4);
-		Statement statement = SqlUtilities.connection().createStatement();
+		Statement statement = connection.createStatement();
 		ResultSet rs = statement.executeQuery(SELECT_All_FROM_Questions);
 		int index = 0;
 		while (rs.next()) {
@@ -77,8 +77,8 @@ public class SqlUtilities {
 	/*
 	 * updates the table in the data base
 	 */
-	public static void editTable(ArrayList<Question> newQuestions) throws SQLException {
-		PreparedStatement update = SqlUtilities.connection().prepareStatement(SqlUtilities.UPDATE_Questions_Table);
+	public static void editTable(ArrayList<Question> newQuestions,Connection connection) throws SQLException {
+		PreparedStatement update = connection.prepareStatement(SqlUtilities.UPDATE_Questions_Table);
 		for (Question question : newQuestions) {
 			update.setString(1, question.getQuestionText());
 			update.setString(2, question.getFirstPossibleAnswer());
@@ -91,8 +91,8 @@ public class SqlUtilities {
 		}
 	}
 
-	public static void insertNewQuestion(Question question) throws SQLException {
-		PreparedStatement insert = SqlUtilities.connection().prepareStatement(SqlUtilities.INSERT_Question);
+	public static void insertNewQuestion(Question question,Connection connection) throws SQLException {
+		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_Question);
 		insert.setString(1, question.getQuestionID());
 		insert.setString(2, question.getAuthor());
 		insert.setString(3, question.getQuestionText());
