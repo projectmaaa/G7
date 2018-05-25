@@ -32,6 +32,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private AnchorPane mainAnchorPane;
+	//
+	@FXML
+	private AnchorPane welcomeAnchorPane;
 
 	@FXML
 	private Text TextGroup7;
@@ -172,6 +175,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		try {
 			questionsTableAnchorPane.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
+			welcomeAnchorPane.setVisible(false);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -203,8 +207,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 		try {
 			addQuestionAnchorPane.setVisible(true);
 			questionsTableAnchorPane.setVisible(false);
+			welcomeAnchorPane.setVisible(false);
 			subjectComboBox.setPromptText("Select Subject");
-			subjectComboBox.getItems().addAll("Software", "Math");
+			subjectComboBox.getItems().addAll("01 - Software", "02 - Math","03 - Physics");
 			correctAnswerComboBox.setPromptText("Select");
 			correctAnswerComboBox.getItems().addAll("1", "2", "3", "4");
 		} catch (Throwable e) {
