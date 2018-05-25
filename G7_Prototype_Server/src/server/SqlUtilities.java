@@ -9,11 +9,6 @@ import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import resources.Question;
 
-/**
- * 
- * @author Alex
- *
- */
 public class SqlUtilities {
 
 	// region Constants
@@ -25,10 +20,10 @@ public class SqlUtilities {
 	public final static String Login_getlog_Status = "SELECT logged FROM Users WHERE idUsers=? AND passWord=?;";
 
 	public final static String Login_UpdateUser_logStatus_Connected = "UPDATE Users SET logged=1 WHERE idUsers=? AND passWord=?;";
-	
+
 	public final static String Login_UpdateUser_logStatus_DisConnected = "UPDATE Users SET logged=0 WHERE idUsers=? AND passWord=?;";
 
-	public final static String UPDATE_Questions_Table = "UPDATE Questions SET teacherName=?, questionText=?, possibleAnswers=?, correctAnswer=? WHERE questionID=?";
+	public final static String UPDATE_Questions_Table = "UPDATE Questions SET questionText=?, firstAnswer=?, secondAnswer=?, thirdAnswer=?, fourthAnswer=?, correctAnswer=? WHERE questionID=?";
 
 	// region Public Methods
 
@@ -60,11 +55,18 @@ public class SqlUtilities {
 	 */
 	public static ArrayList<Question> getQuestions() throws SQLException {
 		ArrayList<Question> questions = new ArrayList<Question>();
+		ArrayList<String> possibleAnswers = new ArrayList<String>(4);
 		Statement statement = SqlUtilities.connection().createStatement();
 		ResultSet rs = statement.executeQuery(SELECT_All_FROM_Questions);
+		int index = 0;
 		while (rs.next()) {
+			while (index < 4) { // add the possible answers to the array list
+				possibleAnswers.add(index, rs.getString(index + 4));
+				index++;
+			}
 			questions.add(
-					new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+					new Question(rs.getString(1), rs.getString(2), rs.getString(3), possibleAnswers, rs.getString(8)));
+			index = 0;
 		}
 		rs.close();
 		return questions;
@@ -76,11 +78,13 @@ public class SqlUtilities {
 	public static void editTable(ArrayList<Question> newQuestions) throws SQLException {
 		PreparedStatement update = SqlUtilities.connection().prepareStatement(SqlUtilities.UPDATE_Questions_Table);
 		for (Question question : newQuestions) {
-			update.setString(1, question.getAuthor());
-			update.setString(2, question.getQuestionText());
-			update.setString(3, question.getPossibleAnswers());
-			update.setString(4, question.getCorrectAnswer());
-			update.setString(5, question.getQuestionID());
+			update.setString(1, question.getQuestionText());
+			update.setString(2, question.getFirstPossibleAnswer());
+			update.setString(3, question.getSecondPossibleAnswer());
+			update.setString(4, question.getThirdPossibleAnswer());
+			update.setString(5, question.getFourthPossibleAnswer());
+			update.setString(6, question.getCorrectAnswer());
+			update.setString(7, question.getQuestionID());
 			update.executeUpdate();
 		}
 	}

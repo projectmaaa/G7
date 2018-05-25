@@ -32,66 +32,105 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private AnchorPane mainAnchorPane;
+
 	@FXML
 	private Text TextGroup7;
+
 	@FXML
 	private ImageView Group7Logo;
+
 	@FXML
 	private Button logoutButton;
+
 	@FXML
 	private Text date;
+
 	@FXML
 	private Text welcomeText;
+
 	@FXML
-	private MenuItem editOrRemoveQuestion;	
+	private MenuItem editOrRemoveQuestion;
+
 	@FXML
 	private AnchorPane questionsTableAnchorPane;
+
 	@FXML
 	private TableView<Question> tableView;
+
 	@FXML
 	private TableColumn<Question, String> questionIDColumn;
+
 	@FXML
 	private TableColumn<Question, String> authorColumn;
+
 	@FXML
 	private TableColumn<Question, String> questionTextColumn;
+
 	@FXML
-	private TableColumn<Question, String> possibleAnswersColumn;
+	private TableColumn<Question, String> firstPossibleAnswerColumn;
+
 	@FXML
-	private TableColumn<Question, String> correctAnswerColumn;	
+	private TableColumn<Question, String> secondPossibleAnswerColumn;
+
 	@FXML
-	private Button saveButton;	
+	private TableColumn<Question, String> thirdPossibleAnswerColumn;
+
 	@FXML
-	private AnchorPane addQuestionAnchorPane; 	
+	private TableColumn<Question, String> fourthPossibleAnswerColumn;
+
 	@FXML
-	private Label subject;	
+	private TableColumn<Question, String> correctAnswerColumn;
+
+	@FXML
+	private Button saveButton;
+
+	@FXML
+	private AnchorPane addQuestionAnchorPane;
+
+	@FXML
+	private Label subject;
+
 	@FXML
 	private ComboBox<String> subjectComboBox;
+
 	@FXML
-	private Label questionText;	
+	private Label questionText;
+
 	@FXML
-	private TextField questionTextField;	
+	private TextField questionTextField;
+
 	@FXML
-	private Label firstAnswer;	
+	private Label firstAnswer;
+
 	@FXML
-	private TextField firstAnswerField;	
+	private TextField firstAnswerField;
+
 	@FXML
-	private Label secondAnswer;	
+	private Label secondAnswer;
+
 	@FXML
 	private TextField secondAnswerField;
+
 	@FXML
-	private Label thirdAnswer;	
+	private Label thirdAnswer;
+
 	@FXML
-	private TextField thirdAnswerField;	
+	private TextField thirdAnswerField;
+
 	@FXML
 	private Label fourthAnswer;
+
 	@FXML
 	private TextField forthAnswerField;
+
 	@FXML
 	private Label correcthAnswer;
+
 	@FXML
 	private ComboBox<String> correctAnswerComboBox;
 
 	private ScreensController screensController;
+
 	private Client client;
 
 	// end region -> Fields
@@ -156,6 +195,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 		client.handleMessageFromClientUI(updateDB);
 	}
+
 	/*
 	 * Add Question was pressed
 	 */
@@ -164,9 +204,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 			addQuestionAnchorPane.setVisible(true);
 			questionsTableAnchorPane.setVisible(false);
 			subjectComboBox.setPromptText("Select Subject");
-			subjectComboBox.getItems().addAll("Software","Math");
+			subjectComboBox.getItems().addAll("Software", "Math");
 			correctAnswerComboBox.setPromptText("Select");
-			correctAnswerComboBox.getItems().addAll("1","2","3","4");
+			correctAnswerComboBox.getItems().addAll("1", "2", "3", "4");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -183,18 +223,18 @@ public class TeacherWindowController implements Initializable, IScreenController
 		questionIDColumn.setCellValueFactory(new PropertyValueFactory<>("questionID"));
 		authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
 		questionTextColumn.setCellValueFactory(new PropertyValueFactory<>("questionText"));
-		possibleAnswersColumn.setCellValueFactory(new PropertyValueFactory<>("possibleAnswers"));
+		firstPossibleAnswerColumn
+				.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
+		secondPossibleAnswerColumn
+				.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
+		thirdPossibleAnswerColumn
+				.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
+		fourthPossibleAnswerColumn
+				.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
 		correctAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 
 		// define the columns editable
 
-		authorColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-		authorColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
-			@Override
-			public void handle(CellEditEvent<Question, String> t) {
-				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow())).setAuthor(t.getNewValue());
-			}
-		});
 		questionTextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		questionTextColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
 			@Override
@@ -203,12 +243,36 @@ public class TeacherWindowController implements Initializable, IScreenController
 						.setQuestionText(t.getNewValue());
 			}
 		});
-		possibleAnswersColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-		possibleAnswersColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
+		firstPossibleAnswerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+		firstPossibleAnswerColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
 			@Override
 			public void handle(CellEditEvent<Question, String> t) {
 				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-						.setPossibleAnswers(t.getNewValue());
+						.setFirstPossibleAnswer(t.getNewValue());
+			}
+		});
+		secondPossibleAnswerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+		secondPossibleAnswerColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
+			@Override
+			public void handle(CellEditEvent<Question, String> t) {
+				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+						.setSecondPossibleAnswer(t.getNewValue());
+			}
+		});
+		thirdPossibleAnswerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+		thirdPossibleAnswerColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
+			@Override
+			public void handle(CellEditEvent<Question, String> t) {
+				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+						.setThirdPossibleAnswer(t.getNewValue());
+			}
+		});
+		fourthPossibleAnswerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+		fourthPossibleAnswerColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
+			@Override
+			public void handle(CellEditEvent<Question, String> t) {
+				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+						.setFourthPossibleAnswer(t.getNewValue());
 			}
 		});
 		correctAnswerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -220,7 +284,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			}
 		});
 	}
-	
+
 	/*
 	 * Updates the GUI questions table from the data base
 	 */

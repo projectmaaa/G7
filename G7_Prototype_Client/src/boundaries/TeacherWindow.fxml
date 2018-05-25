@@ -124,19 +124,22 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="questionsTableAnchorPane" layoutX="6.0" layoutY="95.0" prefHeight="395.0" prefWidth="846.0" visible="false">
+      <AnchorPane fx:id="questionsTableAnchorPane" layoutX="6.0" layoutY="95.0" prefHeight="395.0" prefWidth="846.0">
          <children>
       		<TableView fx:id="tableView" editable="true" fixedCellSize="0.0" prefHeight="362.0" prefWidth="846.0" stylesheets="@table%20view.css">
       			<columns>
       				<TableColumn fx:id="questionIDColumn" maxWidth="200.0" minWidth="90.0" prefWidth="90.0" text="Question ID" />
       				<TableColumn fx:id="authorColumn" maxWidth="200.0" minWidth="55.0" prefWidth="55.0" text="Author" />
-      				<TableColumn fx:id="questionTextColumn" prefWidth="383.0" text="Question Text" />
-      				<TableColumn fx:id="possibleAnswersColumn" prefWidth="182.0" text="Possible Answers" />
-      				<TableColumn fx:id="correctAnswerColumn" maxWidth="200.0" minWidth="120.0" prefWidth="120.0" text="Correct Answer" />
+      				<TableColumn fx:id="questionTextColumn" minWidth="0.0" prefWidth="261.0" text="Question Text" />
+      				<TableColumn fx:id="possibleAnswersColumn" prefWidth="314.0" text="Possible Answers">
+                     <columns>
+                        <TableColumn fx:id="firstPossibleAnswerColumn" prefWidth="86.0" text="First" />
+                        <TableColumn fx:id="secondPossibleAnswerColumn" prefWidth="86.0" text="Second" />
+                        <TableColumn fx:id="thirdPossibleAnswerColumn" prefWidth="86.0" text="Third" />
+                        <TableColumn fx:id="fourthPossibleAnswerColumn" prefWidth="86.0" text="Fourth" />
+                     </columns></TableColumn>
+      				<TableColumn fx:id="correctAnswerColumn" maxWidth="255.0" minWidth="65.0" prefWidth="95.0" text="Correct Answer" />
       			</columns>
-      			<columnResizePolicy>
-      				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-      			</columnResizePolicy>
       		</TableView>
       		<Button fx:id="saveButton" layoutX="392.0" layoutY="366.0" mnemonicParsing="false" onAction="#saveButtonHandler" text="Save" />
          </children>
