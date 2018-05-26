@@ -59,7 +59,7 @@ public class ServerController implements Initializable {
 
 	public void openSetting(MouseEvent event) {
 		if (!turnSettings) {
-			portField.setText(Integer.toString(Server.DEFAULT_PORT));
+			portField.setText(Integer.toString(server.getPort()));
 			dbUserNameField.setText(server.getUserNameDBcon());
 			dbPasswordField.setText(server.getPassWordDBcon());
 			anchorPaneSetting.setVisible(true);
@@ -72,9 +72,27 @@ public class ServerController implements Initializable {
 	}
 
 	public void saveSettings(MouseEvent event) {
-		server.setPort(Integer.parseInt(portField.getText()));
-		server.setUserNameDBcon(dbUserNameField.getText());
-		server.setPassWordDBcon(dbPasswordField.getText());
+		if (server.getPort() != Integer.parseInt(portField.getText())) {
+			server.setPort(Integer.parseInt(portField.getText()));
+			System.out.println("New Port is : " + server.getPort());
+			if (serverButton.getText().equals("On")) {
+				try {
+					server.close();
+					server.listen();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		if (!(server.getUserNameDBcon().equals(dbUserNameField.getText()))
+				|| !(server.getPassWordDBcon().equals(dbPasswordField.getText()))) {
+			server.setUserNameDBcon(dbUserNameField.getText());
+			server.setPassWordDBcon(dbPasswordField.getText());
+			System.out.println("New Connection is : " + server.getUserNameDBcon() + " " + server.getPassWordDBcon());
+			if (dbButton.getText().equals("On")) {
+				server.setConnection(SqlUtilities.connection(server.getUserNameDBcon(), server.getPassWordDBcon()));
+			}
+		}
 		clearSettings();
 		anchorPaneSetting.setVisible(false);
 	}

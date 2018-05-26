@@ -34,7 +34,7 @@ public class MainAppServer extends Application {
 		try {
 			port = Integer.parseInt(args[0]); // Get port from command line
 		} catch (Throwable t) {
-			port = Server.DEFAULT_PORT; // Set port to 5555
+			port = 5555; // Set port to 5555
 		}
 		server = new Server(port);
 		// try {
