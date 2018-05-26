@@ -1,24 +1,27 @@
-.menu-bar{
+
+.menu-bar {
     -fx-background-color: transparent;
 }
-
-.menu-bar .label {
-
-    -fx-font-size: 17.0 pt;
-    -fx-text-fill: #ffffff;
-    -fx-font-weight: bold;
+.menu {
+    -fx-label-padding: 3px;
+}
+.menu .label, .menu-item .label {
+	-fx-font-size: 17.0 pt;
+    -fx-text-fill: #eee;
     -fx-background-radius: 5.0,4.0,3.0,5.0;
     -fx-background-insets: 0.0,1.0,2.0,0.0;
 }
-
-
-.menu:hover {
-    -fx-background-color: transparent;
+.menu:hover, .menu:focused, .menu:pressed {
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+.menu-item:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+}
+.context-menu {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
 }
 
 .menu-item .label{
     -fx-font-size: 15.0 pt;
-    -fx-background-color: transparent;
     -fx-label-line-length: 8.0;
-    -fx-text-fill: #000000;
 }

@@ -48,7 +48,7 @@
 			<menus>
 				<Menu mnemonicParsing="false" text="Maintain Questions">
 					<items>
-						<MenuItem fx:id="addQuestion" mnemonicParsing="false" onAction="#openAddQuestion" text="Add Question" />
+						<MenuItem fx:id="addQuestion" mnemonicParsing="false" onAction="#openAddQuestion" style="-fx-background-color: TRANSPARENT;" text="Add Question" />
 						<MenuItem fx:id="editOrRemoveQuestion" mnemonicParsing="false" onAction="#openEditorRemove" text="Edit\Remove Question" />
 					</items>
 				</Menu>
