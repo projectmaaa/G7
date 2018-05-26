@@ -16,11 +16,6 @@ public class Client extends AbstractClient implements IScreenController {
 
 	// region Constants
 
-	/**
-	 * The default port to connect on.
-	 */
-	final public static int DEFAULT_PORT = 5555;
-
 	// end region -> Constants
 
 	// region Fields
@@ -45,9 +40,8 @@ public class Client extends AbstractClient implements IScreenController {
 	 * @param clientUI
 	 *            The interface type variable.
 	 */
-	public Client(String host, int port, ScreensController screenParent) {
+	public Client(String host, int port) {
 		super(host, port); // Call the superclass constructor
-		setScreenParent(screenParent);
 		try {
 			openConnection();
 		} catch (IOException e) {
@@ -90,8 +84,7 @@ public class Client extends AbstractClient implements IScreenController {
 		if (msg == null) {
 			// add something
 			return;
-		}
-		else if (msg instanceof String) {
+		} else if (msg instanceof String) {
 			String str = (String) msg;
 			switch (str) {
 			case "#Teacher":
@@ -111,8 +104,7 @@ public class Client extends AbstractClient implements IScreenController {
 				// myController.getScreen(MainApp.loginScreenID).getStyleClass()
 				break;
 			}
-		}
-		else if (msg instanceof ArrayList<?>) {
+		} else if (msg instanceof ArrayList<?>) {
 			if (((ArrayList<?>) msg).get(0) instanceof Question) /* if it's from the questions table */
 				setQuestionsFromDB((ArrayList<Question>) msg);
 		}

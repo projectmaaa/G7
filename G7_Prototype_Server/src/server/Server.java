@@ -15,7 +15,8 @@ public class Server extends AbstractServer {
 
 	// region Constants
 
-	public int DEFAULT_PORT = 5555;
+	@SuppressWarnings("unused")
+	private int DEFAULT_PORT = 5555;
 
 	private Connection connection;
 

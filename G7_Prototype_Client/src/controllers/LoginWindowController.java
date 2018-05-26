@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -14,6 +15,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import resources.Message;
@@ -41,7 +43,24 @@ public class LoginWindowController implements Initializable, IScreenController {
 	@FXML
 	private Text date;
 
+	@FXML
+	private Button settingsSaveButton;
+
+	@FXML
+	private Button settingsCancelButton;
+
+	@FXML
+	private AnchorPane anchorPaneSetting;
+
+	@FXML
+	private TextField portField;
+
+	@FXML
+	private TextField hostField;
+
 	private int fieldFlag;
+
+	private Boolean turnSettings = false;
 
 	private Client client;
 
@@ -71,9 +90,39 @@ public class LoginWindowController implements Initializable, IScreenController {
 
 	// region Public Methods
 
-	@FXML
 	public void loginButtonHandler(ActionEvent event) {
 		loginCheck();
+	}
+
+	public void openSetting(MouseEvent event) {
+		if (!turnSettings) {
+			hostField.setText(MainAppClient.getClient().getHost());
+			portField.setText(Integer.toString(MainAppClient.getClient().getPort()));
+			anchorPaneSetting.setVisible(true);
+			turnSettings = true;
+		} else {
+			clearSettings();
+			anchorPaneSetting.setVisible(false);
+			turnSettings = false;
+		}
+	}
+
+	public void saveSettings(MouseEvent event) {
+		if (!(MainAppClient.getClient().getHost().equals(hostField.getText()))
+				|| (MainAppClient.getClient().getPort() != (Integer.parseInt(portField.getText())))) {
+			MainAppClient.getClient().setHost(hostField.getText());
+			MainAppClient.getClient().setPort(Integer.parseInt(portField.getText()));
+			System.out.println("New HostName : " + MainAppClient.getClient().getHost() + " New Port : "
+					+ MainAppClient.getClient().getPort());
+			try {
+				MainAppClient.getClient().closeConnection();
+				MainAppClient.getClient().openConnection();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		clearSettings();
+		anchorPaneSetting.setVisible(false);
 	}
 
 	/**
@@ -116,8 +165,16 @@ public class LoginWindowController implements Initializable, IScreenController {
 			loginLabel.setText("Incorrect username or password.");
 			loginLabel.setVisible(true);
 		}
+		if (anchorPaneSetting.isVisible()) {
+			anchorPaneSetting.setVisible(false);
+		}
 		client.handleMessageFromClientUI(Message.login + " " + un.getText() + " " + pw.getText());
 		clearFields();
+	}
+
+	private void clearSettings() {
+		portField.setText(null);
+		hostField.setText(null);
 	}
 
 	/**

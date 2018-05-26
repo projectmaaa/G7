@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="signIn" maxHeight="-Infinity"
-	maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-	prefHeight="600.0" prefWidth="850.0" stylesheets="@login.css"
-	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="controllers.LoginWindowController">
+<AnchorPane fx:id="signIn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" stylesheets="@login.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginWindowController">
 	<children>
-		<ImageView fitHeight="600.0" fitWidth="860.0"
-			pickOnBounds="true">
+		<ImageView fitHeight="600.0" fitWidth="860.0" pickOnBounds="true">
 			<image>
 				<Image url="@Images/bg-login.jpg" />
 			</image>
 		</ImageView>
-		<ImageView fitHeight="38.0" fitWidth="37.0" layoutX="799.0"
-			layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+		<ImageView fitHeight="38.0" fitWidth="37.0" layoutX="799.0" layoutY="15.0" onMouseClicked="#openSetting" pickOnBounds="true" preserveRatio="true">
 			<image>
 				<Image url="@Images/settings_icon.png" />
 			</image>
@@ -30,65 +28,46 @@
 				<Cursor fx:constant="DEFAULT" />
 			</cursor>
 		</ImageView>
-		<ImageView fx:id="Group7Logo" blendMode="COLOR_BURN"
-			fitHeight="150.0" fitWidth="200.0" layoutX="330.0" layoutY="489.0"
-			pickOnBounds="true" preserveRatio="true">
+		<ImageView fx:id="Group7Logo" blendMode="COLOR_BURN" fitHeight="150.0" fitWidth="200.0" layoutX="330.0" layoutY="489.0" pickOnBounds="true" preserveRatio="true">
 			<image>
 				<Image url="@Images/logo.jpg" />
 			</image>
 		</ImageView>
-		<Text fx:id="TextGroup7" fill="#f8f8f8" layoutX="356.0"
-			layoutY="577.0" strokeType="OUTSIDE" strokeWidth="0.0"
-			text="Copyright © 2018 Group7" />
-		<TextField fx:id="un" focusTraversable="false"
-			layoutX="469.0" layoutY="207.0" onKeyPressed="#keyHandler"
-			prefHeight="31.0" prefWidth="200.0" promptText="Username" />
-		<PasswordField fx:id="pw" focusTraversable="false"
-			layoutX="469.0" layoutY="263.0" onKeyPressed="#keyHandler"
-			prefHeight="31.0" prefWidth="200.0" promptText="Password" />
-		<Button fx:id="login" layoutX="530.0" layoutY="371.0"
-			mnemonicParsing="false" onAction="#loginButtonHandler"
-			onKeyPressed="#keyHandler" prefHeight="0.0" prefWidth="78.0"
-			text="Login" textAlignment="CENTER">
+		<Text fx:id="TextGroup7" fill="#f8f8f8" layoutX="356.0" layoutY="577.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
+		<TextField fx:id="un" focusTraversable="false" layoutX="469.0" layoutY="207.0" onKeyPressed="#keyHandler" prefHeight="31.0" prefWidth="200.0" promptText="Username" />
+		<PasswordField fx:id="pw" focusTraversable="false" layoutX="469.0" layoutY="263.0" onKeyPressed="#keyHandler" prefHeight="31.0" prefWidth="200.0" promptText="Password" />
+		<Button fx:id="login" layoutX="530.0" layoutY="371.0" mnemonicParsing="false" onAction="#loginButtonHandler" onKeyPressed="#keyHandler" prefHeight="0.0" prefWidth="78.0" text="Login" textAlignment="CENTER">
 			<font>
 				<Font size="20.0" />
 			</font>
 		</Button>
-		<Text layoutX="231.0" layoutY="358.0" strokeType="OUTSIDE"
-			strokeWidth="0.0" text="Sign in">
+		<Text layoutX="231.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign in">
 			<font>
 				<Font name="Harvest Regular" size="60.0" />
 			</font>
 		</Text>
-		<Label fx:id="loginLabel" alignment="CENTER" layoutX="429.0"
-			layoutY="326.0" prefHeight="21.0" prefWidth="280.0"
-			textAlignment="JUSTIFY" visible="false" />
-		<Text fx:id="date" layoutX="595.0" layoutY="43.0"
-			strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="173.115234375">
+		<Label fx:id="loginLabel" alignment="CENTER" layoutX="429.0" layoutY="326.0" prefHeight="21.0" prefWidth="280.0" textAlignment="JUSTIFY" visible="false" />
+		<Text fx:id="date" layoutX="595.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="173.115234375">
 			<font>
 				<Font size="30.0" />
 			</font>
 		</Text>
-		<ImageView fitHeight="68.0" fitWidth="30.0" layoutX="430.0"
-			layoutY="263.0" pickOnBounds="true" preserveRatio="true">
+		<ImageView fitHeight="68.0" fitWidth="30.0" layoutX="430.0" layoutY="263.0" pickOnBounds="true" preserveRatio="true">
 			<image>
 				<Image url="@Images/Lock-64x64.png" />
 			</image>
 		</ImageView>
-		<ImageView fitHeight="68.0" fitWidth="30.0" layoutX="430.0"
-			layoutY="208.0" pickOnBounds="true" preserveRatio="true">
+		<ImageView fitHeight="68.0" fitWidth="30.0" layoutX="430.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true">
 			<image>
 				<Image url="@Images/Office-Customer-Male-Light-icon.png" />
 			</image>
 		</ImageView>
-		<Text layoutX="86.0" layoutY="305.0" strokeType="OUTSIDE"
-			strokeWidth="0.0" text="AES">
+		<Text layoutX="86.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AES">
 			<font>
 				<Font name="Narkisim" size="160.0" />
 			</font>
 			<fill>
-				<LinearGradient endX="0.519047619047619"
-					endY="0.01428571428571429" startX="0.4809523809523809" startY="1.0">
+				<LinearGradient endX="0.519047619047619" endY="0.01428571428571429" startX="0.4809523809523809" startY="1.0">
 					<stops>
 						<Stop color="#512ccd" />
 						<Stop color="BLACK" offset="1.0" />
@@ -96,12 +75,28 @@
 				</LinearGradient>
 			</fill>
 		</Text>
-		<ImageView fitHeight="75.0" fitWidth="71.0" layoutX="243.0"
-			layoutY="239.0" pickOnBounds="true" preserveRatio="true"
-			rotate="14.0">
+		<ImageView fitHeight="75.0" fitWidth="71.0" layoutX="243.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" rotate="14.0">
 			<image>
 				<Image url="@Images/v1.png" />
 			</image>
 		</ImageView>
+		<AnchorPane fx:id="anchorPaneSetting" layoutX="566.0" layoutY="59.0" prefHeight="135.0" prefWidth="269.0" style="-fx-border-color: black; -fx-border-radius: 10;" visible="false">
+			<children>
+				<Button fx:id="settingsSaveButton" layoutX="36.0" layoutY="97.0" mnemonicParsing="false" onMouseClicked="#saveSettings" style="-fx-background-color: #4a26ea; -fx-background-radius: 10; -fx-background-insets: 0,1,2,0;" text="Save" textFill="#010101" />
+				<Button fx:id="settingsCancelButton" layoutX="176.0" layoutY="97.0" mnemonicParsing="false" onMouseClicked="#openSetting" style="-fx-background-color: #4a26ea; -fx-background-radius: 10; -fx-background-insets: 0,1,2,0;" text="Cancel" textFill="#161616" />
+				<TextField fx:id="hostField" layoutX="100.0" layoutY="15.0" style="-fx-border-color: #456879; -fx-border-radius: 10; -fx-border-width: 1; -fx-max-height: 2px; -fx-background-radius: 10;" />
+				<Text fill="#ac9b9b" layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host">
+					<font>
+						<Font size="20.0" />
+					</font>
+				</Text>
+				<TextField fx:id="portField" layoutX="100.0" layoutY="54.0" style="-fx-border-color: #456879; -fx-border-radius: 10; -fx-border-width: 1; -fx-max-height: 2px; -fx-background-radius: 10;" />
+				<Text fill="#ac9b9b" layoutX="13.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port">
+					<font>
+						<Font size="20.0" />
+					</font>
+				</Text>
+			</children>
+		</AnchorPane>
 	</children>
 </AnchorPane>
