@@ -2,6 +2,7 @@ package server;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -61,6 +62,13 @@ public class MainAppServer extends Application {
 			try {
 				server.close();
 			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			try {
+				if (!server.getConnection().isClosed()) {
+					server.getConnection().close();
+				}
+			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 			Platform.exit();

@@ -80,18 +80,18 @@
 				<Image url="@Images/v1.png" />
 			</image>
 		</ImageView>
-		<AnchorPane fx:id="anchorPaneSetting" layoutX="566.0" layoutY="59.0" prefHeight="135.0" prefWidth="269.0" style="-fx-border-color: black; -fx-border-radius: 10;" visible="false">
+		<AnchorPane fx:id="anchorPaneSetting" layoutX="566.0" layoutY="59.0" prefHeight="135.0" prefWidth="269.0" style="-fx-border-color: black; -fx-border-radius: 10; -fx-border-width: 2;" visible="false">
 			<children>
-				<Button fx:id="settingsSaveButton" layoutX="36.0" layoutY="97.0" mnemonicParsing="false" onMouseClicked="#saveSettings" style="-fx-background-color: #4a26ea; -fx-background-radius: 10; -fx-background-insets: 0,1,2,0;" text="Save" textFill="#010101" />
-				<Button fx:id="settingsCancelButton" layoutX="176.0" layoutY="97.0" mnemonicParsing="false" onMouseClicked="#openSetting" style="-fx-background-color: #4a26ea; -fx-background-radius: 10; -fx-background-insets: 0,1,2,0;" text="Cancel" textFill="#161616" />
+				<Button fx:id="settingsSaveButton" layoutX="80.0" layoutY="97.0" mnemonicParsing="false" onMouseClicked="#saveSettings" prefHeight="25.0" prefWidth="52.0" text="Save" textFill="#010101" />
+				<Button fx:id="settingsCancelButton" layoutX="150.0" layoutY="97.0" mnemonicParsing="false" onMouseClicked="#openSetting" text="Cancel" textFill="#161616" />
 				<TextField fx:id="hostField" layoutX="100.0" layoutY="15.0" style="-fx-border-color: #456879; -fx-border-radius: 10; -fx-border-width: 1; -fx-max-height: 2px; -fx-background-radius: 10;" />
-				<Text fill="#ac9b9b" layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host">
+				<Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host">
 					<font>
 						<Font size="20.0" />
 					</font>
 				</Text>
 				<TextField fx:id="portField" layoutX="100.0" layoutY="54.0" style="-fx-border-color: #456879; -fx-border-radius: 10; -fx-border-width: 1; -fx-max-height: 2px; -fx-background-radius: 10;" />
-				<Text fill="#ac9b9b" layoutX="13.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port">
+				<Text layoutX="14.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port">
 					<font>
 						<Font size="20.0" />
 					</font>

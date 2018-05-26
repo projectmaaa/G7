@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -121,10 +122,20 @@ public class ServerController implements Initializable {
 	public void turnOnOffDB(MouseEvent event) {
 		if (dbButton.getText().equals("Off")) {
 			translateAnimationDB.setByX(50);
-			translateAnimationDB.play();
 			server.setConnection(SqlUtilities.connection(server.getUserNameDBcon(), server.getPassWordDBcon()));
 			dbButton.setText("On");
+		} else {
+			translateAnimationDB.setByX(-50);
+			dbButton.setText("Off");
+			try {
+				if (!server.getConnection().isClosed()) {
+					server.getConnection().close();
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
+		translateAnimationDB.play();
 	}
 
 	private void clearSettings() {
