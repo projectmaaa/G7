@@ -134,6 +134,44 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button createQuestionButton;
+	
+	//create exam
+	
+	@FXML
+	private AnchorPane createExamAnchorPane;
+	
+	@FXML
+	private Label subjectInCreate;
+	
+	@FXML
+	private ComboBox<String> subjectInCreateComboBox;
+	
+	@FXML
+	private Label courseInCreate;
+	
+	@FXML
+	private ComboBox<String> courseInCreateComboBox;
+	
+	@FXML
+	private Label textStudentsInCreate;
+	
+	@FXML
+	private TextField textStudentsInCreateField;
+	
+	@FXML
+	private Label textTeachersInCreate;
+	
+	@FXML
+	private TextField textTeachersInCreateField;
+	
+	@FXML
+	private Label durationInCreate;
+	
+	@FXML
+	private TextField durationInCreateField;
+	
+	@FXML
+	private Button createExamButton;
 
 	private ScreensController screensController;
 
@@ -158,6 +196,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setQuestionsTableInfo();
 		tableView.setEditable(true);
 		addQuestionAnchorPane.setVisible(false);
+		createExamAnchorPane.setVisible(false);
 		initAddQuestionOption();
 	}
 
@@ -186,6 +225,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			setQuestionsTableInfo();
 			questionsTableAnchorPane.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
+			createExamAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 			welcomeAnchorPane.setVisible(false);
 		} catch (Throwable e) {
@@ -220,6 +260,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			addQuestionAnchorPane.setVisible(true);
 			questionsTableAnchorPane.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
+			createExamAnchorPane.setVisible(false);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -233,6 +274,21 @@ public class TeacherWindowController implements Initializable, IScreenController
 				firstAnswerField.getText(), secondAnswerField.getText(), thirdAnswerField.getText(),
 				forthAnswerField.getText(), correctAnswerComboBox.getValue());
 		client.handleMessageFromClientUI(question);
+	}
+	
+	public void openCreateExam(ActionEvent event) {
+		try {
+			createExamAnchorPane.setVisible(true);
+			addQuestionAnchorPane.setVisible(false);
+			questionsTableAnchorPane.setVisible(false);
+			welcomeAnchorPane.setVisible(false);
+			subjectInCreateComboBox.setPromptText("Select Subject");
+			subjectInCreateComboBox.getItems().addAll("Software", "Math","Physics");
+			courseInCreateComboBox.setPromptText("Select Course");
+			courseInCreateComboBox.getItems().addAll("MLM", "MTM", "ATM", "OOP");
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 
 	// end region -> Public Methods
