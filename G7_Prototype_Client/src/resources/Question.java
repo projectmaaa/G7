@@ -9,12 +9,6 @@ public class Question implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private static int softwareCount;
-
-	private static int mathCount;
-
-	private static int physicsCount;
-
 	// end region -> Constants
 
 	// region Fields
@@ -39,7 +33,7 @@ public class Question implements Serializable {
 
 	// region Constructors
 
-	/*
+	/**
 	 * this constructor is for creating new question
 	 */
 	public Question(String subject, String author, String questionText, String firstPossibleAnswer,
@@ -55,7 +49,7 @@ public class Question implements Serializable {
 		this.correctAnswer = correctAnswer;
 	}
 
-	/*
+	/**
 	 * this constructor is when getting the info from the data base to show in the
 	 * table view
 	 */
@@ -141,31 +135,28 @@ public class Question implements Serializable {
 
 	// end region -> Getters & Setters
 
-	/*
+	/**
 	 * sets the question ID for new question
 	 */
 	private void setNewQuestionID(String subject) {
 		switch (subject) {
 		case "Software":
 			questionID = "01";
-			concatenateQuestionCount(++softwareCount);
 			break;
 		case "Math":
 			questionID = "02";
-			concatenateQuestionCount(++mathCount);
 			break;
 		case "Physics":
 			questionID = "03";
-			concatenateQuestionCount(++physicsCount);
 			break;
 		}
 
 	}
 
-	/*
+	/**
 	 * this string concatenates the question counter to the questioID
 	 */
-	private void concatenateQuestionCount(int count) {
+	public void concatenateQuestionCount(int count) {
 		if (count < 10)
 			questionID += "00";
 		else if (count < 100)

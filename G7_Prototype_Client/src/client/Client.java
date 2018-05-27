@@ -24,6 +24,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private ScreensController myController;
 
+	private Question question;
+
 	// end region -> Fields
 
 	// region Constructors
@@ -68,6 +70,14 @@ public class Client extends AbstractClient implements IScreenController {
 			questionsFromDB.add(question);
 	}
 
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+
 	// end region -> Setters
 
 	// region Public Methods
@@ -105,8 +115,17 @@ public class Client extends AbstractClient implements IScreenController {
 				break;
 			}
 		} else if (msg instanceof ArrayList<?>) {
-			if (((ArrayList<?>) msg).get(0) instanceof Question) /* if it's from the questions table */
+			if (((ArrayList<?>) msg).isEmpty()) // if the table in the DB is empty
+				return;
+			else if (((ArrayList<?>) msg).get(0) instanceof Question) /* if it's from the questions table */
 				setQuestionsFromDB((ArrayList<Question>) msg);
+		} else if (msg instanceof Integer) {
+			question.concatenateQuestionCount((int) msg);
+			try {
+				sendToServer(question);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

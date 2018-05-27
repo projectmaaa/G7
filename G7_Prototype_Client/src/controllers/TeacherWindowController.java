@@ -32,7 +32,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private AnchorPane mainAnchorPane;
-	
+
 	@FXML
 	private AnchorPane welcomeAnchorPane;
 
@@ -86,7 +86,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button saveButton;
-	
+
 	@FXML
 	private Button removeButton;
 
@@ -288,6 +288,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		Question question = new Question(subjectComboBox.getValue(), "Malki Grossman", questionTextField.getText(),
 				firstAnswerField.getText(), secondAnswerField.getText(), thirdAnswerField.getText(),
 				forthAnswerField.getText(), correctAnswerComboBox.getValue());
+		client.setQuestion(question);
 		client.handleMessageFromClientUI(question);
 	}
 

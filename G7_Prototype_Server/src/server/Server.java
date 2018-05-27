@@ -78,8 +78,14 @@ public class Server extends AbstractServer {
 				}
 			} else { // new question to add
 				try {
-					SqlUtilities.insertNewQuestion((Question) msg, connection);
-					client.sendToClient(Message.SaveTable);
+					if (((Question) msg).getQuestionID().length() == 2) { // before the process to complete the
+																			// questionID is finished
+						int questionCount = SqlUtilities.getQuestionCount(((Question) msg).getQuestionID(), connection);
+						client.sendToClient(questionCount);
+					} else {
+						SqlUtilities.insertNewQuestion((Question) msg, connection);
+						client.sendToClient(Message.SaveTable);
+					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {

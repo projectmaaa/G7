@@ -27,7 +27,11 @@ public class SqlUtilities {
 
 	public final static String INSERT_Question = "INSERT INTO Questions VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
-	public final static String REMOVE_Question = "DELETE FROM Questions WHERE questionID=?;"; 
+	public final static String REMOVE_Question = "DELETE FROM Questions WHERE questionID=?;";
+
+	public final static String SELECT_FROM_Questions_Count = "SELECT questionsCount FROM Questions_Count WHERE subjectID=?;";
+
+	public final static String UPDATE_Questions_Count = "UPDATE Questions_Count SET questionsCount=? WHERE subjectID=?;";
 
 	// region Public Methods
 
@@ -76,7 +80,7 @@ public class SqlUtilities {
 		return questions;
 	}
 
-	/*
+	/**
 	 * updates the table in the data base
 	 */
 	public static void editTable(ArrayList<Question> newQuestions, Connection connection) throws SQLException {
@@ -93,6 +97,9 @@ public class SqlUtilities {
 		}
 	}
 
+	/**
+	 * adds new question to the DB
+	 */
 	public static void insertNewQuestion(Question question, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_Question);
 		insert.setString(1, question.getQuestionID());
@@ -105,11 +112,36 @@ public class SqlUtilities {
 		insert.setString(8, question.getCorrectAnswer());
 		insert.executeUpdate();
 	}
-	
+
+	/**
+	 * removes question from DB
+	 */
 	public static void removeQuestion(Question question, Connection connection) throws SQLException {
 		PreparedStatement remove = connection.prepareStatement(SqlUtilities.REMOVE_Question);
 		remove.setString(1, question.getQuestionID());
 		remove.executeUpdate();
+	}
+
+	/**
+	 * 
+	 * @param subjectID
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 * 
+	 *             returns the current amount of questions of a specific subject &
+	 *             updates the new amount in the DB
+	 */
+	public static Integer getQuestionCount(String subjectID, Connection connection) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_FROM_Questions_Count);
+		statement.setString(1, subjectID);
+		ResultSet rs = statement.executeQuery();
+		rs.next();
+		int questionsCount = rs.getInt(1) + 1;
+		statement = connection.prepareStatement(SqlUtilities.UPDATE_Questions_Count);
+		statement.setInt(1, questionsCount); // update the new count in the DB
+		statement.setString(2, subjectID);
+		return questionsCount;
 	}
 
 	// end region -> Public Methods
