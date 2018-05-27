@@ -32,7 +32,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private AnchorPane mainAnchorPane;
-	//
+	
 	@FXML
 	private AnchorPane welcomeAnchorPane;
 
@@ -86,6 +86,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button saveButton;
+	
+	@FXML
+	private Button removeButton;
 
 	@FXML
 	private AnchorPane addQuestionAnchorPane;
@@ -134,42 +137,42 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button createQuestionButton;
-	
-	//create exam
-	
+
+	// create exam
+
 	@FXML
 	private AnchorPane createExamAnchorPane;
-	
+
 	@FXML
 	private Label subjectInCreate;
-	
+
 	@FXML
 	private ComboBox<String> subjectInCreateComboBox;
-	
+
 	@FXML
 	private Label courseInCreate;
-	
+
 	@FXML
 	private ComboBox<String> courseInCreateComboBox;
-	
+
 	@FXML
 	private Label textStudentsInCreate;
-	
+
 	@FXML
 	private TextField textStudentsInCreateField;
-	
+
 	@FXML
 	private Label textTeachersInCreate;
-	
+
 	@FXML
 	private TextField textTeachersInCreateField;
-	
+
 	@FXML
 	private Label durationInCreate;
-	
+
 	@FXML
 	private TextField durationInCreateField;
-	
+
 	@FXML
 	private Button createExamButton;
 
@@ -253,6 +256,18 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/*
+	 * Remove button was pressed
+	 */
+	public void removeButtonHandler(ActionEvent event) {
+		Question question = tableView.getSelectionModel().getSelectedItem();
+		question.setAuthor(null);
+		client.handleMessageFromClientUI(question);
+		tableView.getItems().clear();
+		setQuestionsTableInfo();
+		questionsTableAnchorPane.setVisible(true);
+	}
+
+	/*
 	 * 'Add Question' was pressed
 	 */
 	public void openAddQuestion(ActionEvent event) {
@@ -275,7 +290,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				forthAnswerField.getText(), correctAnswerComboBox.getValue());
 		client.handleMessageFromClientUI(question);
 	}
-	
+
 	public void openCreateExam(ActionEvent event) {
 		try {
 			createExamAnchorPane.setVisible(true);
@@ -283,7 +298,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			questionsTableAnchorPane.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
 			subjectInCreateComboBox.setPromptText("Select Subject");
-			subjectInCreateComboBox.getItems().addAll("Software", "Math","Physics");
+			subjectInCreateComboBox.getItems().addAll("Software", "Math", "Physics");
 			courseInCreateComboBox.setPromptText("Select Course");
 			courseInCreateComboBox.getItems().addAll("MLM", "MTM", "ATM", "OOP");
 		} catch (Throwable e) {

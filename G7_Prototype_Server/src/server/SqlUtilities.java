@@ -23,9 +23,11 @@ public class SqlUtilities {
 
 	public final static String Login_UpdateUser_logStatus_DisConnected = "UPDATE Users SET logged=0 WHERE idUsers=? AND passWord=?;";
 
-	public final static String UPDATE_Questions_Table = "UPDATE Questions SET questionText=?, firstAnswer=?, secondAnswer=?, thirdAnswer=?, fourthAnswer=?, correctAnswer=? WHERE questionID=?";
+	public final static String UPDATE_Questions_Table = "UPDATE Questions SET questionText=?, firstAnswer=?, secondAnswer=?, thirdAnswer=?, fourthAnswer=?, correctAnswer=? WHERE questionID=?;";
 
-	public final static String INSERT_Question = "INSERT INTO Questions VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	public final static String INSERT_Question = "INSERT INTO Questions VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+
+	public final static String REMOVE_Question = "DELETE FROM Questions WHERE questionID=?;"; 
 
 	// region Public Methods
 
@@ -102,6 +104,12 @@ public class SqlUtilities {
 		insert.setString(7, question.getFourthPossibleAnswer());
 		insert.setString(8, question.getCorrectAnswer());
 		insert.executeUpdate();
+	}
+	
+	public static void removeQuestion(Question question, Connection connection) throws SQLException {
+		PreparedStatement remove = connection.prepareStatement(SqlUtilities.REMOVE_Question);
+		remove.setString(1, question.getQuestionID());
+		remove.executeUpdate();
 	}
 
 	// end region -> Public Methods

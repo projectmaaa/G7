@@ -67,13 +67,24 @@ public class Server extends AbstractServer {
 			// add error screen
 			return;
 		} else if (msg instanceof Question) {
-			try {
-				SqlUtilities.insertNewQuestion((Question) msg, connection);
-				client.sendToClient(Message.SaveTable);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			if (((Question) msg).getAuthor() == null) { // question to remove
+				try {
+					SqlUtilities.removeQuestion((Question) msg, connection);
+					client.sendToClient(Message.SaveTable);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else { // new question to add
+				try {
+					SqlUtilities.insertNewQuestion((Question) msg, connection);
+					client.sendToClient(Message.SaveTable);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		} else if (msg instanceof ArrayList<?>) {
 
