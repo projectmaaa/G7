@@ -266,7 +266,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		for (Question question : newQuestions) {
 			int answerNumber = Integer.parseInt(question.getCorrectAnswer());
 			if (answerNumber < 1 || answerNumber > 4) {
-				// add error window
+				Utilities.popUpMethod("incorrect answer");
+				tableView.getItems().clear();
+				setQuestionsTableInfo();
+				questionsTableAnchorPane.setVisible(true);
 				System.out.println("answerNumber 1<-->4");
 				return;
 			}
