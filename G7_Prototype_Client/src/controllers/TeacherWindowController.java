@@ -219,7 +219,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		screensController.setScreen(MainAppClient.loginScreenID);
 	}
 
-	/*
+	/**
 	 * Edit\Remove Question was pressed
 	 */
 	public void openEditorRemove(ActionEvent event) {
@@ -236,7 +236,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 	}
 
-	/*
+	/**
 	 * sends message to the server to update the data base
 	 */
 	public void saveButtonHandler(ActionEvent event) {
@@ -255,7 +255,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		client.handleMessageFromClientUI(updateDB);
 	}
 
-	/*
+	/**
 	 * Remove button was pressed
 	 */
 	public void removeButtonHandler(ActionEvent event) {
@@ -267,7 +267,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		questionsTableAnchorPane.setVisible(true);
 	}
 
-	/*
+	/**
 	 * 'Add Question' was pressed
 	 */
 	public void openAddQuestion(ActionEvent event) {
@@ -280,10 +280,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			e.printStackTrace();
 		}
 	}
-	/*
+	
+	/**
 	 * 'Create question' button was pressed - add Question to DB
 	 */
-
 	public void addNewQuestion(ActionEvent event) {
 		Question question = new Question(subjectComboBox.getValue(), "Malki Grossman", questionTextField.getText(),
 				firstAnswerField.getText(), secondAnswerField.getText(), thirdAnswerField.getText(),
@@ -311,7 +311,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	// region Private Methods
 
-	/*
+	/**
 	 * Define the columns
 	 */
 	private void setColumns() {
@@ -376,7 +376,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		});
 	}
 
-	/*
+	/**
 	 * Updates the GUI questions table from the data base
 	 */
 	private void setQuestionsTableInfo() {
@@ -385,7 +385,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		tableView.setItems(client.getQuestionsFromDB());
 	}
 
-	/*
+	/**
 	 * init's the fields of the 'Add Question' option
 	 */
 	private void initAddQuestionOption() {
@@ -395,7 +395,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		correctAnswerComboBox.getItems().addAll("1", "2", "3", "4");
 	}
 
-	/*
+	/**
 	 * clear the fields of the last question that was added
 	 */
 	private void clearAddQuestionFields() {
