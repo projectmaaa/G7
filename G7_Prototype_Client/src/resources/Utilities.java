@@ -72,6 +72,19 @@ public class Utilities {
 			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
 			layout.getChildren().addAll(text, saveButton);
 			break;
+		case "incorrect answer":
+			text = new Label("Please insert only numbers from 1 to 4 in the 'Correct Answer' column!");
+			popup.getContent().addAll(text);
+			Button correctionButton = new Button("OK");
+			correctionButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					primaryStage.hide();
+				}
+			});
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			layout.getChildren().addAll(text, correctionButton);
+			break;
 		}
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();

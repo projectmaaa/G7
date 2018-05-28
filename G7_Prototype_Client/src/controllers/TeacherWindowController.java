@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -450,8 +451,30 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private void clearAddQuestionFields() {
 		subjectComboBox.getSelectionModel().clearSelection();
 		subjectComboBox.setPromptText("Select Subject");
+		subjectComboBox.setButtonCell(new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("Select Subject");
+				} else {
+					setText(item);
+				}
+			}
+		});
 		correctAnswerComboBox.getSelectionModel().clearSelection();
 		correctAnswerComboBox.setPromptText("Select");
+		correctAnswerComboBox.setButtonCell(new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("Select");
+				} else {
+					setText(item);
+				}
+			}
+		});
 		questionTextField.clear();
 		firstAnswerField.clear();
 		secondAnswerField.clear();
