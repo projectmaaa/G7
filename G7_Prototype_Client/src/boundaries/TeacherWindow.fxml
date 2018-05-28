@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -32,8 +33,8 @@
 				<Font size="24.0" />
 			</font>
 		</Text>
-		<Text fx:id="TextGroup7" layoutX="343.0" layoutY="583.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
-		<ImageView fx:id="Group7Logo" blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="347.0" layoutY="521.0" pickOnBounds="true" preserveRatio="true">
+		<Text fx:id="TextGroup7" layoutX="343.0" layoutY="609.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
+		<ImageView fx:id="Group7Logo" blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="347.0" layoutY="547.0" pickOnBounds="true" preserveRatio="true">
 			<image>
 				<Image url="@Images/logo.jpg" />
 			</image>
@@ -55,7 +56,7 @@
 				<Menu mnemonicParsing="false" text="Maintain Exams">
 					<items>
 						<MenuItem fx:id="createExam" mnemonicParsing="false" onAction="#openCreateExam" text="Create Exam" />
-                  <MenuItem mnemonicParsing="false" text="Exam Managment" />
+                  <MenuItem mnemonicParsing="false" onAction="#openExamManagement" text="Exam Managment" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Confirm Grades">
@@ -156,7 +157,7 @@
             <Button fx:id="removeButton" layoutX="410.0" layoutY="392.0" mnemonicParsing="false" onAction="#removeButtonHandler" text="Remove" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="welcomeAnchorPane" layoutX="57.0" layoutY="152.0" prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="welcomeAnchorPane" layoutX="57.0" layoutY="152.0" prefHeight="200.0" prefWidth="200.0" visible="false">
          <children>
             <Label layoutX="23.0" layoutY="79.0" prefHeight="50.0" prefWidth="316.0" text="Let AES help you!" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>
@@ -184,7 +185,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="createExamAnchorPane" layoutX="32.0" layoutY="83.0" prefHeight="513.0" prefWidth="727.0">
+      <AnchorPane fx:id="createExamAnchorPane" layoutX="32.0" layoutY="83.0" prefHeight="513.0" prefWidth="727.0" visible="false">
          <children>
             <ComboBox fx:id="subjectInCreateComboBox" layoutX="75.0" layoutY="61.0" prefWidth="150.0" />
             <Label layoutX="-5.0" layoutY="22.0" prefWidth="253.0" text="Create Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
@@ -235,6 +236,54 @@
                   <TableColumn prefWidth="75.0" text="C2" />
                </columns>
             </TableView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="examManagementAnchorPane" layoutX="14.0" layoutY="90.0" prefHeight="432.0" prefWidth="846.0">
+         <children>
+            <Label layoutX="6.0" layoutY="7.0" prefWidth="253.0" text="Exam Management" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="24.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+            <Label layoutX="8.0" layoutY="57.0" text="Subject" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <ComboBox layoutX="72.0" layoutY="55.0" prefWidth="150.0">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ComboBox>
+            <TableView layoutX="8.0" layoutY="95.0" prefHeight="310.0" prefWidth="828.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+            <Button layoutX="8.0" layoutY="420.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="74.0" text="Activate">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+            <Button layoutX="109.0" layoutY="421.0" mnemonicParsing="false" text="Change Time">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+            <Button layoutX="222.0" layoutY="421.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Lock">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+            <Button layoutX="334.0" layoutY="421.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="74.0" text="Delete">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
          </children>
       </AnchorPane>
 	</children>

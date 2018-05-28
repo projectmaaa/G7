@@ -180,6 +180,13 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button createExamButton;
+	
+	//exam management
+	
+	@FXML
+	private AnchorPane examManagementAnchorPane;
+	
+	//
 
 	private ScreensController screensController;
 
@@ -209,6 +216,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		tableView.setEditable(true);
 		addQuestionAnchorPane.setVisible(false);
 		createExamAnchorPane.setVisible(false);
+		examManagementAnchorPane.setVisible(false);
 		initAddQuestionOption();
 		client.setTeacherWindowController(this);
 	}
@@ -246,6 +254,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			questionsTableAnchorPane.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
 			createExamAnchorPane.setVisible(false);
+			examManagementAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 			welcomeAnchorPane.setVisible(false);
 		} catch (Throwable e) {
@@ -324,6 +333,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			questionsTableAnchorPane.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
 			createExamAnchorPane.setVisible(false);
+			examManagementAnchorPane.setVisible(false);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -348,10 +358,23 @@ public class TeacherWindowController implements Initializable, IScreenController
 			addQuestionAnchorPane.setVisible(false);
 			questionsTableAnchorPane.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
+			examManagementAnchorPane.setVisible(false);
 			subjectInCreateComboBox.setPromptText("Select Subject");
 			subjectInCreateComboBox.getItems().addAll("Software", "Math", "Physics");
 			courseInCreateComboBox.setPromptText("Select Course");
 			courseInCreateComboBox.getItems().addAll("MLM", "MTM", "ATM", "OOP");
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void openExamManagement(ActionEvent event) {
+		try {
+			examManagementAnchorPane.setVisible(true);
+			createExamAnchorPane.setVisible(false);
+			addQuestionAnchorPane.setVisible(false);
+			questionsTableAnchorPane.setVisible(false);
+			welcomeAnchorPane.setVisible(false);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
