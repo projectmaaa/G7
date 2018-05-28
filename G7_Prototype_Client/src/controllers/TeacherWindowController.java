@@ -186,6 +186,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private AnchorPane examManagementAnchorPane;
 	
+	@FXML
+	private ComboBox<String> subjectExamManagement;
+	
 	//
 
 	private ScreensController screensController;
@@ -214,6 +217,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setColumns();
 		setQuestionsTableInfo();
 		tableView.setEditable(true);
+		welcomeAnchorPane.setVisible(true);
 		addQuestionAnchorPane.setVisible(false);
 		createExamAnchorPane.setVisible(false);
 		examManagementAnchorPane.setVisible(false);
@@ -375,6 +379,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 			addQuestionAnchorPane.setVisible(false);
 			questionsTableAnchorPane.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
+			subjectExamManagement.setPromptText("Select Subject");
+			subjectExamManagement.getItems().addAll("Software", "Math", "Physics");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
