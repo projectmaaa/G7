@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -23,7 +24,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 import resources.*;
 
 public class TeacherWindowController implements Initializable, IScreenController {
@@ -269,18 +273,46 @@ public class TeacherWindowController implements Initializable, IScreenController
 			updateDB.add(question);
 		}
 		client.handleMessageFromClientUI(updateDB);
+		Utilities.popUpMethod("save");
 	}
 
 	/**
 	 * Remove button was pressed
 	 */
 	public void removeButtonHandler(ActionEvent event) {
-		Question question = tableView.getSelectionModel().getSelectedItem();
-		question.setAuthor(null);
-		client.handleMessageFromClientUI(question);
-		tableView.getItems().clear();
-		setQuestionsTableInfo();
-		questionsTableAnchorPane.setVisible(true);
+		Label text;
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("AES7Popup");
+		Popup popup = new Popup();
+		popup.setX(700);
+		popup.setY(400);
+		HBox layout = new HBox(10);
+		text = new Label("Are you sure?");
+		popup.getContent().addAll(text);
+		Button yesButton = new Button("Yes");
+		yesButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+				Question question = tableView.getSelectionModel().getSelectedItem();
+				question.setAuthor(null);
+				client.handleMessageFromClientUI(question);
+				tableView.getItems().clear();
+				setQuestionsTableInfo();
+				questionsTableAnchorPane.setVisible(true);
+			}
+		});
+		Button noButton = new Button("No");
+		noButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+			}
+		});
+		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+		layout.getChildren().addAll(text, yesButton, noButton);
+		primaryStage.setScene(new Scene(layout));
+		primaryStage.show();
 	}
 
 	/**
@@ -306,6 +338,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 				forthAnswerField.getText(), correctAnswerComboBox.getValue());
 		client.setQuestion(question);
 		client.handleMessageFromClientUI(question);
+		Utilities.popUpMethod("add");
+		clearAddQuestionFields();
 	}
 
 	public void openCreateExam(ActionEvent event) {
