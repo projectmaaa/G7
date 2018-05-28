@@ -46,7 +46,7 @@ public class ScreensController extends StackPane {
 	}
 
 	/**
-	 * Returns the Node with the appropriate nameS
+	 * Returns the Node with the appropriate name
 	 * 
 	 * @param name
 	 * @return

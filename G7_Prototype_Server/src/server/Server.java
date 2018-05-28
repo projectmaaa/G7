@@ -70,7 +70,7 @@ public class Server extends AbstractServer {
 			if (((Question) msg).getAuthor() == null) { // question to remove
 				try {
 					SqlUtilities.removeQuestion((Question) msg, connection);
-					client.sendToClient(Message.SaveTable);
+					client.sendToClient(Message.saveTable);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -84,7 +84,7 @@ public class Server extends AbstractServer {
 						client.sendToClient(questionCount);
 					} else {
 						SqlUtilities.insertNewQuestion((Question) msg, connection);
-						client.sendToClient(Message.SaveTable);
+						client.sendToClient(Message.saveTable);
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -93,12 +93,11 @@ public class Server extends AbstractServer {
 				}
 			}
 		} else if (msg instanceof ArrayList<?>) {
-
 			// if it's from the questions table
 			if (((ArrayList<?>) msg).get(0) instanceof Question) {
 				try {
 					SqlUtilities.editTable((ArrayList<Question>) msg, connection);
-					client.sendToClient(Message.SaveTable);
+					client.sendToClient(Message.saveTable);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -110,7 +109,7 @@ public class Server extends AbstractServer {
 			String[] strArray = str.split(" ");
 			try {
 				switch (strArray[0]) {
-				case "#login":
+				case Message.login:
 					PreparedStatement login = connection.prepareStatement(SqlUtilities.Login_SELECT_UserID_From_Users);
 					login.setString(1, strArray[1]);
 					login.setString(2, strArray[2]);
@@ -124,30 +123,36 @@ public class Server extends AbstractServer {
 						rs = login.executeQuery();
 						rs.next();
 						if (rs.getInt(1) == 0) {
-							client.sendToClient("#Teacher");
+							PreparedStatement getName = connection
+									.prepareStatement(SqlUtilities.getUserNameAndLastName);
+							getName.setString(1, strArray[1]);
+							rs = getName.executeQuery();
+							rs.next();
+							// System.out.println(rs.getString(1) + " " + rs.getString(2));
+							client.sendToClient(Message.teacher + " " + rs.getString(1) + " " + rs.getString(2));
 							login = connection.prepareStatement(SqlUtilities.Login_UpdateUser_logStatus_Connected);
 							login.setString(1, strArray[1]);
 							login.setString(2, strArray[2]);
 							login.executeUpdate();
-							client.setInfo("#login", strArray[1] + " " + strArray[2]);
+							client.setInfo(Message.login, strArray[1] + " " + strArray[2]);
 							return;
 						} else {
-							client.sendToClient("#UserAlreadyConnected");
-							System.out.println("UserAlreadyConnected");
+							client.sendToClient(Message.userAlreadyConnected);
+							System.out.println("User Already Connected");
 							return;
 						}
 					} else {
-						client.sendToClient("No such user");
+						client.sendToClient(Message.noSuchUser);
 						return;
 					}
-				case "#EditorRemovePressed":
+				case Message.editOrRemove:
 					client.sendToClient(SqlUtilities.getQuestions(connection));
 					break;
-				case "#logout":
+				case Message.logout:
 					int i = 1;
 					PreparedStatement logout = connection
 							.prepareStatement(SqlUtilities.Login_UpdateUser_logStatus_DisConnected);
-					for (String string : client.getInfo("#login").toString().split(" ")) {
+					for (String string : client.getInfo(Message.login).toString().split(" ")) {
 						logout.setString(i++, string);
 					}
 					logout.executeUpdate();

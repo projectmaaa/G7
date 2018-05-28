@@ -4,13 +4,19 @@ public class Message {
 
 	// region Constants
 
-	public final static String login = "#login";
+	public final static String login = "#Login";
 
-	public final static String EditorRemove = "#EditorRemovePressed";
+	public final static String teacher = "#Teacher";
 
-	public final static String SaveTable = "#TableSaved";
-	
-	public final static String logout = "#logout";
+	public final static String editOrRemove = "#EditorRemovePressed";
+
+	public final static String userAlreadyConnected = "#UserAlreadyConnected";
+
+	public final static String noSuchUser = "NoSuchUser";
+
+	public final static String saveTable = "#TableSaved";
+
+	public final static String logout = "#Logout";
 
 	// end region -> Constants
 

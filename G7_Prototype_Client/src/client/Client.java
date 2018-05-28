@@ -5,9 +5,11 @@ import java.util.ArrayList;
 
 import controllers.IScreenController;
 import controllers.ScreensController;
+import controllers.TeacherWindowController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ocsf.client.AbstractClient;
+import resources.Message;
 import resources.Question;
 
 public class Client extends AbstractClient implements IScreenController {
@@ -23,8 +25,14 @@ public class Client extends AbstractClient implements IScreenController {
 	private ObservableList<Question> questionsFromDB = FXCollections.observableArrayList();
 
 	private ScreensController myController;
+	
+	private TeacherWindowController teacherWindowController;
 
 	private Question question;
+
+	private String firstName= "";
+
+	private String lastName = "";
 
 	// end region -> Fields
 
@@ -61,6 +69,14 @@ public class Client extends AbstractClient implements IScreenController {
 		return questionsFromDB;
 	}
 
+	public TeacherWindowController getTeacherWindowController() {
+		return teacherWindowController;
+	}
+
+	public void setTeacherWindowController(TeacherWindowController teacherWindowController) {
+		this.teacherWindowController = teacherWindowController;
+	}
+
 	/*
 	 * set the questions observable list from the returned array list of
 	 * SqlUtilities.getQuestions
@@ -76,6 +92,22 @@ public class Client extends AbstractClient implements IScreenController {
 
 	public void setQuestion(Question question) {
 		this.question = question;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	// end region -> Setters
@@ -96,10 +128,14 @@ public class Client extends AbstractClient implements IScreenController {
 			return;
 		} else if (msg instanceof String) {
 			String str = (String) msg;
-			switch (str) {
-			case "#Teacher":
+			String[] strArray = str.split(" ");
+			switch (strArray[0]) {
+			case Message.teacher:
 				try {
+					firstName = strArray[1];
+					lastName = strArray[2];
 					myController.setScreen(MainAppClient.teacherScreenID);
+					teacherWindowController.setNameAndLastName(firstName,lastName);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

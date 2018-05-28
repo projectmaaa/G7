@@ -33,6 +33,8 @@ public class SqlUtilities {
 
 	public final static String UPDATE_Questions_Count = "UPDATE Questions_Count SET questionsCount=? WHERE subjectID=?;";
 
+	public final static String getUserNameAndLastName = "SELECT firstName, lastName FROM Users WHERE idUsers=?;";
+
 	// region Public Methods
 
 	// end region -> Constants

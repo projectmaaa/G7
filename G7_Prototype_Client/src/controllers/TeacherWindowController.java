@@ -178,6 +178,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private ScreensController screensController;
 
+	private String firstName;
+
+	private String lastName;
+
 	private Client client;
 
 	// end region -> Fields
@@ -193,6 +197,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		// firstName = client.getFirstName();
+		// lastName = client.getLastName();
+		// welcomeText.setText(welcomeText.getText() + " " + firstName + " " +
+		// lastName);
 		date.setText(Utilities.setDate());
 		this.client = MainAppClient.getClient();
 		setColumns();
@@ -201,6 +209,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		addQuestionAnchorPane.setVisible(false);
 		createExamAnchorPane.setVisible(false);
 		initAddQuestionOption();
+		client.setTeacherWindowController(this);
 	}
 
 	// region Public Methods
@@ -214,9 +223,16 @@ public class TeacherWindowController implements Initializable, IScreenController
 			clearAddQuestionFields();
 			addQuestionAnchorPane.setVisible(false);
 		}
+		welcomeText.setText("Welcome");
 		welcomeAnchorPane.setVisible(true);
 		this.client.handleMessageFromClientUI(Message.logout);
 		screensController.setScreen(MainAppClient.loginScreenID);
+	}
+
+	public void setNameAndLastName(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		welcomeText.setText(welcomeText.getText() + " " + this.firstName + " " + this.lastName);
 	}
 
 	/**
@@ -280,7 +296,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 'Create question' button was pressed - add Question to DB
 	 */
@@ -381,7 +397,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 */
 	private void setQuestionsTableInfo() {
 		questionsTableAnchorPane.setVisible(false);
-		client.handleMessageFromClientUI(Message.EditorRemove);
+		client.handleMessageFromClientUI(Message.editOrRemove);
 		tableView.setItems(client.getQuestionsFromDB());
 	}
 
