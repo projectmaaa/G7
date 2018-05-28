@@ -201,10 +201,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// firstName = client.getFirstName();
-		// lastName = client.getLastName();
-		// welcomeText.setText(welcomeText.getText() + " " + firstName + " " +
-		// lastName);
 		date.setText(Utilities.setDate());
 		this.client = MainAppClient.getClient();
 		setColumns();

@@ -19,10 +19,6 @@ import javafx.stage.Stage;
  *
  */
 public class Utilities {
-
-	private static boolean answer;
-
-	private static boolean whileFlag;
 	
 	// region Public Methods
 
@@ -76,40 +72,11 @@ public class Utilities {
 			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
 			layout.getChildren().addAll(text, saveButton);
 			break;
-		case "incorrect answer":
-			text = new Label("Please enter correct answer from 1 to 4 only!");
-			popup.getContent().addAll(text);
-			Button correctionButton = new Button("OK");
-			correctionButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					primaryStage.hide();
-				}
-			});
-			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-			layout.getChildren().addAll(text, correctionButton);
-			break;
 		}
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}
 
 	// end region -> Public Methods
-	
-	public static boolean isAnswer() {
-		return answer;
-	}
-
-	public static void setAnswer(boolean answer) {
-		Utilities.answer = answer;
-	}
-
-	public static boolean isWhileFlag() {
-		return whileFlag;
-	}
-
-	public static void setWhileFlag(boolean whileFlag) {
-		Utilities.whileFlag = whileFlag;
-	}
 
 } // end of class utilities
