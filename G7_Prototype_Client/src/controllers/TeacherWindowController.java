@@ -333,9 +333,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 'Create question' button was pressed - add Question to DB
 	 */
 	public void addNewQuestion(ActionEvent event) {
-		Question question = new Question(subjectComboBox.getValue(), "Malki Grossman", questionTextField.getText(),
-				firstAnswerField.getText(), secondAnswerField.getText(), thirdAnswerField.getText(),
-				forthAnswerField.getText(), correctAnswerComboBox.getValue());
+		Question question = new Question(subjectComboBox.getValue(), firstName + " " + lastName,
+				questionTextField.getText(), firstAnswerField.getText(), secondAnswerField.getText(),
+				thirdAnswerField.getText(), forthAnswerField.getText(), correctAnswerComboBox.getValue());
 		client.setQuestion(question);
 		client.handleMessageFromClientUI(question);
 		Utilities.popUpMethod("add");
