@@ -141,6 +141,7 @@ public class SqlUtilities {
 		statement = connection.prepareStatement(SqlUtilities.UPDATE_Questions_Count);
 		statement.setInt(1, questionsCount); // update the new count in the DB
 		statement.setString(2, subjectID);
+		statement.executeUpdate();
 		return questionsCount;
 	}
 
