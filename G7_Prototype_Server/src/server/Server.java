@@ -164,9 +164,10 @@ public class Server extends AbstractServer {
 					}
 					logout.executeUpdate();
 					logout.close();
-					return;
+					break;
 				case Message.getQuestionBySubject:
 					client.sendToClient(SqlUtilities.getQuestionsBySubject(connection, strArray[1]));
+					break;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

@@ -58,7 +58,7 @@ public class MainAppServer extends Application {
 		primaryStage.setTitle("AES7-Server");
 		primaryStage.sizeToScene();
 		primaryStage.setOnCloseRequest(e -> {
-			System.out.println("Close");
+			// System.out.println("Close");
 			try {
 				server.close();
 			} catch (IOException e1) {
@@ -67,8 +67,15 @@ public class MainAppServer extends Application {
 			try {
 				if (!server.getConnection().isClosed()) {
 					server.getConnection().close();
+					System.out.println("db connection closed");
+
+				}
+				if (server.isListening()) {
+					server.close();
 				}
 			} catch (SQLException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 			Platform.exit();

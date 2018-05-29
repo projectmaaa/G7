@@ -237,18 +237,18 @@
             </Label>
             <TableView fx:id="tableViewBySubject" editable="true" fixedCellSize="0.0" layoutY="93.0" prefHeight="250.0" prefWidth="827.0" stylesheets="@table%20view.css">
                <columns>
-                  <TableColumn fx:id="questionIDColumn11" editable="false" maxWidth="200.0" minWidth="90.0" prefWidth="90.0" text="Question ID" />
-                  <TableColumn fx:id="questionTextColumn11" editable="false" minWidth="0.0" prefWidth="242.0" text="Question Text" />
-                  <TableColumn fx:id="possibleAnswersColumn11" editable="false" prefWidth="322.0" text="Possible Answers">
+                  <TableColumn fx:id="questionIDColumnBySubject" editable="false" maxWidth="200.0" minWidth="90.0" prefWidth="90.0" text="Question ID" />
+                  <TableColumn fx:id="questionTextColumnBySubject" editable="false" minWidth="0.0" prefWidth="242.0" text="Question Text" />
+                  <TableColumn fx:id="possibleAnswersColumnBySubject" editable="false" prefWidth="322.0" text="Possible Answers">
                      <columns>
-                        <TableColumn fx:id="firstPossibleAnswerColumn11" prefWidth="86.0" text="First" />
-                        <TableColumn fx:id="secondPossibleAnswerColumn11" prefWidth="86.0" text="Second" />
-                        <TableColumn fx:id="thirdPossibleAnswerColumn11" prefWidth="86.0" text="Third" />
-                        <TableColumn fx:id="fourthPossibleAnswerColumn11" editable="false" prefWidth="86.0" text="Fourth" />
+                        <TableColumn fx:id="firstPossibleAnswerColumnBySubject" prefWidth="86.0" text="First" />
+                        <TableColumn fx:id="secondPossibleAnswerColumnBySubject" prefWidth="86.0" text="Second" />
+                        <TableColumn fx:id="thirdPossibleAnswerColumnBySubject" prefWidth="86.0" text="Third" />
+                        <TableColumn fx:id="fourthPossibleAnswerColumnBySubject" editable="false" prefWidth="86.0" text="Fourth" />
                      </columns>
                   </TableColumn>
-                  <TableColumn fx:id="correctAnswerColumn11" editable="false" maxWidth="255.0" minWidth="65.0" prefWidth="94.0" text="Correct Answer" />
-                  <TableColumn fx:id="authorColumn11" maxWidth="200.0" minWidth="55.0" prefWidth="55.0" text="Points" />
+                  <TableColumn fx:id="correctAnswerColumnBySubject" editable="false" maxWidth="255.0" minWidth="65.0" prefWidth="94.0" text="Correct Answer" />
+                  <TableColumn fx:id="pointsColumnBySubject" maxWidth="200.0" minWidth="55.0" prefWidth="55.0" text="Points" />
                </columns>
             </TableView>
             <Button fx:id="updateTable" layoutX="530.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#updateTableButton" text="Update Table" />

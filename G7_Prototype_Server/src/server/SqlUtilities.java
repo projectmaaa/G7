@@ -36,7 +36,7 @@ public class SqlUtilities {
 
 	public final static String GetUserNameAndLastName = "SELECT firstName, lastName FROM Users WHERE idUsers=?;";
 
-	public final static String GetQuestionBySubject = "SELECT * FROM Questions WHERE questionID LIKE ?;";
+	public final static String GetQuestionBySubject = "SELECT * FROM Questions WHERE QuestionID LIKE '01%';";
 
 	// region Public Methods
 
@@ -92,13 +92,13 @@ public class SqlUtilities {
 		PreparedStatement statement = connection.prepareStatement(SqlUtilities.GetQuestionBySubject);
 		switch (subject) {
 		case "Software":
-			statement.setString(1, "01%");
+			statement.setString(1, "'01%'");
 			break;
 		case "Math":
-			statement.setString(1, "02%");
+			statement.setString(1, "'02%'");
 			break;
 		case "Physics":
-			statement.setString(1, "03%");
+			statement.setString(1, "'03%'");
 			break;
 		}
 		ResultSet rs = statement.executeQuery();

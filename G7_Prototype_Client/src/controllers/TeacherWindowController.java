@@ -74,6 +74,33 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private TableColumn<Question, String> questionIDColumn;
 
 	@FXML
+	private TableColumn<Question, String> questionIDColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> pointsColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> authorColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> questionTextColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> firstPossibleAnswerColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> secondPossibleAnswerColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> thirdPossibleAnswerColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> fourthPossibleAnswerColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> correctAnswerColumnBySubject;
+
+	@FXML
 	private TableColumn<Question, String> authorColumn;
 
 	@FXML
@@ -220,7 +247,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 		date.setText(Utilities.setDate());
 		this.client = MainAppClient.getClient();
 		setColumns();
+		setColumnsBySubject();
 		setQuestionsTableInfo();
+		tableViewBySubject.setEditable(true);
 		tableView.setEditable(true);
 		welcomeAnchorPane.setVisible(true);
 		addQuestionAnchorPane.setVisible(false);
@@ -390,7 +419,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	public void updateTableButton(MouseEvent event) {
-		setQuestionsBySubject();
+		//tableViewBySubject.getItems().clear();
+		client.handleMessageFromClientUI(Message.getQuestionBySubject + " " + subjectInCreateComboBox.getValue());
+		tableViewBySubject.setItems(client.getQuestionsFromDB());
 	}
 
 	public void openExamManagement(ActionEvent event) {
@@ -477,21 +508,37 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * Define the columns
+	 */
+	private void setColumnsBySubject() {
+		questionIDColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("questionID"));
+		pointsColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("points"));
+		questionTextColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+		firstPossibleAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
+		secondPossibleAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
+		thirdPossibleAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
+		fourthPossibleAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
+		correctAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
+
+		// define the columns editable
+
+		pointsColumnBySubject.setCellFactory(TextFieldTableCell.forTableColumn());
+		pointsColumnBySubject.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
+			@Override
+			public void handle(CellEditEvent<Question, String> t) {
+				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow())).setPoints(t.getNewValue());
+			}
+		});
+
+	}
+
+	/**
 	 * Updates the GUI questions table from the data base
 	 */
 	private void setQuestionsTableInfo() {
 		questionsTableAnchorPane.setVisible(false);
 		client.handleMessageFromClientUI(Message.editOrRemove);
 		tableView.setItems(client.getQuestionsFromDB());
-	}
-
-	/**
-	 * Updates the GUI questions filter by subject table from the data base
-	 */
-	private void setQuestionsBySubject() {
-		// questionsTableAnchorPane.setVisible(false);
-		client.handleMessageFromClientUI(Message.getQuestionBySubject + " " + subjectInCreateComboBox.getValue());
-		tableViewBySubject.setItems(client.getQuestionsFromDB());
 	}
 
 	/**

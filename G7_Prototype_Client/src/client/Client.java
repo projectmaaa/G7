@@ -83,6 +83,7 @@ public class Client extends AbstractClient implements IScreenController {
 	 * SqlUtilities.getQuestions
 	 */
 	public void setQuestionsFromDB(ArrayList<Question> questions) {
+		questionsFromDB.clear();
 		for (Question question : questions)
 			questionsFromDB.add(question);
 	}

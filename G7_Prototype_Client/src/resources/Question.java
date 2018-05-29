@@ -29,6 +29,8 @@ public class Question implements Serializable {
 
 	private String correctAnswer;
 
+	private int points;
+
 	// end region -> Fields
 
 	// region Constructors
@@ -49,6 +51,18 @@ public class Question implements Serializable {
 		this.correctAnswer = correctAnswer;
 	}
 
+	public Question(String subject, String questionText, String firstPossibleAnswer, String secondPossibleAnswer,
+			String thirdPossibleAnswer, String fourthPossibleAnswer, String correctAnswer, int points) {
+		setNewQuestionID(subject);
+		this.questionText = questionText;
+		this.firstPossibleAnswer = firstPossibleAnswer;
+		this.secondPossibleAnswer = secondPossibleAnswer;
+		this.thirdPossibleAnswer = thirdPossibleAnswer;
+		this.fourthPossibleAnswer = fourthPossibleAnswer;
+		this.correctAnswer = correctAnswer;
+		this.points = points;
+	}
+
 	/**
 	 * this constructor is when getting the info from the data base to show in the
 	 * table view
@@ -63,6 +77,23 @@ public class Question implements Serializable {
 		this.thirdPossibleAnswer = possibleAnswers.get(2);
 		this.fourthPossibleAnswer = possibleAnswers.get(3);
 		this.correctAnswer = correctAnswer;
+	}
+
+	/**
+	 * this constructor is when getting the info from the data base to show in the
+	 * table view
+	 */
+	public Question(String questionID, String questionText, ArrayList<String> possibleAnswers, String correctAnswer,
+			int points) {
+		this.questionID = questionID;
+		this.questionText = questionText;
+		this.firstPossibleAnswer = possibleAnswers.get(0);
+		this.secondPossibleAnswer = possibleAnswers.get(1);
+		this.thirdPossibleAnswer = possibleAnswers.get(2);
+		this.fourthPossibleAnswer = possibleAnswers.get(3);
+		this.correctAnswer = correctAnswer;
+		this.points = points;
+
 	}
 
 	// end region -> Constructors
@@ -129,6 +160,14 @@ public class Question implements Serializable {
 		return correctAnswer;
 	}
 
+	public String getPoints() {
+		return Integer.toString(points);
+	}
+
+	public void setPoints(String points) {
+		this.points = Integer.parseInt(points);
+	}
+
 	public void setCorrectAnswer(String correctAnswer) {
 		this.correctAnswer = correctAnswer;
 	}
@@ -150,7 +189,6 @@ public class Question implements Serializable {
 			questionID = "03";
 			break;
 		}
-
 	}
 
 	/**
