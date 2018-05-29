@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import ocsf.client.AbstractClient;
 import resources.Message;
 import resources.Question;
+import resources.QuestionsHandle;
 
 public class Client extends AbstractClient implements IScreenController {
 
@@ -25,12 +26,12 @@ public class Client extends AbstractClient implements IScreenController {
 	private ObservableList<Question> questionsFromDB = FXCollections.observableArrayList();
 
 	private ScreensController myController;
-	
+
 	private TeacherWindowController teacherWindowController;
 
 	private Question question;
 
-	private String firstName= "";
+	private String firstName = "";
 
 	private String lastName = "";
 
@@ -120,7 +121,6 @@ public class Client extends AbstractClient implements IScreenController {
 	 * @param msg
 	 *            The message from the server.
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void handleMessageFromServer(Object msg) {
 		if (msg == null) {
@@ -135,7 +135,7 @@ public class Client extends AbstractClient implements IScreenController {
 					firstName = strArray[1];
 					lastName = strArray[2];
 					myController.setScreen(MainAppClient.teacherScreenID);
-					teacherWindowController.setNameAndLastName(firstName,lastName);
+					teacherWindowController.setNameAndLastName(firstName, lastName);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -143,18 +143,24 @@ public class Client extends AbstractClient implements IScreenController {
 			case "#No":
 				System.out.println("Wrong login details");
 				break;
-			case "#TableSaved":
+			case Message.tableSaved:
 				System.out.println("Data Base Updated successfully");
 				break;
 			case "#UserAlreadyConnected":
 				// myController.getScreen(MainApp.loginScreenID).getStyleClass()
 				break;
+			case Message.getQuestionBySubject:
+				break;
 			}
-		} else if (msg instanceof ArrayList<?>) {
-			if (((ArrayList<?>) msg).isEmpty()) // if the table in the DB is empty
+		} else if (msg instanceof QuestionsHandle) {
+			QuestionsHandle questionsHandle = (QuestionsHandle) msg;
+			if (questionsHandle.getQuestionArray().isEmpty()) // if the table in the DB is empty
 				return;
-			else if (((ArrayList<?>) msg).get(0) instanceof Question) /* if it's from the questions table */
-				setQuestionsFromDB((ArrayList<Question>) msg);
+			else if (questionsHandle.getCommand().equals("All")) /* if it's from the questions table */
+				setQuestionsFromDB(questionsHandle.getQuestionArray());
+			else if (questionsHandle.getCommand().equals("Subject")) {
+				setQuestionsFromDB(questionsHandle.getQuestionArray());
+			}
 		} else if (msg instanceof Integer) {
 			question.concatenateQuestionCount((int) msg);
 			try {

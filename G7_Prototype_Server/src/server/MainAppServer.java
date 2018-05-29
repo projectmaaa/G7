@@ -55,7 +55,7 @@ public class MainAppServer extends Application {
 		Image image = new Image(new File("/G7_Prototype_Server/src/boundaries/Images/AES2.PNG").toURI().toString());
 		primaryStage.getIcons().add(image);
 		primaryStage.setResizable(false);
-		primaryStage.setTitle("AES");
+		primaryStage.setTitle("AES7-Server");
 		primaryStage.sizeToScene();
 		primaryStage.setOnCloseRequest(e -> {
 			System.out.println("Close");

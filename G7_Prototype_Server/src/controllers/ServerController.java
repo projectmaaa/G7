@@ -130,6 +130,7 @@ public class ServerController implements Initializable {
 			try {
 				if (!server.getConnection().isClosed()) {
 					server.getConnection().close();
+					System.out.println("db connection closed");
 				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();

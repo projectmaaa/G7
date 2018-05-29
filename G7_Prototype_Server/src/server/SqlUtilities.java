@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import resources.Question;
+import resources.QuestionsHandle;
 
 public class SqlUtilities {
 
@@ -33,7 +34,9 @@ public class SqlUtilities {
 
 	public final static String UPDATE_Questions_Count = "UPDATE Questions_Count SET questionsCount=? WHERE subjectID=?;";
 
-	public final static String getUserNameAndLastName = "SELECT firstName, lastName FROM Users WHERE idUsers=?;";
+	public final static String GetUserNameAndLastName = "SELECT firstName, lastName FROM Users WHERE idUsers=?;";
+
+	public final static String GetQuestionBySubject = "SELECT * FROM Questions WHERE questionID LIKE ?;";
 
 	// region Public Methods
 
@@ -63,7 +66,7 @@ public class SqlUtilities {
 	/**
 	 * returns the whole table of questions for the table view
 	 */
-	public static ArrayList<Question> getQuestions(Connection connection) throws SQLException {
+	public static QuestionsHandle getQuestions(Connection connection) throws SQLException {
 		ArrayList<Question> questions = new ArrayList<Question>();
 		ArrayList<String> possibleAnswers = new ArrayList<String>(4);
 		Statement statement = connection.createStatement();
@@ -78,8 +81,40 @@ public class SqlUtilities {
 					new Question(rs.getString(1), rs.getString(2), rs.getString(3), possibleAnswers, rs.getString(8)));
 			index = 0;
 		}
+		statement.close();
 		rs.close();
-		return questions;
+		return (new QuestionsHandle("All", questions));
+	}
+
+	public static QuestionsHandle getQuestionsBySubject(Connection connection, String subject) throws SQLException {
+		ArrayList<Question> questionsBySubject = new ArrayList<Question>();
+		ArrayList<String> possibleAnswers = new ArrayList<String>(4);
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.GetQuestionBySubject);
+		switch (subject) {
+		case "Software":
+			statement.setString(1, "01%");
+			break;
+		case "Math":
+			statement.setString(1, "02%");
+			break;
+		case "Physics":
+			statement.setString(1, "03%");
+			break;
+		}
+		ResultSet rs = statement.executeQuery();
+		int index = 0;
+		while (rs.next()) {
+			while (index < 4) { // add the possible answers to the array list
+				possibleAnswers.add(index, rs.getString(index + 4));
+				index++;
+			}
+			questionsBySubject.add(
+					new Question(rs.getString(1), rs.getString(2), rs.getString(3), possibleAnswers, rs.getString(8)));
+			index = 0;
+		}
+		statement.close();
+		rs.close();
+		return (new QuestionsHandle("Subject", questionsBySubject));
 	}
 
 	/**

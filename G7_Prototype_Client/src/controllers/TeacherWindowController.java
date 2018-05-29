@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -24,8 +25,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -64,6 +66,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private TableView<Question> tableView;
+
+	@FXML
+	private TableView<Question> tableViewBySubject;
 
 	@FXML
 	private TableColumn<Question, String> questionIDColumn;
@@ -180,15 +185,15 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button createExamButton;
-	
-	//exam management
-	
+
+	// exam management
+
 	@FXML
 	private AnchorPane examManagementAnchorPane;
-	
+
 	@FXML
 	private ComboBox<String> subjectExamManagement;
-	
+
 	//
 
 	private ScreensController screensController;
@@ -295,11 +300,19 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void removeButtonHandler(ActionEvent event) {
 		Label text;
 		Stage primaryStage = new Stage();
-		primaryStage.setTitle("AES7Popup");
+		primaryStage.setTitle("AES7");
+		primaryStage.setHeight(100);
+		primaryStage.setWidth(250);
+		primaryStage.setResizable(false);
 		Popup popup = new Popup();
+		// popup.setHeight(2000);
+		// popup.setWidth(400);
 		popup.setX(700);
 		popup.setY(400);
-		HBox layout = new HBox(10);
+		GridPane layout = new GridPane();
+		layout.setHgap(3);
+		layout.setVgap(3);
+		layout.setPadding(new Insets(0, 10, 0, 10));
 		text = new Label("Are you sure?");
 		popup.getContent().addAll(text);
 		Button yesButton = new Button("Yes");
@@ -309,7 +322,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				primaryStage.hide();
 				Question question = tableView.getSelectionModel().getSelectedItem();
 				question.setAuthor(null);
-				client.handleMessageFromClientUI(question);
+				client.handleMessageFromClientUI(new QuestionsHandle("Delete", question));
 				tableView.getItems().clear();
 				setQuestionsTableInfo();
 				questionsTableAnchorPane.setVisible(true);
@@ -322,8 +335,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 				primaryStage.hide();
 			}
 		});
+		layout.add(text, 8, 0);
+		layout.add(yesButton, 9, 1);
+		layout.add(noButton, 10, 1);
 		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		layout.getChildren().addAll(text, yesButton, noButton);
+		// layout.getChildren().addAll(text, yesButton, noButton);
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}
@@ -363,6 +379,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			questionsTableAnchorPane.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
 			examManagementAnchorPane.setVisible(false);
+			subjectInCreateComboBox.getSelectionModel().clearSelection();
 			subjectInCreateComboBox.setPromptText("Select Subject");
 			subjectInCreateComboBox.getItems().addAll("Software", "Math", "Physics");
 			courseInCreateComboBox.setPromptText("Select Course");
@@ -371,7 +388,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 			e.printStackTrace();
 		}
 	}
-	
+
+	public void updateTableButton(MouseEvent event) {
+		setQuestionsBySubject();
+	}
+
 	public void openExamManagement(ActionEvent event) {
 		try {
 			examManagementAnchorPane.setVisible(true);
@@ -462,6 +483,15 @@ public class TeacherWindowController implements Initializable, IScreenController
 		questionsTableAnchorPane.setVisible(false);
 		client.handleMessageFromClientUI(Message.editOrRemove);
 		tableView.setItems(client.getQuestionsFromDB());
+	}
+
+	/**
+	 * Updates the GUI questions filter by subject table from the data base
+	 */
+	private void setQuestionsBySubject() {
+		// questionsTableAnchorPane.setVisible(false);
+		client.handleMessageFromClientUI(Message.getQuestionBySubject + " " + subjectInCreateComboBox.getValue());
+		tableViewBySubject.setItems(client.getQuestionsFromDB());
 	}
 
 	/**

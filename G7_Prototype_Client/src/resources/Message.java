@@ -14,7 +14,9 @@ public class Message {
 
 	public final static String noSuchUser = "NoSuchUser";
 
-	public final static String saveTable = "#TableSaved";
+	public final static String tableSaved = "#TableSaved";
+
+	public final static String getQuestionBySubject = "#GetQuestionBySubject";
 
 	public final static String logout = "#Logout";
 

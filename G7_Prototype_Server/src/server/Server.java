@@ -10,6 +10,7 @@ import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import resources.Message;
 import resources.Question;
+import resources.QuestionsHandle;
 
 public class Server extends AbstractServer {
 
@@ -64,13 +65,14 @@ public class Server extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		if (msg == null) {
-			// add error screen
+			System.out.println("error window");
 			return;
-		} else if (msg instanceof Question) {
-			if (((Question) msg).getAuthor() == null) { // question to remove
+		} else if (msg instanceof QuestionsHandle) {
+			QuestionsHandle questionsHandle = (QuestionsHandle) msg;
+			if (questionsHandle.getCommand().equals("Delete")) { // question to remove
 				try {
-					SqlUtilities.removeQuestion((Question) msg, connection);
-					client.sendToClient(Message.saveTable);
+					SqlUtilities.removeQuestion(questionsHandle.getQuestion(), connection);
+					client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -84,7 +86,7 @@ public class Server extends AbstractServer {
 						client.sendToClient(questionCount);
 					} else {
 						SqlUtilities.insertNewQuestion((Question) msg, connection);
-						client.sendToClient(Message.saveTable);
+						client.sendToClient(Message.tableSaved);
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -97,7 +99,7 @@ public class Server extends AbstractServer {
 			if (((ArrayList<?>) msg).get(0) instanceof Question) {
 				try {
 					SqlUtilities.editTable((ArrayList<Question>) msg, connection);
-					client.sendToClient(Message.saveTable);
+					client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -124,7 +126,7 @@ public class Server extends AbstractServer {
 						rs.next();
 						if (rs.getInt(1) == 0) {
 							PreparedStatement getName = connection
-									.prepareStatement(SqlUtilities.getUserNameAndLastName);
+									.prepareStatement(SqlUtilities.GetUserNameAndLastName);
 							getName.setString(1, strArray[1]);
 							rs = getName.executeQuery();
 							rs.next();
@@ -135,10 +137,15 @@ public class Server extends AbstractServer {
 							login.setString(2, strArray[2]);
 							login.executeUpdate();
 							client.setInfo(Message.login, strArray[1] + " " + strArray[2]);
+							getName.close();
+							login.close();
+							rs.close();
 							return;
 						} else {
 							client.sendToClient(Message.userAlreadyConnected);
 							System.out.println("User Already Connected");
+							login.close();
+							rs.close();
 							return;
 						}
 					} else {
@@ -156,7 +163,10 @@ public class Server extends AbstractServer {
 						logout.setString(i++, string);
 					}
 					logout.executeUpdate();
+					logout.close();
 					return;
+				case Message.getQuestionBySubject:
+					client.sendToClient(SqlUtilities.getQuestionsBySubject(connection, strArray[1]));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
