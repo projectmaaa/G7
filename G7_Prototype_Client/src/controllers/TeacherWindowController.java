@@ -68,37 +68,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private TableView<Question> tableView;
 
 	@FXML
-	private TableView<Question> tableViewBySubject;
+	private TableColumn<Question, String> questionSubjectColumn;
 
 	@FXML
-	private TableColumn<Question, String> questionIDColumn;
-
-	@FXML
-	private TableColumn<Question, String> questionIDColumnBySubject;
-
-	@FXML
-	private TableColumn<Question, String> pointsColumnBySubject;
-
-	@FXML
-	private TableColumn<Question, String> authorColumnBySubject;
-
-	@FXML
-	private TableColumn<Question, String> questionTextColumnBySubject;
-
-	@FXML
-	private TableColumn<Question, String> firstPossibleAnswerColumnBySubject;
-
-	@FXML
-	private TableColumn<Question, String> secondPossibleAnswerColumnBySubject;
-
-	@FXML
-	private TableColumn<Question, String> thirdPossibleAnswerColumnBySubject;
-
-	@FXML
-	private TableColumn<Question, String> fourthPossibleAnswerColumnBySubject;
-
-	@FXML
-	private TableColumn<Question, String> correctAnswerColumnBySubject;
+	private TableColumn<Question, String> questionNumColumn;
 
 	@FXML
 	private TableColumn<Question, String> authorColumn;
@@ -120,6 +93,36 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private TableColumn<Question, String> correctAnswerColumn;
+
+	@FXML
+	private TableView<Question> tableViewBySubject;
+
+	@FXML
+	private TableColumn<Question, String> questionSubjectColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> questionNumberColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> questionTextColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> firstPossibleAnswerColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> secondPossibleAnswerColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> thirdPossibleAnswerColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> fourthPossibleAnswerColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> correctAnswerColumnBySubject;
+
+	@FXML
+	private TableColumn<Question, String> pointsColumnBySubject;
 
 	@FXML
 	private Button saveButton;
@@ -319,7 +322,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			}
 			updateDB.add(question);
 		}
-		client.handleMessageFromClientUI(updateDB);
+		client.handleMessageFromClientUI(new QuestionsHandle("All", updateDB));
 		Utilities.popUpMethod("save");
 	}
 
@@ -396,7 +399,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				questionTextField.getText(), firstAnswerField.getText(), secondAnswerField.getText(),
 				thirdAnswerField.getText(), forthAnswerField.getText(), correctAnswerComboBox.getValue());
 		client.setQuestion(question);
-		client.handleMessageFromClientUI(question);
+		client.handleMessageFromClientUI(new QuestionsHandle("Add", question));
 		Utilities.popUpMethod("add");
 		clearAddQuestionFields();
 	}
@@ -419,7 +422,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	public void updateTableButton(MouseEvent event) {
-		//tableViewBySubject.getItems().clear();
+		// tableViewBySubject.getItems().clear();
 		client.handleMessageFromClientUI(Message.getQuestionBySubject + " " + subjectInCreateComboBox.getValue());
 		tableViewBySubject.setItems(client.getQuestionsFromDB());
 	}
@@ -446,7 +449,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * Define the columns
 	 */
 	private void setColumns() {
-		questionIDColumn.setCellValueFactory(new PropertyValueFactory<>("questionID"));
+		questionSubjectColumn.setCellValueFactory(new PropertyValueFactory<>("questionSubject"));
+		questionNumColumn.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
 		authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
 		questionTextColumn.setCellValueFactory(new PropertyValueFactory<>("questionText"));
 		firstPossibleAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
@@ -508,17 +512,18 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * Define the columns
+	 * Define the columns by subject
 	 */
 	private void setColumnsBySubject() {
-		questionIDColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("questionID"));
-		pointsColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("points"));
+		questionSubjectColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("questionSubject"));
+		questionNumberColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
 		questionTextColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("questionText"));
 		firstPossibleAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
 		secondPossibleAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
 		thirdPossibleAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
 		fourthPossibleAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
 		correctAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
+		pointsColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("points"));
 
 		// define the columns editable
 

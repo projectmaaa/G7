@@ -165,7 +165,7 @@ public class Client extends AbstractClient implements IScreenController {
 		} else if (msg instanceof Integer) {
 			question.concatenateQuestionCount((int) msg);
 			try {
-				sendToServer(question);
+				sendToServer(new QuestionsHandle("Add", question));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

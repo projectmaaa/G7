@@ -24,11 +24,11 @@ public class SqlUtilities {
 
 	public final static String Login_UpdateUser_logStatus_DisConnected = "UPDATE Users SET logged=0 WHERE idUsers=? AND passWord=?;";
 
-	public final static String UPDATE_Questions_Table = "UPDATE Questions SET questionText=?, firstAnswer=?, secondAnswer=?, thirdAnswer=?, fourthAnswer=?, correctAnswer=? WHERE questionID=?;";
+	public final static String UPDATE_Questions_Table = "UPDATE Questions SET questionText=?, firstAnswer=?, secondAnswer=?, thirdAnswer=?, fourthAnswer=?, correctAnswer=? WHERE questoinSubject=? AND questionNum=?;";
 
-	public final static String INSERT_Question = "INSERT INTO Questions VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+	public final static String INSERT_Question = "INSERT INTO Questions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-	public final static String REMOVE_Question = "DELETE FROM Questions WHERE questionID=?;";
+	public final static String REMOVE_Question = "DELETE FROM Questions WHERE questoinSubject=? AND questionNum=?;";
 
 	public final static String SELECT_FROM_Questions_Count = "SELECT questionsCount FROM Questions_Count WHERE subjectID=?;";
 
@@ -36,7 +36,7 @@ public class SqlUtilities {
 
 	public final static String GetUserNameAndLastName = "SELECT firstName, lastName FROM Users WHERE idUsers=?;";
 
-	public final static String GetQuestionBySubject = "SELECT * FROM Questions WHERE QuestionID LIKE '01%';";
+	public final static String GetQuestionBySubject = "SELECT * FROM Questions WHERE subjectID=?;";
 
 	// region Public Methods
 
@@ -64,7 +64,8 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * returns the whole table of questions for the table view
+	 * returns the whole table of questions for the table view when edit\remove is
+	 * pressed
 	 */
 	public static QuestionsHandle getQuestions(Connection connection) throws SQLException {
 		ArrayList<Question> questions = new ArrayList<Question>();
@@ -77,8 +78,8 @@ public class SqlUtilities {
 				possibleAnswers.add(index, rs.getString(index + 4));
 				index++;
 			}
-			questions.add(
-					new Question(rs.getString(1), rs.getString(2), rs.getString(3), possibleAnswers, rs.getString(8)));
+			questions.add(new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+					possibleAnswers, rs.getString(9)));
 			index = 0;
 		}
 		statement.close();
@@ -108,9 +109,12 @@ public class SqlUtilities {
 				possibleAnswers.add(index, rs.getString(index + 4));
 				index++;
 			}
-			questionsBySubject.add(
-					new Question(rs.getString(1), rs.getString(2), rs.getString(3), possibleAnswers, rs.getString(8)));
+			questionsBySubject.add(new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+					possibleAnswers, rs.getString(9)));
 			index = 0;
+		}
+		if (!questionsBySubject.isEmpty()) {
+			System.out.println(questionsBySubject);
 		}
 		statement.close();
 		rs.close();
@@ -129,7 +133,8 @@ public class SqlUtilities {
 			update.setString(4, question.getThirdPossibleAnswer());
 			update.setString(5, question.getFourthPossibleAnswer());
 			update.setString(6, question.getCorrectAnswer());
-			update.setString(7, question.getQuestionID());
+			update.setString(7, question.getQuestionSubject());
+			update.setString(8, question.getQuestionNum());
 			update.executeUpdate();
 		}
 	}
@@ -139,14 +144,15 @@ public class SqlUtilities {
 	 */
 	public static void insertNewQuestion(Question question, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_Question);
-		insert.setString(1, question.getQuestionID());
-		insert.setString(2, question.getAuthor());
-		insert.setString(3, question.getQuestionText());
-		insert.setString(4, question.getFirstPossibleAnswer());
-		insert.setString(5, question.getSecondPossibleAnswer());
-		insert.setString(6, question.getThirdPossibleAnswer());
-		insert.setString(7, question.getFourthPossibleAnswer());
-		insert.setString(8, question.getCorrectAnswer());
+		insert.setString(1, question.getQuestionSubject());
+		insert.setString(2, question.getQuestionNum());
+		insert.setString(3, question.getAuthor());
+		insert.setString(4, question.getQuestionText());
+		insert.setString(5, question.getFirstPossibleAnswer());
+		insert.setString(6, question.getSecondPossibleAnswer());
+		insert.setString(7, question.getThirdPossibleAnswer());
+		insert.setString(8, question.getFourthPossibleAnswer());
+		insert.setString(9, question.getCorrectAnswer());
 		insert.executeUpdate();
 	}
 
@@ -155,7 +161,8 @@ public class SqlUtilities {
 	 */
 	public static void removeQuestion(Question question, Connection connection) throws SQLException {
 		PreparedStatement remove = connection.prepareStatement(SqlUtilities.REMOVE_Question);
-		remove.setString(1, question.getQuestionID());
+		remove.setString(1, question.getQuestionSubject());
+		remove.setString(2, question.getQuestionNum());
 		remove.executeUpdate();
 	}
 
