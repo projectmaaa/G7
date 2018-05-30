@@ -311,12 +311,12 @@ public class TeacherWindowController implements Initializable, IScreenController
 		ArrayList<Question> updateDB = new ArrayList<Question>();
 		newQuestions = tableView.getItems();
 		for (Question question : newQuestions) {
-			int answerNumber = Integer.parseInt(question.getCorrectAnswer());
-			if (answerNumber < 1 || answerNumber > 4) {
+			String answerNumber = question.getCorrectAnswer();
+			if (!answerNumber.equals("1") && !answerNumber.equals("2") && !answerNumber.equals("3")
+					&& !answerNumber.equals("4")) {
 				Utilities.popUpMethod("incorrect answer");
 				tableView.getItems().clear();
 				setQuestionsTableInfo();
-				questionsTableAnchorPane.setVisible(true);
 				System.out.println("answerNumber 1<-->4");
 				return;
 			}
@@ -355,7 +355,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 				client.handleMessageFromClientUI(new QuestionsHandle("Delete", question));
 				tableView.getItems().clear();
 				setQuestionsTableInfo();
-				questionsTableAnchorPane.setVisible(true);
 			}
 		});
 		Button noButton = new Button("No");
@@ -369,7 +368,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		layout.add(yesButton, 9, 1);
 		layout.add(noButton, 10, 1);
 		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		// layout.getChildren().addAll(text, yesButton, noButton);
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}
@@ -393,16 +391,19 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 'Create question' button was pressed - add Question to DB
 	 */
 	public void addNewQuestion(ActionEvent event) {
-		if (subjectComboBox.getValue() == null) { // if the user didn't select a subject
+		// if the user didn't select a subject
+		if (subjectComboBox.getValue() == null) {
 			Utilities.popUpMethod("Select Subject");
 			return;
 		}
+		// if the user didn't filled all the fields
 		if (questionTextField.getText().equals("") || firstAnswerField.getText().equals("")
 				|| secondAnswerField.getText().equals("") || thirdAnswerField.getText().equals("")
 				|| forthAnswerField.getText().equals("")) {
 			Utilities.popUpMethod("Enter Text");
 			return;
 		}
+		// if the user didn't select the correct answer
 		if (correctAnswerComboBox.getValue() == null) {
 			Utilities.popUpMethod("Select Answer");
 			return;
@@ -553,7 +554,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * Updates the GUI questions table from the data base
 	 */
 	private void setQuestionsTableInfo() {
-		questionsTableAnchorPane.setVisible(false);
 		client.handleMessageFromClientUI(Message.editOrRemove);
 		tableView.setItems(client.getQuestionsFromDB());
 	}
