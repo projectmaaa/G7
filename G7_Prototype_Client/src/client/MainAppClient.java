@@ -73,7 +73,7 @@ public class MainAppClient extends Application {
 		root.getChildren().addAll(mainContainer);
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
-		Image image = new Image(new File("boundaries.Images/AES2.PNG").toURI().toString());
+		Image image = new Image("boundaries/Images/AES2.png");
 		primaryStage.getIcons().add(image);
 		primaryStage.setResizable(false);
 		primaryStage.setTitle("AES7-Client");

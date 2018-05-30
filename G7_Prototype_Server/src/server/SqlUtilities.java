@@ -36,7 +36,7 @@ public class SqlUtilities {
 
 	public final static String GetUserNameAndLastName = "SELECT firstName, lastName FROM Users WHERE idUsers=?;";
 
-	public final static String GetQuestionBySubject = "SELECT * FROM Questions WHERE subjectID=?;";
+	public final static String GetQuestionBySubject = "SELECT * FROM Questions WHERE questoinSubject=?;";
 
 	// region Public Methods
 
@@ -93,28 +93,25 @@ public class SqlUtilities {
 		PreparedStatement statement = connection.prepareStatement(SqlUtilities.GetQuestionBySubject);
 		switch (subject) {
 		case "Software":
-			statement.setString(1, "'01%'");
+			statement.setString(1, "01");
 			break;
 		case "Math":
-			statement.setString(1, "'02%'");
+			statement.setString(1, "02");
 			break;
 		case "Physics":
-			statement.setString(1, "'03%'");
+			statement.setString(1, "03");
 			break;
 		}
 		ResultSet rs = statement.executeQuery();
 		int index = 0;
 		while (rs.next()) {
 			while (index < 4) { // add the possible answers to the array list
-				possibleAnswers.add(index, rs.getString(index + 4));
+				possibleAnswers.add(index, rs.getString(index + 5));
 				index++;
 			}
 			questionsBySubject.add(new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
 					possibleAnswers, rs.getString(9)));
 			index = 0;
-		}
-		if (!questionsBySubject.isEmpty()) {
-			System.out.println(questionsBySubject);
 		}
 		statement.close();
 		rs.close();

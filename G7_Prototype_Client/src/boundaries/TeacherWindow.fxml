@@ -44,7 +44,7 @@
 				<Font size="24.0" />
 			</font>
 		</Text>
-		<Button fx:id="logoutButton" layoutX="768.0" layoutY="15.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
+		<Button fx:id="logoutButton" layoutX="797.0" layoutY="16.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
 		<MenuBar fx:id="menuBar" focusTraversable="false" layoutY="52.0" prefHeight="42.0" prefWidth="784.0" stylesheets="@TeacherWindow.css">
 			<menus>
 				<Menu mnemonicParsing="false" text="Maintain Questions">
@@ -71,8 +71,49 @@
 				</Menu>
 			</menus>
 		</MenuBar>
+      <AnchorPane fx:id="welcomeAnchorPane" layoutX="57.0" layoutY="152.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Label layoutX="23.0" layoutY="79.0" prefHeight="50.0" prefWidth="316.0" text="Let AES help you!" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="40.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+            <Label layoutY="49.0" prefHeight="29.0" prefWidth="287.0" text="What's Your First Move?" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="26.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+            <Label layoutX="10.0" layoutY="127.0" prefHeight="31.0" prefWidth="388.0" text="Choose one of the options above" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="26.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+         </children>
+      </AnchorPane>
       <AnchorPane fx:id="addQuestionAnchorPane" layoutX="6.0" layoutY="94.0" prefHeight="432.0" prefWidth="846.0" visible="false">
          <children>
+            <Label layoutX="20.0" layoutY="35.0" text="Add Question" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="24.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+            <Label fx:id="subject" layoutX="48.0" layoutY="91.0" text="Subject" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
             <Label fx:id="questionText" layoutX="19.0" layoutY="137.0" text="Question Text" textFill="#fcfafa">
                <font>
                   <Font name="System Bold" size="13.0" />
@@ -83,14 +124,11 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="fourthAnswerField" layoutX="126.0" layoutY="301.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
-            <TextField fx:id="thirdAnswerField" layoutX="126.0" layoutY="258.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
             <Label fx:id="secondAnswer" layoutX="16.0" layoutY="219.0" text="Second answer" textFill="#f8f7f7">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="secondAnswerField" layoutX="126.0" layoutY="216.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
             <Label fx:id="thirdAnswer" layoutX="22.0" layoutY="261.0" text="Third answer" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
@@ -101,29 +139,19 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="firstAnswerField" layoutX="126.0" layoutY="174.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
-            <TextField fx:id="questionTextField" layoutX="126.0" layoutY="134.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
             <Label fx:id="correctAnswer" layoutX="62.0" layoutY="349.0" text="Correct answer" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Button fx:id="createQuestionButton" layoutX="230.0" layoutY="393.0" mnemonicParsing="false" onAction="#addNewQuestion" text="Create question" />
             <ComboBox fx:id="subjectComboBox" layoutX="127.0" layoutY="90.0" prefHeight="25.0" prefWidth="155.0" />
-            <Label fx:id="subject" layoutX="48.0" layoutY="91.0" text="Subject" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
+            <TextField fx:id="questionTextField" layoutX="126.0" layoutY="134.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
+            <TextField fx:id="firstAnswerField" layoutX="126.0" layoutY="174.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
+            <TextField fx:id="secondAnswerField" layoutX="126.0" layoutY="216.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
+            <TextField fx:id="thirdAnswerField" layoutX="126.0" layoutY="258.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
+            <TextField fx:id="fourthAnswerField" layoutX="126.0" layoutY="301.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
             <ComboBox fx:id="correctAnswerComboBox" layoutX="166.0" layoutY="346.0" prefHeight="25.0" prefWidth="74.0" />
-            <Label layoutX="20.0" layoutY="35.0" text="Add Question" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
-               <font>
-                  <Font name="Maiandra GD" size="24.0" />
-               </font>
-               <effect>
-                  <Bloom />
-               </effect>
-            </Label>
+            <Button fx:id="createQuestionButton" layoutX="230.0" layoutY="393.0" mnemonicParsing="false" onAction="#addNewQuestion" text="Create question" />
             <Button fx:id="clearButton" layoutX="320.0" layoutY="346.0" mnemonicParsing="false" onAction="#clearButtonPressed" text="Clear" />
          </children>
       </AnchorPane>
@@ -162,34 +190,6 @@
                </font>
             </Label>
             <Button layoutX="332.0" layoutY="415.0" mnemonicParsing="false" text="Cancel" />
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="welcomeAnchorPane" layoutX="57.0" layoutY="152.0" prefHeight="200.0" prefWidth="200.0" visible="false">
-         <children>
-            <Label layoutX="23.0" layoutY="79.0" prefHeight="50.0" prefWidth="316.0" text="Let AES help you!" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
-               <font>
-                  <Font name="Maiandra GD" size="40.0" />
-               </font>
-               <effect>
-                  <Bloom />
-               </effect>
-            </Label>
-            <Label layoutY="49.0" prefHeight="29.0" prefWidth="287.0" text="What's Your First Move?" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
-               <font>
-                  <Font name="Maiandra GD" size="26.0" />
-               </font>
-               <effect>
-                  <Bloom />
-               </effect>
-            </Label>
-            <Label layoutX="10.0" layoutY="127.0" prefHeight="31.0" prefWidth="388.0" text="Choose one of the options above" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
-               <font>
-                  <Font name="Maiandra GD" size="26.0" />
-               </font>
-               <effect>
-                  <Bloom />
-               </effect>
-            </Label>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="createExamAnchorPane" layoutX="23.0" layoutY="91.0" prefHeight="513.0" prefWidth="727.0" visible="false">
@@ -254,7 +254,7 @@
                   <TableColumn fx:id="pointsColumnBySubject" maxWidth="200.0" minWidth="55.0" prefWidth="55.0" text="Points" />
                </columns>
             </TableView>
-            <Button fx:id="updateTable" layoutX="530.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#updateTableButton" text="Update Table" />
+            <Button fx:id="updateTable" layoutX="530.0" layoutY="60.0" mnemonicParsing="false" onAction="#updateTableButton" text="Update Table" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="examManagementAnchorPane" layoutX="14.0" layoutY="91.0" prefHeight="432.0" prefWidth="846.0" visible="false">

@@ -257,12 +257,13 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setColumns();
 		setColumnsBySubject();
 		setQuestionsTableInfo();
+		initComboBoxCreateExam();
 		tableViewBySubject.setEditable(true);
 		tableView.setEditable(true);
-		welcomeAnchorPane.setVisible(true);
-		addQuestionAnchorPane.setVisible(false);
-		createExamAnchorPane.setVisible(false);
-		examManagementAnchorPane.setVisible(false);
+		// welcomeAnchorPane.setVisible(true);
+		// addQuestionAnchorPane.setVisible(false);
+		// createExamAnchorPane.setVisible(false);
+		// examManagementAnchorPane.setVisible(false);
 		initAddQuestionOption();
 		client.setTeacherWindowController(this);
 	}
@@ -277,6 +278,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		if (addQuestionAnchorPane.isVisible()) {
 			clearAddQuestionFields();
 			addQuestionAnchorPane.setVisible(false);
+		}
+		if (createExamAnchorPane.isVisible()) {
+			tableViewBySubject.getItems().clear();
+			createExamAnchorPane.setVisible(false);
 		}
 		welcomeText.setText("Welcome");
 		welcomeAnchorPane.setVisible(true);
@@ -397,19 +402,19 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 */
 	public void addNewQuestion(ActionEvent event) {
 		// if the user didn't select a subject
-		if (subjectComboBox.getValue() == null) {
+		if (!subjectComboBox.isArmed()) {
 			Utilities.popUpMethod("Select Subject");
 			return;
 		}
 		// if the user didn't filled all the fields
-		if (questionTextField.getText().equals("") || firstAnswerField.getText().equals("")
-				|| secondAnswerField.getText().equals("") || thirdAnswerField.getText().equals("")
-				|| fourthAnswerField.getText().equals("")) {
+		if (questionTextField.getText().isEmpty() || firstAnswerField.getText().isEmpty()
+				|| secondAnswerField.getText().isEmpty() || thirdAnswerField.getText().isEmpty()
+				|| fourthAnswerField.getText().isEmpty()) {
 			Utilities.popUpMethod("Enter Text");
 			return;
 		}
 		// if the user didn't select the correct answer
-		if (correctAnswerComboBox.getValue() == null) {
+		if (!correctAnswerComboBox.isArmed()) {
 			Utilities.popUpMethod("Select Answer");
 			return;
 		}
@@ -424,25 +429,43 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	public void openCreateExam(ActionEvent event) {
 		try {
+			tableViewBySubject.getItems().clear();
 			createExamAnchorPane.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
 			questionsTableAnchorPane.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
 			examManagementAnchorPane.setVisible(false);
-			subjectInCreateComboBox.getSelectionModel().clearSelection();
-			subjectInCreateComboBox.setPromptText("Select Subject");
-			subjectInCreateComboBox.getItems().addAll("Software", "Math", "Physics");
-			courseInCreateComboBox.setPromptText("Select Course");
-			courseInCreateComboBox.getItems().addAll("MLM", "MTM", "ATM", "OOP");
+			clearAddQuestionFields();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void updateTableButton(MouseEvent event) {
-		// tableViewBySubject.getItems().clear();
-		client.handleMessageFromClientUI(Message.getQuestionBySubject + " " + subjectInCreateComboBox.getValue());
-		tableViewBySubject.setItems(client.getQuestionsFromDB());
+	/**
+	 * Init for comboBox in CreateExam
+	 */
+	private void initComboBoxCreateExam() {
+		subjectInCreateComboBox.getSelectionModel().clearSelection();
+		subjectInCreateComboBox.setPromptText("Select Subject");
+		subjectInCreateComboBox.getItems().addAll("Software", "Math", "Physics");
+		courseInCreateComboBox.setPromptText("Select Course");
+		courseInCreateComboBox.getItems().addAll("MLM", "MTM", "ATM", "OOP");
+	}
+
+	/**
+	 * Update the table by subject for create exam
+	 * 
+	 * @param event
+	 */
+	public void updateTableButton(ActionEvent event) {
+		if (!subjectInCreateComboBox.isArmed()) {
+			client.getQuestionsFromDB().clear();
+			client.handleMessageFromClientUI(Message.getQuestionBySubject + " " + subjectInCreateComboBox.getValue());
+			tableViewBySubject.getItems().clear();
+			tableViewBySubject.setItems(client.getQuestionsFromDB());
+			return;
+		}
+		Utilities.popUpMethod("Select Subject");
 	}
 
 	public void openExamManagement(ActionEvent event) {
@@ -452,13 +475,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 			addQuestionAnchorPane.setVisible(false);
 			questionsTableAnchorPane.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
+			clearAddQuestionFields();
 			subjectExamManagement.setPromptText("Select Subject");
 			subjectExamManagement.getItems().addAll("Software", "Math", "Physics");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void clearButtonPressed(ActionEvent event) {
 		clearAddQuestionFields();
 	}
@@ -603,37 +627,51 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * pressed
 	 */
 	private void clearAddQuestionFields() {
-		subjectComboBox.getSelectionModel().clearSelection();
-		subjectComboBox.setPromptText("Select Subject");
-		subjectComboBox.setButtonCell(new ListCell<String>() {
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				super.updateItem(item, empty);
-				if (empty || item == null) {
-					setText("Select Subject");
-				} else {
-					setText(item);
+		if (!subjectComboBox.isArmed()) {
+			subjectComboBox.getSelectionModel().clearSelection();
+			subjectComboBox.setPromptText("Select Subject");
+			subjectComboBox.setButtonCell(new ListCell<String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty || item == null) {
+						setText("Select Subject");
+					} else {
+						setText(item);
+					}
 				}
-			}
-		});
-		correctAnswerComboBox.getSelectionModel().clearSelection();
-		correctAnswerComboBox.setPromptText("Select");
-		correctAnswerComboBox.setButtonCell(new ListCell<String>() {
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				super.updateItem(item, empty);
-				if (empty || item == null) {
-					setText("Select");
-				} else {
-					setText(item);
+			});
+		}
+		if (!correctAnswerComboBox.isArmed()) {
+			correctAnswerComboBox.getSelectionModel().clearSelection();
+			correctAnswerComboBox.setPromptText("Select");
+			correctAnswerComboBox.setButtonCell(new ListCell<String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty || item == null) {
+						setText("Select");
+					} else {
+						setText(item);
+					}
 				}
-			}
-		});
-		questionTextField.clear();
-		firstAnswerField.clear();
-		secondAnswerField.clear();
-		thirdAnswerField.clear();
-		fourthAnswerField.clear();
+			});
+		}
+		if (!questionTextField.getText().isEmpty()) {
+			questionTextField.clear();
+		}
+		if (!firstAnswerField.getText().isEmpty()) {
+			firstAnswerField.clear();
+		}
+		if (!secondAnswerField.getText().isEmpty()) {
+			secondAnswerField.clear();
+		}
+		if (!thirdAnswerField.getText().isEmpty()) {
+			thirdAnswerField.clear();
+		}
+		if (!fourthAnswerField.getText().isEmpty()) {
+			fourthAnswerField.clear();
+		}
 	}
 
 	// end region -> Private Methods

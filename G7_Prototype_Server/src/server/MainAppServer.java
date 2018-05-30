@@ -52,7 +52,7 @@ public class MainAppServer extends Application {
 		Parent loadScreen = (Parent) myLoader.load();
 		Scene scene = new Scene(loadScreen);
 		primaryStage.setScene(scene);
-		Image image = new Image(new File("/G7_Prototype_Server/src/boundaries/Images/AES2.PNG").toURI().toString());
+		Image image = new Image("boundaries/Images/AES2.png");
 		primaryStage.getIcons().add(image);
 		primaryStage.setResizable(false);
 		primaryStage.setTitle("AES7-Server");
