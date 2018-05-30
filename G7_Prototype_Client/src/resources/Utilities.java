@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  *
  */
 public class Utilities {
-	
+
 	// region Public Methods
 
 	/**
@@ -36,56 +36,49 @@ public class Utilities {
 	/**
 	 * This method will show pop up screen
 	 */
-
 	public static void popUpMethod(String str) {
-		Label text;
+		Label text = null;
 		Stage primaryStage = new Stage();
 		primaryStage.setTitle("AES7Popup");
 		Popup popup = new Popup();
 		popup.setX(700);
 		popup.setY(400);
 		HBox layout = new HBox(10);
+		Button okButton = new Button("OK");
+		okButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+			}
+		});
+		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
 		switch (str) {
 		case "add":
 			text = new Label("Question added successfully!");
 			popup.getContent().addAll(text);
-			Button okButton = new Button("OK");
-			okButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					primaryStage.hide();
-				}
-			});
-			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-			layout.getChildren().addAll(text, okButton);
 			break;
 		case "save":
 			text = new Label("Question updated successfully!");
 			popup.getContent().addAll(text);
-			Button saveButton = new Button("OK");
-			saveButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					primaryStage.hide();
-				}
-			});
-			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-			layout.getChildren().addAll(text, saveButton);
 			break;
 		case "incorrect answer":
 			text = new Label("Please insert only numbers from 1 to 4 in the 'Correct Answer' column!");
 			popup.getContent().addAll(text);
-			Button correctionButton = new Button("OK");
-			correctionButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					primaryStage.hide();
-				}
-			});
-			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-			layout.getChildren().addAll(text, correctionButton);
+			break;
+		case "Select Subject":
+			text = new Label("Please select subject");
+			popup.getContent().addAll(text);
+			break;
+		case "Enter Text":
+			text = new Label("Please fill all the text fields");
+			popup.getContent().addAll(text);
+			break;
+		case "Select Answer":
+			text = new Label("Please select the correct answer for the question");
+			popup.getContent().addAll(text);
 			break;
 		}
+		layout.getChildren().addAll(text, okButton);
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}

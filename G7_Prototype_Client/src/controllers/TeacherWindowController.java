@@ -337,8 +337,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		primaryStage.setWidth(250);
 		primaryStage.setResizable(false);
 		Popup popup = new Popup();
-		// popup.setHeight(2000);
-		// popup.setWidth(400);
 		popup.setX(700);
 		popup.setY(400);
 		GridPane layout = new GridPane();
@@ -395,6 +393,20 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 'Create question' button was pressed - add Question to DB
 	 */
 	public void addNewQuestion(ActionEvent event) {
+		if (subjectComboBox.getValue() == null) { // if the user didn't select a subject
+			Utilities.popUpMethod("Select Subject");
+			return;
+		}
+		if (questionTextField.getText().equals("") || firstAnswerField.getText().equals("")
+				|| secondAnswerField.getText().equals("") || thirdAnswerField.getText().equals("")
+				|| forthAnswerField.getText().equals("")) {
+			Utilities.popUpMethod("Enter Text");
+			return;
+		}
+		if (correctAnswerComboBox.getValue() == null) {
+			Utilities.popUpMethod("Select Answer");
+			return;
+		}
 		Question question = new Question(subjectComboBox.getValue(), firstName + " " + lastName,
 				questionTextField.getText(), firstAnswerField.getText(), secondAnswerField.getText(),
 				thirdAnswerField.getText(), forthAnswerField.getText(), correctAnswerComboBox.getValue());
