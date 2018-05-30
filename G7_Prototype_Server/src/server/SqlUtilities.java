@@ -75,7 +75,7 @@ public class SqlUtilities {
 		int index = 0;
 		while (rs.next()) {
 			while (index < 4) { // add the possible answers to the array list
-				possibleAnswers.add(index, rs.getString(index + 4));
+				possibleAnswers.add(index, rs.getString(index + 5));
 				index++;
 			}
 			questions.add(new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
