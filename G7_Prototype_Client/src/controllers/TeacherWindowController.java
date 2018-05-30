@@ -25,6 +25,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -167,7 +169,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private Label fourthAnswer;
 
 	@FXML
-	private TextField forthAnswerField;
+	private TextField fourthAnswerField;
 
 	@FXML
 	private Label correcthAnswer;
@@ -177,6 +179,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button createQuestionButton;
+
+	@FXML
+	private Button clearButton;
 
 	// create exam
 
@@ -399,7 +404,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		// if the user didn't filled all the fields
 		if (questionTextField.getText().equals("") || firstAnswerField.getText().equals("")
 				|| secondAnswerField.getText().equals("") || thirdAnswerField.getText().equals("")
-				|| forthAnswerField.getText().equals("")) {
+				|| fourthAnswerField.getText().equals("")) {
 			Utilities.popUpMethod("Enter Text");
 			return;
 		}
@@ -410,7 +415,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 		Question question = new Question(subjectComboBox.getValue(), firstName + " " + lastName,
 				questionTextField.getText(), firstAnswerField.getText(), secondAnswerField.getText(),
-				thirdAnswerField.getText(), forthAnswerField.getText(), correctAnswerComboBox.getValue());
+				thirdAnswerField.getText(), fourthAnswerField.getText(), correctAnswerComboBox.getValue());
 		client.setQuestion(question);
 		client.handleMessageFromClientUI(new QuestionsHandle("Add", question));
 		Utilities.popUpMethod("add");
@@ -451,6 +456,31 @@ public class TeacherWindowController implements Initializable, IScreenController
 			subjectExamManagement.getItems().addAll("Software", "Math", "Physics");
 		} catch (Throwable e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void clearButtonPressed(ActionEvent event) {
+		clearAddQuestionFields();
+	}
+
+	/**
+	 * With this method you can jump between the fields in add question screen
+	 * 
+	 * @param event
+	 */
+	public void keyHandlerInAddQuestionScreen(KeyEvent event) {
+		KeyCode code = event.getCode();
+		if (code == KeyCode.ENTER) {
+			if (questionTextField.isFocused())
+				firstAnswerField.requestFocus();
+			else if (firstAnswerField.isFocused())
+				secondAnswerField.requestFocus();
+			else if (secondAnswerField.isFocused())
+				thirdAnswerField.requestFocus();
+			else if (thirdAnswerField.isFocused())
+				fourthAnswerField.requestFocus();
+			else if (fourthAnswerField.isFocused())
+				questionTextField.requestFocus();
 		}
 	}
 
@@ -569,7 +599,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * clear the fields of the last question that was added
+	 * clear the fields of the last question that was added or when clear button was
+	 * pressed
 	 */
 	private void clearAddQuestionFields() {
 		subjectComboBox.getSelectionModel().clearSelection();
@@ -602,7 +633,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		firstAnswerField.clear();
 		secondAnswerField.clear();
 		thirdAnswerField.clear();
-		forthAnswerField.clear();
+		fourthAnswerField.clear();
 	}
 
 	// end region -> Private Methods
