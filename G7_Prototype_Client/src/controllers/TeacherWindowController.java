@@ -627,7 +627,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * Updates the GUI questions table from the data base
 	 */
 	private void setQuestionsTableInfoInEditOrRemove() {
-		client.handleMessageFromClientUI(Message.editOrRemove);
+		client.handleMessageFromClientUI(Message.editOrRemove + " " + firstName + " " + lastName);
 		tableViewInEditOrRemove.setItems(client.getQuestionsFromDB());
 	}
 

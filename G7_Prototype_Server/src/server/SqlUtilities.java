@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import resources.Question;
@@ -14,7 +13,7 @@ public class SqlUtilities {
 
 	// region Constants
 
-	public final static String SELECT_All_FROM_Questions = "SELECT * FROM Questions;";
+	public final static String SELECT_All_FROM_Questions_by_author = "SELECT * FROM Questions WHERE author=?;";
 
 	public final static String Login_SELECT_UserID_From_Users = "SELECT idUsers FROM Users WHERE idUsers=? AND passWord=?;";
 
@@ -64,14 +63,20 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * returns the whole table of questions for the table view when edit\remove is
-	 * pressed
+	 * returns the whole table of questions of the specific author (the user) for
+	 * the table view when edit\remove is pressed
+	 * 
+	 * @param author
+	 * @param connection
+	 * @return
+	 * @throws SQLException
 	 */
-	public static QuestionsHandle getQuestions(Connection connection) throws SQLException {
+	public static QuestionsHandle getQuestions(String author, Connection connection) throws SQLException {
 		ArrayList<Question> questions = new ArrayList<Question>();
 		ArrayList<String> possibleAnswers = new ArrayList<String>(4);
-		Statement statement = connection.createStatement();
-		ResultSet rs = statement.executeQuery(SELECT_All_FROM_Questions);
+		PreparedStatement statement = connection.prepareStatement(SELECT_All_FROM_Questions_by_author);
+		statement.setString(1, author);
+		ResultSet rs = statement.executeQuery();
 		int index = 0;
 		while (rs.next()) {
 			while (index < 4) { // add the possible answers to the array list
