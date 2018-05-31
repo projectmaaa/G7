@@ -69,7 +69,7 @@ public class Server extends AbstractServer {
 			QuestionsHandle questionsHandle = (QuestionsHandle) msg;
 			if (questionsHandle.getCommand().equals("Delete")) { // question to remove
 				try {
-					SqlUtilities.removeQuestion(questionsHandle.getQuestion(), connection);
+					SqlUtilities.removeQuestions(questionsHandle.getQuestionArray(), connection);
 					client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();

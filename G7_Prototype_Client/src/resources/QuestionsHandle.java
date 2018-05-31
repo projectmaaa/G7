@@ -13,7 +13,6 @@ public class QuestionsHandle implements Serializable {
 	private String command;
 
 	private ArrayList<Question> questionArray;
-	// = new ArrayList<Question>();
 
 	private Question question;
 
