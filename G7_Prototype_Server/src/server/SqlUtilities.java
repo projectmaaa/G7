@@ -28,13 +28,13 @@ public class SqlUtilities {
 
 	public final static String INSERT_Question = "INSERT INTO Questions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-	public final static String REMOVE_Question = "DELETE FROM Questions WHERE questoinSubject=? AND questionNum=?;";
+	public final static String REMOVE_Questions = "DELETE FROM Questions WHERE questoinSubject=? AND questionNum=?;";
 
 	public final static String SELECT_FROM_Questions_Count = "SELECT questionsCount FROM Questions_Count WHERE subjectID=?;";
 
 	public final static String UPDATE_Questions_Count = "UPDATE Questions_Count SET questionsCount=? WHERE subjectID=?;";
 
-	public final static String GetUserNameAndLastName = "SELECT firstName, lastName FROM Users WHERE idUsers=?;";
+	public final static String GetTypeAndUserNameAndLastName = "SELECT type, firstName, lastName FROM Users WHERE idUsers=?;";
 
 	public final static String GetQuestionBySubject = "SELECT * FROM Questions WHERE questoinSubject=?;";
 
@@ -154,13 +154,15 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * removes question from DB
+	 * removes questions from DB
 	 */
-	public static void removeQuestion(Question question, Connection connection) throws SQLException {
-		PreparedStatement remove = connection.prepareStatement(SqlUtilities.REMOVE_Question);
-		remove.setString(1, question.getQuestionSubject());
-		remove.setString(2, question.getQuestionNum());
-		remove.executeUpdate();
+	public static void removeQuestions(ArrayList<Question> questions, Connection connection) throws SQLException {
+		PreparedStatement remove = connection.prepareStatement(SqlUtilities.REMOVE_Questions);
+		for (Question question : questions) {
+			remove.setString(1, question.getQuestionSubject());
+			remove.setString(2, question.getQuestionNum());
+			remove.executeUpdate();
+		}
 	}
 
 	/**

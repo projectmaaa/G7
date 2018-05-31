@@ -69,7 +69,7 @@ public class Server extends AbstractServer {
 			QuestionsHandle questionsHandle = (QuestionsHandle) msg;
 			if (questionsHandle.getCommand().equals("Delete")) { // question to remove
 				try {
-					SqlUtilities.removeQuestion(questionsHandle.getQuestion(), connection);
+					SqlUtilities.removeQuestions(questionsHandle.getQuestionArray(), connection);
 					client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -125,12 +125,20 @@ public class Server extends AbstractServer {
 						rs.next();
 						if (rs.getInt(1) == 0) {
 							PreparedStatement getName = connection
-									.prepareStatement(SqlUtilities.GetUserNameAndLastName);
+									.prepareStatement(SqlUtilities.GetTypeAndUserNameAndLastName);
 							getName.setString(1, strArray[1]);
 							rs = getName.executeQuery();
 							rs.next();
-							// System.out.println(rs.getString(1) + " " + rs.getString(2));
-							client.sendToClient(Message.teacher + " " + rs.getString(1) + " " + rs.getString(2));
+							switch (rs.getString(1)) {
+							case "Teacher":
+								client.sendToClient(Message.teacher + " " + rs.getString(2) + " " + rs.getString(3));
+								break;
+							case "Student":
+								client.sendToClient(Message.studnet + " " + rs.getString(2) + " " + rs.getString(3));
+								break;
+							default:
+								client.sendToClient("#No" + " " + rs.getString(2) + " " + rs.getString(3));
+							}
 							login = connection.prepareStatement(SqlUtilities.Login_UpdateUser_logStatus_Connected);
 							login.setString(1, strArray[1]);
 							login.setString(2, strArray[2]);

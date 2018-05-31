@@ -14,17 +14,19 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -64,7 +66,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private MenuItem editOrRemoveQuestion;
 
 	@FXML
-	private AnchorPane questionsTableAnchorPane;
+	private AnchorPane questionsTableAnchorPaneInEditOrRemove;
 
 	@FXML
 	private TableView<Question> tableViewInEditOrRemove;
@@ -97,7 +99,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private TableColumn<Question, String> correctAnswerColumnInEditOrRemove;
 
 	@FXML
-	private TableColumn<Question, String> checkColumnInEditOrRemove;
+	private TableColumn<Question, CheckBox> checkColumnInEditOrRemove;
 
 	@FXML
 	private TableView<Question> tableViewByInCreateExam;
@@ -106,7 +108,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private TableColumn<Question, String> questionSubjectColumnInCreateExam;
 
 	@FXML
-	private TableColumn<Question, String> checkColumnInCreateExam;
+	private TableColumn<Question, CheckBox> checkColumnInCreateExam;
 
 	@FXML
 	private TableColumn<Question, String> questionNumberColumnInCreateExam;
@@ -256,6 +258,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	// end region -> Setters
 
+	/**
+	 * 
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		date.setText(Utilities.setDate());
@@ -265,21 +270,25 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setQuestionsTableInfoInEditOrRemove();
 		initComboBoxCreateExam();
 		tableViewByInCreateExam.setEditable(true);
+		tableViewByInCreateExam.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		tableViewInEditOrRemove.setEditable(true);
-		// welcomeAnchorPane.setVisible(true);
-		// addQuestionAnchorPane.setVisible(false);
-		// createExamAnchorPane.setVisible(false);
-		// examManagementAnchorPane.setVisible(false);
+		tableViewInEditOrRemove.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		initAddQuestionOption();
 		client.setTeacherWindowController(this);
 	}
 
 	// region Public Methods
 
+	/**
+	 * 
+	 * @param event
+	 * @throws Exception
+	 */
 	public void logOutButtonHandler(ActionEvent event) throws Exception {
-		if (tableViewInEditOrRemove.isVisible()) {
+		if (questionsTableAnchorPaneInEditOrRemove.isVisible()) {
 			tableViewInEditOrRemove.getItems().clear();
 			setQuestionsTableInfoInEditOrRemove();
+			questionsTableAnchorPaneInEditOrRemove.setVisible(false);
 		}
 		if (addQuestionAnchorPane.isVisible()) {
 			clearAddQuestionFields();
@@ -308,7 +317,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		try {
 			tableViewInEditOrRemove.getItems().clear();
 			setQuestionsTableInfoInEditOrRemove();
-			questionsTableAnchorPane.setVisible(true);
+			questionsTableAnchorPaneInEditOrRemove.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
 			createExamAnchorPane.setVisible(false);
 			examManagementAnchorPane.setVisible(false);
@@ -349,6 +358,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		Label text;
 		Stage primaryStage = new Stage();
 		primaryStage.setTitle("AES7");
+		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
 		primaryStage.setHeight(100);
 		primaryStage.setWidth(250);
 		primaryStage.setResizable(false);
@@ -366,9 +376,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 			@Override
 			public void handle(ActionEvent event) {
 				primaryStage.hide();
-				Question question = tableViewInEditOrRemove.getSelectionModel().getSelectedItem();
-				question.setAuthor(null);
-				client.handleMessageFromClientUI(new QuestionsHandle("Delete", question));
+				ObservableList<Question> selectedQuestions = tableViewInEditOrRemove.getSelectionModel()
+						.getSelectedItems();
+				ArrayList<Question> questions = new ArrayList<Question>();
+				questions.addAll(selectedQuestions);
+				client.handleMessageFromClientUI(new QuestionsHandle("Delete", questions));
 				tableViewInEditOrRemove.getItems().clear();
 				setQuestionsTableInfoInEditOrRemove();
 			}
@@ -394,7 +406,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void openAddQuestion(ActionEvent event) {
 		try {
 			addQuestionAnchorPane.setVisible(true);
-			questionsTableAnchorPane.setVisible(false);
+			questionsTableAnchorPaneInEditOrRemove.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
 			createExamAnchorPane.setVisible(false);
 			examManagementAnchorPane.setVisible(false);
@@ -438,7 +450,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			tableViewByInCreateExam.getItems().clear();
 			createExamAnchorPane.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
-			questionsTableAnchorPane.setVisible(false);
+			questionsTableAnchorPaneInEditOrRemove.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
 			examManagementAnchorPane.setVisible(false);
 			clearAddQuestionFields();
@@ -479,7 +491,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			examManagementAnchorPane.setVisible(true);
 			createExamAnchorPane.setVisible(false);
 			addQuestionAnchorPane.setVisible(false);
-			questionsTableAnchorPane.setVisible(false);
+			questionsTableAnchorPaneInEditOrRemove.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 			subjectExamManagement.setPromptText("Select Subject");
@@ -522,7 +534,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * Define the columns
 	 */
 	private void setColumnsInEditOrRemove() {
-		checkColumnInEditOrRemove.setCellFactory(tc -> new CheckBoxTableCell<>());
 		questionSubjectColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("questionSubject"));
 		questionNumColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
 		authorColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("author"));
@@ -600,7 +611,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		fourthPossibleAnswerColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
 		correctAnswerColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 		pointsColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("points"));
-		checkColumnInCreateExam.setCellFactory(tc -> new CheckBoxTableCell<>());
 
 		// define the columns editable
 
@@ -611,7 +621,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow())).setPoints(t.getNewValue());
 			}
 		});
-
 	}
 
 	/**

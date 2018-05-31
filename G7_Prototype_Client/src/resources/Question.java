@@ -3,8 +3,6 @@ package resources;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javafx.scene.control.CheckBox;
-
 public class Question implements Serializable {
 
 	// region Constants
@@ -33,8 +31,6 @@ public class Question implements Serializable {
 
 	private String correctAnswer;
 
-//	private CheckBox select;
-
 	private int points;
 
 	// end region -> Fields
@@ -55,37 +51,7 @@ public class Question implements Serializable {
 		this.thirdPossibleAnswer = thirdPossibleAnswer;
 		this.fourthPossibleAnswer = fourthPossibleAnswer;
 		this.correctAnswer = correctAnswer;
-//		this.select = new CheckBox();
 	}
-
-	// /**
-	// *
-	// * @param questionSubject
-	// * @param questionNum
-	// * @param questionText
-	// * @param firstPossibleAnswer
-	// * @param secondPossibleAnswer
-	// * @param thirdPossibleAnswer
-	// * @param fourthPossibleAnswer
-	// * @param correctAnswer
-	// * @param points
-	// * this constructor is for the table of create exam
-	// */
-	// public Question(String questionSubject, String questionNum, String
-	// questionText, String firstPossibleAnswer,
-	// String secondPossibleAnswer, String thirdPossibleAnswer, String
-	// fourthPossibleAnswer, String correctAnswer,
-	// int points) {
-	// setSubjectNumber(questionSubject);
-	// this.questionNum = questionNum;
-	// this.questionText = questionText;
-	// this.firstPossibleAnswer = firstPossibleAnswer;
-	// this.secondPossibleAnswer = secondPossibleAnswer;
-	// this.thirdPossibleAnswer = thirdPossibleAnswer;
-	// this.fourthPossibleAnswer = fourthPossibleAnswer;
-	// this.correctAnswer = correctAnswer;
-	// this.points = points;
-	// }
 
 	/**
 	 * this constructor is when getting the info from the data base to show in the
@@ -102,7 +68,6 @@ public class Question implements Serializable {
 		this.thirdPossibleAnswer = possibleAnswers.get(2);
 		this.fourthPossibleAnswer = possibleAnswers.get(3);
 		this.correctAnswer = correctAnswer;
-//		this.select = new CheckBox();
 	}
 
 	/**
@@ -119,7 +84,6 @@ public class Question implements Serializable {
 		this.thirdPossibleAnswer = possibleAnswers.get(2);
 		this.fourthPossibleAnswer = possibleAnswers.get(3);
 		this.correctAnswer = correctAnswer;
-//		this.select = new CheckBox();
 		this.points = points;
 	}
 
@@ -206,14 +170,6 @@ public class Question implements Serializable {
 	public void setCorrectAnswer(String correctAnswer) {
 		this.correctAnswer = correctAnswer;
 	}
-
-	// public CheckBox getSelect() {
-	// return select;
-	// }
-	//
-	// public void setSelect(CheckBox select) {
-	// this.select = select;
-	// }
 
 	public void setSubjectNumber(String subject) {
 		switch (subject) {

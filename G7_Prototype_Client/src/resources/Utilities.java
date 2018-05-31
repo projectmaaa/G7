@@ -3,12 +3,12 @@ package resources;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -35,16 +35,19 @@ public class Utilities {
 
 	/**
 	 * This method will show pop up screen
+	 * 
+	 * @param str
 	 */
 	public static void popUpMethod(String str) {
 		Label text = null;
 		Stage primaryStage = new Stage();
-		primaryStage.setTitle("AES7Popup");
+		primaryStage.setTitle("AES7");
 		Popup popup = new Popup();
 		popup.setX(700);
 		popup.setY(400);
 		HBox layout = new HBox(10);
 		Button okButton = new Button("OK");
+		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {

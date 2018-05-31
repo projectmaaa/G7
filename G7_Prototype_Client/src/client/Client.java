@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import controllers.IScreenController;
 import controllers.ScreensController;
+import controllers.StudentWindowController;
 import controllers.TeacherWindowController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,6 +29,8 @@ public class Client extends AbstractClient implements IScreenController {
 	private ScreensController myController;
 
 	private TeacherWindowController teacherWindowController;
+
+	private StudentWindowController studentWindowController;
 
 	private Question question;
 
@@ -76,6 +79,14 @@ public class Client extends AbstractClient implements IScreenController {
 
 	public void setTeacherWindowController(TeacherWindowController teacherWindowController) {
 		this.teacherWindowController = teacherWindowController;
+	}
+
+	public StudentWindowController getStudentWindowController() {
+		return studentWindowController;
+	}
+
+	public void setStudentWindowController(StudentWindowController studentWindowController) {
+		this.studentWindowController = studentWindowController;
 	}
 
 	/*
@@ -141,14 +152,26 @@ public class Client extends AbstractClient implements IScreenController {
 					e.printStackTrace();
 				}
 				break;
+			case Message.studnet:
+				firstName = strArray[1];
+				lastName = strArray[2];
+				myController.setScreen(MainAppClient.studentScreenID);
+				studentWindowController.setFirstName(firstName);
+				studentWindowController.setLastName(lastName);
+				studentWindowController.setName();
+				break;
 			case "#No":
 				System.out.println("Wrong login details");
+				try {
+					sendToServer(Message.logout);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				break;
 			case Message.tableSaved:
 				System.out.println("Data Base Updated successfully");
 				break;
 			case "#UserAlreadyConnected":
-				// myController.getScreen(MainApp.loginScreenID).getStyleClass()
 				break;
 			case Message.getQuestionBySubject:
 				break;
