@@ -3,10 +3,12 @@ package controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.MainAppClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
+import resources.Message;
 
 public class StudentWindowController implements Initializable, IScreenController {
 
@@ -38,6 +40,7 @@ public class StudentWindowController implements Initializable, IScreenController
 		mainAnchorPane.setVisible(true);
 		
 	}
+	
 	
 	private void openManualExamHandler(ActionEvent event) {
 		manualExamAnchorPane.setVisible(true);
