@@ -1,10 +1,6 @@
 package controllers;
 
-/**
- * 
- * @author Alex
- *
- */
+
 public interface IScreenController {
 
 	// region Public Methods

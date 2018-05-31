@@ -21,6 +21,12 @@ public class StudentWindowController implements Initializable, IScreenController
 	@FXML
 	private AnchorPane manualExamAnchorPane;
 	
+	//computerized exam
+	
+	@FXML
+	private AnchorPane computerizedExamAnchorPane;
+	
+	
 	@Override
 	public void setScreenParent(ScreensController screenPage) {
 		
@@ -35,6 +41,13 @@ public class StudentWindowController implements Initializable, IScreenController
 	
 	private void openManualExamHandler(ActionEvent event) {
 		manualExamAnchorPane.setVisible(true);
+		computerizedExamAnchorPane.setVisible(false);
+		welconeAnchorPane.setVisible(false);
+	}
+	
+	private void openComputerizedExamHandler(ActionEvent event) {
+		computerizedExamAnchorPane.setVisible(true);
+		manualExamAnchorPane.setVisible(false);
 		welconeAnchorPane.setVisible(false);
 	}
 

@@ -78,13 +78,13 @@
             <Menu mnemonicParsing="false" text="Execute Exam">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#openManualExamHandler" text="Manual" />
-                  <MenuItem mnemonicParsing="false" text="Computerized" />
+                  <MenuItem mnemonicParsing="false" onAction="#openComputerizedExamHandler" text="Computerized" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Order Checked Exam" />
          </menus>
       </MenuBar>
-      <AnchorPane fx:id="manualExamAnchorPane" layoutX="14.0" layoutY="86.0" prefHeight="459.0" prefWidth="824.0">
+      <AnchorPane fx:id="manualExamAnchorPane" layoutX="14.0" layoutY="86.0" prefHeight="459.0" prefWidth="824.0" visible="false">
          <children>
             <Label layoutX="18.0" layoutY="45.0" text="Execution Code" textFill="WHITE">
                <font>
@@ -101,5 +101,23 @@
                </effect>
             </Label>
          </children></AnchorPane>
+      <AnchorPane fx:id="computerizedExamAnchorPane" layoutX="24.0" layoutY="96.0" prefHeight="459.0" prefWidth="824.0">
+         <children>
+            <Label layoutX="18.0" layoutY="45.0" text="Execution Code" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField layoutX="132.0" layoutY="42.0" />
+            <Label prefWidth="253.0" text="Computerized Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="24.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

@@ -13,12 +13,22 @@ public class Exam {
 	
 	private int examDuration;
 	
-	private ArrayList<Integer> questionsPoints;
-	
 	private String freeTextForExaminees;
 	
 	private String freeTextForTeacherOnly;
 	
 	private String teacherName;
+	
+	public Exam (String subjectID, String courseID, int examDuration, String freeTextForExaminees,
+			String freeTextForTeacherOnly, String teacherName) {
+		
+		this.subjectID=subjectID;
+		this.courseID=courseID;
+		this.examDuration=examDuration;
+		this.freeTextForExaminees=freeTextForExaminees;
+		this.freeTextForTeacherOnly=freeTextForTeacherOnly;
+		this.teacherName=teacherName;
+	}
+	
 	
 }
