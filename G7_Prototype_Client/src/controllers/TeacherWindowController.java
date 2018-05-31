@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -97,7 +98,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private TableColumn<Question, String> correctAnswerColumnInEditOrRemove;
 
 	@FXML
-	private TableColumn<Question, String> checkColumnInEditOrRemove;
+	private TableColumn<Question, CheckBox> checkColumnInEditOrRemove;
 
 	@FXML
 	private TableView<Question> tableViewByInCreateExam;
@@ -106,7 +107,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private TableColumn<Question, String> questionSubjectColumnInCreateExam;
 
 	@FXML
-	private TableColumn<Question, String> checkColumnInCreateExam;
+	private TableColumn<Question, CheckBox> checkColumnInCreateExam;
 
 	@FXML
 	private TableColumn<Question, String> questionNumberColumnInCreateExam;
@@ -256,6 +257,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	// end region -> Setters
 
+	/**
+	 * 
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		date.setText(Utilities.setDate());
@@ -266,16 +270,17 @@ public class TeacherWindowController implements Initializable, IScreenController
 		initComboBoxCreateExam();
 		tableViewByInCreateExam.setEditable(true);
 		tableViewInEditOrRemove.setEditable(true);
-		// welcomeAnchorPane.setVisible(true);
-		// addQuestionAnchorPane.setVisible(false);
-		// createExamAnchorPane.setVisible(false);
-		// examManagementAnchorPane.setVisible(false);
 		initAddQuestionOption();
 		client.setTeacherWindowController(this);
 	}
 
 	// region Public Methods
 
+	/**
+	 * 
+	 * @param event
+	 * @throws Exception
+	 */
 	public void logOutButtonHandler(ActionEvent event) throws Exception {
 		if (tableViewInEditOrRemove.isVisible()) {
 			tableViewInEditOrRemove.getItems().clear();
@@ -367,7 +372,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 			public void handle(ActionEvent event) {
 				primaryStage.hide();
 				Question question = tableViewInEditOrRemove.getSelectionModel().getSelectedItem();
-				question.setAuthor(null);
 				client.handleMessageFromClientUI(new QuestionsHandle("Delete", question));
 				tableViewInEditOrRemove.getItems().clear();
 				setQuestionsTableInfoInEditOrRemove();
@@ -611,7 +615,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow())).setPoints(t.getNewValue());
 			}
 		});
-
 	}
 
 	/**

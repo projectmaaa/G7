@@ -8,6 +8,8 @@ public class Message {
 
 	public final static String teacher = "#Teacher";
 
+	public final static String studnet = "#Studnet";
+
 	public final static String editOrRemove = "#EditorRemovePressed";
 
 	public final static String userAlreadyConnected = "#UserAlreadyConnected";
