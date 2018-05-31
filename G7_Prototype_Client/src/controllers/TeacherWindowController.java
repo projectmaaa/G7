@@ -381,8 +381,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 				ArrayList<Question> questions = new ArrayList<Question>();
 				questions.addAll(selectedQuestions);
 				client.handleMessageFromClientUI(new QuestionsHandle("Delete", questions));
-				Question question = tableViewInEditOrRemove.getSelectionModel().getSelectedItem();
-				client.handleMessageFromClientUI(new QuestionsHandle("Delete", question));
 				tableViewInEditOrRemove.getItems().clear();
 				setQuestionsTableInfoInEditOrRemove();
 			}
