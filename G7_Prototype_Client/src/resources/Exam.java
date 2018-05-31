@@ -11,6 +11,8 @@ public class Exam {
 	
 	private static int examCounter;
 	
+	private ArrayList<QuestionInExam> questions;
+	
 	private int examDuration;
 	
 	private String freeTextForExaminees;
@@ -28,7 +30,10 @@ public class Exam {
 		this.freeTextForExaminees=freeTextForExaminees;
 		this.freeTextForTeacherOnly=freeTextForTeacherOnly;
 		this.teacherName=teacherName;
+		this.questions=new ArrayList<QuestionInExam>();
 	}
 	
-	
+	public void addQuestionToExam(Question question, int points) {
+		questions.add(new QuestionInExam(this,question,points));
+	}
 }

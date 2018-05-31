@@ -1,5 +1,7 @@
 package resources;
 
+import java.util.ArrayList;
+
 public class ActiveExam {
 
 	private Exam exam;
@@ -10,4 +12,5 @@ public class ActiveExam {
 		this.exam=exam;
 		this.executionCode=executionCode;
 	}
+	
 }
