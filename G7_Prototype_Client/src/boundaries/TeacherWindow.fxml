@@ -18,9 +18,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainAnchorPane" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="866.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TeacherWindowController">
+<AnchorPane fx:id="mainAnchorPane" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TeacherWindowController">
 	<children>
-		<ImageView fitHeight="619.0" fitWidth="867.0" pickOnBounds="true">
+		<ImageView fitHeight="650.0" fitWidth="1000.0" pickOnBounds="true">
 			<image>
 				<Image url="@Images/bigstock-Stack-Of-Books-70033240.jpg" />
 			</image>
@@ -33,18 +33,18 @@
 				<Font size="24.0" />
 			</font>
 		</Text>
-		<Text fx:id="TextGroup7" layoutX="356.0" layoutY="600.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
-		<ImageView fx:id="Group7Logo" blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="360.0" layoutY="538.0" pickOnBounds="true" preserveRatio="true">
+		<Text fx:id="TextGroup7" layoutX="427.0" layoutY="633.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
+		<ImageView fx:id="Group7Logo" blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="431.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true">
 			<image>
 				<Image url="@Images/logo.jpg" />
 			</image>
 		</ImageView>
-		<Text fx:id="date" fill="#fffdfd" layoutX="614.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="140.0">
+		<Text fx:id="date" fill="#fffdfd" layoutX="749.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="140.0">
 			<font>
 				<Font size="24.0" />
 			</font>
 		</Text>
-		<Button fx:id="logoutButton" layoutX="797.0" layoutY="16.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
+		<Button fx:id="logoutButton" layoutX="932.0" layoutY="16.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
 		<MenuBar fx:id="menuBar" focusTraversable="false" layoutY="52.0" prefHeight="42.0" prefWidth="784.0" stylesheets="@TeacherWindow.css">
 			<menus>
 				<Menu mnemonicParsing="false" text="Maintain Questions">
@@ -155,22 +155,23 @@
             <Button fx:id="clearButton" layoutX="320.0" layoutY="346.0" mnemonicParsing="false" onAction="#clearButtonPressed" text="Clear" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="questionsTableAnchorPane" layoutX="6.0" layoutY="94.0" prefHeight="422.0" prefWidth="846.0" visible="false">
+      <AnchorPane fx:id="questionsTableAnchorPane" layoutX="24.0" layoutY="105.0" prefHeight="460.0" prefWidth="950.0" visible="false">
          <children>
-      		<TableView fx:id="tableView" editable="true" fixedCellSize="0.0" layoutX="4.0" layoutY="48.0" prefHeight="362.0" prefWidth="839.0" stylesheets="@table%20view.css">
+      		<TableView fx:id="tableViewInEditOrRemove" editable="true" fixedCellSize="0.0" layoutX="2.0" layoutY="52.0" prefHeight="362.0" prefWidth="950.0" stylesheets="@table%20view.css">
       			<columns>
-      				<TableColumn fx:id="questionSubjectColumn" maxWidth="200.0" minWidth="90.0" prefWidth="65.0" text="Q.Subject" />
-                  <TableColumn fx:id="questionNumColumn" prefWidth="65.0" text="Q.Number" />
-      				<TableColumn fx:id="authorColumn" maxWidth="200.0" minWidth="55.0" prefWidth="55.0" text="Author" />
-      				<TableColumn fx:id="questionTextColumn" minWidth="0.0" prefWidth="250.0" text="Question Text" />
+                  <TableColumn fx:id="checkColumnInEditOrRemove" prefWidth="70.0" text="Check" />
+      				<TableColumn fx:id="questionSubjectColumnInEditOrRemove" maxWidth="200.0" minWidth="90.0" prefWidth="75.0" text="Q.Subject" />
+                  <TableColumn fx:id="questionNumColumnInEditOrRemove" prefWidth="75.0" text="Q.Number" />
+      				<TableColumn fx:id="authorColumnInEditOrRemove" maxWidth="200.0" minWidth="55.0" prefWidth="60.0" text="Author" />
+      				<TableColumn fx:id="questionTextColumnInEditOrRemove" minWidth="0.0" prefWidth="280.0" text="Question Text" />
       				<TableColumn fx:id="possibleAnswersColumn" prefWidth="351.0" text="Possible Answers">
                      <columns>
-                        <TableColumn fx:id="firstPossibleAnswerColumn" prefWidth="70.0" text="First" />
-                        <TableColumn fx:id="secondPossibleAnswerColumn" prefWidth="70.0" text="Second" />
-                        <TableColumn fx:id="thirdPossibleAnswerColumn" prefWidth="70.0" text="Third" />
-                        <TableColumn fx:id="fourthPossibleAnswerColumn" prefWidth="70.0" text="Fourth" />
+                        <TableColumn fx:id="firstPossibleAnswerColumnInEditOrRemove" prefWidth="70.0" text="First" />
+                        <TableColumn fx:id="secondPossibleAnswerColumnInEditOrRemove" prefWidth="70.0" text="Second" />
+                        <TableColumn fx:id="thirdPossibleAnswerColumnInEditOrRemove" prefWidth="70.0" text="Third" />
+                        <TableColumn fx:id="fourthPossibleAnswerColumnInEditOrRemove" prefWidth="70.0" text="Fourth" />
                      </columns></TableColumn>
-      				<TableColumn fx:id="correctAnswerColumn" maxWidth="255.0" minWidth="65.0" prefWidth="95.0" text="Correct Answer" />
+      				<TableColumn fx:id="correctAnswerColumnInEditOrRemove" maxWidth="255.0" minWidth="65.0" prefWidth="93.0" text="Correct Answer" />
       			</columns>
       		</TableView>
             <Label layoutX="9.0" layoutY="-8.0" prefWidth="253.0" text="Edit \ Remove Question" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
@@ -181,18 +182,18 @@
                   <Bloom />
                </effect>
             </Label>
-      		<Button fx:id="saveButton" layoutX="400.0" layoutY="415.0" mnemonicParsing="false" onAction="#saveButtonHandler" text="Save" />
-            <Button fx:id="removeButton" layoutX="456.0" layoutY="414.0" mnemonicParsing="false" onAction="#removeButtonHandler" text="Remove" />
+      		<Button fx:id="saveButton" layoutX="454.0" layoutY="421.0" mnemonicParsing="false" onAction="#saveButtonHandler" text="Save" />
+            <Button fx:id="removeButton" layoutX="510.0" layoutY="420.0" mnemonicParsing="false" onAction="#removeButtonHandler" text="Remove" />
             <ComboBox layoutX="112.0" layoutY="21.0" prefWidth="150.0" promptText="Subject" />
             <Label layoutX="14.0" layoutY="25.0" prefHeight="17.0" prefWidth="86.0" text="Subject" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Button layoutX="332.0" layoutY="415.0" mnemonicParsing="false" text="Cancel" />
+            <Button layoutX="386.0" layoutY="421.0" mnemonicParsing="false" text="Cancel" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="createExamAnchorPane" layoutX="23.0" layoutY="91.0" prefHeight="513.0" prefWidth="727.0" visible="false">
+      <AnchorPane fx:id="createExamAnchorPane" layoutX="27.0" layoutY="91.0" prefHeight="513.0" prefWidth="950.0" visible="false">
          <children>
             <ComboBox fx:id="subjectInCreateComboBox" layoutX="65.0" layoutY="49.0" prefWidth="150.0" />
             <Label layoutX="-5.0" layoutY="8.0" prefWidth="253.0" text="Create Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
@@ -208,50 +209,51 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="courseInCreate" layoutX="42.0" layoutY="344.0" text="Course" textFill="WHITE">
+            <Label fx:id="courseInCreate" layoutX="40.0" layoutY="344.0" text="Course" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <ComboBox fx:id="courseInCreateComboBox" layoutX="121.0" layoutY="341.0" prefWidth="150.0" />
-            <Button fx:id="createExamButton" layoutX="182.0" layoutY="466.0" mnemonicParsing="false" text="Create Exam">
+            <ComboBox fx:id="courseInCreateComboBox" layoutX="115.0" layoutY="341.0" prefWidth="150.0" />
+            <Button fx:id="createExamButton" layoutX="425.0" layoutY="444.0" mnemonicParsing="false" text="Create Exam">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Label fx:id="durationInCreate" layoutX="302.0" layoutY="343.0" text="Duration time (Min)" textFill="WHITE">
+            <Label fx:id="durationInCreate" layoutX="425.0" layoutY="343.0" text="Duration time (Min)" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="durationInCreateField" layoutX="427.0" layoutY="341.0" prefHeight="25.0" prefWidth="92.0" />
-            <TextField fx:id="textStudentsInCreateField" layoutX="122.0" layoutY="376.0" prefHeight="25.0" prefWidth="280.0" />
-            <TextField fx:id="textTeachersInCreateField" layoutX="122.0" layoutY="409.0" prefHeight="25.0" prefWidth="280.0" />
-            <Label fx:id="textStudentsInCreate" layoutX="6.0" layoutY="379.0" text="Text for students" textFill="WHITE">
+            <TextField fx:id="durationInCreateField" layoutX="550.0" layoutY="341.0" prefHeight="25.0" prefWidth="92.0" />
+            <TextField fx:id="textStudentsInCreateField" layoutX="161.0" layoutY="376.0" prefHeight="25.0" prefWidth="280.0" />
+            <TextField fx:id="textTeachersInCreateField" layoutX="161.0" layoutY="409.0" prefHeight="25.0" prefWidth="280.0" />
+            <Label fx:id="textStudentsInCreate" layoutX="40.0" layoutY="379.0" text="Text for students" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="textTeachersInCreate" layoutX="3.0" layoutY="413.0" text="Text for teachers" textFill="WHITE">
+            <Label fx:id="textTeachersInCreate" layoutX="40.0" layoutY="412.0" text="Text for teachers" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TableView fx:id="tableViewBySubject" editable="true" fixedCellSize="0.0" layoutY="81.0" prefHeight="250.0" prefWidth="827.0" stylesheets="@table%20view.css">
+            <TableView fx:id="tableViewByInCreateExam" editable="true" fixedCellSize="0.0" layoutY="81.0" prefHeight="250.0" prefWidth="950.0" stylesheets="@table%20view.css">
                <columns>
-                  <TableColumn fx:id="questionSubjectColumnBySubject" editable="false" maxWidth="200.0" minWidth="55.19998359680176" prefWidth="60.79998970031738" text="Q.Subject" />
-                  <TableColumn fx:id="questionNumberColumnBySubject" prefWidth="109.5999984741211" text="Q.Number" />
-                  <TableColumn fx:id="questionTextColumnBySubject" editable="false" minWidth="0.0" prefWidth="210.0" text="Question Text" />
-                  <TableColumn editable="false" prefWidth="335.2000427246094" text="Possible Answers">
+                  <TableColumn fx:id="checkColumnInCreateExam" prefWidth="45.0" text="Check" />
+                  <TableColumn fx:id="questionSubjectColumnInCreateExam" editable="false" maxWidth="200.0" minWidth="70.0" prefWidth="75.0" text="Q.Subject" />
+                  <TableColumn fx:id="questionNumberColumnInCreateExam" minWidth="70.0" prefWidth="75.0" text="Q.Number" />
+                  <TableColumn fx:id="questionTextColumnInCreateExam" editable="false" minWidth="0.0" prefWidth="300.0" text="Question Text" />
+                  <TableColumn editable="false" prefWidth="235.0" text="Possible Answers">
                      <columns>
-                        <TableColumn fx:id="firstPossibleAnswerColumnBySubject" prefWidth="75.0" text="First" />
-                        <TableColumn fx:id="secondPossibleAnswerColumnBySubject" prefWidth="75.0" text="Second" />
-                        <TableColumn fx:id="thirdPossibleAnswerColumnBySubject" prefWidth="75.0" text="Third" />
-                        <TableColumn fx:id="fourthPossibleAnswerColumnBySubject" editable="false" prefWidth="75.0" text="Fourth" />
+                        <TableColumn fx:id="firstPossibleAnswerColumnInCreateExam" prefWidth="74.0" text="First" />
+                        <TableColumn fx:id="secondPossibleAnswerColumnInCreateExam" prefWidth="74.0" text="Second" />
+                        <TableColumn fx:id="thirdPossibleAnswerColumnInCreateExam" prefWidth="74.0" text="Third" />
+                        <TableColumn fx:id="fourthPossibleAnswerColumnInCreateExam" editable="false" prefWidth="74.0" text="Fourth" />
                      </columns>
                   </TableColumn>
-                  <TableColumn fx:id="correctAnswerColumnBySubject" editable="false" maxWidth="255.0" minWidth="65.0" prefWidth="93.5999755859375" text="Correct Answer" />
-                  <TableColumn fx:id="pointsColumnBySubject" maxWidth="200.0" minWidth="55.0" prefWidth="55.0" text="Points" />
+                  <TableColumn fx:id="correctAnswerColumnInCreateExam" editable="false" maxWidth="255.0" minWidth="67.0" prefWidth="99.0" text="Correct Answer" />
+                  <TableColumn fx:id="pointsColumnInCreateExam" maxWidth="200.0" minWidth="55.0" prefWidth="58.0" text="Points" />
                </columns>
             </TableView>
             <Button fx:id="updateTable" layoutX="234.0" layoutY="49.0" mnemonicParsing="false" onAction="#updateTableButton" text="Update Table" />

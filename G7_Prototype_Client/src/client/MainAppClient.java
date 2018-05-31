@@ -1,6 +1,5 @@
 package client;
 
-import java.io.File;
 import java.io.IOException;
 import controllers.ScreensController;
 import javafx.application.Application;
