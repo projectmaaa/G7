@@ -20,12 +20,12 @@
 				<Image url="@Images/bg-login.jpg" />
 			</image>
 		</ImageView>
-		<ImageView fx:id="Group7Logo" blendMode="COLOR_BURN" fitHeight="150.0" fitWidth="200.0" layoutX="430.0" layoutY="544.0" pickOnBounds="true" preserveRatio="true">
+		<ImageView fx:id="Group7Logo" blendMode="COLOR_BURN" fitHeight="150.0" fitWidth="200.0" layoutX="419.0" layoutY="544.0" pickOnBounds="true" preserveRatio="true">
 			<image>
 				<Image url="@Images/logo.jpg" />
 			</image>
 		</ImageView>
-		<Text fx:id="TextGroup7" fill="#f8f8f8" layoutX="456.0" layoutY="632.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
+		<Text fx:id="TextGroup7" fill="#f8f8f8" layoutX="445.0" layoutY="632.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
 		<Text layoutX="231.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign in">
 			<font>
 				<Font name="Harvest Regular" size="60.0" />
@@ -37,12 +37,12 @@
 				<Font size="30.0" />
 			</font>
 		</Text>
-		<ImageView fitHeight="68.0" fitWidth="30.0" layoutX="595.0" layoutY="262.0" pickOnBounds="true" preserveRatio="true">
+		<ImageView fitHeight="68.0" fitWidth="30.0" layoutX="565.0" layoutY="262.0" pickOnBounds="true" preserveRatio="true">
 			<image>
 				<Image url="@Images/Lock-64x64.png" />
 			</image>
 		</ImageView>
-		<ImageView fitHeight="68.0" fitWidth="30.0" layoutX="595.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true">
+		<ImageView fitHeight="68.0" fitWidth="30.0" layoutX="565.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true">
 			<image>
 				<Image url="@Images/Office-Customer-Male-Light-icon.png" />
 			</image>
@@ -60,7 +60,7 @@
 				</LinearGradient>
 			</fill>
 		</Text>
-		<ImageView fitHeight="75.0" fitWidth="71.0" layoutX="282.0" layoutY="241.0" pickOnBounds="true" preserveRatio="true" rotate="14.0">
+		<ImageView fitHeight="92.0" fitWidth="118.0" layoutX="278.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true" rotate="5.7">
 			<image>
 				<Image url="@Images/v1.png" />
 			</image>
@@ -83,9 +83,9 @@
 				</Text>
 			</children>
 		</AnchorPane>
-		<TextField fx:id="un" focusTraversable="false" layoutX="634.0" layoutY="206.0" onKeyPressed="#keyHandler" prefHeight="31.0" prefWidth="250.0" promptText="Username" />
-		<PasswordField fx:id="pw" focusTraversable="false" layoutX="634.0" layoutY="262.0" onKeyPressed="#keyHandler" prefHeight="31.0" prefWidth="250.0" promptText="Password" />
-		<Button fx:id="login" layoutX="720.0" layoutY="371.0" mnemonicParsing="false" onAction="#loginButtonHandler" onKeyPressed="#keyHandler" prefHeight="0.0" prefWidth="78.0" text="Login" textAlignment="CENTER">
+		<TextField fx:id="un" focusTraversable="false" layoutX="604.0" layoutY="206.0" onKeyPressed="#keyHandler" prefHeight="31.0" prefWidth="250.0" promptText="Username" />
+		<PasswordField fx:id="pw" focusTraversable="false" layoutX="604.0" layoutY="262.0" onKeyPressed="#keyHandler" prefHeight="31.0" prefWidth="250.0" promptText="Password" />
+		<Button fx:id="login" layoutX="690.0" layoutY="367.0" mnemonicParsing="false" onAction="#loginButtonHandler" onKeyPressed="#keyHandler" prefHeight="0.0" prefWidth="78.0" text="Login" textAlignment="CENTER">
 			<font>
 				<Font size="20.0" />
 			</font>
