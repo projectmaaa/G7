@@ -92,14 +92,14 @@
                </font>
             </Label>
             <TextField layoutX="132.0" layoutY="42.0" />
+            <Label prefWidth="253.0" text="Manual Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="24.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
          </children></AnchorPane>
-      <Label layoutX="32.0" layoutY="83.0" prefWidth="253.0" text="Manual Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
-         <font>
-            <Font name="Maiandra GD" size="24.0" />
-         </font>
-         <effect>
-            <Bloom />
-         </effect>
-      </Label>
    </children>
 </AnchorPane>

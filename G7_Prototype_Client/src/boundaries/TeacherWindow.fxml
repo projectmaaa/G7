@@ -71,7 +71,7 @@
 				</Menu>
 			</menus>
 		</MenuBar>
-      <AnchorPane fx:id="welcomeAnchorPane" layoutX="57.0" layoutY="152.0" prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="welcomeAnchorPane" layoutX="57.0" layoutY="152.0" prefHeight="200.0" prefWidth="200.0" visible="false">
          <children>
             <Label layoutX="23.0" layoutY="79.0" prefHeight="50.0" prefWidth="316.0" text="Let AES help you!" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>
@@ -192,10 +192,10 @@
             <Button layoutX="332.0" layoutY="415.0" mnemonicParsing="false" text="Cancel" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="createExamAnchorPane" layoutX="23.0" layoutY="91.0" prefHeight="513.0" prefWidth="727.0" visible="false">
+      <AnchorPane fx:id="createExamAnchorPane" layoutX="23.0" layoutY="91.0" prefHeight="513.0" prefWidth="727.0">
          <children>
-            <ComboBox fx:id="subjectInCreateComboBox" layoutX="75.0" layoutY="61.0" prefWidth="150.0" />
-            <Label layoutX="-5.0" layoutY="22.0" prefWidth="253.0" text="Create Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+            <ComboBox fx:id="subjectInCreateComboBox" layoutX="65.0" layoutY="49.0" prefWidth="150.0" />
+            <Label layoutX="-5.0" layoutY="8.0" prefWidth="253.0" text="Create Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="24.0" />
                </font>
@@ -203,41 +203,41 @@
                   <Bloom />
                </effect>
             </Label>
-            <Label fx:id="subjectInCreate" layoutX="13.0" layoutY="65.0" text="Subject" textFill="WHITE">
+            <Label fx:id="subjectInCreate" layoutX="3.0" layoutY="53.0" text="Subject" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="courseInCreate" layoutX="259.0" layoutY="64.0" text="Course" textFill="WHITE">
+            <Label fx:id="courseInCreate" layoutX="42.0" layoutY="344.0" text="Course" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <ComboBox fx:id="courseInCreateComboBox" layoutX="318.0" layoutY="61.0" prefWidth="150.0" />
-            <Button fx:id="createExamButton" layoutX="374.0" layoutY="406.0" mnemonicParsing="false" text="Create Exam">
+            <ComboBox fx:id="courseInCreateComboBox" layoutX="121.0" layoutY="341.0" prefWidth="150.0" />
+            <Button fx:id="createExamButton" layoutX="124.0" layoutY="480.0" mnemonicParsing="false" text="Create Exam">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Label fx:id="durationInCreate" layoutY="387.0" text="Duration time (Min)" textFill="WHITE">
+            <Label fx:id="durationInCreate" layoutX="-1.0" layoutY="445.0" text="Duration time (Min)" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="durationInCreateField" layoutX="126.0" layoutY="384.0" prefHeight="25.0" prefWidth="92.0" />
-            <TextField fx:id="textStudentsInCreateField" layoutX="124.0" layoutY="351.0" prefHeight="25.0" prefWidth="280.0" />
-            <TextField fx:id="textTeachersInCreateField" layoutX="536.0" layoutY="350.0" prefHeight="25.0" prefWidth="280.0" />
-            <Label fx:id="textStudentsInCreate" layoutY="353.0" text="Text for students" textFill="WHITE">
+            <TextField fx:id="durationInCreateField" layoutX="124.0" layoutY="443.0" prefHeight="25.0" prefWidth="92.0" />
+            <TextField fx:id="textStudentsInCreateField" layoutX="122.0" layoutY="376.0" prefHeight="25.0" prefWidth="280.0" />
+            <TextField fx:id="textTeachersInCreateField" layoutX="122.0" layoutY="409.0" prefHeight="25.0" prefWidth="280.0" />
+            <Label fx:id="textStudentsInCreate" layoutX="6.0" layoutY="379.0" text="Text for students" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="textTeachersInCreate" layoutX="417.0" layoutY="354.0" text="Text for teachers" textFill="WHITE">
+            <Label fx:id="textTeachersInCreate" layoutX="3.0" layoutY="413.0" text="Text for teachers" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TableView fx:id="tableViewBySubject" editable="true" fixedCellSize="0.0" layoutY="93.0" prefHeight="250.0" prefWidth="827.0" stylesheets="@table%20view.css">
+            <TableView fx:id="tableViewBySubject" editable="true" fixedCellSize="0.0" layoutY="81.0" prefHeight="250.0" prefWidth="827.0" stylesheets="@table%20view.css">
                <columns>
                   <TableColumn fx:id="questionSubjectColumnBySubject" editable="false" maxWidth="200.0" minWidth="55.19998359680176" prefWidth="60.79998970031738" text="Q.Subject" />
                   <TableColumn fx:id="questionNumberColumnBySubject" prefWidth="109.5999984741211" text="Q.Number" />
@@ -254,7 +254,7 @@
                   <TableColumn fx:id="pointsColumnBySubject" maxWidth="200.0" minWidth="55.0" prefWidth="55.0" text="Points" />
                </columns>
             </TableView>
-            <Button fx:id="updateTable" layoutX="530.0" layoutY="60.0" mnemonicParsing="false" onAction="#updateTableButton" text="Update Table" />
+            <Button fx:id="updateTable" layoutX="234.0" layoutY="49.0" mnemonicParsing="false" onAction="#updateTableButton" text="Update Table" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="examManagementAnchorPane" layoutX="14.0" layoutY="91.0" prefHeight="432.0" prefWidth="846.0" visible="false">
