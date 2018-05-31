@@ -402,7 +402,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 */
 	public void addNewQuestion(ActionEvent event) {
 		// if the user didn't select a subject
-		if (!subjectComboBox.isArmed()) {
+		if (subjectComboBox.getValue() == null) {
 			Utilities.popUpMethod("Select Subject");
 			return;
 		}
@@ -414,7 +414,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			return;
 		}
 		// if the user didn't select the correct answer
-		if (!correctAnswerComboBox.isArmed()) {
+		if (correctAnswerComboBox.getValue() == null) {
 			Utilities.popUpMethod("Select Answer");
 			return;
 		}
@@ -458,7 +458,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * @param event
 	 */
 	public void updateTableButton(ActionEvent event) {
-		if (!subjectInCreateComboBox.isArmed()) {
+		if (subjectInCreateComboBox.getValue() != null) {
 			client.getQuestionsFromDB().clear();
 			client.handleMessageFromClientUI(Message.getQuestionBySubject + " " + subjectInCreateComboBox.getValue());
 			tableViewBySubject.getItems().clear();
@@ -627,7 +627,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * pressed
 	 */
 	private void clearAddQuestionFields() {
-		if (!subjectComboBox.isArmed()) {
+		if (subjectComboBox.getValue() != null) {
 			subjectComboBox.getSelectionModel().clearSelection();
 			subjectComboBox.setPromptText("Select Subject");
 			subjectComboBox.setButtonCell(new ListCell<String>() {
@@ -642,7 +642,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				}
 			});
 		}
-		if (!correctAnswerComboBox.isArmed()) {
+		if (correctAnswerComboBox.getValue() != null) {
 			correctAnswerComboBox.getSelectionModel().clearSelection();
 			correctAnswerComboBox.setPromptText("Select");
 			correctAnswerComboBox.setButtonCell(new ListCell<String>() {
