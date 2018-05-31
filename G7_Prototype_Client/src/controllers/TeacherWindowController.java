@@ -22,12 +22,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -67,64 +67,70 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private AnchorPane questionsTableAnchorPane;
 
 	@FXML
-	private TableView<Question> tableView;
+	private TableView<Question> tableViewInEditOrRemove;
 
 	@FXML
-	private TableColumn<Question, String> questionSubjectColumn;
+	private TableColumn<Question, String> questionSubjectColumnInEditOrRemove;
 
 	@FXML
-	private TableColumn<Question, String> questionNumColumn;
+	private TableColumn<Question, String> questionNumColumnInEditOrRemove;
 
 	@FXML
-	private TableColumn<Question, String> authorColumn;
+	private TableColumn<Question, String> authorColumnInEditOrRemove;
 
 	@FXML
-	private TableColumn<Question, String> questionTextColumn;
+	private TableColumn<Question, String> questionTextColumnInEditOrRemove;
 
 	@FXML
-	private TableColumn<Question, String> firstPossibleAnswerColumn;
+	private TableColumn<Question, String> firstPossibleAnswerColumnInEditOrRemove;
 
 	@FXML
-	private TableColumn<Question, String> secondPossibleAnswerColumn;
+	private TableColumn<Question, String> secondPossibleAnswerColumnInEditOrRemove;
 
 	@FXML
-	private TableColumn<Question, String> thirdPossibleAnswerColumn;
+	private TableColumn<Question, String> thirdPossibleAnswerColumnInEditOrRemove;
 
 	@FXML
-	private TableColumn<Question, String> fourthPossibleAnswerColumn;
+	private TableColumn<Question, String> fourthPossibleAnswerColumnInEditOrRemove;
 
 	@FXML
-	private TableColumn<Question, String> correctAnswerColumn;
+	private TableColumn<Question, String> correctAnswerColumnInEditOrRemove;
 
 	@FXML
-	private TableView<Question> tableViewBySubject;
+	private TableColumn<Question, String> checkColumnInEditOrRemove;
 
 	@FXML
-	private TableColumn<Question, String> questionSubjectColumnBySubject;
+	private TableView<Question> tableViewByInCreateExam;
 
 	@FXML
-	private TableColumn<Question, String> questionNumberColumnBySubject;
+	private TableColumn<Question, String> questionSubjectColumnInCreateExam;
 
 	@FXML
-	private TableColumn<Question, String> questionTextColumnBySubject;
+	private TableColumn<Question, String> checkColumnInCreateExam;
 
 	@FXML
-	private TableColumn<Question, String> firstPossibleAnswerColumnBySubject;
+	private TableColumn<Question, String> questionNumberColumnInCreateExam;
 
 	@FXML
-	private TableColumn<Question, String> secondPossibleAnswerColumnBySubject;
+	private TableColumn<Question, String> questionTextColumnInCreateExam;
 
 	@FXML
-	private TableColumn<Question, String> thirdPossibleAnswerColumnBySubject;
+	private TableColumn<Question, String> firstPossibleAnswerColumnInCreateExam;
 
 	@FXML
-	private TableColumn<Question, String> fourthPossibleAnswerColumnBySubject;
+	private TableColumn<Question, String> secondPossibleAnswerColumnInCreateExam;
 
 	@FXML
-	private TableColumn<Question, String> correctAnswerColumnBySubject;
+	private TableColumn<Question, String> thirdPossibleAnswerColumnInCreateExam;
 
 	@FXML
-	private TableColumn<Question, String> pointsColumnBySubject;
+	private TableColumn<Question, String> fourthPossibleAnswerColumnInCreateExam;
+
+	@FXML
+	private TableColumn<Question, String> correctAnswerColumnInCreateExam;
+
+	@FXML
+	private TableColumn<Question, String> pointsColumnInCreateExam;
 
 	@FXML
 	private Button saveButton;
@@ -254,12 +260,12 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		date.setText(Utilities.setDate());
 		this.client = MainAppClient.getClient();
-		setColumns();
-		setColumnsBySubject();
-		setQuestionsTableInfo();
+		setColumnsInEditOrRemove();
+		setColumnInCreateExam();
+		setQuestionsTableInfoInEditOrRemove();
 		initComboBoxCreateExam();
-		tableViewBySubject.setEditable(true);
-		tableView.setEditable(true);
+		tableViewByInCreateExam.setEditable(true);
+		tableViewInEditOrRemove.setEditable(true);
 		// welcomeAnchorPane.setVisible(true);
 		// addQuestionAnchorPane.setVisible(false);
 		// createExamAnchorPane.setVisible(false);
@@ -271,16 +277,16 @@ public class TeacherWindowController implements Initializable, IScreenController
 	// region Public Methods
 
 	public void logOutButtonHandler(ActionEvent event) throws Exception {
-		if (tableView.isVisible()) {
-			tableView.getItems().clear();
-			setQuestionsTableInfo();
+		if (tableViewInEditOrRemove.isVisible()) {
+			tableViewInEditOrRemove.getItems().clear();
+			setQuestionsTableInfoInEditOrRemove();
 		}
 		if (addQuestionAnchorPane.isVisible()) {
 			clearAddQuestionFields();
 			addQuestionAnchorPane.setVisible(false);
 		}
 		if (createExamAnchorPane.isVisible()) {
-			tableViewBySubject.getItems().clear();
+			tableViewByInCreateExam.getItems().clear();
 			createExamAnchorPane.setVisible(false);
 		}
 		welcomeText.setText("Welcome");
@@ -300,8 +306,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 */
 	public void openEditorRemove(ActionEvent event) {
 		try {
-			tableView.getItems().clear();
-			setQuestionsTableInfo();
+			tableViewInEditOrRemove.getItems().clear();
+			setQuestionsTableInfoInEditOrRemove();
 			questionsTableAnchorPane.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
 			createExamAnchorPane.setVisible(false);
@@ -319,14 +325,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void saveButtonHandler(ActionEvent event) {
 		ObservableList<Question> newQuestions = FXCollections.observableArrayList();
 		ArrayList<Question> updateDB = new ArrayList<Question>();
-		newQuestions = tableView.getItems();
+		newQuestions = tableViewInEditOrRemove.getItems();
 		for (Question question : newQuestions) {
 			String answerNumber = question.getCorrectAnswer();
 			if (!answerNumber.equals("1") && !answerNumber.equals("2") && !answerNumber.equals("3")
 					&& !answerNumber.equals("4")) {
 				Utilities.popUpMethod("incorrect answer");
-				tableView.getItems().clear();
-				setQuestionsTableInfo();
+				tableViewInEditOrRemove.getItems().clear();
+				setQuestionsTableInfoInEditOrRemove();
 				System.out.println("answerNumber 1<-->4");
 				return;
 			}
@@ -360,11 +366,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 			@Override
 			public void handle(ActionEvent event) {
 				primaryStage.hide();
-				Question question = tableView.getSelectionModel().getSelectedItem();
+				Question question = tableViewInEditOrRemove.getSelectionModel().getSelectedItem();
 				question.setAuthor(null);
 				client.handleMessageFromClientUI(new QuestionsHandle("Delete", question));
-				tableView.getItems().clear();
-				setQuestionsTableInfo();
+				tableViewInEditOrRemove.getItems().clear();
+				setQuestionsTableInfoInEditOrRemove();
 			}
 		});
 		Button noButton = new Button("No");
@@ -429,7 +435,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	public void openCreateExam(ActionEvent event) {
 		try {
-			tableViewBySubject.getItems().clear();
+			tableViewByInCreateExam.getItems().clear();
 			createExamAnchorPane.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
 			questionsTableAnchorPane.setVisible(false);
@@ -461,8 +467,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 		if (subjectInCreateComboBox.getValue() != null) {
 			client.getQuestionsFromDB().clear();
 			client.handleMessageFromClientUI(Message.getQuestionBySubject + " " + subjectInCreateComboBox.getValue());
-			tableViewBySubject.getItems().clear();
-			tableViewBySubject.setItems(client.getQuestionsFromDB());
+			tableViewByInCreateExam.getItems().clear();
+			tableViewByInCreateExam.setItems(client.getQuestionsFromDB());
 			return;
 		}
 		Utilities.popUpMethod("Select Subject");
@@ -515,61 +521,64 @@ public class TeacherWindowController implements Initializable, IScreenController
 	/**
 	 * Define the columns
 	 */
-	private void setColumns() {
-		questionSubjectColumn.setCellValueFactory(new PropertyValueFactory<>("questionSubject"));
-		questionNumColumn.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
-		authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
-		questionTextColumn.setCellValueFactory(new PropertyValueFactory<>("questionText"));
-		firstPossibleAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
-		secondPossibleAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
-		thirdPossibleAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
-		fourthPossibleAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
-		correctAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
+	private void setColumnsInEditOrRemove() {
+		checkColumnInEditOrRemove.setCellFactory(tc -> new CheckBoxTableCell<>());
+		questionSubjectColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("questionSubject"));
+		questionNumColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
+		authorColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("author"));
+		questionTextColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+		firstPossibleAnswerColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
+		secondPossibleAnswerColumnInEditOrRemove
+				.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
+		thirdPossibleAnswerColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
+		fourthPossibleAnswerColumnInEditOrRemove
+				.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
+		correctAnswerColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 
 		// define the columns editable
 
-		questionTextColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-		questionTextColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
+		questionTextColumnInEditOrRemove.setCellFactory(TextFieldTableCell.forTableColumn());
+		questionTextColumnInEditOrRemove.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
 			@Override
 			public void handle(CellEditEvent<Question, String> t) {
 				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow()))
 						.setQuestionText(t.getNewValue());
 			}
 		});
-		firstPossibleAnswerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-		firstPossibleAnswerColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
+		firstPossibleAnswerColumnInEditOrRemove.setCellFactory(TextFieldTableCell.forTableColumn());
+		firstPossibleAnswerColumnInEditOrRemove.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
 			@Override
 			public void handle(CellEditEvent<Question, String> t) {
 				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow()))
 						.setFirstPossibleAnswer(t.getNewValue());
 			}
 		});
-		secondPossibleAnswerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-		secondPossibleAnswerColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
+		secondPossibleAnswerColumnInEditOrRemove.setCellFactory(TextFieldTableCell.forTableColumn());
+		secondPossibleAnswerColumnInEditOrRemove.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
 			@Override
 			public void handle(CellEditEvent<Question, String> t) {
 				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow()))
 						.setSecondPossibleAnswer(t.getNewValue());
 			}
 		});
-		thirdPossibleAnswerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-		thirdPossibleAnswerColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
+		thirdPossibleAnswerColumnInEditOrRemove.setCellFactory(TextFieldTableCell.forTableColumn());
+		thirdPossibleAnswerColumnInEditOrRemove.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
 			@Override
 			public void handle(CellEditEvent<Question, String> t) {
 				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow()))
 						.setThirdPossibleAnswer(t.getNewValue());
 			}
 		});
-		fourthPossibleAnswerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-		fourthPossibleAnswerColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
+		fourthPossibleAnswerColumnInEditOrRemove.setCellFactory(TextFieldTableCell.forTableColumn());
+		fourthPossibleAnswerColumnInEditOrRemove.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
 			@Override
 			public void handle(CellEditEvent<Question, String> t) {
 				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow()))
 						.setFourthPossibleAnswer(t.getNewValue());
 			}
 		});
-		correctAnswerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-		correctAnswerColumn.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
+		correctAnswerColumnInEditOrRemove.setCellFactory(TextFieldTableCell.forTableColumn());
+		correctAnswerColumnInEditOrRemove.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
 			@Override
 			public void handle(CellEditEvent<Question, String> t) {
 				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow()))
@@ -581,21 +590,22 @@ public class TeacherWindowController implements Initializable, IScreenController
 	/**
 	 * Define the columns by subject
 	 */
-	private void setColumnsBySubject() {
-		questionSubjectColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("questionSubject"));
-		questionNumberColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
-		questionTextColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("questionText"));
-		firstPossibleAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
-		secondPossibleAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
-		thirdPossibleAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
-		fourthPossibleAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
-		correctAnswerColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
-		pointsColumnBySubject.setCellValueFactory(new PropertyValueFactory<>("points"));
+	private void setColumnInCreateExam() {
+		questionSubjectColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("questionSubject"));
+		questionNumberColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
+		questionTextColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+		firstPossibleAnswerColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
+		secondPossibleAnswerColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
+		thirdPossibleAnswerColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
+		fourthPossibleAnswerColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
+		correctAnswerColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
+		pointsColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("points"));
+		checkColumnInCreateExam.setCellFactory(tc -> new CheckBoxTableCell<>());
 
 		// define the columns editable
 
-		pointsColumnBySubject.setCellFactory(TextFieldTableCell.forTableColumn());
-		pointsColumnBySubject.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
+		pointsColumnInCreateExam.setCellFactory(TextFieldTableCell.forTableColumn());
+		pointsColumnInCreateExam.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
 			@Override
 			public void handle(CellEditEvent<Question, String> t) {
 				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow())).setPoints(t.getNewValue());
@@ -607,9 +617,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	/**
 	 * Updates the GUI questions table from the data base
 	 */
-	private void setQuestionsTableInfo() {
+	private void setQuestionsTableInfoInEditOrRemove() {
 		client.handleMessageFromClientUI(Message.editOrRemove);
-		tableView.setItems(client.getQuestionsFromDB());
+		tableViewInEditOrRemove.setItems(client.getQuestionsFromDB());
 	}
 
 	/**
