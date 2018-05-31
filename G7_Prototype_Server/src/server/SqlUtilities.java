@@ -34,7 +34,7 @@ public class SqlUtilities {
 
 	public final static String UPDATE_Questions_Count = "UPDATE Questions_Count SET questionsCount=? WHERE subjectID=?;";
 
-	public final static String GetUserNameAndLastName = "SELECT firstName, lastName FROM Users WHERE idUsers=?;";
+	public final static String GetTypeAndUserNameAndLastName = "SELECT type, firstName, lastName FROM Users WHERE idUsers=?;";
 
 	public final static String GetQuestionBySubject = "SELECT * FROM Questions WHERE questoinSubject=?;";
 

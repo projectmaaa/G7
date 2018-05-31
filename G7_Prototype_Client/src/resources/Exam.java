@@ -2,7 +2,6 @@ package resources;
 
 import java.util.ArrayList;
 
-@SuppressWarnings("unused")
 public class Exam {
 
 	private String subjectID;
