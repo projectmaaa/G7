@@ -23,11 +23,11 @@ public class SqlUtilities {
 
 	public final static String Login_UpdateUser_logStatus_DisConnected = "UPDATE Users SET logged=0 WHERE idUsers=? AND passWord=?;";
 
-	public final static String UPDATE_Questions_Table = "UPDATE Questions SET questionText=?, firstAnswer=?, secondAnswer=?, thirdAnswer=?, fourthAnswer=?, correctAnswer=? WHERE questoinSubject=? AND questionNum=?;";
+	public final static String UPDATE_Questions_Table = "UPDATE Questions SET questionText=?, firstAnswer=?, secondAnswer=?, thirdAnswer=?, fourthAnswer=?, correctAnswer=? WHERE subjectID=? AND questionNum=?;";
 
 	public final static String INSERT_Question = "INSERT INTO Questions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-	public final static String REMOVE_Questions = "DELETE FROM Questions WHERE questoinSubject=? AND questionNum=?;";
+	public final static String REMOVE_Questions = "DELETE FROM Questions WHERE subjectID=? AND questionNum=?;";
 
 	public final static String SELECT_FROM_Questions_Count = "SELECT questionsCount FROM Questions_Count WHERE subjectID=?;";
 
@@ -35,7 +35,7 @@ public class SqlUtilities {
 
 	public final static String GetTypeAndUserNameAndLastName = "SELECT type, firstName, lastName FROM Users WHERE idUsers=?;";
 
-	public final static String GetQuestionBySubject = "SELECT * FROM Questions WHERE questoinSubject=?;";
+	public final static String GetQuestionBySubject = "SELECT * FROM Questions WHERE subjectID=?;";
 
 	// region Public Methods
 

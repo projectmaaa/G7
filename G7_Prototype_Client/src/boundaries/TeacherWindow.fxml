@@ -159,7 +159,7 @@
          <children>
       		<TableView fx:id="tableViewInEditOrRemove" editable="true" fixedCellSize="0.0" layoutX="2.0" layoutY="52.0" prefHeight="362.0" prefWidth="950.0" stylesheets="@table%20view.css">
       			<columns>
-      				<TableColumn fx:id="questionSubjectColumnInEditOrRemove" maxWidth="200.0" minWidth="90.0" prefWidth="75.0" text="Q.Subject" />
+      				<TableColumn fx:id="subjectIDColumnInEditOrRemove" maxWidth="200.0" minWidth="90.0" prefWidth="75.0" text="Q.Subject" />
                   <TableColumn fx:id="questionNumColumnInEditOrRemove" prefWidth="75.0" text="Q.Number" />
       				<TableColumn fx:id="authorColumnInEditOrRemove" maxWidth="200.0" minWidth="55.0" prefWidth="60.0" text="Author" />
       				<TableColumn fx:id="questionTextColumnInEditOrRemove" minWidth="0.0" prefWidth="280.0" text="Question Text" />
@@ -190,6 +190,7 @@
                </font>
             </Label>
             <Button layoutX="386.0" layoutY="421.0" mnemonicParsing="false" text="Cancel" />
+            <Button layoutX="334.0" layoutY="21.0" mnemonicParsing="false" onAction="#updateTableInEditOrRemove" text="Update Table" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="createExamAnchorPane" layoutX="27.0" layoutY="91.0" prefHeight="513.0" prefWidth="950.0" visible="false">
@@ -239,7 +240,7 @@
             </Label>
             <TableView fx:id="tableViewByInCreateExam" editable="true" fixedCellSize="0.0" layoutY="81.0" prefHeight="250.0" prefWidth="950.0" stylesheets="@table%20view.css">
                <columns>
-                  <TableColumn fx:id="questionSubjectColumnInCreateExam" editable="false" maxWidth="200.0" minWidth="70.0" prefWidth="75.0" text="Q.Subject" />
+                  <TableColumn fx:id="subjectIDColumnInCreateExam" editable="false" maxWidth="200.0" minWidth="70.0" prefWidth="75.0" text="Q.Subject" />
                   <TableColumn fx:id="questionNumberColumnInCreateExam" minWidth="70.0" prefWidth="75.0" text="Q.Number" />
                   <TableColumn fx:id="questionTextColumnInCreateExam" editable="false" minWidth="0.0" prefWidth="300.0" text="Question Text" />
                   <TableColumn editable="false" prefWidth="235.0" text="Possible Answers">
@@ -254,7 +255,7 @@
                   <TableColumn fx:id="pointsColumnInCreateExam" maxWidth="200.0" minWidth="55.0" prefWidth="60.0" text="Points" />
                </columns>
             </TableView>
-            <Button fx:id="updateTable" layoutX="234.0" layoutY="49.0" mnemonicParsing="false" onAction="#updateTableButton" text="Update Table" />
+            <Button layoutX="234.0" layoutY="49.0" mnemonicParsing="false" onAction="#updateTableInCreateExam" text="Update Table" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="examManagementAnchorPane" layoutX="14.0" layoutY="91.0" prefHeight="432.0" prefWidth="846.0" visible="false">

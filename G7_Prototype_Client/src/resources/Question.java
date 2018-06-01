@@ -13,7 +13,7 @@ public class Question implements Serializable {
 
 	// region Fields
 
-	private String questionSubject;
+	private String subjectID;
 
 	private String questionNum;
 
@@ -59,7 +59,7 @@ public class Question implements Serializable {
 	 */
 	public Question(String questionSubject, String questionNum, String author, String questionText,
 			ArrayList<String> possibleAnswers, String correctAnswer) {
-		this.questionSubject = questionSubject;
+		this.subjectID = questionSubject;
 		this.questionNum = questionNum;
 		this.author = author;
 		this.questionText = questionText;
@@ -76,7 +76,7 @@ public class Question implements Serializable {
 	 */
 	public Question(String questionSubject, String questionNum, String questionText, ArrayList<String> possibleAnswers,
 			String correctAnswer, int points) {
-		this.questionSubject = questionSubject;
+		this.subjectID = questionSubject;
 		this.questionNum = questionNum;
 		this.questionText = questionText;
 		this.firstPossibleAnswer = possibleAnswers.get(0);
@@ -100,11 +100,11 @@ public class Question implements Serializable {
 	}
 
 	public String getQuestionSubject() {
-		return questionSubject;
+		return subjectID;
 	}
 
 	public void setQuestionSubject(String questionSubject) {
-		this.questionSubject = questionSubject;
+		this.subjectID = questionSubject;
 	}
 
 	public String getAuthor() {
@@ -174,13 +174,13 @@ public class Question implements Serializable {
 	public void setSubjectNumber(String subject) {
 		switch (subject) {
 		case "Software":
-			this.questionSubject = "01";
+			this.subjectID = "01";
 			break;
 		case "Math":
-			this.questionSubject = "02";
+			this.subjectID = "02";
 			break;
 		case "Physics":
-			this.questionSubject = "03";
+			this.subjectID = "03";
 			break;
 		}
 	}
