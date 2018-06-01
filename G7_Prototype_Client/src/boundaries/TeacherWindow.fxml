@@ -12,6 +12,9 @@
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.MotionBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -101,7 +104,7 @@
       </AnchorPane>
       <AnchorPane fx:id="addQuestionAnchorPane" layoutX="6.0" layoutY="94.0" prefHeight="432.0" prefWidth="846.0" visible="false">
          <children>
-            <Label layoutX="20.0" layoutY="35.0" text="Add Question" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+            <Label layoutX="63.0" layoutY="6.0" text="Add Question" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="24.0" />
                </font>
@@ -109,50 +112,50 @@
                   <Bloom />
                </effect>
             </Label>
-            <Label fx:id="subject" layoutX="48.0" layoutY="91.0" text="Subject" textFill="WHITE">
+            <Label fx:id="subject" layoutX="48.0" layoutY="60.0" text="Subject" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="questionText" layoutX="19.0" layoutY="137.0" text="Question Text" textFill="#fcfafa">
+            <Label fx:id="questionText" layoutX="19.0" layoutY="106.0" text="Question Text" textFill="#fcfafa">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="firstAnswer" layoutX="25.0" layoutY="177.0" text="First answer" textFill="WHITE">
+            <Label fx:id="firstAnswer" layoutX="25.0" layoutY="146.0" text="First answer" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="secondAnswer" layoutX="16.0" layoutY="219.0" text="Second answer" textFill="#f8f7f7">
+            <Label fx:id="secondAnswer" layoutX="16.0" layoutY="188.0" text="Second answer" textFill="#f8f7f7">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="thirdAnswer" layoutX="22.0" layoutY="261.0" text="Third answer" textFill="WHITE">
+            <Label fx:id="thirdAnswer" layoutX="22.0" layoutY="230.0" text="Third answer" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="fourthAnswer" layoutX="18.0" layoutY="304.0" text="Fourth answer" textFill="WHITE">
+            <Label fx:id="fourthAnswer" layoutX="18.0" layoutY="273.0" text="Fourth answer" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="correctAnswer" layoutX="62.0" layoutY="349.0" text="Correct answer" textFill="WHITE">
+            <Label fx:id="correctAnswer" layoutX="62.0" layoutY="318.0" text="Correct answer" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <ComboBox fx:id="subjectComboBox" layoutX="127.0" layoutY="90.0" prefHeight="25.0" prefWidth="155.0" />
-            <TextField fx:id="questionTextField" layoutX="126.0" layoutY="134.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
-            <TextField fx:id="firstAnswerField" layoutX="126.0" layoutY="174.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
-            <TextField fx:id="secondAnswerField" layoutX="126.0" layoutY="216.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
-            <TextField fx:id="thirdAnswerField" layoutX="126.0" layoutY="258.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
-            <TextField fx:id="fourthAnswerField" layoutX="126.0" layoutY="301.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
-            <ComboBox fx:id="correctAnswerComboBox" layoutX="166.0" layoutY="346.0" prefHeight="25.0" prefWidth="74.0" />
-            <Button fx:id="createQuestionButton" layoutX="230.0" layoutY="393.0" mnemonicParsing="false" onAction="#addNewQuestion" text="Create question" />
-            <Button fx:id="clearButton" layoutX="320.0" layoutY="346.0" mnemonicParsing="false" onAction="#clearButtonPressed" text="Clear" />
+            <ComboBox fx:id="subjectComboBox" layoutX="127.0" layoutY="59.0" prefHeight="25.0" prefWidth="155.0" />
+            <TextField fx:id="questionTextField" layoutX="126.0" layoutY="103.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
+            <TextField fx:id="firstAnswerField" layoutX="126.0" layoutY="143.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
+            <TextField fx:id="secondAnswerField" layoutX="126.0" layoutY="185.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
+            <TextField fx:id="thirdAnswerField" layoutX="126.0" layoutY="227.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
+            <TextField fx:id="fourthAnswerField" layoutX="126.0" layoutY="270.0" onKeyPressed="#keyHandlerInAddQuestionScreen" prefHeight="25.0" prefWidth="326.0" />
+            <ComboBox fx:id="correctAnswerComboBox" layoutX="166.0" layoutY="315.0" prefHeight="25.0" prefWidth="74.0" />
+            <Button fx:id="createQuestionButton" layoutX="230.0" layoutY="362.0" mnemonicParsing="false" onAction="#addNewQuestion" text="Create question" />
+            <Button fx:id="clearButton" layoutX="320.0" layoutY="315.0" mnemonicParsing="false" onAction="#clearButtonPressed" text="Clear" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="questionsTableAnchorPaneInEditOrRemove" layoutX="28.0" layoutY="116.0" prefHeight="466.0" prefWidth="950.0" visible="false">
@@ -173,7 +176,7 @@
       				<TableColumn fx:id="correctAnswerColumnInEditOrRemove" maxWidth="255.0" minWidth="65.0" prefWidth="104.0" text="Correct Answer" />
       			</columns>
       		</TableView>
-            <Label layoutX="9.0" layoutY="-16.0" prefWidth="253.0" text="Edit \ Remove Question" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+            <Label layoutX="40.0" layoutY="-16.0" prefWidth="253.0" text="Edit \ Remove Question" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="24.0" />
                </font>
@@ -189,14 +192,13 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Button fx:id="backButtonEdit" layoutX="510.0" layoutY="420.0" mnemonicParsing="false" onAction="#backToMainScreen" text="Back" />
             <Button layoutX="334.0" layoutY="21.0" mnemonicParsing="false" onAction="#updateTableInEditOrRemove" text="Update Table" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="createExamAnchorPane" layoutX="27.0" layoutY="91.0" prefHeight="513.0" prefWidth="950.0" visible="false">
          <children>
             <ComboBox fx:id="subjectInCreateComboBox" layoutX="65.0" layoutY="49.0" prefWidth="150.0" />
-            <Label layoutX="-5.0" layoutY="8.0" prefWidth="253.0" text="Create Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+            <Label layoutX="41.0" layoutY="9.0" prefWidth="253.0" text="Create Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="24.0" />
                </font>
@@ -260,7 +262,7 @@
       </AnchorPane>
       <AnchorPane fx:id="examManagementAnchorPane" layoutX="14.0" layoutY="91.0" prefHeight="432.0" prefWidth="846.0" visible="false">
          <children>
-            <Label layoutX="6.0" layoutY="7.0" prefWidth="253.0" text="Exam Management" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+            <Label layoutX="53.0" layoutY="9.0" prefWidth="253.0" text="Exam Management" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="24.0" />
                </font>
@@ -305,6 +307,25 @@
                </effect>
             </Button>
             <Button fx:id="examManagementUpdateButton" layoutX="250.0" layoutY="54.0" mnemonicParsing="false" text="Update table" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="backAnchorPane" layoutY="63.0" onMouseClicked="#backToMainScreen" prefHeight="84.0" prefWidth="74.0" visible="false">
+         <children>
+            <ImageView fitHeight="42.0" fitWidth="41.0" layoutX="19.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/arrow-address-back_icon-icons.com_54065%20(1).png" />
+               </image>
+               <effect>
+                  <Lighting diffuseConstant="1.02" specularConstant="0.98" specularExponent="0.0" surfaceScale="6.5">
+                     <light>
+                        <Light.Distant />
+                     </light>
+                     <bumpInput>
+                        <MotionBlur />
+                     </bumpInput>
+                  </Lighting>
+               </effect>
+            </ImageView>
          </children>
       </AnchorPane>
 	</children>

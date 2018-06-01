@@ -51,6 +51,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private AnchorPane welcomeAnchorPane;
+	
+	@FXML
+	private AnchorPane backAnchorPane;
 
 	@FXML
 	private Text TextGroup7;
@@ -69,9 +72,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private MenuItem editOrRemoveQuestion;
-	
-	@FXML
-	private Button backButtonEdit;
 
 	@FXML
 	private AnchorPane questionsTableAnchorPaneInEditOrRemove;
@@ -289,6 +289,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		backAnchorPane.setVisible(false);
 		date.setText(Utilities.setDate());
 		this.client = MainAppClient.getClient();
 		setColumnsInEditOrRemove();
@@ -344,6 +345,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			tableViewInEditOrRemove.getItems().clear();
 			// setQuestionsTableInfoInEditOrRemove();
 			questionsTableAnchorPaneInEditOrRemove.setVisible(true);
+			backAnchorPane.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
 			createExamAnchorPane.setVisible(false);
 			examManagementAnchorPane.setVisible(false);
@@ -434,6 +436,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void openAddQuestion(ActionEvent event) {
 		try {
 			addQuestionAnchorPane.setVisible(true);
+			backAnchorPane.setVisible(true);
 			questionsTableAnchorPaneInEditOrRemove.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
 			createExamAnchorPane.setVisible(false);
@@ -477,6 +480,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		try {
 			tableViewByInCreateExam.getItems().clear();
 			createExamAnchorPane.setVisible(true);
+			backAnchorPane.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
 			questionsTableAnchorPaneInEditOrRemove.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
@@ -525,6 +529,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void openExamManagement(ActionEvent event) {
 		try {
 			examManagementAnchorPane.setVisible(true);
+			backAnchorPane.setVisible(true);
 			createExamAnchorPane.setVisible(false);
 			addQuestionAnchorPane.setVisible(false);
 			questionsTableAnchorPaneInEditOrRemove.setVisible(false);
@@ -636,8 +641,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 	}
 	
-	public void backToMainScreen(ActionEvent event) {
+	public void backToMainScreen(MouseEvent event) {
 		welcomeAnchorPane.setVisible(true);
+		backAnchorPane.setVisible(false);
 		addQuestionAnchorPane.setVisible(false);
 		questionsTableAnchorPaneInEditOrRemove.setVisible(false);
 		createExamAnchorPane.setVisible(false);
