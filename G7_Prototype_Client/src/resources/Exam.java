@@ -30,6 +30,7 @@ public class Exam {
 		this.freeTextForTeacherOnly=freeTextForTeacherOnly;
 		this.teacherName=teacherName;
 		this.questions=new ArrayList<QuestionInExam>();
+		examCounter++;
 	}
 	
 	//setters, getters

@@ -40,6 +40,4 @@ public class StudentInActiveExam {
 		this.timeToSolve = timeToSolve;
 	}
 	
-	
-	
 }
