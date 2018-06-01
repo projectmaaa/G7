@@ -35,6 +35,7 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -68,6 +69,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private MenuItem editOrRemoveQuestion;
+	
+	@FXML
+	private Button backButtonEdit;
 
 	@FXML
 	private AnchorPane questionsTableAnchorPaneInEditOrRemove;
@@ -194,6 +198,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button clearButton;
+	
+	@FXML
+ 	private ComboBox<String> editComboBox;
 
 	// create exam
 
@@ -240,6 +247,21 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private ComboBox<String> subjectExamManagement;
+	
+	@FXML
+	private Button examManagementUpdateButton;
+	
+	@FXML
+	private Button activateButton;
+	
+	@FXML
+	private Button changeTimeButton;
+	
+	@FXML
+	private Button LockButton;
+	
+	@FXML
+	private Button deleteExamButton;
 
 	//
 
@@ -327,6 +349,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 			examManagementAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 			welcomeAnchorPane.setVisible(false);
+			editComboBox.setPromptText("Select Subject");
+			editComboBox.getItems().addAll("Software", "Math", "Physics");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -512,6 +536,80 @@ public class TeacherWindowController implements Initializable, IScreenController
 			e.printStackTrace();
 		}
 	}
+	
+	public void activateButtonHandler(ActionEvent event) {
+		Label text = null;
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("AES7");
+		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		Popup popup = new Popup();
+		popup.setX(700);
+		popup.setY(400);
+		HBox layout = new HBox(10);
+		text = new Label("Please enter an execution code:");
+		popup.getContent().addAll(text);
+		TextField executionCode = new TextField();
+		executionCode.setEditable(true);
+		Button okButton = new Button("OK");
+		okButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				//get selected exam
+				//create reference to ActiveExam
+				//getText in TextField
+				//update DB
+				primaryStage.hide();
+			}
+		});
+		Button cancelButton = new Button("Cancel");
+		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+			}
+		});
+		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+		layout.getChildren().addAll(text, executionCode, okButton, cancelButton);
+		primaryStage.setScene(new Scene(layout));
+		primaryStage.show();
+	}
+	
+	public void changeTimeButtonHandler(ActionEvent event) {
+		Label text = null;
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("AES7");
+		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		Popup popup = new Popup();
+		popup.setX(700);
+		popup.setY(400);
+		HBox layout = new HBox(10);
+		text = new Label("Please enter new exam duration:");
+		popup.getContent().addAll(text);
+		TextField newDuration = new TextField();
+		newDuration.setEditable(true);
+		Button okButton = new Button("OK");
+		okButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				//get selected exam
+				//getText in TextField
+				//change exam duration to newDuration
+				//update DB
+				primaryStage.hide();
+			}
+		});
+		Button cancelButton = new Button("Cancel");
+		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+			}
+		});
+		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+		layout.getChildren().addAll(text, newDuration, okButton, cancelButton);
+		primaryStage.setScene(new Scene(layout));
+		primaryStage.show();
+	}
 
 	public void clearButtonPressed(ActionEvent event) {
 		clearAddQuestionFields();
@@ -536,6 +634,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 			else if (fourthAnswerField.isFocused())
 				questionTextField.requestFocus();
 		}
+	}
+	
+	public void backToMainScreen(ActionEvent event) {
+		welcomeAnchorPane.setVisible(true);
+		addQuestionAnchorPane.setVisible(false);
+		questionsTableAnchorPaneInEditOrRemove.setVisible(false);
+		createExamAnchorPane.setVisible(false);
+		examManagementAnchorPane.setVisible(false);
 	}
 
 	// end region -> Public Methods
