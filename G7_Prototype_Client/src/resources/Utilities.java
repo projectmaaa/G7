@@ -37,12 +37,15 @@ public class Utilities {
 	 * This method will show pop up screen
 	 * 
 	 * @param str
-	 *            add/save/incorrent answer/Select Subject/Enter Text/Select Answer/
+	 *            add/save/incorrent answer/Select Subject/Enter Text/Select
+	 *            Answer/Select Course/Duration/Points/TotalPoints
 	 */
 	public static void popUpMethod(String str) {
 		Label text = null;
 		Stage primaryStage = new Stage();
 		primaryStage.setTitle("AES7");
+
+		primaryStage.setResizable(false);
 		Popup popup = new Popup();
 		popup.setX(700);
 		popup.setY(400);
@@ -56,7 +59,8 @@ public class Utilities {
 			}
 		});
 		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		switch (str) {
+		String[] strArray = str.split(" ");
+		switch (strArray[0]) {
 		case "add":
 			text = new Label("Question added successfully!");
 			popup.getContent().addAll(text);
@@ -73,12 +77,35 @@ public class Utilities {
 			text = new Label("Please select subject");
 			popup.getContent().addAll(text);
 			break;
+		case "Select Course":
+			text = new Label("Please select course");
+			popup.getContent().addAll(text);
+			break;
 		case "Enter Text":
 			text = new Label("Please fill all the text fields");
 			popup.getContent().addAll(text);
 			break;
+		case "Exam":
+			text = new Label("Exam created successfully!");
+			popup.getContent().addAll(text);
 		case "Select Answer":
 			text = new Label("Please select the correct answer for the question");
+			popup.getContent().addAll(text);
+			break;
+		case "Duration":
+			text = new Label("Please fill the correct amount of time");
+			popup.getContent().addAll(text);
+			break;
+		case "Points":
+			primaryStage.setHeight(100);
+			primaryStage.setWidth(400);
+			text = new Label("Wrong amount of points in question number " + strArray[1]);
+			popup.getContent().addAll(text);
+			break;
+		case "TotalPoints":
+			primaryStage.setHeight(100);
+			primaryStage.setWidth(400);
+			text = new Label("The total amount of points isn't 100");
 			popup.getContent().addAll(text);
 			break;
 		}

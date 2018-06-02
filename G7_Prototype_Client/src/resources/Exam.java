@@ -1,40 +1,45 @@
 package resources;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Exam {
+import javafx.collections.ObservableList;
+
+public class Exam implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private String subjectID;
-	
+
 	private String courseID;
-	
+
 	private static int examCounter;
-	
+
 	private ArrayList<QuestionInExam> questions;
-	
+
 	private int examDuration;
-	
+
 	private String freeTextForExaminees;
-	
+
 	private String freeTextForTeacherOnly;
-	
+
 	private String teacherName;
-	
-	public Exam (String subjectID, String courseID, int examDuration, String freeTextForExaminees,
-			String freeTextForTeacherOnly, String teacherName) {
-		
-		this.subjectID=subjectID;
-		this.courseID=courseID;
-		this.examDuration=examDuration;
-		this.freeTextForExaminees=freeTextForExaminees;
-		this.freeTextForTeacherOnly=freeTextForTeacherOnly;
-		this.teacherName=teacherName;
-		this.questions=new ArrayList<QuestionInExam>();
+
+	public Exam(String subjectID, String courseID, int examDuration, String teacherName) {
+
+		this.subjectID = subjectID;
+		this.courseID = courseID;
+		this.examDuration = examDuration;
+		this.teacherName = teacherName;
+		questions = new ArrayList<>();
 		examCounter++;
 	}
-	
-	//setters, getters
-	
+
+	// setters, getters
+
 	public String getSubjectID() {
 		return subjectID;
 	}
@@ -63,8 +68,8 @@ public class Exam {
 		return questions;
 	}
 
-	public void setQuestions(ArrayList<QuestionInExam> questions) {
-		this.questions = questions;
+	public void setQuestions(ObservableList<QuestionInExam> questions) {
+		this.questions.addAll(questions);
 	}
 
 	public int getExamDuration() {
@@ -99,9 +104,9 @@ public class Exam {
 		this.teacherName = teacherName;
 	}
 
-	//specific methods
-	
-	public void addQuestionToExam(Question question, int points) {
-		questions.add(new QuestionInExam(this,question,points));
+	// specific methods
+
+	public void addQuestionToExam(QuestionInExam question) {
+		questions.add(question);
 	}
 }

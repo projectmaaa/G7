@@ -8,6 +8,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.effect.ColorAdjust?>
@@ -47,7 +48,7 @@
 				<Font size="24.0" />
 			</font>
 		</Text>
-		<Button fx:id="logoutButton" layoutX="932.0" layoutY="16.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
+		<Button fx:id="logoutButton" layoutX="932.0" layoutY="17.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
 		<MenuBar fx:id="menuBar" focusTraversable="false" layoutY="52.0" prefHeight="42.0" prefWidth="784.0" stylesheets="@TeacherWindow.css">
 			<menus>
 				<Menu mnemonicParsing="false" text="Maintain Questions">
@@ -197,7 +198,6 @@
       </AnchorPane>
       <AnchorPane fx:id="createExamAnchorPane" layoutX="27.0" layoutY="91.0" prefHeight="513.0" prefWidth="950.0" visible="false">
          <children>
-            <ComboBox fx:id="subjectInCreateComboBox" layoutX="65.0" layoutY="49.0" prefWidth="150.0" />
             <Label layoutX="41.0" layoutY="9.0" prefWidth="253.0" text="Create Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="24.0" />
@@ -206,58 +206,99 @@
                   <Bloom />
                </effect>
             </Label>
-            <Label fx:id="subjectInCreate" layoutX="3.0" layoutY="53.0" text="Subject" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <Label fx:id="courseInCreate" layoutX="7.0" layoutY="344.0" text="Course" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="courseInCreateComboBox" layoutX="82.0" layoutY="341.0" prefWidth="150.0" />
-            <Button fx:id="createExamButton" layoutX="425.0" layoutY="444.0" mnemonicParsing="false" text="Create Exam">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Label fx:id="durationInCreate" layoutX="4.0" layoutY="446.0" text="Duration time (Min)" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <TextField fx:id="durationInCreateField" layoutX="129.0" layoutY="444.0" prefHeight="25.0" prefWidth="92.0" />
-            <TextField fx:id="textStudentsInCreateField" layoutX="128.0" layoutY="376.0" prefHeight="25.0" prefWidth="280.0" />
-            <TextField fx:id="textTeachersInCreateField" layoutX="128.0" layoutY="409.0" prefHeight="25.0" prefWidth="280.0" />
-            <Label fx:id="textStudentsInCreate" layoutX="7.0" layoutY="379.0" text="Text for students" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <Label fx:id="textTeachersInCreate" layoutX="7.0" layoutY="412.0" text="Text for teachers" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <TableView fx:id="tableViewByInCreateExam" editable="true" fixedCellSize="0.0" layoutY="81.0" prefHeight="250.0" prefWidth="950.0" stylesheets="@table%20view.css">
-               <columns>
-                  <TableColumn fx:id="subjectIDColumnInCreateExam" editable="false" maxWidth="200.0" minWidth="70.0" prefWidth="75.0" text="Q.Subject" />
-                  <TableColumn fx:id="questionNumberColumnInCreateExam" minWidth="70.0" prefWidth="75.0" text="Q.Number" />
-                  <TableColumn fx:id="questionTextColumnInCreateExam" editable="false" minWidth="0.0" prefWidth="300.0" text="Question Text" />
-                  <TableColumn editable="false" prefWidth="235.0" text="Possible Answers">
+            <AnchorPane fx:id="anchorPaneInCreateExamFirstWindow" layoutX="41.0" layoutY="57.0" prefHeight="227.0" prefWidth="277.0" visible="false">
+               <children>
+                  <ComboBox fx:id="subjectInCreateExamComboBox" layoutX="75.0" layoutY="11.0" prefWidth="150.0" />
+                  <Label layoutY="14.0" text="Subject" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="2.0" layoutY="47.0" text="Course" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="courseInCreateExamComboBox" layoutX="75.0" layoutY="44.0" prefWidth="150.0" />
+                  <Label layoutX="2.0" layoutY="82.0" text="Duration time (Min)" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="durationInCreateExamField" layoutX="170.0" layoutY="79.0" prefHeight="25.0" prefWidth="55.0" />
+                  <Button fx:id="createExamNextButtonFirstWindow" layoutX="188.0" layoutY="139.0" mnemonicParsing="false" onAction="#createExamInit" prefHeight="25.0" prefWidth="74.0" text="Next" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorPaneInCreateExamSecondWindow" prefHeight="513.0" prefWidth="950.0" visible="false">
+               <children>
+                  <TableView fx:id="tableViewInCreateExamAllQuestion" editable="true" fixedCellSize="0.0" layoutY="41.0" prefHeight="200.0" prefWidth="950.0" stylesheets="@table%20view.css">
                      <columns>
-                        <TableColumn fx:id="firstPossibleAnswerColumnInCreateExam" prefWidth="85.0" text="First" />
-                        <TableColumn fx:id="secondPossibleAnswerColumnInCreateExam" prefWidth="85.0" text="Second" />
-                        <TableColumn fx:id="thirdPossibleAnswerColumnInCreateExam" prefWidth="85.0" text="Third" />
-                        <TableColumn fx:id="fourthPossibleAnswerColumnInCreateExam" editable="false" prefWidth="85.0" text="Fourth" />
+                        <TableColumn fx:id="subjectIDColumnInCreateExamAllQuestions" maxWidth="200.0" minWidth="90.0" prefWidth="75.0" text="Subject ID" />
+                        <TableColumn fx:id="questionNumColumnInCreateExamAllQuestions" prefWidth="75.0" text="Q.Number" />
+                        <TableColumn fx:id="authorColumnInCreateExamAllQuestions" maxWidth="200.0" minWidth="55.0" prefWidth="60.0" text="Author" />
+                        <TableColumn fx:id="questionTextColumnInCreateExamAllQuestions" minWidth="0.0" prefWidth="280.0" text="Question Text" />
+                        <TableColumn fx:id="possibleAnswersColumnInCreateExamAllQuestions" prefWidth="340.0" text="Possible Answers">
+                           <columns>
+                              <TableColumn fx:id="firstPossibleAnswerColumnInCreateExamAllQuestions" prefWidth="85.0" text="First" />
+                              <TableColumn fx:id="secondPossibleAnswerColumnInCreateExamAllQuestions" prefWidth="85.0" text="Second" />
+                              <TableColumn fx:id="thirdPossibleAnswerColumnInCreateExamAllQuestions" prefWidth="85.0" text="Third" />
+                              <TableColumn fx:id="fourthPossibleAnswerColumnInCreateExamAllQuestions" prefWidth="85.0" text="Fourth" />
+                           </columns>
+                        </TableColumn>
+                        <TableColumn fx:id="correctAnswerColumnInCreateExamAllQuestions" maxWidth="255.0" minWidth="65.0" prefWidth="102.0" text="Correct Answer" />
                      </columns>
-                  </TableColumn>
-                  <TableColumn fx:id="correctAnswerColumnInCreateExam" editable="false" maxWidth="255.0" minWidth="67.0" prefWidth="99.0" text="Correct Answer" />
-                  <TableColumn fx:id="pointsColumnInCreateExam" maxWidth="200.0" minWidth="55.0" prefWidth="60.0" text="Points" />
-               </columns>
-            </TableView>
-            <Button layoutX="234.0" layoutY="49.0" mnemonicParsing="false" onAction="#updateTableInCreateExam" text="Update Table" />
+                  </TableView>
+                  <TableView fx:id="tableViewInCreateExamQuestion" editable="true" fixedCellSize="0.0" layoutY="275.0" prefHeight="200.0" prefWidth="806.0" stylesheets="@table%20view.css">
+                     <columns>
+                        <TableColumn prefWidth="809.0" text="Questions Added">
+                           <columns>
+                              <TableColumn fx:id="subjectIDColumnInCreateExam" editable="false" maxWidth="200.0" minWidth="70.0" prefWidth="75.0" text="Subject ID" />
+                              <TableColumn fx:id="questionNumberColumnInCreateExam" minWidth="70.0" prefWidth="75.0" text="Q.Number" />
+                              <TableColumn fx:id="questionTextColumnInCreateExam" editable="false" minWidth="0.0" prefWidth="560.3333740234375" text="Question Text" />
+                              <TableColumn fx:id="pointsColumnInCreateExam" maxWidth="470.3333435058594" minWidth="0.0" prefWidth="93.0" text="Points" />
+                           </columns>
+                        </TableColumn>
+                     </columns>
+                  </TableView>
+                  <ImageView fitHeight="34.0" fitWidth="55.0" layoutX="387.0" layoutY="242.0" onMouseClicked="#greenArrowDown" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/green_arrow_down.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="55.0" layoutX="498.0" layoutY="242.0" onMouseClicked="#redArrowUp" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/red_arrow_up.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="34.0" fitWidth="31.0" layoutX="444.0" layoutY="243.0" onMouseClicked="#realodTablesInCreateExam" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/reload.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="createExamNextButtonSecondWindow" layoutX="855.0" layoutY="364.0" mnemonicParsing="false" onMouseClicked="#checkTotalPointsInCreateExam" prefHeight="25.0" prefWidth="67.0" text="Next" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorPaneInCreateExamThirdWindow" layoutY="57.0" prefHeight="288.0" prefWidth="466.0" visible="false">
+               <children>
+                  <TextArea fx:id="textAreaStudentsInCreateExam" layoutX="166.0" layoutY="14.0" prefHeight="100.0" prefWidth="280.0" />
+                  <TextArea fx:id="textAreaTeachersInCreateExam" layoutX="165.0" layoutY="125.0" prefHeight="100.0" prefWidth="280.0" />
+                  <Label layoutX="40.0" layoutY="14.0" text="Text for students" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="41.0" layoutY="125.0" text="Text for teachers" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="createExamButton" layoutX="359.0" layoutY="241.0" mnemonicParsing="false" onMouseClicked="#createFinalExam" text="Create Exam">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="examManagementAnchorPane" layoutX="14.0" layoutY="91.0" prefHeight="432.0" prefWidth="846.0" visible="false">

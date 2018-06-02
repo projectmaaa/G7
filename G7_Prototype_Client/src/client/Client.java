@@ -13,6 +13,7 @@ import ocsf.client.AbstractClient;
 import resources.Message;
 import resources.Question;
 import resources.QuestionsHandle;
+import resources.Utilities;
 
 public class Client extends AbstractClient implements IScreenController {
 
@@ -170,6 +171,7 @@ public class Client extends AbstractClient implements IScreenController {
 				break;
 			case Message.tableSaved:
 				System.out.println("Data Base Updated successfully");
+				Utilities.popUpMethod("exam");
 				break;
 			case "#UserAlreadyConnected":
 				break;

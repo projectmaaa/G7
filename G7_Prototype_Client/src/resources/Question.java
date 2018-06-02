@@ -31,8 +31,6 @@ public class Question implements Serializable {
 
 	private String correctAnswer;
 
-	private int points;
-
 	// end region -> Fields
 
 	// region Constructors
@@ -40,10 +38,10 @@ public class Question implements Serializable {
 	/**
 	 * this constructor is for creating new question
 	 */
-	public Question(String questionSubject, String author, String questionText, String firstPossibleAnswer,
+	public Question(String subjectID, String author, String questionText, String firstPossibleAnswer,
 			String secondPossibleAnswer, String thirdPossibleAnswer, String fourthPossibleAnswer,
 			String correctAnswer) {
-		setSubjectNumber(questionSubject);
+		setSubjectNumber(subjectID);
 		this.author = author;
 		this.questionText = questionText;
 		this.firstPossibleAnswer = firstPossibleAnswer;
@@ -57,9 +55,9 @@ public class Question implements Serializable {
 	 * this constructor is when getting the info from the data base to show in the
 	 * table view of the whole questions
 	 */
-	public Question(String questionSubject, String questionNum, String author, String questionText,
+	public Question(String subjectID, String questionNum, String author, String questionText,
 			ArrayList<String> possibleAnswers, String correctAnswer) {
-		this.subjectID = questionSubject;
+		this.subjectID = subjectID;
 		this.questionNum = questionNum;
 		this.author = author;
 		this.questionText = questionText;
@@ -68,23 +66,6 @@ public class Question implements Serializable {
 		this.thirdPossibleAnswer = possibleAnswers.get(2);
 		this.fourthPossibleAnswer = possibleAnswers.get(3);
 		this.correctAnswer = correctAnswer;
-	}
-
-	/**
-	 * this constructor is when getting the info from the data base to show in the
-	 * table view of creating exam
-	 */
-	public Question(String questionSubject, String questionNum, String questionText, ArrayList<String> possibleAnswers,
-			String correctAnswer, int points) {
-		this.subjectID = questionSubject;
-		this.questionNum = questionNum;
-		this.questionText = questionText;
-		this.firstPossibleAnswer = possibleAnswers.get(0);
-		this.secondPossibleAnswer = possibleAnswers.get(1);
-		this.thirdPossibleAnswer = possibleAnswers.get(2);
-		this.fourthPossibleAnswer = possibleAnswers.get(3);
-		this.correctAnswer = correctAnswer;
-		this.points = points;
 	}
 
 	// end region -> Constructors
@@ -99,12 +80,12 @@ public class Question implements Serializable {
 		this.questionNum = questionNum;
 	}
 
-	public String getQuestionSubject() {
+	public String getSubjectID() {
 		return subjectID;
 	}
 
-	public void setQuestionSubject(String questionSubject) {
-		this.subjectID = questionSubject;
+	public void setSubjectID(String subjectID) {
+		this.subjectID = subjectID;
 	}
 
 	public String getAuthor() {
@@ -159,19 +140,15 @@ public class Question implements Serializable {
 		return correctAnswer;
 	}
 
-	public String getPoints() {
-		return Integer.toString(points);
-	}
-
-	public void setPoints(String points) {
-		this.points = Integer.parseInt(points);
-	}
-
 	public void setCorrectAnswer(String correctAnswer) {
 		this.correctAnswer = correctAnswer;
 	}
 
-	public void setSubjectNumber(String subject) {
+	/**
+	 * 
+	 * @param subject
+	 */
+	private void setSubjectNumber(String subject) {
 		switch (subject) {
 		case "Software":
 			this.subjectID = "01";

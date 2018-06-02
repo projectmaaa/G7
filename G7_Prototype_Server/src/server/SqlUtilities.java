@@ -6,9 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
+
+import resources.Exam;
 import resources.Question;
+import resources.QuestionInExam;
 import resources.QuestionsHandle;
-import resources.Utilities;
 
 public class SqlUtilities {
 
@@ -29,6 +31,10 @@ public class SqlUtilities {
 	public final static String INSERT_Question = "INSERT INTO Questions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 	public final static String REMOVE_Questions = "DELETE FROM Questions WHERE subjectID=? AND questionNum=?;";
+
+	public final static String INSERET_EXAM = "INSERT INTO Exam VALUES (?, ?, ?, ?, ?, ?, ?);";
+
+	public final static String INSERET_QUESTION_IN_EXAM = "INSERT INTO QuestionInExam VALUES (?, ?, ?, ?, ?);";
 
 	public final static String SELECT_FROM_Questions_Count = "SELECT questionsCount FROM Questions_Count WHERE subjectID=?;";
 
@@ -136,9 +142,10 @@ public class SqlUtilities {
 			update.setString(4, question.getThirdPossibleAnswer());
 			update.setString(5, question.getFourthPossibleAnswer());
 			update.setString(6, question.getCorrectAnswer());
-			update.setString(7, question.getQuestionSubject());
+			update.setString(7, question.getSubjectID());
 			update.setString(8, question.getQuestionNum());
 			update.executeUpdate();
+			update.close();
 		}
 	}
 
@@ -147,7 +154,7 @@ public class SqlUtilities {
 	 */
 	public static void insertNewQuestion(Question question, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_Question);
-		insert.setString(1, question.getQuestionSubject());
+		insert.setString(1, question.getSubjectID());
 		insert.setString(2, question.getQuestionNum());
 		insert.setString(3, question.getAuthor());
 		insert.setString(4, question.getQuestionText());
@@ -157,6 +164,33 @@ public class SqlUtilities {
 		insert.setString(8, question.getFourthPossibleAnswer());
 		insert.setString(9, question.getCorrectAnswer());
 		insert.executeUpdate();
+		insert.close();
+	}
+
+	public static void insertQuestionInExam(Exam exam, Connection connection) throws SQLException {
+		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERET_QUESTION_IN_EXAM);
+		for (QuestionInExam questionInExam : exam.getQuestions()) {
+			insert.setString(1, getSubjectID(exam.getSubjectID()));
+			insert.setString(2, questionInExam.getQuestionNum());
+			insert.setString(3, getCourseID(exam.getCourseID()));
+			insert.setString(4, "01");
+			insert.setInt(5, questionInExam.getPoints());
+			insert.executeUpdate();
+		}
+		insert.close();
+	}
+
+	public static void insertNewExam(Exam exam, Connection connection) throws SQLException {
+		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERET_EXAM);
+		insert.setString(1, getSubjectID(exam.getSubjectID()));
+		insert.setString(2, getCourseID(exam.getCourseID()));
+		insert.setString(3, "01");
+		insert.setString(4, exam.getTeacherName());
+		insert.setInt(5, exam.getExamDuration());
+		insert.setString(6, exam.getFreeTextForExaminees());
+		insert.setString(7, exam.getFreeTextForTeacherOnly());
+		insert.executeUpdate();
+		insert.close();
 	}
 
 	/**
@@ -165,10 +199,11 @@ public class SqlUtilities {
 	public static void removeQuestions(ArrayList<Question> questions, Connection connection) throws SQLException {
 		PreparedStatement remove = connection.prepareStatement(SqlUtilities.REMOVE_Questions);
 		for (Question question : questions) {
-			remove.setString(1, question.getQuestionSubject());
+			remove.setString(1, question.getSubjectID());
 			remove.setString(2, question.getQuestionNum());
 			remove.executeUpdate();
 		}
+		remove.close();
 	}
 
 	/**
@@ -191,6 +226,8 @@ public class SqlUtilities {
 		statement.setInt(1, questionsCount); // update the new count in the DB
 		statement.setString(2, subjectID);
 		statement.executeUpdate();
+		statement.close();
+		rs.close();
 		return questionsCount;
 	}
 
@@ -210,6 +247,26 @@ public class SqlUtilities {
 			return "02";
 		case "Physics":
 			return "03";
+		default:
+			return null;
+		}
+	}
+
+	/**
+	 * 
+	 * @param course
+	 * @return
+	 */
+	private static String getCourseID(String course) {
+		switch (course) {
+		case "MLM":
+			return "01";
+		case "MTM":
+			return "02";
+		case "ATM":
+			return "03";
+		case "OOP":
+			return "04";
 		default:
 			return null;
 		}

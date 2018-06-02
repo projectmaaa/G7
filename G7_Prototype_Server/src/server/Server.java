@@ -7,9 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-import resources.Message;
-import resources.Question;
-import resources.QuestionsHandle;
+import resources.*;
 
 public class Server extends AbstractServer {
 
@@ -80,8 +78,8 @@ public class Server extends AbstractServer {
 				try {
 					if (questionsHandle.getQuestion().getQuestionNum() == null) { // before the process to complete the
 																					// questionID is finished
-						int questionCount = SqlUtilities
-								.getQuestionCount(questionsHandle.getQuestion().getQuestionSubject(), connection);
+						int questionCount = SqlUtilities.getQuestionCount(questionsHandle.getQuestion().getSubjectID(),
+								connection);
 						client.sendToClient(questionCount);
 					} else {
 						SqlUtilities.insertNewQuestion(questionsHandle.getQuestion(), connection);
@@ -103,6 +101,19 @@ public class Server extends AbstractServer {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+				}
+			}
+		} else if (msg instanceof ExamHandle) {
+			ExamHandle examHandle = (ExamHandle) msg;
+			if (examHandle.getCommand().equals(Message.exam)) {
+				try {
+					SqlUtilities.insertNewExam(examHandle.getExam(), connection);
+					SqlUtilities.insertQuestionInExam(examHandle.getExam(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
 		} else if (msg instanceof String) {

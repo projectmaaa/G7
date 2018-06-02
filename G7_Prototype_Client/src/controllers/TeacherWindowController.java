@@ -3,6 +3,7 @@ package controllers;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
 import client.Client;
 import client.MainAppClient;
 import javafx.collections.FXCollections;
@@ -20,10 +21,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -31,7 +32,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -39,7 +39,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+import javafx.util.converter.IntegerStringConverter;
 import resources.*;
 
 public class TeacherWindowController implements Initializable, IScreenController {
@@ -110,39 +110,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private TableColumn<Question, CheckBox> checkColumnInEditOrRemove;
 
 	@FXML
-	private TableView<Question> tableViewByInCreateExam;
-
-	@FXML
-	private TableColumn<Question, String> subjectIDColumnInCreateExam;
-
-	@FXML
-	private TableColumn<Question, CheckBox> checkColumnInCreateExam;
-
-	@FXML
-	private TableColumn<Question, String> questionNumberColumnInCreateExam;
-
-	@FXML
-	private TableColumn<Question, String> questionTextColumnInCreateExam;
-
-	@FXML
-	private TableColumn<Question, String> firstPossibleAnswerColumnInCreateExam;
-
-	@FXML
-	private TableColumn<Question, String> secondPossibleAnswerColumnInCreateExam;
-
-	@FXML
-	private TableColumn<Question, String> thirdPossibleAnswerColumnInCreateExam;
-
-	@FXML
-	private TableColumn<Question, String> fourthPossibleAnswerColumnInCreateExam;
-
-	@FXML
-	private TableColumn<Question, String> correctAnswerColumnInCreateExam;
-
-	@FXML
-	private TableColumn<Question, String> pointsColumnInCreateExam;
-
-	@FXML
 	private Button saveButton;
 
 	@FXML
@@ -207,38 +174,94 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private AnchorPane createExamAnchorPane;
 
-	@FXML
-	private Label subjectInCreate;
+	/***************************************************/
 
 	@FXML
-	private ComboBox<String> subjectInCreateComboBox;
+	private AnchorPane anchorPaneInCreateExamFirstWindow;
 
 	@FXML
-	private Label courseInCreate;
+	private ComboBox<String> subjectInCreateExamComboBox;
 
 	@FXML
-	private ComboBox<String> courseInCreateComboBox;
+	private ComboBox<String> courseInCreateExamComboBox;
 
 	@FXML
-	private Label textStudentsInCreate;
+	private TextField durationInCreateExamField;
 
 	@FXML
-	private TextField textStudentsInCreateField;
+	private Button createExamNextButtonFirstWindow;
+
+	/***************************************************/
 
 	@FXML
-	private Label textTeachersInCreate;
+	private AnchorPane anchorPaneInCreateExamSecondWindow;
 
 	@FXML
-	private TextField textTeachersInCreateField;
+	private TableView<Question> tableViewInCreateExamAllQuestion;
 
 	@FXML
-	private Label durationInCreate;
+	private TableColumn<Question, String> subjectIDColumnInCreateExamAllQuestions;
 
 	@FXML
-	private TextField durationInCreateField;
+	private TableColumn<Question, String> questionNumColumnInCreateExamAllQuestions;
+
+	@FXML
+	private TableColumn<Question, String> authorColumnInCreateExamAllQuestions;
+
+	@FXML
+	private TableColumn<Question, String> questionTextColumnInCreateExamAllQuestions;
+
+	@FXML
+	private TableColumn<Question, String> possibleAnswersColumnInCreateExamAllQuestions;
+
+	@FXML
+	private TableColumn<Question, String> firstPossibleAnswerColumnInCreateExamAllQuestions;
+
+	@FXML
+	private TableColumn<Question, String> secondPossibleAnswerColumnInCreateExamAllQuestions;
+
+	@FXML
+	private TableColumn<Question, String> thirdPossibleAnswerColumnInCreateExamAllQuestions;
+
+	@FXML
+	private TableColumn<Question, String> fourthPossibleAnswerColumnInCreateExamAllQuestions;
+
+	@FXML
+	private TableColumn<Question, String> correctAnswerColumnInCreateExamAllQuestions;
+
+	@FXML
+	private TableView<QuestionInExam> tableViewInCreateExamQuestion;
+
+	@FXML
+	private TableColumn<Question, String> subjectIDColumnInCreateExam;
+
+	@FXML
+	private TableColumn<Question, String> questionNumberColumnInCreateExam;
+
+	@FXML
+	private TableColumn<Question, String> questionTextColumnInCreateExam;
+
+	@FXML
+	private TableColumn<QuestionInExam, Integer> pointsColumnInCreateExam;
+
+	@FXML
+	private Button createExamNextButtonSecondWindow;
+
+	/***************************************************/
+
+	@FXML
+	private AnchorPane anchorPaneInCreateExamThirdWindow;
+
+	@FXML
+	private TextArea textAreaStudentsInCreateExam;
+
+	@FXML
+	private TextArea textAreaTeachersInCreateExam;
 
 	@FXML
 	private Button createExamButton;
+
+	/***************************************************/
 
 	// exam management
 
@@ -273,6 +296,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private Client client;
 
+	private Exam exam;
+
 	// end region -> Fields
 
 	// region Setters
@@ -292,13 +317,12 @@ public class TeacherWindowController implements Initializable, IScreenController
 		backAnchorPane.setVisible(false);
 		date.setText(Utilities.setDate());
 		this.client = MainAppClient.getClient();
-		setEditComboBoxInEditOrRemove();
+		setSubjectComboBox(subjectComboBoxInEditOrRemove);
 		setColumnsInEditOrRemove();
-		setColumnInCreateExam();
-		// setQuestionsTableInfoInEditOrRemove();
-		initComboBoxCreateExam();
-		tableViewByInCreateExam.setEditable(true);
-		tableViewByInCreateExam.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		setColumnInCreateExamAllQuestions();
+		setColumnInCreateExamQuestions();
+		initAnchorPaneInCreateExamFirstWindow();
+		tableViewInCreateExamQuestion.setEditable(true);
 		tableViewInEditOrRemove.setEditable(true);
 		tableViewInEditOrRemove.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		initAddQuestionOption();
@@ -323,7 +347,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 			addQuestionAnchorPane.setVisible(false);
 		}
 		if (createExamAnchorPane.isVisible()) {
-			tableViewByInCreateExam.getItems().clear();
+			tableViewInCreateExamAllQuestion.getItems().clear();
+			tableViewInCreateExamQuestion.getItems().clear();
 			createExamAnchorPane.setVisible(false);
 		}
 		welcomeText.setText("Welcome");
@@ -430,6 +455,73 @@ public class TeacherWindowController implements Initializable, IScreenController
 		primaryStage.show();
 	}
 
+	@FXML
+	void redArrowUp(MouseEvent event) {
+		QuestionInExam question = tableViewInCreateExamQuestion.getSelectionModel().getSelectedItem();
+		if (question != null) {
+			if (question.getPoints() != 0) {
+				question.setPoints(0);
+			}
+			tableViewInCreateExamQuestion.getItems().remove(question);
+			tableViewInCreateExamAllQuestion.getItems().add(question.getQuestion());
+			initTablesInCreateExam(true, true);
+		}
+	}
+
+	@FXML
+	void greenArrowDown(MouseEvent event) {
+		Question question = tableViewInCreateExamAllQuestion.getSelectionModel().getSelectedItem();
+		if (question != null) {
+			tableViewInCreateExamAllQuestion.getItems().remove(question);
+			tableViewInCreateExamQuestion.getItems().add(new QuestionInExam(exam, question));
+			initTablesInCreateExam(true, true);
+		}
+	}
+
+	public void checkTotalPointsInCreateExam(MouseEvent event) {
+		int totalPoints = 0;
+		for (QuestionInExam question : tableViewInCreateExamQuestion.getItems()) {
+			int points = question.getPoints();
+			if ((points < 1) || (points > 100)) {
+				Utilities.popUpMethod("Points" + " " + question.getQuestion().getQuestionNum());
+				return;
+			}
+			totalPoints += points;
+		}
+		if (totalPoints != 100) {
+			Utilities.popUpMethod("TotalPoints");
+		} else {
+			exam.setQuestions(tableViewInCreateExamQuestion.getItems());
+			System.out.println(exam.getQuestions());
+			anchorPaneInCreateExamSecondWindow.setVisible(false);
+			anchorPaneInCreateExamThirdWindow.setVisible(true);
+		}
+	}
+
+	public void createFinalExam(MouseEvent event) {
+		if (!textAreaStudentsInCreateExam.getText().isEmpty()) {
+			exam.setFreeTextForExaminees(textAreaStudentsInCreateExam.getText());
+		}
+		if (!textAreaTeachersInCreateExam.getText().isEmpty()) {
+			exam.setFreeTextForTeacherOnly(textAreaTeachersInCreateExam.getText());
+		}
+		client.handleMessageFromClientUI(new ExamHandle(Message.exam, exam));
+	}
+
+	/**
+	 * 
+	 * @param allquestions
+	 * @param selected
+	 */
+	private void initTablesInCreateExam(boolean allquestions, boolean selected) {
+		if (allquestions) {
+			tableViewInCreateExamAllQuestion.refresh();
+		}
+		if (selected) {
+			tableViewInCreateExamQuestion.refresh();
+		}
+	}
+
 	/**
 	 * 'Add Question' was pressed
 	 */
@@ -444,6 +536,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void realodTablesInCreateExam(MouseEvent event) {
+		initTablesInCreateExam(true, true);
 	}
 
 	/**
@@ -478,8 +574,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	public void openCreateExam(ActionEvent event) {
 		try {
-			tableViewByInCreateExam.getItems().clear();
+			tableViewInCreateExamAllQuestion.getItems().clear();
 			createExamAnchorPane.setVisible(true);
+			anchorPaneInCreateExamFirstWindow.setVisible(true);
+			anchorPaneInCreateExamSecondWindow.setVisible(false);
+			anchorPaneInCreateExamThirdWindow.setVisible(false);
 			backAnchorPane.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
 			questionsTableAnchorPaneInEditOrRemove.setVisible(false);
@@ -492,14 +591,48 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * 
+	 * @param event
+	 */
+	public void createExamInit(ActionEvent event) {
+		Boolean flag = true;
+		String subject = subjectInCreateExamComboBox.getValue();
+		if (subject == null) {
+			flag = false;
+			Utilities.popUpMethod("Select Subject");
+		}
+		String course = courseInCreateExamComboBox.getValue();
+		if (course == null) {
+			flag = false;
+			Utilities.popUpMethod("Select Course");
+		}
+		try {
+			int duration = Integer.parseInt(durationInCreateExamField.getText());
+			if (duration <= 0) {
+				flag = false;
+				Utilities.popUpMethod("Duration");
+			}
+
+			if (flag) {
+				exam = new Exam(subject, course, duration, firstName + " " + lastName);
+				anchorPaneInCreateExamFirstWindow.setVisible(false);
+				client.getQuestionsFromDB().clear();
+				anchorPaneInCreateExamSecondWindow.setVisible(true);
+				setTableInCreateExamAllQuestions();
+			}
+		} catch (NumberFormatException e) {
+			flag = false;
+			Utilities.popUpMethod("Duration");
+		}
+	}
+
+	/**
 	 * Init for comboBox in CreateExam
 	 */
-	private void initComboBoxCreateExam() {
-		subjectInCreateComboBox.getSelectionModel().clearSelection();
-		subjectInCreateComboBox.setPromptText("Select Subject");
-		subjectInCreateComboBox.getItems().addAll("Software", "Math", "Physics");
-		courseInCreateComboBox.setPromptText("Select Course");
-		courseInCreateComboBox.getItems().addAll("MLM", "MTM", "ATM", "OOP");
+	private void initAnchorPaneInCreateExamFirstWindow() {
+		setSubjectComboBox(subjectInCreateExamComboBox);
+		setCourseComboBox(courseInCreateExamComboBox);
+		durationInCreateExamField.setText(null);
 	}
 
 	/**
@@ -507,15 +640,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-	public void updateTableInCreateExam(ActionEvent event) {
-		if (subjectInCreateComboBox.getValue() != null) {
-			client.getQuestionsFromDB().clear();
-			client.handleMessageFromClientUI(Message.getQuestionBySubject + " " + subjectInCreateComboBox.getValue());
-			tableViewByInCreateExam.getItems().clear();
-			tableViewByInCreateExam.setItems(client.getQuestionsFromDB());
-			return;
-		}
-		Utilities.popUpMethod("Select Subject");
+	private void setTableInCreateExamAllQuestions() {
+		client.getQuestionsFromDB().clear();
+		client.handleMessageFromClientUI(Message.getQuestionBySubject + " " + subjectInCreateExamComboBox.getValue());
+		initTablesInCreateExam(true, false);
+		tableViewInCreateExamAllQuestion.setItems(client.getQuestionsFromDB());
 	}
 
 	/**
@@ -535,8 +664,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			questionsTableAnchorPaneInEditOrRemove.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
 			clearAddQuestionFields();
-			subjectExamManagement.setPromptText("Select Subject");
-			subjectExamManagement.getItems().addAll("Software", "Math", "Physics");
+			setSubjectComboBox(subjectExamManagement);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -547,6 +675,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 		Stage primaryStage = new Stage();
 		primaryStage.setTitle("AES7");
 		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		primaryStage.setHeight(100);
+		primaryStage.setWidth(250);
+		primaryStage.setResizable(false);
 		Popup popup = new Popup();
 		popup.setX(700);
 		popup.setY(400);
@@ -584,6 +715,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 		Stage primaryStage = new Stage();
 		primaryStage.setTitle("AES7");
 		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		primaryStage.setHeight(100);
+		primaryStage.setWidth(250);
+		primaryStage.setResizable(false);
 		Popup popup = new Popup();
 		popup.setX(700);
 		popup.setY(400);
@@ -658,7 +792,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * Define the columns
 	 */
 	private void setColumnsInEditOrRemove() {
-		subjectIDColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("questionSubject"));
+		subjectIDColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
 		questionNumColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
 		authorColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("author"));
 		questionTextColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("questionText"));
@@ -669,18 +803,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		fourthPossibleAnswerColumnInEditOrRemove
 				.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
 		correctAnswerColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
-
-		// Callback<TableColumn<Question, String>, TableCell<Question, String>>
-		// cellFactory = new DragSelectionCellFactory();
-		// correctAnswerColumnInEditOrRemove.setCellFactory(cellFactory);
-		// subjectIDColumnInEditOrRemove.setCellFactory(cellFactory);
-		// questionNumColumnInEditOrRemove.setCellFactory(cellFactory);
-		// authorColumnInEditOrRemove.setCellFactory(cellFactory);
-		// questionTextColumnInEditOrRemove.setCellFactory(cellFactory);
-		// firstPossibleAnswerColumnInEditOrRemove.setCellFactory(cellFactory);
-		// secondPossibleAnswerColumnInEditOrRemove.setCellFactory(cellFactory);
-		// thirdPossibleAnswerColumnInEditOrRemove.setCellFactory(cellFactory);
-		// fourthPossibleAnswerColumnInEditOrRemove.setCellFactory(cellFactory);
 
 		// define the columns editable
 
@@ -737,24 +859,41 @@ public class TeacherWindowController implements Initializable, IScreenController
 	/**
 	 * Define the columns by subject
 	 */
-	private void setColumnInCreateExam() {
-		subjectIDColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("questionSubject"));
+	private void setColumnInCreateExamAllQuestions() {
+		subjectIDColumnInCreateExamAllQuestions.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
+		questionNumColumnInCreateExamAllQuestions.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
+		authorColumnInCreateExamAllQuestions.setCellValueFactory(new PropertyValueFactory<>("author"));
+		questionTextColumnInCreateExamAllQuestions.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+		firstPossibleAnswerColumnInCreateExamAllQuestions
+				.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
+		secondPossibleAnswerColumnInCreateExamAllQuestions
+				.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
+		thirdPossibleAnswerColumnInCreateExamAllQuestions
+				.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
+		fourthPossibleAnswerColumnInCreateExamAllQuestions
+				.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
+		correctAnswerColumnInCreateExamAllQuestions.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
+	}
+
+	/**
+	 * 
+	 */
+	private void setColumnInCreateExamQuestions() {
+		subjectIDColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
 		questionNumberColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
 		questionTextColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("questionText"));
-		firstPossibleAnswerColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
-		secondPossibleAnswerColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
-		thirdPossibleAnswerColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
-		fourthPossibleAnswerColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
-		correctAnswerColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 		pointsColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("points"));
 
 		// define the columns editable
 
-		pointsColumnInCreateExam.setCellFactory(TextFieldTableCell.forTableColumn());
-		pointsColumnInCreateExam.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
+		pointsColumnInCreateExam.setCellFactory(
+				TextFieldTableCell.<QuestionInExam, Integer>forTableColumn(new IntegerStringConverter()));
+		// pointsColumnInCreateExam.setCellFactory(Integerf.forTableColumn());
+		pointsColumnInCreateExam.setOnEditCommit(new EventHandler<CellEditEvent<QuestionInExam, Integer>>() {
 			@Override
-			public void handle(CellEditEvent<Question, String> t) {
-				((Question) t.getTableView().getItems().get(t.getTablePosition().getRow())).setPoints(t.getNewValue());
+			public void handle(CellEditEvent<QuestionInExam, Integer> t) {
+				((QuestionInExam) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+						.setPoints(t.getNewValue());
 			}
 		});
 	}
@@ -776,10 +915,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * init's the fields of the 'Add Question' option
 	 */
 	private void initAddQuestionOption() {
-		subjectComboBox.setPromptText("Select Subject");
-		subjectComboBox.getItems().addAll("Software", "Math", "Physics");
-		correctAnswerComboBox.setPromptText("Select");
-		correctAnswerComboBox.getItems().addAll("1", "2", "3", "4");
+		setSubjectComboBox(subjectComboBox);
+		setSelectComboBox(correctAnswerComboBox);
 	}
 
 	/**
@@ -806,6 +943,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			correctAnswerComboBox.getSelectionModel().clearSelection();
 			correctAnswerComboBox.setPromptText("Select");
 			correctAnswerComboBox.setButtonCell(new ListCell<String>() {
+
 				@Override
 				protected void updateItem(String item, boolean empty) {
 					super.updateItem(item, empty);
@@ -815,6 +953,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 						setText(item);
 					}
 				}
+
 			});
 		}
 		if (!questionTextField.getText().isEmpty()) {
@@ -834,40 +973,48 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 	}
 
-	private void setEditComboBoxInEditOrRemove() {
-		subjectComboBoxInEditOrRemove.setPromptText("Select Subject");
-		subjectComboBoxInEditOrRemove.getItems().addAll("Software", "Math", "Physics");
+	/**
+	 * <p>
+	 * Select Subject
+	 * </p>
+	 * Software, Math, Physics.
+	 * 
+	 * @param comboBox
+	 */
+	private void setSubjectComboBox(ComboBox<String> comboBox) {
+		comboBox.getSelectionModel().clearSelection();
+		comboBox.setPromptText("Select Subject");
+		comboBox.getItems().addAll("Software", "Math", "Physics");
+	}
+
+	/**
+	 * <p>
+	 * Select Course
+	 * </p>
+	 * MLM, MTM, ATM, OOP.
+	 * 
+	 * @param comboBox
+	 */
+	private void setCourseComboBox(ComboBox<String> comboBox) {
+		comboBox.getSelectionModel().clearSelection();
+		comboBox.setPromptText("Select Course");
+		comboBox.getItems().addAll("MLM", "MTM", "ATM", "OOP");
+	}
+
+	/**
+	 * <p>
+	 * Select
+	 * </p>
+	 * 1, 2, 3, 4.
+	 * 
+	 * @param comboBox
+	 */
+	private void setSelectComboBox(ComboBox<String> comboBox) {
+		comboBox.getSelectionModel().clearSelection();
+		comboBox.setPromptText("Select");
+		comboBox.getItems().addAll("1", "2", "3", "4");
 	}
 
 	// end region -> Private Methods
 
-	// private class DragSelectionCell extends TableCell<Question, String> {
-	// public DragSelectionCell() {
-	// setOnDragDetected(new EventHandler<MouseEvent>() {
-	// @Override
-	// public void handle(MouseEvent event) {
-	// startFullDrag();
-	// getTableColumn().getTableView().getSelectionModel().select(getIndex(),
-	// getTableColumn());
-	// }
-	// });
-	// setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
-	// @Override
-	// public void handle(MouseDragEvent event) {
-	// getTableColumn().getTableView().getSelectionModel().select(getIndex(),
-	// getTableColumn());
-	// }
-	// });
-	// }
-	// }
-	//
-	// private class DragSelectionCellFactory
-	// implements Callback<TableColumn<Question, String>, TableCell<Question,
-	// String>> {
-	// @Override
-	// public TableCell<Question, String> call(final TableColumn<Question, String>
-	// col) {
-	// return new DragSelectionCell();
-	// }
-	// }
 }

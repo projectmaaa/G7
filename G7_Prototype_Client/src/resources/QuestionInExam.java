@@ -1,20 +1,32 @@
 package resources;
 
-public class QuestionInExam {
-	
+import java.io.Serializable;
+
+public class QuestionInExam implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Exam exam;
-	
+
 	private Question question;
-	
+
 	private int points;
-	
-	public QuestionInExam(Exam exam, Question question, int points) {
-		this.exam=exam;
-		this.question=question;
-		this.points=points;
+
+	public QuestionInExam(Exam exam, Question question) {
+		this.exam = exam;
+		this.question = question;
 	}
-	
-	//setters, getters
+
+	public QuestionInExam(Exam exam, Question question, int points) {
+		this.exam = exam;
+		this.question = question;
+		this.points = points;
+	}
+
+	// setters, getters
 
 	public Exam getExam() {
 		return exam;
@@ -22,6 +34,30 @@ public class QuestionInExam {
 
 	public void setExam(Exam exam) {
 		this.exam = exam;
+	}
+
+	public void setSubjectID(String subjectID) {
+		this.question.setSubjectID(subjectID);
+	}
+
+	public String getSubjectID() {
+		return question.getSubjectID();
+	}
+
+	public void setQuestionNum(String questionNum) {
+		this.question.setQuestionNum(questionNum);
+	}
+
+	public String getQuestionNum() {
+		return this.question.getQuestionNum();
+	}
+
+	public void setQuestionText(String questionText) {
+		this.question.setQuestionText(questionText);
+	}
+
+	public String getQuestionText() {
+		return this.question.getQuestionText();
 	}
 
 	public Question getQuestion() {
@@ -39,5 +75,10 @@ public class QuestionInExam {
 	public void setPoints(int points) {
 		this.points = points;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "QuestionInExam [exam=" + exam + ", question=" + question + ", points=" + points + "]";
+	}
+
 }
