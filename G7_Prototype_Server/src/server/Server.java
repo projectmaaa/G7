@@ -160,7 +160,8 @@ public class Server extends AbstractServer {
 						return;
 					}
 				case Message.editOrRemove:
-					client.sendToClient(SqlUtilities.getQuestions(strArray[1] + " " + strArray[2], connection));
+					client.sendToClient(
+							SqlUtilities.getQuestions(strArray[1] + " " + strArray[2], strArray[3], connection));
 					break;
 				case Message.logout:
 					int i = 1;

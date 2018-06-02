@@ -51,7 +51,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private AnchorPane welcomeAnchorPane;
-	
+
 	@FXML
 	private AnchorPane backAnchorPane;
 
@@ -198,9 +198,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button clearButton;
-	
+
 	@FXML
- 	private ComboBox<String> editComboBox;
+	private ComboBox<String> subjectComboBoxInEditOrRemove;
 
 	// create exam
 
@@ -247,19 +247,19 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private ComboBox<String> subjectExamManagement;
-	
+
 	@FXML
 	private Button examManagementUpdateButton;
-	
+
 	@FXML
 	private Button activateButton;
-	
+
 	@FXML
 	private Button changeTimeButton;
-	
+
 	@FXML
 	private Button LockButton;
-	
+
 	@FXML
 	private Button deleteExamButton;
 
@@ -292,6 +292,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		backAnchorPane.setVisible(false);
 		date.setText(Utilities.setDate());
 		this.client = MainAppClient.getClient();
+		setEditComboBoxInEditOrRemove();
 		setColumnsInEditOrRemove();
 		setColumnInCreateExam();
 		// setQuestionsTableInfoInEditOrRemove();
@@ -351,8 +352,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			examManagementAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 			welcomeAnchorPane.setVisible(false);
-			editComboBox.setPromptText("Select Subject");
-			editComboBox.getItems().addAll("Software", "Math", "Physics");
+
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -541,7 +541,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void activateButtonHandler(ActionEvent event) {
 		Label text = null;
 		Stage primaryStage = new Stage();
@@ -559,10 +559,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				//get selected exam
-				//create reference to ActiveExam
-				//getText in TextField
-				//update DB
+				// get selected exam
+				// create reference to ActiveExam
+				// getText in TextField
+				// update DB
 				primaryStage.hide();
 			}
 		});
@@ -578,7 +578,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}
-	
+
 	public void changeTimeButtonHandler(ActionEvent event) {
 		Label text = null;
 		Stage primaryStage = new Stage();
@@ -596,10 +596,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				//get selected exam
-				//getText in TextField
-				//change exam duration to newDuration
-				//update DB
+				// get selected exam
+				// getText in TextField
+				// change exam duration to newDuration
+				// update DB
 				primaryStage.hide();
 			}
 		});
@@ -640,7 +640,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				questionTextField.requestFocus();
 		}
 	}
-	
+
 	public void backToMainScreen(MouseEvent event) {
 		welcomeAnchorPane.setVisible(true);
 		backAnchorPane.setVisible(false);
@@ -673,7 +673,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		// Callback<TableColumn<Question, String>, TableCell<Question, String>>
 		// cellFactory = new DragSelectionCellFactory();
 		// correctAnswerColumnInEditOrRemove.setCellFactory(cellFactory);
-		// questionSubjectColumnInEditOrRemove.setCellFactory(cellFactory);
+		// subjectIDColumnInEditOrRemove.setCellFactory(cellFactory);
 		// questionNumColumnInEditOrRemove.setCellFactory(cellFactory);
 		// authorColumnInEditOrRemove.setCellFactory(cellFactory);
 		// questionTextColumnInEditOrRemove.setCellFactory(cellFactory);
@@ -763,7 +763,12 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * Updates the GUI questions table from the data base
 	 */
 	private void setQuestionsTableInfoInEditOrRemove() {
-		client.handleMessageFromClientUI(Message.editOrRemove + " " + firstName + " " + lastName);
+		String subject = subjectComboBoxInEditOrRemove.getValue();
+		if (subject != null) {
+			client.handleMessageFromClientUI(Message.editOrRemove + " " + firstName + " " + lastName + " " + subject);
+		} else {
+			Utilities.popUpMethod("Select Subject");
+		}
 		tableViewInEditOrRemove.setItems(client.getQuestionsFromDB());
 	}
 
@@ -829,6 +834,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 	}
 
+	private void setEditComboBoxInEditOrRemove() {
+		subjectComboBoxInEditOrRemove.setPromptText("Select Subject");
+		subjectComboBoxInEditOrRemove.getItems().addAll("Software", "Math", "Physics");
+	}
+
 	// end region -> Private Methods
 
 	// private class DragSelectionCell extends TableCell<Question, String> {
@@ -837,8 +847,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	// @Override
 	// public void handle(MouseEvent event) {
 	// startFullDrag();
-	// // getTableColumn().getTableView().getSelectionModel().select(getIndex(),
-	// // getTableColumn());
+	// getTableColumn().getTableView().getSelectionModel().select(getIndex(),
+	// getTableColumn());
 	// }
 	// });
 	// setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {

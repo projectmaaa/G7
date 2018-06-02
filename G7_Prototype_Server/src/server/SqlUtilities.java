@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import resources.Question;
 import resources.QuestionsHandle;
+import resources.Utilities;
 
 public class SqlUtilities {
 
 	// region Constants
 
-	public final static String SELECT_All_FROM_Questions_by_author = "SELECT * FROM Questions WHERE author=?;";
+	public final static String SELECT_All_FROM_Questions_by_author = "SELECT * FROM Questions WHERE author=? AND subjectID=?;";
 
 	public final static String Login_SELECT_UserID_From_Users = "SELECT idUsers FROM Users WHERE idUsers=? AND passWord=?;";
 
@@ -71,11 +72,17 @@ public class SqlUtilities {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static QuestionsHandle getQuestions(String author, Connection connection) throws SQLException {
+	public static QuestionsHandle getQuestions(String author, String subject, Connection connection)
+			throws SQLException {
 		ArrayList<Question> questions = new ArrayList<Question>();
 		ArrayList<String> possibleAnswers = new ArrayList<String>(4);
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_FROM_Questions_by_author);
 		statement.setString(1, author);
+		try {
+			statement.setString(2, getSubjectID(subject));
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 		ResultSet rs = statement.executeQuery();
 		int index = 0;
 		while (rs.next()) {
@@ -96,16 +103,10 @@ public class SqlUtilities {
 		ArrayList<Question> questionsBySubject = new ArrayList<Question>();
 		ArrayList<String> possibleAnswers = new ArrayList<String>(4);
 		PreparedStatement statement = connection.prepareStatement(SqlUtilities.GetQuestionBySubject);
-		switch (subject) {
-		case "Software":
-			statement.setString(1, "01");
-			break;
-		case "Math":
-			statement.setString(1, "02");
-			break;
-		case "Physics":
-			statement.setString(1, "03");
-			break;
+		try {
+			statement.setString(1, getSubjectID(subject));
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 		ResultSet rs = statement.executeQuery();
 		int index = 0;
@@ -194,5 +195,24 @@ public class SqlUtilities {
 	}
 
 	// end region -> Public Methods
+
+	/**
+	 * get subject as name and return as id
+	 * 
+	 * @param subject
+	 * @return
+	 */
+	private static String getSubjectID(String subject) {
+		switch (subject) {
+		case "Software":
+			return "01";
+		case "Math":
+			return "02";
+		case "Physics":
+			return "03";
+		default:
+			return null;
+		}
+	}
 
 } /* end of class */

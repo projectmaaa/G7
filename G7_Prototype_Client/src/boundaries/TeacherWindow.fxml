@@ -52,24 +52,24 @@
 			<menus>
 				<Menu mnemonicParsing="false" text="Maintain Questions">
 					<items>
-						<MenuItem fx:id="addQuestion" mnemonicParsing="false" onAction="#openAddQuestion" style="-fx-background-color: TRANSPARENT;" text="Add Question" />
+						<MenuItem fx:id="addQuestion" mnemonicParsing="false" onAction="#openAddQuestion" text="Add Question" />
 						<MenuItem fx:id="editOrRemoveQuestion" mnemonicParsing="false" onAction="#openEditorRemove" text="Edit\Remove Question" />
 					</items>
 				</Menu>
-				<Menu mnemonicParsing="false" text="Maintain Exams">
+				<Menu mnemonicParsing="false" text="Maintain Exams  ">
 					<items>
 						<MenuItem fx:id="createExam" mnemonicParsing="false" onAction="#openCreateExam" text="Create Exam" />
                   <MenuItem mnemonicParsing="false" onAction="#openExamManagement" text="Exam Management" />
 					</items>
 				</Menu>
-				<Menu mnemonicParsing="false" text="Confirm Grades">
+				<Menu mnemonicParsing="false" text="Confirm Grades ">
 					<items>
 						<MenuItem mnemonicParsing="false" text="Grade Managment" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Order Reports">
 					<items>
-                  <MenuItem mnemonicParsing="false" text="Course Report" />
+                  <MenuItem mnemonicParsing="false" text="Course Report   " />
 					</items>
 				</Menu>
 			</menus>
@@ -186,7 +186,7 @@
             </Label>
       		<Button fx:id="saveButton" layoutX="384.0" layoutY="421.0" mnemonicParsing="false" onAction="#saveButtonHandler" text="Save" />
             <Button fx:id="removeButton" layoutX="440.0" layoutY="420.0" mnemonicParsing="false" onAction="#removeButtonHandler" text="Remove" />
-            <ComboBox fx:id="editComboBox" layoutX="112.0" layoutY="21.0" prefWidth="150.0" promptText="Subject" />
+            <ComboBox fx:id="subjectComboBoxInEditOrRemove" layoutX="112.0" layoutY="21.0" prefWidth="150.0" promptText="Subject" />
             <Label layoutX="14.0" layoutY="25.0" prefHeight="17.0" prefWidth="86.0" text="Subject" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />

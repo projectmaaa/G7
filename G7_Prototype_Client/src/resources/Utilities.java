@@ -37,6 +37,7 @@ public class Utilities {
 	 * This method will show pop up screen
 	 * 
 	 * @param str
+	 *            add/save/incorrent answer/Select Subject/Enter Text/Select Answer/
 	 */
 	public static void popUpMethod(String str) {
 		Label text = null;
