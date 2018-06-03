@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="650.0" fitWidth="1000.0" layoutX="-101.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/si-citations.jpg" />
+         </image>
+      </ImageView>
+      <Text fx:id="welcomeText" layoutX="32.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="370.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="TextGroup7" layoutX="381.0" layoutY="552.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
+      <ImageView fx:id="Group7Logo" blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="385.0" layoutY="491.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/logo.jpg" />
+         </image>
+      </ImageView>
+      <Text fx:id="date" fill="#fffdfd" layoutX="759.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="140.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Button fx:id="logoutButton" layoutX="813.0" layoutY="20.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
+      <MenuBar fx:id="menuBar" focusTraversable="false" layoutX="10.0" layoutY="64.0" prefHeight="42.0" prefWidth="784.0" style="-fx-background-color: none;">
+         <menus>
+            <Menu mnemonicParsing="false" text="Questions">
+               <items>
+                  <MenuItem fx:id="questionPool" mnemonicParsing="false" onAction="#openAddQuestion" text="Questions pool" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Exams  ">
+               <items>
+                  <MenuItem fx:id="examPool" mnemonicParsing="false" onAction="#openExamPool" text="Exams pool" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Handling Requests" />
+            <Menu mnemonicParsing="false" text="Order Reports">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Teacher Report   " />
+                  <MenuItem mnemonicParsing="false" text="Course Report   " />
+                  <MenuItem mnemonicParsing="false" text="Student Report   " />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <AnchorPane fx:id="welcomeAnchorPane" layoutX="62.0" layoutY="129.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+         <children>
+            <Label layoutX="23.0" layoutY="77.0" prefHeight="50.0" prefWidth="316.0" text="Let AES help you!" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="40.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+            <Label layoutY="49.0" prefHeight="29.0" prefWidth="287.0" text="What's Your First Move?" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="26.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+            <Label layoutX="10.0" layoutY="127.0" prefHeight="31.0" prefWidth="388.0" text="Choose one of the options above" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="26.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="questionsPoolAnchorPane" layoutX="32.0" layoutY="106.0" prefHeight="355.0" prefWidth="833.0">
+         <children>
+            <Label layoutX="2.0" layoutY="-9.0" text="Questions Pool" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="24.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+            <Label fx:id="subjectInQuestionsPoolLabel" layoutX="99.0" layoutY="45.0" text="Subject">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="subjectComboBoxInQuestionsPool" layoutX="160.0" layoutY="41.0" prefWidth="150.0">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ComboBox>
+            <TableView fx:id="tableViewInQuestionsPool" editable="true" fixedCellSize="0.0" layoutX="-24.0" layoutY="78.0" prefHeight="200.0" prefWidth="874.0" stylesheets="@table%20view.css">
+               <columns>
+                  <TableColumn fx:id="subjectIDColumnInQuestionsPool" maxWidth="200.0" minWidth="90.0" prefWidth="75.0" text="Subject ID" />
+                  <TableColumn fx:id="questionNumColumnInQuestionsPool" prefWidth="75.0" text="Q.Number" />
+                  <TableColumn fx:id="authorColumnInQuestionsPool" maxWidth="200.0" minWidth="55.0" prefWidth="60.0" text="Author" />
+                  <TableColumn fx:id="questionTextColumnInQuestionsPool" minWidth="0.0" prefWidth="209.0" text="Question Text" />
+                  <TableColumn fx:id="possibleAnswersColumnInQuestionsPool" prefWidth="411.0" text="Possible Answers">
+                     <columns>
+                        <TableColumn fx:id="firstPossibleAnswerColumnInQuestionsPool" prefWidth="85.0" text="First" />
+                        <TableColumn fx:id="secondPossibleAnswerColumnInQuestionsPool" prefWidth="85.0" text="Second" />
+                        <TableColumn fx:id="thirdPossibleAnswerColumnInQuestionsPool" prefWidth="85.0" text="Third" />
+                        <TableColumn fx:id="fourthPossibleAnswerColumnInQuestionsPool" prefWidth="85.0" text="Fourth" />
+                     </columns>
+                  </TableColumn>
+                  <TableColumn fx:id="correctAnswerColumnInQuestionsPool" maxWidth="255.0" minWidth="65.0" prefWidth="102.0" text="Correct Answer" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="examsPoolAnchorPane" layoutX="42.0" layoutY="116.0" prefHeight="355.0" prefWidth="833.0" visible="false">
+         <children>
+            <Label layoutX="2.0" layoutY="-9.0" text="Exams Pool" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="24.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+            <Label fx:id="subjectInExamsPoolLabel" layoutX="99.0" layoutY="45.0" text="Subject">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="subjectComboBoxInExamPool" layoutX="160.0" layoutY="41.0" prefWidth="150.0">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ComboBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
