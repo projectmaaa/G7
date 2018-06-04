@@ -517,6 +517,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			exam.setFreeTextForTeacherOnly(textAreaTeachersInCreateExam.getText());
 		}
 		client.handleMessageFromClientUI(new ExamHandle(Message.exam, exam));
+		Utilities.popUpMethod("Exam");
 	}
 
 	/**

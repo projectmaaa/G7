@@ -36,13 +36,21 @@ public class SqlUtilities {
 
 	public final static String INSERET_QUESTION_IN_EXAM = "INSERT INTO QuestionInExam VALUES (?, ?, ?, ?, ?);";
 
-	public final static String SELECT_FROM_Questions_Count = "SELECT questionsCount FROM Questions_Count WHERE subjectID=?;";
+	public final static String SELECT_FROM_Subject = "SELECT questionsCount FROM Subject WHERE subjectID=?;";
 
-	public final static String UPDATE_Questions_Count = "UPDATE Questions_Count SET questionsCount=? WHERE subjectID=?;";
+	public final static String UPDATE_Subject = "UPDATE Subject SET questionsCount=? WHERE subjectID=?;";
 
 	public final static String GetTypeAndUserNameAndLastName = "SELECT type, firstName, lastName FROM Users WHERE idUsers=?;";
 
 	public final static String GetQuestionBySubject = "SELECT * FROM Questions WHERE subjectID=?;";
+
+	public final static String SELECT_FROM_Course = "SELECT examsCount FROM Course Where courseID=?;";
+
+	public final static String UPDATE_Course = "UPDATE Course SET examsCount=? WHERE courseID=?;";
+
+	public final static String SELECT_subjectID_FROM_Subject = "SELECT subjectID FROM Subject WHERE subjectName=?;";
+
+	public final static String SELECT_courseID_FROM_Course = "SELECT courseID FROM Course WHERE courseName=?;";
 
 	// region Public Methods
 
@@ -85,7 +93,7 @@ public class SqlUtilities {
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_FROM_Questions_by_author);
 		statement.setString(1, author);
 		try {
-			statement.setString(2, getSubjectID(subject));
+			statement.setString(2, getSubjectID(subject, connection));
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -110,7 +118,7 @@ public class SqlUtilities {
 		ArrayList<String> possibleAnswers = new ArrayList<String>(4);
 		PreparedStatement statement = connection.prepareStatement(SqlUtilities.GetQuestionBySubject);
 		try {
-			statement.setString(1, getSubjectID(subject));
+			statement.setString(1, getSubjectID(subject, connection));
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -131,7 +139,11 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * updates the table in the data base
+	 * updates the questions table in the data base
+	 * 
+	 * @param newQuestions
+	 * @param connection
+	 * @throws SQLException
 	 */
 	public static void editTable(ArrayList<Question> newQuestions, Connection connection) throws SQLException {
 		PreparedStatement update = connection.prepareStatement(SqlUtilities.UPDATE_Questions_Table);
@@ -167,34 +179,35 @@ public class SqlUtilities {
 		insert.close();
 	}
 
-	public static void insertQuestionInExam(Exam exam, Connection connection) throws SQLException {
-		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERET_QUESTION_IN_EXAM);
-		for (QuestionInExam questionInExam : exam.getQuestions()) {
-			insert.setString(1, getSubjectID(exam.getSubjectID()));
-			insert.setString(2, questionInExam.getQuestionNum());
-			insert.setString(3, getCourseID(exam.getCourseID()));
-			insert.setString(4, "01");
-			insert.setInt(5, questionInExam.getPoints());
-			insert.executeUpdate();
-		}
-		insert.close();
-	}
-
+	/**
+	 * inserts new exam into the DB
+	 * 
+	 * @param exam
+	 * @param connection
+	 * @throws SQLException
+	 */
 	public static void insertNewExam(Exam exam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERET_EXAM);
-		insert.setString(1, getSubjectID(exam.getSubjectID()));
-		insert.setString(2, getCourseID(exam.getCourseID()));
-		insert.setString(3, "01");
+		int examNum = SqlUtilities.getExamCount(getCourseID(exam.getCourseID(), connection), connection);
+		String examNumber = examNum < 10 ? "0" + examNum : Integer.toString(examNum);
+		insert.setString(1, getSubjectID(exam.getSubjectID(), connection));
+		insert.setString(2, getCourseID(exam.getCourseID(), connection));
+		insert.setString(3, examNumber);
 		insert.setString(4, exam.getTeacherName());
 		insert.setInt(5, exam.getExamDuration());
 		insert.setString(6, exam.getFreeTextForExaminees());
 		insert.setString(7, exam.getFreeTextForTeacherOnly());
 		insert.executeUpdate();
 		insert.close();
+		insertQuestionInExam(exam, examNumber, connection); // insert all the questions to the QuestionInExam table
 	}
 
 	/**
 	 * removes questions from DB
+	 * 
+	 * @param questions
+	 * @param connection
+	 * @throws SQLException
 	 */
 	public static void removeQuestions(ArrayList<Question> questions, Connection connection) throws SQLException {
 		PreparedStatement remove = connection.prepareStatement(SqlUtilities.REMOVE_Questions);
@@ -207,28 +220,51 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * returns the current amount of questions of a specific subject & updates the
+	 * new amount in the DB
 	 * 
 	 * @param subjectID
 	 * @param connection
 	 * @return
 	 * @throws SQLException
-	 * 
-	 *             returns the current amount of questions of a specific subject &
-	 *             updates the new amount in the DB
 	 */
 	public static Integer getQuestionCount(String subjectID, Connection connection) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_FROM_Questions_Count);
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_FROM_Subject);
 		statement.setString(1, subjectID);
 		ResultSet rs = statement.executeQuery();
 		rs.next();
 		int questionsCount = rs.getInt(1) + 1;
-		statement = connection.prepareStatement(SqlUtilities.UPDATE_Questions_Count);
+		statement = connection.prepareStatement(SqlUtilities.UPDATE_Subject);
 		statement.setInt(1, questionsCount); // update the new count in the DB
 		statement.setString(2, subjectID);
 		statement.executeUpdate();
 		statement.close();
 		rs.close();
 		return questionsCount;
+	}
+
+	/**
+	 * returns the current amount of exams of a specific course & updates the new
+	 * amount in the DB
+	 * 
+	 * @param courseID
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
+	public static Integer getExamCount(String courseID, Connection connection) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_FROM_Course);
+		statement.setString(1, courseID);
+		ResultSet rs = statement.executeQuery();
+		rs.next();
+		int examsCount = rs.getInt(1) + 1;
+		statement = connection.prepareStatement(SqlUtilities.UPDATE_Course);
+		statement.setInt(1, examsCount); // update the new count in the DB
+		statement.setString(2, courseID);
+		statement.executeUpdate();
+		statement.close();
+		rs.close();
+		return examsCount;
 	}
 
 	// end region -> Public Methods
@@ -238,38 +274,46 @@ public class SqlUtilities {
 	 * 
 	 * @param subject
 	 * @return
+	 * @throws SQLException
 	 */
-	private static String getSubjectID(String subject) {
-		switch (subject) {
-		case "Software":
-			return "01";
-		case "Math":
-			return "02";
-		case "Physics":
-			return "03";
-		default:
-			return null;
-		}
+	private static String getSubjectID(String subject, Connection connection) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_subjectID_FROM_Subject);
+		statement.setString(1, subject);
+		ResultSet rs = statement.executeQuery();
+		rs.next();
+		String subjectID = rs.getString(1);
+		rs.close();
+		return subjectID;
 	}
 
 	/**
+	 * get course as name and return as id
 	 * 
 	 * @param course
 	 * @return
+	 * @throws SQLException
 	 */
-	private static String getCourseID(String course) {
-		switch (course) {
-		case "MLM":
-			return "01";
-		case "MTM":
-			return "02";
-		case "ATM":
-			return "03";
-		case "OOP":
-			return "04";
-		default:
-			return null;
+	private static String getCourseID(String course, Connection connection) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_courseID_FROM_Course);
+		statement.setString(1, course);
+		ResultSet rs = statement.executeQuery();
+		rs.next();
+		String courseID = rs.getString(1);
+		rs.close();
+		return courseID;
+	}
+
+	private static void insertQuestionInExam(Exam exam, String examNumber, Connection connection) throws SQLException {
+		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERET_QUESTION_IN_EXAM);
+		for (QuestionInExam questionInExam : exam.getQuestions()) {
+			insert.setString(1, getSubjectID(exam.getSubjectID(), connection));
+			insert.setString(2, questionInExam.getQuestionNum());
+			insert.setString(3, getCourseID(exam.getCourseID(), connection));
+			insert.setString(4, examNumber);
+			insert.setInt(5, questionInExam.getPoints());
+			insert.executeUpdate();
 		}
+		insert.close();
 	}
 
 } /* end of class */
