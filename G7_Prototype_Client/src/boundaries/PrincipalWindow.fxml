@@ -16,9 +16,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PrincipalWindowController">
    <children>
-      <ImageView fitHeight="650.0" fitWidth="1000.0" layoutX="-101.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="650.0" fitWidth="1000.0" pickOnBounds="true">
          <image>
             <Image url="@Images/si-citations.jpg" />
          </image>
@@ -28,23 +28,23 @@
             <Font size="24.0" />
          </font>
       </Text>
-      <Text fx:id="TextGroup7" layoutX="381.0" layoutY="552.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
-      <ImageView fx:id="Group7Logo" blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="385.0" layoutY="491.0" pickOnBounds="true" preserveRatio="true">
+      <Text fx:id="TextGroup7" layoutX="423.0" layoutY="618.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
+      <ImageView fx:id="Group7Logo" blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="427.0" layoutY="557.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/logo.jpg" />
          </image>
       </ImageView>
-      <Text fx:id="date" fill="#fffdfd" layoutX="759.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="140.0">
+      <Text fx:id="date" fill="#fffdfd" layoutX="654.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="140.0">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Button fx:id="logoutButton" layoutX="813.0" layoutY="20.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
+      <Button fx:id="logoutButton" layoutX="932.0" layoutY="20.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
       <MenuBar fx:id="menuBar" focusTraversable="false" layoutX="10.0" layoutY="64.0" prefHeight="42.0" prefWidth="784.0" style="-fx-background-color: none;">
          <menus>
             <Menu mnemonicParsing="false" text="Questions">
                <items>
-                  <MenuItem fx:id="questionPool" mnemonicParsing="false" onAction="#openAddQuestion" text="Questions pool" />
+                  <MenuItem fx:id="questionPool" mnemonicParsing="false" onAction="#openQuestionPool" text="Questions pool" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Exams  ">
@@ -90,7 +90,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="questionsPoolAnchorPane" layoutX="32.0" layoutY="106.0" prefHeight="355.0" prefWidth="833.0">
+      <AnchorPane fx:id="questionsPoolAnchorPane" layoutX="20.0" layoutY="115.0" prefHeight="350.0" prefWidth="950.0" visible="false">
          <children>
             <Label layoutX="2.0" layoutY="-9.0" text="Questions Pool" textOverrun="CENTER_ELLIPSIS">
                <font>
@@ -110,7 +110,7 @@
                   <InnerShadow />
                </effect>
             </ComboBox>
-            <TableView fx:id="tableViewInQuestionsPool" editable="true" fixedCellSize="0.0" layoutX="-24.0" layoutY="78.0" prefHeight="200.0" prefWidth="874.0" stylesheets="@table%20view.css">
+            <TableView fx:id="tableViewInQuestionsPool" editable="true" fixedCellSize="0.0" layoutX="40.0" layoutY="78.0" prefHeight="200.0" prefWidth="874.0" stylesheets="@table%20view.css">
                <columns>
                   <TableColumn fx:id="subjectIDColumnInQuestionsPool" maxWidth="200.0" minWidth="90.0" prefWidth="75.0" text="Subject ID" />
                   <TableColumn fx:id="questionNumColumnInQuestionsPool" prefWidth="75.0" text="Q.Number" />
@@ -127,6 +127,11 @@
                   <TableColumn fx:id="correctAnswerColumnInQuestionsPool" maxWidth="255.0" minWidth="65.0" prefWidth="102.0" text="Correct Answer" />
                </columns>
             </TableView>
+            <Button fx:id="updateTableButtonInQuestionPool" layoutX="337.0" layoutY="41.0" mnemonicParsing="false" onAction="#updateTableHandler" text="Update table">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="examsPoolAnchorPane" layoutX="42.0" layoutY="116.0" prefHeight="355.0" prefWidth="833.0" visible="false">

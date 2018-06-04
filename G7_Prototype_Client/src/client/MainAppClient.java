@@ -30,6 +30,10 @@ public class MainAppClient extends Application {
 
 	public static String studentScreenFile = "/boundaries/StudentWindow.fxml";
 
+	public static String principalScreenID = "PrincipalScreen";
+
+	public static String principalScreenFile = "/boundaries/PrincipalWindow.fxml";
+
 	private static String host = "";
 
 	// end region -> Constants
@@ -72,6 +76,7 @@ public class MainAppClient extends Application {
 		mainContainer.loadScreen(MainAppClient.loginScreenID, MainAppClient.loginScreenFile);
 		mainContainer.loadScreen(MainAppClient.teacherScreenID, MainAppClient.teacherScreenFile);
 		mainContainer.loadScreen(MainAppClient.studentScreenID, MainAppClient.studentScreenFile);
+		mainContainer.loadScreen(MainAppClient.principalScreenID, MainAppClient.principalScreenFile);
 		mainContainer.setScreen(MainAppClient.loginScreenID);
 		Group root = new Group();
 		root.getChildren().addAll(mainContainer);

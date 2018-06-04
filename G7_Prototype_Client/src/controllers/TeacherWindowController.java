@@ -623,7 +623,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 				flag = false;
 				Utilities.popUpMethod("Duration");
 			}
-
 			if (flag) {
 				exam = new Exam(subject, course, duration, firstName + " " + lastName);
 				anchorPaneInCreateExamFirstWindow.setVisible(false);
