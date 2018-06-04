@@ -180,6 +180,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		this.client = MainAppClient.getClient();
 		client.setPrincipalWindowController(this);
 		setColumnsInQuestionsPool();
+		setColumnsInExamsPool();
 
 		// client.setPrincipalWindowController(this);
 	}
@@ -214,7 +215,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		setSubjectComboBox(subjectComboBoxInQuestionsPool);
 	}
 
-	// Update table button was clicked
+	// show question button was clicked
 
 	public void showQuestionHandler(ActionEvent event) {
 		setTableInQuestionPool();
@@ -226,6 +227,12 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		welcomeAnchorPane.setVisible(false);
 		setSubjectComboBox(subjectComboBoxInExamPool);
 	}
+	
+	// show exams button was clicked
+
+		public void showExamsHandler(ActionEvent event) {
+			setTableInExamsPool();
+		}
 
 	/* --------------------- private methods ---------------------- */
 
@@ -236,6 +243,13 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	private void setTableInQuestionPool() {
+		client.getQuestionsFromDB().clear();
+		client.handleMessageFromClientUI(
+				Message.getQuestionBySubject + " " + subjectComboBoxInQuestionsPool.getValue());
+		tableViewInQuestionsPool.setItems(client.getQuestionsFromDB());
+	}
+	
+	private void setTableInExamsPool() {
 		client.getQuestionsFromDB().clear();
 		client.handleMessageFromClientUI(
 				Message.getQuestionBySubject + " " + subjectComboBoxInQuestionsPool.getValue());

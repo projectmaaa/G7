@@ -51,6 +51,8 @@ public class SqlUtilities {
 	public final static String SELECT_subjectID_FROM_Subject = "SELECT subjectID FROM Subject WHERE subjectName=?;";
 
 	public final static String SELECT_courseID_FROM_Course = "SELECT courseID FROM Course WHERE courseName=?;";
+	
+	public final static String SELECT_Exams_BY_SubjectID = "SELECT * FROM Exam WHERE subjectID=?;";
 
 	// region Public Methods
 
