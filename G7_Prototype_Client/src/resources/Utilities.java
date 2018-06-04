@@ -44,7 +44,6 @@ public class Utilities {
 		Label text = null;
 		Stage primaryStage = new Stage();
 		primaryStage.setTitle("AES7");
-
 		primaryStage.setResizable(false);
 		Popup popup = new Popup();
 		popup.setX(700);
@@ -63,52 +62,46 @@ public class Utilities {
 		switch (strArray[0]) {
 		case "add":
 			text = new Label("Question added successfully!");
-			popup.getContent().addAll(text);
 			break;
 		case "save":
 			text = new Label("Question updated successfully!");
-			popup.getContent().addAll(text);
 			break;
-		case "incorrect answer":
+		case "IncorrectAnswer":
 			text = new Label("Please insert only numbers from 1 to 4 in the 'Correct Answer' column!");
-			popup.getContent().addAll(text);
 			break;
-		case "Select Subject":
+		case "SelectSubject":
 			text = new Label("Please select subject");
-			popup.getContent().addAll(text);
 			break;
-		case "Select Course":
+		case "SelectCourse":
 			text = new Label("Please select course");
-			popup.getContent().addAll(text);
 			break;
-		case "Enter Text":
+		case "EnterText":
 			text = new Label("Please fill all the text fields");
-			popup.getContent().addAll(text);
 			break;
 		case "Exam":
 			text = new Label("Exam created successfully!");
-			popup.getContent().addAll(text);
-		case "Select Answer":
+			break;
+		case "SelectAnswer":
 			text = new Label("Please select the correct answer for the question");
-			popup.getContent().addAll(text);
 			break;
 		case "Duration":
 			text = new Label("Please fill the correct amount of time");
-			popup.getContent().addAll(text);
 			break;
 		case "Points":
+			text = new Label("Wrong amount of points in question number " + strArray[1]);
 			primaryStage.setHeight(100);
 			primaryStage.setWidth(400);
-			text = new Label("Wrong amount of points in question number " + strArray[1]);
-			popup.getContent().addAll(text);
 			break;
 		case "TotalPoints":
+			text = new Label("The total amount of points isn't 100");
 			primaryStage.setHeight(100);
 			primaryStage.setWidth(400);
-			text = new Label("The total amount of points isn't 100");
-			popup.getContent().addAll(text);
+			break;
+		case "SelectQuestions":
+			text = new Label("Please Select Questions");
 			break;
 		}
+		popup.getContent().addAll(text);
 		layout.getChildren().addAll(text, okButton);
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();

@@ -326,7 +326,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		tableViewInCreateExamQuestion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		tableViewInEditOrRemove.setEditable(true);
 		tableViewInEditOrRemove.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		//tableViewInCreateExamAllQuestion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		tableViewInCreateExamAllQuestion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		initAddQuestionOption();
 		client.setTeacherWindowController(this);
 	}
@@ -371,7 +371,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void openEditorRemove(ActionEvent event) {
 		try {
 			tableViewInEditOrRemove.getItems().clear();
-			// setQuestionsTableInfoInEditOrRemove();
 			questionsTableAnchorPaneInEditOrRemove.setVisible(true);
 			backAnchorPane.setVisible(true);
 			addQuestionAnchorPane.setVisible(false);
@@ -396,7 +395,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			String answerNumber = question.getCorrectAnswer();
 			if (!answerNumber.equals("1") && !answerNumber.equals("2") && !answerNumber.equals("3")
 					&& !answerNumber.equals("4")) {
-				Utilities.popUpMethod("incorrect answer");
+				Utilities.popUpMethod("IncorrectAnswer");
 				tableViewInEditOrRemove.getItems().clear();
 				setQuestionsTableInfoInEditOrRemove();
 				System.out.println("answerNumber 1<-->4");
@@ -459,25 +458,35 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	void redArrowUp(MouseEvent event) {
-		QuestionInExam question = tableViewInCreateExamQuestion.getSelectionModel().getSelectedItem();
-		if (question != null) {
-			if (question.getPoints() != 0) {
-				question.setPoints(0);
-			}
-			tableViewInCreateExamQuestion.getItems().remove(question);
-			tableViewInCreateExamAllQuestion.getItems().add(question.getQuestion());
+		ObservableList<QuestionInExam> regretQuestions = tableViewInCreateExamQuestion.getSelectionModel()
+				.getSelectedItems();
+		if (!regretQuestions.isEmpty()) {
+			ArrayList<QuestionInExam> questionsToDelete = new ArrayList<>();
+			questionsToDelete.addAll(regretQuestions);
+			for (QuestionInExam question : regretQuestions)
+				if (question.getPoints() != 0)
+					question.setPoints(0);
+			tableViewInCreateExamQuestion.getItems().removeAll(questionsToDelete);
+			for (QuestionInExam question : questionsToDelete)
+				tableViewInCreateExamAllQuestion.getItems().add(question.getQuestion());
 			initTablesInCreateExam(true, true);
-		}
+		} else // if the teacher didn't choose anything
+			Utilities.popUpMethod("SelectQuestions");
 	}
 
 	@FXML
 	void greenArrowDown(MouseEvent event) {
-		Question question = tableViewInCreateExamAllQuestion.getSelectionModel().getSelectedItem();
-		if (question != null) {
-			tableViewInCreateExamAllQuestion.getItems().remove(question);
-			tableViewInCreateExamQuestion.getItems().add(new QuestionInExam(exam, question));
+		ObservableList<Question> questionsFromAllTable = tableViewInCreateExamAllQuestion.getSelectionModel()
+				.getSelectedItems();
+		if (!questionsFromAllTable.isEmpty()) {
+			ArrayList<Question> questionsToAdd = new ArrayList<>();
+			questionsToAdd.addAll(questionsFromAllTable);
+			tableViewInCreateExamAllQuestion.getItems().removeAll(questionsToAdd);
+			for (Question question : questionsToAdd)
+				tableViewInCreateExamQuestion.getItems().add(new QuestionInExam(exam, question));
 			initTablesInCreateExam(true, true);
-		}
+		} else // if the teacher didn't choose anything
+			Utilities.popUpMethod("SelectQuestions");
 	}
 
 	public void checkTotalPointsInCreateExam(MouseEvent event) {
@@ -491,7 +500,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			totalPoints += points;
 		}
 		if (totalPoints != 100) {
-			Utilities.popUpMethod("TotalPoints");
+			Utilities.popUpMethod("Total Points");
 		} else {
 			exam.setQuestions(tableViewInCreateExamQuestion.getItems());
 			System.out.println(exam.getQuestions());
@@ -550,19 +559,19 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void addNewQuestion(ActionEvent event) {
 		// if the user didn't select a subject
 		if (subjectComboBox.getValue() == null) {
-			Utilities.popUpMethod("Select Subject");
+			Utilities.popUpMethod("SelectSubject");
 			return;
 		}
 		// if the user didn't filled all the fields
 		if (questionTextField.getText().isEmpty() || firstAnswerField.getText().isEmpty()
 				|| secondAnswerField.getText().isEmpty() || thirdAnswerField.getText().isEmpty()
 				|| fourthAnswerField.getText().isEmpty()) {
-			Utilities.popUpMethod("Enter Text");
+			Utilities.popUpMethod("EnterText");
 			return;
 		}
 		// if the user didn't select the correct answer
 		if (correctAnswerComboBox.getValue() == null) {
-			Utilities.popUpMethod("Select Answer");
+			Utilities.popUpMethod("SelectAnswer");
 			return;
 		}
 		Question question = new Question(subjectComboBox.getValue(), firstName + " " + lastName,
@@ -601,12 +610,12 @@ public class TeacherWindowController implements Initializable, IScreenController
 		String subject = subjectInCreateExamComboBox.getValue();
 		if (subject == null) {
 			flag = false;
-			Utilities.popUpMethod("Select Subject");
+			Utilities.popUpMethod("SelectSubject");
 		}
 		String course = courseInCreateExamComboBox.getValue();
 		if (course == null) {
 			flag = false;
-			Utilities.popUpMethod("Select Course");
+			Utilities.popUpMethod("SelectCourse");
 		}
 		try {
 			int duration = Integer.parseInt(durationInCreateExamField.getText());
@@ -908,7 +917,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		if (subject != null) {
 			client.handleMessageFromClientUI(Message.editOrRemove + " " + firstName + " " + lastName + " " + subject);
 		} else {
-			Utilities.popUpMethod("Select Subject");
+			Utilities.popUpMethod("SelectSubject");
 		}
 		tableViewInEditOrRemove.setItems(client.getQuestionsFromDB());
 	}
