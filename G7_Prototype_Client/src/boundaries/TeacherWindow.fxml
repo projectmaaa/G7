@@ -193,7 +193,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Button layoutX="334.0" layoutY="21.0" mnemonicParsing="false" onAction="#updateTableInEditOrRemove" text="Update Table" />
+            <Button layoutX="334.0" layoutY="21.0" mnemonicParsing="false" onAction="#updateTableInEditOrRemove" text="Show Questions" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="createExamAnchorPane" layoutX="27.0" layoutY="91.0" prefHeight="513.0" prefWidth="950.0" visible="false">
@@ -268,11 +268,6 @@
                   <ImageView fitHeight="35.0" fitWidth="55.0" layoutX="498.0" layoutY="242.0" onMouseClicked="#redArrowUp" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Images/red_arrow_up.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="34.0" fitWidth="31.0" layoutX="444.0" layoutY="243.0" onMouseClicked="#realodTablesInCreateExam" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Images/reload.png" />
                      </image>
                   </ImageView>
                   <Button fx:id="createExamNextButtonSecondWindow" layoutX="855.0" layoutY="364.0" mnemonicParsing="false" onMouseClicked="#checkTotalPointsInCreateExam" prefHeight="25.0" prefWidth="67.0" text="Next" />

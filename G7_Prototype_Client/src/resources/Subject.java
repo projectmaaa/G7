@@ -5,6 +5,11 @@ import java.util.ArrayList;
 
 public class Subject implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String subjectID;
 	
 	private String subjectName;

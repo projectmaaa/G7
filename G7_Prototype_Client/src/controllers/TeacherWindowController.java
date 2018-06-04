@@ -323,8 +323,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setColumnInCreateExamQuestions();
 		initAnchorPaneInCreateExamFirstWindow();
 		tableViewInCreateExamQuestion.setEditable(true);
+		tableViewInCreateExamQuestion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		tableViewInEditOrRemove.setEditable(true);
 		tableViewInEditOrRemove.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		//tableViewInCreateExamAllQuestion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		initAddQuestionOption();
 		client.setTeacherWindowController(this);
 	}
