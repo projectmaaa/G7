@@ -12,6 +12,8 @@ import controllers.TeacherWindowController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ocsf.client.AbstractClient;
+import resources.Exam;
+import resources.ExamHandle;
 import resources.Message;
 import resources.Question;
 import resources.QuestionsHandle;
@@ -27,6 +29,8 @@ public class Client extends AbstractClient implements IScreenController {
 	// region Fields
 
 	private ObservableList<Question> questionsFromDB = FXCollections.observableArrayList();
+	
+	private ObservableList<Exam> examsFromDB = FXCollections.observableArrayList();
 
 	private ScreensController controller;
 
@@ -75,10 +79,6 @@ public class Client extends AbstractClient implements IScreenController {
 		controller = screenParent;
 	}
 
-	public ObservableList<Question> getQuestionsFromDB() {
-		return questionsFromDB;
-	}
-
 	public LoginWindowController getLoginWindowController() {
 		return loginWindowController;
 	}
@@ -111,6 +111,10 @@ public class Client extends AbstractClient implements IScreenController {
 		this.principalWindowController = principalWindowController;
 	}
 
+	public ObservableList<Question> getQuestionsFromDB() {
+		return questionsFromDB;
+	}
+	
 	/*
 	 * set the questions observable list from the returned array list of
 	 * SqlUtilities.getQuestions
@@ -121,6 +125,14 @@ public class Client extends AbstractClient implements IScreenController {
 
 	public Question getQuestion() {
 		return question;
+	}
+	
+	public ObservableList<Exam> getExamsFromDB() {
+		return examsFromDB;
+	}
+
+	public void setExamsFromDB(ArrayList<Exam> exams) {
+		examsFromDB.setAll(exams);
 	}
 
 	public void setQuestion(Question question) {
@@ -142,6 +154,7 @@ public class Client extends AbstractClient implements IScreenController {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	
 
 	// end region -> Setters
 
@@ -219,6 +232,12 @@ public class Client extends AbstractClient implements IScreenController {
 				e.printStackTrace();
 			}
 		}
+		else if (msg instanceof ExamHandle) {
+			ExamHandle examsHandle = (ExamHandle) msg;
+			if (examsHandle.getCommand().equals("Subject")) {
+				setExamsFromDB(examsHandle.getExams());
+			}
+		}
 	}
 
 	/**
@@ -246,6 +265,7 @@ public class Client extends AbstractClient implements IScreenController {
 		}
 		System.exit(0);
 	}
+
 
 	// end region -> Public Methods
 

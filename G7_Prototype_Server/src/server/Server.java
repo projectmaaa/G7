@@ -195,6 +195,9 @@ public class Server extends AbstractServer {
 				case Message.getQuestionBySubject:
 					client.sendToClient(SqlUtilities.getQuestionsBySubject(connection, strArray[1]));
 					break;
+				case Message.getExamBySubject:
+					client.sendToClient(SqlUtilities.getExamsBySubject(connection, strArray[1]));
+					break;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

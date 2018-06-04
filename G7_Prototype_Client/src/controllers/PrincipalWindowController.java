@@ -250,10 +250,10 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 	
 	private void setTableInExamsPool() {
-		client.getQuestionsFromDB().clear();
+		client.getExamsFromDB().clear();
 		client.handleMessageFromClientUI(
-				Message.getQuestionBySubject + " " + subjectComboBoxInQuestionsPool.getValue());
-		tableViewInQuestionsPool.setItems(client.getQuestionsFromDB());
+				Message.getExamBySubject + " " + subjectComboBoxInExamPool.getValue());
+		tableViewInExamsPool.setItems(client.getExamsFromDB());
 	}
 
 	private void setColumnsInQuestionsPool() {

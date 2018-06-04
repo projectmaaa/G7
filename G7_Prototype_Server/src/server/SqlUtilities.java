@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.sql.PreparedStatement;
 
 import resources.Exam;
+import resources.ExamHandle;
 import resources.Question;
 import resources.QuestionInExam;
 import resources.QuestionsHandle;
@@ -138,6 +139,24 @@ public class SqlUtilities {
 		statement.close();
 		rs.close();
 		return (new QuestionsHandle("Subject", questionsBySubject));
+	}
+	
+	public static ExamHandle getExamsBySubject(Connection connection, String subject) throws SQLException {
+		ArrayList<Exam> examsBySubject = new ArrayList<Exam>();
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_Exams_BY_SubjectID);
+		try {
+			statement.setString(1, getSubjectID(subject, connection));
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		ResultSet rs = statement.executeQuery();
+		while (rs.next()) {
+			examsBySubject.add(new Exam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+			 rs.getInt(5),  rs.getString(6),  rs.getString(7)));
+		}
+		statement.close();
+		rs.close();
+		return (new ExamHandle("Subject", examsBySubject));
 	}
 
 	/**

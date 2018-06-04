@@ -1,6 +1,7 @@
 package resources;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class ExamHandle implements Serializable {
 
@@ -12,10 +13,17 @@ public class ExamHandle implements Serializable {
 	private String command;
 
 	private Exam exam;
+	
+	private ArrayList<Exam> exams;
 
 	public ExamHandle(String command, Exam exam) {
 		this.command = command;
 		this.exam = exam;
+	}
+	
+	public ExamHandle(String command, ArrayList<Exam> exams) {
+		this.command = command;
+		this.setExams(exams);
 	}
 
 	public String getCommand() {
@@ -32,6 +40,14 @@ public class ExamHandle implements Serializable {
 
 	public void setExam(Exam exam) {
 		this.exam = exam;
+	}
+
+	public ArrayList<Exam> getExams() {
+		return exams;
+	}
+
+	public void setExams(ArrayList<Exam> exams) {
+		this.exams = exams;
 	}
 
 }
