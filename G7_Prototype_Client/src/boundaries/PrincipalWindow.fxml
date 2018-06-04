@@ -128,7 +128,7 @@
                   <TableColumn fx:id="correctAnswerColumnInQuestionsPool" maxWidth="255.0" minWidth="33.0" prefWidth="128.0" text="Correct Answer" />
                </columns>
             </TableView>
-            <Button fx:id="updateTableButtonInQuestionPool" layoutX="337.0" layoutY="41.0" mnemonicParsing="false" onAction="#updateTableHandler" text="Update table">
+            <Button fx:id="showQuestionsInQuestionsPool" layoutX="337.0" layoutY="41.0" mnemonicParsing="false" onAction="#showQuestionHandler" text="Show Questions">
                <effect>
                   <InnerShadow />
                </effect>
@@ -140,6 +140,17 @@
       </AnchorPane>
       <AnchorPane fx:id="examsPoolAnchorPane" layoutX="32.0" layoutY="161.0" prefHeight="355.0" prefWidth="833.0" visible="false">
          <children>
+            <TableView fx:id="tableViewInExamsPool" layoutX="1.0" layoutY="75.0" prefHeight="269.0" prefWidth="929.0">
+              <columns>
+                <TableColumn fx:id="subjectColInExamsPool" prefWidth="75.0" text="Subject" />
+                <TableColumn fx:id="courseColInExamsPool" prefWidth="75.0" text="Course" />
+                  <TableColumn fx:id="examNumColInExamsPool" prefWidth="113.0" text="Exam Number" />
+                  <TableColumn fx:id="authorColInExamsPool" prefWidth="134.0" text="Author" />
+                  <TableColumn fx:id="durationColInExamsPool" minWidth="0.0" prefWidth="92.0" text="Duration (min)" />
+                  <TableColumn fx:id="textExamineesColInExamsPool" prefWidth="218.0" text="Text For Examinees" />
+                  <TableColumn fx:id="textTeachersColInExamsPool" prefWidth="221.0" text="Text For Teachers" />
+              </columns>
+            </TableView>
             <Label layoutX="2.0" layoutY="-9.0" text="Exams Pool" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="24.0" />
@@ -148,16 +159,21 @@
                   <Bloom />
                </effect>
             </Label>
-            <Label fx:id="subjectInExamsPoolLabel" layoutX="99.0" layoutY="45.0" text="Subject">
+            <Label fx:id="subjectInExamsPoolLabel" layoutX="184.0" layoutY="39.0" text="Subject">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="subjectComboBoxInExamPool" layoutX="160.0" layoutY="41.0" prefWidth="150.0">
+            <ComboBox fx:id="subjectComboBoxInExamPool" layoutX="245.0" layoutY="35.0" prefWidth="150.0">
                <effect>
                   <InnerShadow />
                </effect>
             </ComboBox>
+            <Button fx:id="showExamsInExamsPool" layoutX="429.0" layoutY="35.0" mnemonicParsing="false" text="Show Exams">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
          </children>
       </AnchorPane>
    </children>
