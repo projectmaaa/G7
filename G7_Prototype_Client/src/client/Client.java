@@ -29,7 +29,7 @@ public class Client extends AbstractClient implements IScreenController {
 	// region Fields
 
 	private ObservableList<Question> questionsFromDB = FXCollections.observableArrayList();
-	
+
 	private ObservableList<Exam> examsFromDB = FXCollections.observableArrayList();
 
 	private ScreensController controller;
@@ -114,7 +114,7 @@ public class Client extends AbstractClient implements IScreenController {
 	public ObservableList<Question> getQuestionsFromDB() {
 		return questionsFromDB;
 	}
-	
+
 	/*
 	 * set the questions observable list from the returned array list of
 	 * SqlUtilities.getQuestions
@@ -126,7 +126,7 @@ public class Client extends AbstractClient implements IScreenController {
 	public Question getQuestion() {
 		return question;
 	}
-	
+
 	public ObservableList<Exam> getExamsFromDB() {
 		return examsFromDB;
 	}
@@ -154,7 +154,6 @@ public class Client extends AbstractClient implements IScreenController {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
 
 	// end region -> Setters
 
@@ -224,15 +223,7 @@ public class Client extends AbstractClient implements IScreenController {
 			else if (questionsHandle.getCommand().equals("Subject")) {
 				setQuestionsFromDB(questionsHandle.getQuestionArray());
 			}
-		} else if (msg instanceof Integer) {
-			question.concatenateQuestionCount((int) msg);
-			try {
-				sendToServer(new QuestionsHandle("Add", question));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		else if (msg instanceof ExamHandle) {
+		} else if (msg instanceof ExamHandle) {
 			ExamHandle examsHandle = (ExamHandle) msg;
 			if (examsHandle.getCommand().equals("Subject")) {
 				setExamsFromDB(examsHandle.getExams());
@@ -265,7 +256,6 @@ public class Client extends AbstractClient implements IScreenController {
 		}
 		System.exit(0);
 	}
-
 
 	// end region -> Public Methods
 

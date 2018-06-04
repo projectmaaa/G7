@@ -41,7 +41,7 @@ public class Question implements Serializable {
 	public Question(String subjectID, String author, String questionText, String firstPossibleAnswer,
 			String secondPossibleAnswer, String thirdPossibleAnswer, String fourthPossibleAnswer,
 			String correctAnswer) {
-		setSubjectNumber(subjectID);
+		this.subjectID = subjectID;
 		this.author = author;
 		this.questionText = questionText;
 		this.firstPossibleAnswer = firstPossibleAnswer;
@@ -142,37 +142,6 @@ public class Question implements Serializable {
 
 	public void setCorrectAnswer(String correctAnswer) {
 		this.correctAnswer = correctAnswer;
-	}
-
-	/**
-	 * 
-	 * @param subject
-	 */
-	private void setSubjectNumber(String subject) {
-		switch (subject) {
-		case "Software":
-			this.subjectID = "01";
-			break;
-		case "Math":
-			this.subjectID = "02";
-			break;
-		case "Physics":
-			this.subjectID = "03";
-			break;
-		}
-	}
-
-	// end region -> Getters & Setters
-
-	/**
-	 * this string concatenates the question counter to the questioID
-	 */
-	public void concatenateQuestionCount(int count) {
-		if (count < 10)
-			questionNum = "00";
-		else if (count < 100)
-			questionNum = "0";
-		questionNum += count;
 	}
 
 }// end of class Question

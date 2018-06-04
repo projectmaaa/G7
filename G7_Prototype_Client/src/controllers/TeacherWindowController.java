@@ -378,7 +378,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 			examManagementAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 			welcomeAnchorPane.setVisible(false);
-
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -500,7 +499,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			totalPoints += points;
 		}
 		if (totalPoints != 100) {
-			Utilities.popUpMethod("Total Points");
+			Utilities.popUpMethod("TotalPoints");
 		} else {
 			exam.setQuestions(tableViewInCreateExamQuestion.getItems());
 			System.out.println(exam.getQuestions());
@@ -899,7 +898,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 		pointsColumnInCreateExam.setCellFactory(
 				TextFieldTableCell.<QuestionInExam, Integer>forTableColumn(new IntegerStringConverter()));
-		// pointsColumnInCreateExam.setCellFactory(Integerf.forTableColumn());
 		pointsColumnInCreateExam.setOnEditCommit(new EventHandler<CellEditEvent<QuestionInExam, Integer>>() {
 			@Override
 			public void handle(CellEditEvent<QuestionInExam, Integer> t) {

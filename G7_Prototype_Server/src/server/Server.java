@@ -76,31 +76,21 @@ public class Server extends AbstractServer {
 				}
 			} else if (questionsHandle.getCommand().equals("Add")) { // new question to add
 				try {
-					if (questionsHandle.getQuestion().getQuestionNum() == null) { // before the process to complete the
-																					// questionID is finished
-						int questionCount = SqlUtilities.getQuestionCount(questionsHandle.getQuestion().getSubjectID(),
-								connection);
-						client.sendToClient(questionCount);
-					} else {
-						SqlUtilities.insertNewQuestion(questionsHandle.getQuestion(), connection);
-						client.sendToClient(Message.tableSaved);
-					}
+					SqlUtilities.insertNewQuestion(questionsHandle.getQuestion(), connection);
+					client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} else if (questionsHandle.getCommand().equals("All")) {
-				// if it's from the questions table
-				if (questionsHandle.getQuestionArray().get(0) instanceof Question) {
-					try {
-						SqlUtilities.editTable(questionsHandle.getQuestionArray(), connection);
-						client.sendToClient(Message.tableSaved);
-					} catch (SQLException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+			} else if (questionsHandle.getCommand().equals("All")) { // if it's from the questions table
+				try {
+					SqlUtilities.editTable(questionsHandle.getQuestionArray(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
 		} else if (msg instanceof ExamHandle) {

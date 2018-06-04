@@ -52,7 +52,7 @@ public class SqlUtilities {
 	public final static String SELECT_subjectID_FROM_Subject = "SELECT subjectID FROM Subject WHERE subjectName=?;";
 
 	public final static String SELECT_courseID_FROM_Course = "SELECT courseID FROM Course WHERE courseName=?;";
-	
+
 	public final static String SELECT_Exams_BY_SubjectID = "SELECT * FROM Exam WHERE subjectID=?;";
 
 	// region Public Methods
@@ -140,7 +140,7 @@ public class SqlUtilities {
 		rs.close();
 		return (new QuestionsHandle("Subject", questionsBySubject));
 	}
-	
+
 	public static ExamHandle getExamsBySubject(Connection connection, String subject) throws SQLException {
 		ArrayList<Exam> examsBySubject = new ArrayList<Exam>();
 		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_Exams_BY_SubjectID);
@@ -152,7 +152,7 @@ public class SqlUtilities {
 		ResultSet rs = statement.executeQuery();
 		while (rs.next()) {
 			examsBySubject.add(new Exam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-			 rs.getInt(5),  rs.getString(6),  rs.getString(7)));
+					rs.getInt(5), rs.getString(6), rs.getString(7)));
 		}
 		statement.close();
 		rs.close();
@@ -178,8 +178,8 @@ public class SqlUtilities {
 			update.setString(7, question.getSubjectID());
 			update.setString(8, question.getQuestionNum());
 			update.executeUpdate();
-			update.close();
 		}
+		update.close();
 	}
 
 	/**
@@ -187,8 +187,13 @@ public class SqlUtilities {
 	 */
 	public static void insertNewQuestion(Question question, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_Question);
-		insert.setString(1, question.getSubjectID());
-		insert.setString(2, question.getQuestionNum());
+		String subjectID = getSubjectID(question.getSubjectID(), connection);
+		int questionsCount = getQuestionCount(subjectID, connection);
+		String questionNumber = questionsCount < 100
+				? (questionsCount < 10 ? "00" + questionsCount : "0" + questionsCount)
+				: Integer.toString(questionsCount);
+		insert.setString(1, subjectID);
+		insert.setString(2, questionNumber);
 		insert.setString(3, question.getAuthor());
 		insert.setString(4, question.getQuestionText());
 		insert.setString(5, question.getFirstPossibleAnswer());
@@ -240,54 +245,6 @@ public class SqlUtilities {
 		remove.close();
 	}
 
-	/**
-	 * returns the current amount of questions of a specific subject & updates the
-	 * new amount in the DB
-	 * 
-	 * @param subjectID
-	 * @param connection
-	 * @return
-	 * @throws SQLException
-	 */
-	public static Integer getQuestionCount(String subjectID, Connection connection) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_FROM_Subject);
-		statement.setString(1, subjectID);
-		ResultSet rs = statement.executeQuery();
-		rs.next();
-		int questionsCount = rs.getInt(1) + 1;
-		statement = connection.prepareStatement(SqlUtilities.UPDATE_Subject);
-		statement.setInt(1, questionsCount); // update the new count in the DB
-		statement.setString(2, subjectID);
-		statement.executeUpdate();
-		statement.close();
-		rs.close();
-		return questionsCount;
-	}
-
-	/**
-	 * returns the current amount of exams of a specific course & updates the new
-	 * amount in the DB
-	 * 
-	 * @param courseID
-	 * @param connection
-	 * @return
-	 * @throws SQLException
-	 */
-	public static Integer getExamCount(String courseID, Connection connection) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_FROM_Course);
-		statement.setString(1, courseID);
-		ResultSet rs = statement.executeQuery();
-		rs.next();
-		int examsCount = rs.getInt(1) + 1;
-		statement = connection.prepareStatement(SqlUtilities.UPDATE_Course);
-		statement.setInt(1, examsCount); // update the new count in the DB
-		statement.setString(2, courseID);
-		statement.executeUpdate();
-		statement.close();
-		rs.close();
-		return examsCount;
-	}
-
 	// end region -> Public Methods
 
 	/**
@@ -324,6 +281,14 @@ public class SqlUtilities {
 		return courseID;
 	}
 
+	/**
+	 * adds the questions into the QuestionInExam table
+	 * 
+	 * @param exam
+	 * @param examNumber
+	 * @param connection
+	 * @throws SQLException
+	 */
 	private static void insertQuestionInExam(Exam exam, String examNumber, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERET_QUESTION_IN_EXAM);
 		for (QuestionInExam questionInExam : exam.getQuestions()) {
@@ -335,6 +300,54 @@ public class SqlUtilities {
 			insert.executeUpdate();
 		}
 		insert.close();
+	}
+
+	/**
+	 * returns the current amount of exams of a specific course & updates the new
+	 * amount in the DB
+	 * 
+	 * @param courseID
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
+	private static Integer getExamCount(String courseID, Connection connection) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_FROM_Course);
+		statement.setString(1, courseID);
+		ResultSet rs = statement.executeQuery();
+		rs.next();
+		int examsCount = rs.getInt(1) + 1;
+		statement = connection.prepareStatement(SqlUtilities.UPDATE_Course);
+		statement.setInt(1, examsCount); // update the new count in the DB
+		statement.setString(2, courseID);
+		statement.executeUpdate();
+		statement.close();
+		rs.close();
+		return examsCount;
+	}
+
+	/**
+	 * returns the current amount of questions of a specific subject & updates the
+	 * new amount in the DB
+	 * 
+	 * @param subjectID
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
+	private static Integer getQuestionCount(String subjectID, Connection connection) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_FROM_Subject);
+		statement.setString(1, subjectID);
+		ResultSet rs = statement.executeQuery();
+		rs.next();
+		int questionsCount = rs.getInt(1) + 1;
+		statement = connection.prepareStatement(SqlUtilities.UPDATE_Subject);
+		statement.setInt(1, questionsCount); // update the new count in the DB
+		statement.setString(2, subjectID);
+		statement.executeUpdate();
+		statement.close();
+		rs.close();
+		return questionsCount;
 	}
 
 } /* end of class */
