@@ -15,8 +15,10 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import resources.Exam;
 import resources.Message;
 import resources.Question;
 import resources.Utilities;
@@ -70,7 +72,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	private ComboBox<String> subjectComboBoxInQuestionsPool;
 
 	@FXML
-	private Button updateTableButtonInQuestionPool;
+	private Button showQuestionsInQuestionsPool;
 
 	@FXML
 	private TableView<Question> tableViewInQuestionsPool;
@@ -107,8 +109,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	// exams pool
 
-	// exams pool
-
 	@FXML
 	private AnchorPane examsPoolAnchorPane;
 
@@ -117,6 +117,33 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	@FXML
 	private ComboBox<String> subjectComboBoxInExamPool;
+
+	@FXML
+	private Button showExamsInExamsPool;
+
+	@FXML
+	private TableColumn<Exam, String> subjectColInExamsPool;
+
+	@FXML
+	private TableColumn<Exam, String> courseColInExamsPool;
+
+	@FXML
+	private TableColumn<Exam, String> examNumColInExamsPool;
+
+	@FXML
+	private TableColumn<Exam, String> authorColInExamsPool;
+
+	@FXML
+	private TableColumn<Exam, String> durationColInExamsPool;
+
+	@FXML
+	private TableColumn<Exam, String> textExamineesColInExamsPool;
+
+	@FXML
+	private TableColumn<Exam, String> textTeachersColInExamsPool;
+
+	@FXML
+	private TableView<Exam> tableViewInExamsPool;
 
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
@@ -152,6 +179,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		date.setText(Utilities.setDate());
 		this.client = MainAppClient.getClient();
 		client.setPrincipalWindowController(this);
+		setColumnsInQuestionsPool();
 
 		// client.setPrincipalWindowController(this);
 	}
@@ -188,8 +216,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	// Update table button was clicked
 
-	public void updateTableHandler(ActionEvent event) {
-		setTableInCreateExamAllQuestions();
+	public void showQuestionHandler(ActionEvent event) {
+		setTableInQuestionPool();
 	}
 
 	public void openExamPool(ActionEvent event) {
@@ -207,11 +235,37 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		comboBox.getItems().addAll("Software", "Math", "Physics");
 	}
 
-	private void setTableInCreateExamAllQuestions() {
+	private void setTableInQuestionPool() {
 		client.getQuestionsFromDB().clear();
 		client.handleMessageFromClientUI(
 				Message.getQuestionBySubject + " " + subjectComboBoxInQuestionsPool.getValue());
-		// initTablesInCreateExam(true, false);
 		tableViewInQuestionsPool.setItems(client.getQuestionsFromDB());
+	}
+
+	private void setColumnsInQuestionsPool() {
+		subjectIDColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
+		questionNumColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
+		authorColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("author"));
+		questionTextColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+		firstPossibleAnswerColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
+		secondPossibleAnswerColumnInQuestionsPool
+				.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
+		thirdPossibleAnswerColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
+		fourthPossibleAnswerColumnInQuestionsPool
+				.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
+		correctAnswerColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
+
+	}
+	
+	private void setColumnsInExamsPool() {
+		subjectColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
+		courseColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("courseID"));
+		examNumColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("examNum"));
+		authorColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("teacherName"));
+		durationColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("examDuration"));
+		textExamineesColInExamsPool
+				.setCellValueFactory(new PropertyValueFactory<>("freeTextForExaminees"));
+		textTeachersColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("freeTextForTeacherOnly"));
+
 	}
 }
