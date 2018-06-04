@@ -147,6 +147,9 @@ public class Server extends AbstractServer {
 							case "Student":
 								client.sendToClient(Message.studnet + " " + rs.getString(2) + " " + rs.getString(3));
 								break;
+							case "Principal":
+								client.sendToClient(Message.principal + " " + rs.getString(2) + " " + rs.getString(3));
+								break;
 							default:
 								client.sendToClient("#No" + " " + rs.getString(2) + " " + rs.getString(3));
 							}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import controllers.IScreenController;
 import controllers.LoginWindowController;
+import controllers.PrincipalWindowController;
 import controllers.ScreensController;
 import controllers.StudentWindowController;
 import controllers.TeacherWindowController;
@@ -29,12 +30,14 @@ public class Client extends AbstractClient implements IScreenController {
 	private ObservableList<Question> questionsFromDB = FXCollections.observableArrayList();
 
 	private ScreensController controller;
-	
+
 	private LoginWindowController loginWindowController;
 
 	private TeacherWindowController teacherWindowController;
 
 	private StudentWindowController studentWindowController;
+
+	private PrincipalWindowController principalWindowController;
 
 	private Question question;
 
@@ -76,7 +79,7 @@ public class Client extends AbstractClient implements IScreenController {
 	public ObservableList<Question> getQuestionsFromDB() {
 		return questionsFromDB;
 	}
-	
+
 	public LoginWindowController getLoginWindowController() {
 		return loginWindowController;
 	}
@@ -99,6 +102,14 @@ public class Client extends AbstractClient implements IScreenController {
 
 	public void setStudentWindowController(StudentWindowController studentWindowController) {
 		this.studentWindowController = studentWindowController;
+	}
+
+	public PrincipalWindowController getPrincipalWindowController() {
+		return principalWindowController;
+	}
+
+	public void setPrincipalWindowController(PrincipalWindowController principalWindowController) {
+		this.principalWindowController = principalWindowController;
 	}
 
 	/*
@@ -152,15 +163,17 @@ public class Client extends AbstractClient implements IScreenController {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
 			switch (strArray[0]) {
+			case Message.principal:
+				firstName = strArray[1];
+				lastName = strArray[2];
+				controller.setScreen(MainAppClient.principalScreenID);
+				principalWindowController.setNameAndLastName(firstName, lastName);
+				break;
 			case Message.teacher:
-				try {
-					firstName = strArray[1];
-					lastName = strArray[2];
-					controller.setScreen(MainAppClient.teacherScreenID);
-					teacherWindowController.setNameAndLastName(firstName, lastName);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				firstName = strArray[1];
+				lastName = strArray[2];
+				controller.setScreen(MainAppClient.teacherScreenID);
+				teacherWindowController.setNameAndLastName(firstName, lastName);
 				break;
 			case Message.studnet:
 				firstName = strArray[1];

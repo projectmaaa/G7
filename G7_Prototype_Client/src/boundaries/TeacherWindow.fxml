@@ -48,7 +48,7 @@
 				<Font size="24.0" />
 			</font>
 		</Text>
-		<Button fx:id="logoutButton" layoutX="932.0" layoutY="17.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
+		<Button fx:id="logoutButton" layoutX="925.0" layoutY="20.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
 		<MenuBar fx:id="menuBar" focusTraversable="false" layoutY="52.0" prefHeight="42.0" prefWidth="784.0" stylesheets="@TeacherWindow.css">
 			<menus>
 				<Menu mnemonicParsing="false" text="Maintain Questions">

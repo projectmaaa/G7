@@ -6,6 +6,8 @@ public class Message {
 
 	public final static String login = "#Login";
 
+	public static final String principal = "#Principal";
+
 	public final static String teacher = "#Teacher";
 
 	public final static String studnet = "#Studnet";

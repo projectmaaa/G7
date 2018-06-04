@@ -21,7 +21,7 @@ import resources.Message;
 import resources.Question;
 import resources.Utilities;
 
-public class PrincipalWindowController implements Initializable, IScreenController{
+public class PrincipalWindowController implements Initializable, IScreenController {
 
 	private ScreensController screensController;
 
@@ -55,23 +55,23 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private MenuBar menuBar;
 
-	//questions pool
-	
+	// questions pool
+
 	@FXML
 	private MenuItem questionsPool;
-	
+
 	@FXML
 	private AnchorPane questionsPoolAnchorPane;
-	
+
 	@FXML
 	private Label subjectInQuestionsPoolLabel;
-	
+
 	@FXML
 	private ComboBox<String> subjectComboBoxInQuestionsPool;
-	
+
 	@FXML
 	private TableView<Question> tableViewInQuestionsPool;
-	
+
 	@FXML
 	private TableColumn<Question, String> subjectIDColumnInQuestionsPool;
 
@@ -102,15 +102,14 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private TableColumn<Question, String> correctAnswerColumnInQuestionsPool;
 
-	
-	//exams pool
-	
+	// exams pool
+
 	@FXML
 	private AnchorPane examsPoolAnchorPane;
-	
+
 	@FXML
 	private Label subjectInExamsPoolLabel;
-	
+
 	@FXML
 	private ComboBox<String> subjectComboBoxInExamPool;
 
@@ -139,15 +138,17 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		date.setText(Utilities.setDate());
 		this.client = MainAppClient.getClient();
-		//client.setPrincipalWindowController(this);
-		
+		client.setPrincipalWindowController(this);
+
 	}
 
 	/**
 	 * 
 	 */
-	public void setName() {
-		name.setText(firstName + " " + lastName);
+	public void setNameAndLastName(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		welcomeText.setText(welcomeText.getText() + " " + this.firstName + " " + this.lastName);
 	}
 
 	/**
@@ -155,25 +156,26 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * @param event
 	 */
 	public void logOutButtonHandler(ActionEvent event) {
+		welcomeText.setText("Welcome");
 		welcomeAnchorPane.setVisible(true);
 		this.client.handleMessageFromClientUI(Message.logout);
 		screensController.setScreen(MainAppClient.loginScreenID);
 	}
-	
+
 	public void openQuestionPool(ActionEvent event) {
 		questionsPoolAnchorPane.setVisible(true);
 		welcomeAnchorPane.setVisible(false);
 		examsPoolAnchorPane.setVisible(false);
 		setSubjectComboBox(subjectComboBoxInQuestionsPool);
 	}
-	
+
 	public void openExamPool(ActionEvent event) {
 		examsPoolAnchorPane.setVisible(true);
 		questionsPoolAnchorPane.setVisible(false);
 		welcomeAnchorPane.setVisible(false);
 		setSubjectComboBox(subjectComboBoxInExamPool);
 	}
-	
+
 	private void setSubjectComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
 		comboBox.setPromptText("Select Subject");
@@ -182,8 +184,9 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	private void setTableInCreateExamAllQuestions() {
 		client.getQuestionsFromDB().clear();
-		client.handleMessageFromClientUI(Message.getQuestionBySubject + " " + subjectComboBoxInQuestionsPool.getValue());
-		//initTablesInCreateExam(true, false);
+		client.handleMessageFromClientUI(
+				Message.getQuestionBySubject + " " + subjectComboBoxInQuestionsPool.getValue());
+		// initTablesInCreateExam(true, false);
 		tableViewInQuestionsPool.setItems(client.getQuestionsFromDB());
 	}
 }
