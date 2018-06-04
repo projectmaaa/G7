@@ -108,7 +108,6 @@ public class Server extends AbstractServer {
 			if (examHandle.getCommand().equals(Message.exam)) {
 				try {
 					SqlUtilities.insertNewExam(examHandle.getExam(), connection);
-					SqlUtilities.insertQuestionInExam(examHandle.getExam(), connection);
 					client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
