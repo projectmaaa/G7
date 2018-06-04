@@ -70,6 +70,9 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	private ComboBox<String> subjectComboBoxInQuestionsPool;
 	
 	@FXML
+	private Button updateTableButtonInQuestionPool;
+	
+	@FXML
 	private TableView<Question> tableViewInQuestionsPool;
 	
 	@FXML
@@ -102,7 +105,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private TableColumn<Question, String> correctAnswerColumnInQuestionsPool;
 
-	
 	//exams pool
 	
 	@FXML
@@ -134,31 +136,30 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	
+	/* --------------------- setters & getters ---------------------- */
+	
+	public void setName() {
+		name.setText(firstName + " " + lastName);
+	}
+
+	
+	/* --------------------- public methods ---------------------- */
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		date.setText(Utilities.setDate());
 		this.client = MainAppClient.getClient();
-		//client.setPrincipalWindowController(this);
-		
+		//client.setPrincipalWindowController(this);	
 	}
 
-	/**
-	 * 
-	 */
-	public void setName() {
-		name.setText(firstName + " " + lastName);
-	}
-
-	/**
-	 * 
-	 * @param event
-	 */
 	public void logOutButtonHandler(ActionEvent event) {
 		welcomeAnchorPane.setVisible(true);
 		this.client.handleMessageFromClientUI(Message.logout);
 		screensController.setScreen(MainAppClient.loginScreenID);
 	}
+	
+	//question tab was pressed
 	
 	public void openQuestionPool(ActionEvent event) {
 		questionsPoolAnchorPane.setVisible(true);
@@ -167,12 +168,21 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		setSubjectComboBox(subjectComboBoxInQuestionsPool);
 	}
 	
+	//Update table button was clicked
+	
+	public void updateTableHandler(ActionEvent event) {
+		setTableInCreateExamAllQuestions();
+	}
+	
 	public void openExamPool(ActionEvent event) {
 		examsPoolAnchorPane.setVisible(true);
 		questionsPoolAnchorPane.setVisible(false);
 		welcomeAnchorPane.setVisible(false);
 		setSubjectComboBox(subjectComboBoxInExamPool);
 	}
+	
+	
+	/* --------------------- private methods ---------------------- */
 	
 	private void setSubjectComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
