@@ -110,7 +110,11 @@
                   <InnerShadow />
                </effect>
             </ComboBox>
+<<<<<<< HEAD
             <TableView fx:id="tableViewInQuestionsPool" editable="true" fixedCellSize="0.0" layoutX="40.0" layoutY="78.0" prefHeight="200.0" prefWidth="874.0" stylesheets="@table%20view.css">
+=======
+            <TableView fx:id="tableViewInQuestionsPool" editable="true" fixedCellSize="0.0" layoutX="-24.0" layoutY="78.0" prefHeight="276.0" prefWidth="874.0" stylesheets="@table%20view.css">
+>>>>>>> branch 'master' of https://github.com/projectmaaa/G7
                <columns>
                   <TableColumn fx:id="subjectIDColumnInQuestionsPool" maxWidth="200.0" minWidth="90.0" prefWidth="75.0" text="Subject ID" />
                   <TableColumn fx:id="questionNumColumnInQuestionsPool" prefWidth="75.0" text="Q.Number" />
@@ -127,6 +131,11 @@
                   <TableColumn fx:id="correctAnswerColumnInQuestionsPool" maxWidth="255.0" minWidth="65.0" prefWidth="102.0" text="Correct Answer" />
                </columns>
             </TableView>
+            <Button fx:id="updateTableButtonInQuestionPool" layoutX="337.0" layoutY="41.0" mnemonicParsing="false" onAction="#updateTableHandler" text="Update table">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="examsPoolAnchorPane" layoutX="42.0" layoutY="116.0" prefHeight="355.0" prefWidth="833.0" visible="false">
