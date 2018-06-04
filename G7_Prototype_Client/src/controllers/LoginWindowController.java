@@ -154,6 +154,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 
 	public void setUserAlreadyConnected() {
 		loginLabel.setText("User Already Connected");
+		loginLabel.setVisible(true);
 	}
 
 	// end region -> Public Methods

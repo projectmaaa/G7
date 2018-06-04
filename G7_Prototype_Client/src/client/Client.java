@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import controllers.IScreenController;
+import controllers.LoginWindowController;
 import controllers.ScreensController;
 import controllers.StudentWindowController;
 import controllers.TeacherWindowController;
@@ -27,7 +28,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private ObservableList<Question> questionsFromDB = FXCollections.observableArrayList();
 
-	private ScreensController myController;
+	private ScreensController controller;
+	
+	private LoginWindowController loginWindowController;
 
 	private TeacherWindowController teacherWindowController;
 
@@ -67,11 +70,19 @@ public class Client extends AbstractClient implements IScreenController {
 	// region Setters
 
 	public void setScreenParent(ScreensController screenParent) {
-		myController = screenParent;
+		controller = screenParent;
 	}
 
 	public ObservableList<Question> getQuestionsFromDB() {
 		return questionsFromDB;
+	}
+	
+	public LoginWindowController getLoginWindowController() {
+		return loginWindowController;
+	}
+
+	public void setLoginWindowController(LoginWindowController loginWindowController) {
+		this.loginWindowController = loginWindowController;
 	}
 
 	public TeacherWindowController getTeacherWindowController() {
@@ -96,8 +107,6 @@ public class Client extends AbstractClient implements IScreenController {
 	 */
 	public void setQuestionsFromDB(ArrayList<Question> questions) {
 		questionsFromDB.setAll(questions);
-		// for (Question question : questions)
-		// questionsFromDB.add(question);
 	}
 
 	public Question getQuestion() {
@@ -147,7 +156,7 @@ public class Client extends AbstractClient implements IScreenController {
 				try {
 					firstName = strArray[1];
 					lastName = strArray[2];
-					myController.setScreen(MainAppClient.teacherScreenID);
+					controller.setScreen(MainAppClient.teacherScreenID);
 					teacherWindowController.setNameAndLastName(firstName, lastName);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -156,7 +165,7 @@ public class Client extends AbstractClient implements IScreenController {
 			case Message.studnet:
 				firstName = strArray[1];
 				lastName = strArray[2];
-				myController.setScreen(MainAppClient.studentScreenID);
+				controller.setScreen(MainAppClient.studentScreenID);
 				studentWindowController.setFirstName(firstName);
 				studentWindowController.setLastName(lastName);
 				studentWindowController.setName();
@@ -174,6 +183,7 @@ public class Client extends AbstractClient implements IScreenController {
 				Utilities.popUpMethod("exam");
 				break;
 			case "#UserAlreadyConnected":
+				loginWindowController.setUserAlreadyConnected();
 				break;
 			case Message.getQuestionBySubject:
 				break;
