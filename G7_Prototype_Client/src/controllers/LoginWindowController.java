@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -35,7 +34,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	private Button login;
 
 	@FXML
-	private Label loginLabel;
+	private Text loginText;
 
 	@FXML
 	private AnchorPane signIn;
@@ -85,6 +84,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	public void initialize(URL location, ResourceBundle resources) {
 		fieldFlag = 0;
 		this.client = MainAppClient.getClient();
+		this.client.setLoginWindowController(this);
 		date.setText(Utilities.setDate());
 	}
 
@@ -152,9 +152,9 @@ public class LoginWindowController implements Initializable, IScreenController {
 		}
 	}
 
-	public void setUserAlreadyConnected() {
-		loginLabel.setText("User Already Connected");
-		loginLabel.setVisible(true);
+	public void setLoginStatus(String msg) {
+		loginText.setVisible(true);
+		loginText.setText(msg);
 	}
 
 	// end region -> Public Methods
@@ -162,15 +162,15 @@ public class LoginWindowController implements Initializable, IScreenController {
 	// region Private Methods
 
 	private void loginCheck() {
-		if ((un.getText().isEmpty()) || (pw.getText().isEmpty())) {
-			loginLabel.setText("Incorrect username or password.");
-			loginLabel.setVisible(true);
+		if ((!un.getText().isEmpty()) && (!pw.getText().isEmpty())) {
+			if (anchorPaneSetting.isVisible()) {
+				anchorPaneSetting.setVisible(false);
+			}
+			client.handleMessageFromClientUI(Message.login + " " + un.getText() + " " + pw.getText());
+			clearFields();
+			return;
 		}
-		if (anchorPaneSetting.isVisible()) {
-			anchorPaneSetting.setVisible(false);
-		}
-		client.handleMessageFromClientUI(Message.login + " " + un.getText() + " " + pw.getText());
-		clearFields();
+		setLoginStatus("Incorrect username or password.");
 	}
 
 	private void clearSettings() {
@@ -184,7 +184,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	private void clearFields() {
 		un.clear();
 		pw.clear();
-		loginLabel.setText("");
+		loginText.setText("");
 	}
 
 	// end region -> Private Methods

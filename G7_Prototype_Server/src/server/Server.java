@@ -108,7 +108,6 @@ public class Server extends AbstractServer {
 			if (examHandle.getCommand().equals(Message.exam)) {
 				try {
 					SqlUtilities.insertNewExam(examHandle.getExam(), connection);
-					SqlUtilities.insertQuestionInExam(examHandle.getExam(), connection);
 					client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -127,50 +126,56 @@ public class Server extends AbstractServer {
 					login.setString(2, strArray[2]);
 					ResultSet rs;
 					rs = login.executeQuery();
-					rs.next();
-					if (rs.getString(1).equals(strArray[1])) {
-						login = connection.prepareStatement(SqlUtilities.Login_getlog_Status);
-						login.setString(1, strArray[1]);
-						login.setString(2, strArray[2]);
-						rs = login.executeQuery();
-						rs.next();
-						if (rs.getInt(1) == 0) {
-							PreparedStatement getName = connection
-									.prepareStatement(SqlUtilities.GetTypeAndUserNameAndLastName);
-							getName.setString(1, strArray[1]);
-							rs = getName.executeQuery();
-							rs.next();
-							switch (rs.getString(1)) {
-							case "Teacher":
-								client.sendToClient(Message.teacher + " " + rs.getString(2) + " " + rs.getString(3));
-								break;
-							case "Student":
-								client.sendToClient(Message.studnet + " " + rs.getString(2) + " " + rs.getString(3));
-								break;
-							case "Principal":
-								client.sendToClient(Message.principal + " " + rs.getString(2) + " " + rs.getString(3));
-								break;
-							default:
-								client.sendToClient("#No" + " " + rs.getString(2) + " " + rs.getString(3));
-							}
-							login = connection.prepareStatement(SqlUtilities.Login_UpdateUser_logStatus_Connected);
+					if (rs.next()) {
+						if (rs.getString(1).equals(strArray[1])) {
+							login = connection.prepareStatement(SqlUtilities.Login_getlog_Status);
 							login.setString(1, strArray[1]);
 							login.setString(2, strArray[2]);
-							login.executeUpdate();
-							client.setInfo(Message.login, strArray[1] + " " + strArray[2]);
-							getName.close();
-							login.close();
-							rs.close();
-							return;
-						} else {
-							client.sendToClient(Message.userAlreadyConnected);
-							System.out.println("User Already Connected");
-							login.close();
-							rs.close();
-							return;
+							rs = login.executeQuery();
+							rs.next();
+							if (rs.getInt(1) == 0) {
+								PreparedStatement getName = connection
+										.prepareStatement(SqlUtilities.GetTypeAndUserNameAndLastName);
+								getName.setString(1, strArray[1]);
+								rs = getName.executeQuery();
+								rs.next();
+								switch (rs.getString(1)) {
+								case "Teacher":
+									client.sendToClient(
+											Message.teacher + " " + rs.getString(2) + " " + rs.getString(3));
+									break;
+								case "Student":
+									client.sendToClient(
+											Message.studnet + " " + rs.getString(2) + " " + rs.getString(3));
+									break;
+								case "Principal":
+									client.sendToClient(
+											Message.principal + " " + rs.getString(2) + " " + rs.getString(3));
+									break;
+								default:
+									client.sendToClient("#No" + " " + rs.getString(2) + " " + rs.getString(3));
+									break;
+								}
+								login = connection.prepareStatement(SqlUtilities.Login_UpdateUser_logStatus_Connected);
+								login.setString(1, strArray[1]);
+								login.setString(2, strArray[2]);
+								login.executeUpdate();
+								client.setInfo(Message.login, strArray[1] + " " + strArray[2]);
+								getName.close();
+								login.close();
+								rs.close();
+								return;
+							} else {
+								client.sendToClient(Message.userAlreadyConnected);
+								System.out.println("User Already Connected");
+								login.close();
+								rs.close();
+								return;
+							}
 						}
 					} else {
 						client.sendToClient(Message.noSuchUser);
+						System.out.println("Wrong Username or Pasword");
 						return;
 					}
 				case Message.editOrRemove:

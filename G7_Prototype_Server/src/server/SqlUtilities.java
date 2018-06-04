@@ -181,19 +181,6 @@ public class SqlUtilities {
 		insert.close();
 	}
 
-	public static void insertQuestionInExam(Exam exam, Connection connection) throws SQLException {
-		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERET_QUESTION_IN_EXAM);
-		for (QuestionInExam questionInExam : exam.getQuestions()) {
-			insert.setString(1, getSubjectID(exam.getSubjectID(), connection));
-			insert.setString(2, questionInExam.getQuestionNum());
-			insert.setString(3, getCourseID(exam.getCourseID(), connection));
-			insert.setString(4, "01");
-			insert.setInt(5, questionInExam.getPoints());
-			insert.executeUpdate();
-		}
-		insert.close();
-	}
-
 	/**
 	 * inserts new exam into the DB
 	 * 
@@ -214,6 +201,7 @@ public class SqlUtilities {
 		insert.setString(7, exam.getFreeTextForTeacherOnly());
 		insert.executeUpdate();
 		insert.close();
+		insertQuestionInExam(exam, examNumber, connection); // insert all the questions to the QuestionInExam table
 	}
 
 	/**
@@ -315,6 +303,19 @@ public class SqlUtilities {
 		String courseID = rs.getString(1);
 		rs.close();
 		return courseID;
+	}
+
+	private static void insertQuestionInExam(Exam exam, String examNumber, Connection connection) throws SQLException {
+		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERET_QUESTION_IN_EXAM);
+		for (QuestionInExam questionInExam : exam.getQuestions()) {
+			insert.setString(1, getSubjectID(exam.getSubjectID(), connection));
+			insert.setString(2, questionInExam.getQuestionNum());
+			insert.setString(3, getCourseID(exam.getCourseID(), connection));
+			insert.setString(4, examNumber);
+			insert.setInt(5, questionInExam.getPoints());
+			insert.executeUpdate();
+		}
+		insert.close();
 	}
 
 } /* end of class */

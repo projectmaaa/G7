@@ -15,7 +15,6 @@ import ocsf.client.AbstractClient;
 import resources.Message;
 import resources.Question;
 import resources.QuestionsHandle;
-import resources.Utilities;
 
 public class Client extends AbstractClient implements IScreenController {
 
@@ -184,19 +183,21 @@ public class Client extends AbstractClient implements IScreenController {
 				studentWindowController.setName();
 				break;
 			case "#No":
-				System.out.println("Wrong login details");
+				System.out.println("Wrong Type");
 				try {
 					sendToServer(Message.logout);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				break;
-			case Message.tableSaved:
+			case "#TableSaved":
 				System.out.println("Data Base Updated successfully");
-				Utilities.popUpMethod("exam");
 				break;
-			case "#UserAlreadyConnected":
-				loginWindowController.setUserAlreadyConnected();
+			case Message.userAlreadyConnected:
+				loginWindowController.setLoginStatus("User Already Connected");
+				break;
+			case Message.noSuchUser:
+				loginWindowController.setLoginStatus("Wrong Username or Pasword");
 				break;
 			case Message.getQuestionBySubject:
 				break;
