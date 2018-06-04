@@ -15,6 +15,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import resources.Message;
@@ -152,6 +153,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		date.setText(Utilities.setDate());
 		this.client = MainAppClient.getClient();
 		client.setPrincipalWindowController(this);
+		setColumnsInQuestionsPool();
 
 		// client.setPrincipalWindowController(this);
 	}
@@ -189,7 +191,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	// Update table button was clicked
 
 	public void updateTableHandler(ActionEvent event) {
-		setTableInCreateExamAllQuestions();
+		setTableInQuestionPool();
 	}
 
 	public void openExamPool(ActionEvent event) {
@@ -207,11 +209,25 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		comboBox.getItems().addAll("Software", "Math", "Physics");
 	}
 
-	private void setTableInCreateExamAllQuestions() {
+	private void setTableInQuestionPool() {
 		client.getQuestionsFromDB().clear();
 		client.handleMessageFromClientUI(
 				Message.getQuestionBySubject + " " + subjectComboBoxInQuestionsPool.getValue());
-		// initTablesInCreateExam(true, false);
 		tableViewInQuestionsPool.setItems(client.getQuestionsFromDB());
+	}
+		
+		private void setColumnsInQuestionsPool() {
+			subjectIDColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
+			questionNumColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
+			authorColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("author"));
+			questionTextColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+			firstPossibleAnswerColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
+			secondPossibleAnswerColumnInQuestionsPool
+					.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
+			thirdPossibleAnswerColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
+			fourthPossibleAnswerColumnInQuestionsPool
+					.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
+			correctAnswerColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
+
 	}
 }

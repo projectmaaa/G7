@@ -1,0 +1,27 @@
+
+.menu-bar {
+    -fx-background-color: transparent;
+}
+.menu {
+    -fx-label-padding: 3px;
+}
+.menu .label, .menu-item .label {
+	-fx-font-size: 17.0 pt;
+    -fx-text-fill: #000000;
+    -fx-background-radius: 5.0,4.0,3.0,5.0;
+    -fx-background-insets: 0.0,1.0,2.0,0.0;
+}
+.menu:hover, .menu:focused, .menu:pressed {
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+.menu-item:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+}
+.context-menu {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+}
+
+.menu-item .label{
+    -fx-font-size: 15.05 pt;
+    -fx-label-line-length: 8.0;
+}

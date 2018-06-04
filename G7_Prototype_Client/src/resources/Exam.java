@@ -16,7 +16,7 @@ public class Exam implements Serializable{
 
 	private String courseID;
 
-	private static int examCounter;
+	//private static int examCounter;
 
 	private ArrayList<QuestionInExam> questions;
 
@@ -35,7 +35,7 @@ public class Exam implements Serializable{
 		this.examDuration = examDuration;
 		this.teacherName = teacherName;
 		questions = new ArrayList<>();
-		examCounter++;
+		//examCounter++;
 	}
 
 	// setters, getters
@@ -54,14 +54,6 @@ public class Exam implements Serializable{
 
 	public void setCourseID(String courseID) {
 		this.courseID = courseID;
-	}
-
-	public static int getExamCounter() {
-		return examCounter;
-	}
-
-	public static void setExamCounter(int examCounter) {
-		Exam.examCounter = examCounter;
 	}
 
 	public ArrayList<QuestionInExam> getQuestions() {
