@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.graalvm.compiler.core.common.type.Stamp;
-
 import com.mysql.jdbc.Statement;
 
 import java.sql.PreparedStatement;
@@ -15,7 +13,6 @@ import java.sql.PreparedStatement;
 import resources.ActiveExam;
 import resources.Exam;
 import resources.ExamHandle;
-import resources.Message;
 import resources.Question;
 import resources.QuestionInExam;
 import resources.QuestionsHandle;
