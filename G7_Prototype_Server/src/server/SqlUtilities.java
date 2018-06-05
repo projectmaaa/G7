@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.graalvm.compiler.core.common.type.Stamp;
-
 import com.mysql.jdbc.Statement;
 
 import java.sql.PreparedStatement;
@@ -16,7 +14,6 @@ import resources.ActiveExam;
 import resources.ActiveExamHandle;
 import resources.Exam;
 import resources.ExamHandle;
-import resources.Message;
 import resources.Question;
 import resources.QuestionInExam;
 import resources.QuestionsHandle;
@@ -70,6 +67,8 @@ public class SqlUtilities {
 	public final static String SELECT_Exam_BY_Subject_CourseID_ExamID = "SELECT * FROM Exam WHERE subjectID=? AND courseID=? AND examNum=? ;";
 
 	public final static String SELECT_ActiveExam = "SELECT * FROM ActiveExam WHERE executionCode=?;";
+	
+	public final static String INSERT_ActiveExam = "INSERT INTO ActiveExam VALUES (?, ?, ?, ?, ?, ?, ?);";
 
 	// region Public Methods
 
@@ -284,6 +283,19 @@ public class SqlUtilities {
 		insert.executeUpdate();
 		closeResultSetAndStatement(null, null, insert);
 		insertQuestionInExam(exam, examNumber, connection); // insert all the questions to the QuestionInExam table
+	}
+	
+	public static void insertActiveExam(ActiveExam activeExam, Connection connection) throws SQLException {
+		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_ActiveExam);
+		insert.setString(1, activeExam.getExam().getSubjectID());
+		insert.setString(2, activeExam.getExam().getCourseID());
+		insert.setString(3, activeExam.getExam().getExamNum());
+		insert.setString(4, activeExam.getExecutionCode());
+		insert.setInt(5, activeExam.getExam().getExamDuration());
+		insert.setInt(6, activeExam.getLocked());
+		insert.setString(7, "c");
+		insert.executeUpdate();
+		insert.close();
 	}
 
 	/**

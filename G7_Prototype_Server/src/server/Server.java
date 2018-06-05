@@ -105,6 +105,18 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
+			else if(examHandle.getCommand().equals("Activate")) {
+				System.out.println("Activate");
+				try {
+					SqlUtilities.insertActiveExam(examHandle.getActiveExam(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	
 		} else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
