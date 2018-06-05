@@ -67,8 +67,12 @@ public class SqlUtilities {
 	public final static String SELECT_Exam_BY_Subject_CourseID_ExamID = "SELECT * FROM Exam WHERE subjectID=? AND courseID=? AND examNum=? ;";
 
 	public final static String SELECT_ActiveExam = "SELECT * FROM ActiveExam WHERE executionCode=?;";
-	
+
 	public final static String INSERT_ActiveExam = "INSERT INTO ActiveExam VALUES (?, ?, ?, ?, ?, ?, ?);";
+
+	public final static String SELECT_Subjects = "SELECT subjectName FROM Subject";
+	
+	public final static String SELECT_Courses = "SELECT courseName FROM Course";
 
 	// region Public Methods
 
@@ -284,7 +288,7 @@ public class SqlUtilities {
 		closeResultSetAndStatement(null, null, insert);
 		insertQuestionInExam(exam, examNumber, connection); // insert all the questions to the QuestionInExam table
 	}
-	
+
 	public static void insertActiveExam(ActiveExam activeExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_ActiveExam);
 		insert.setString(1, activeExam.getExam().getSubjectID());

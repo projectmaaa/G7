@@ -285,10 +285,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button deleteExamButton;
-	
+
 	@FXML
 	private Button showExamsButtonInExamManagement;
-	
+
 	@FXML
 	private TableColumn<Exam, String> subjectColInExamsManagement;
 
@@ -663,32 +663,30 @@ public class TeacherWindowController implements Initializable, IScreenController
 			Utilities.popUpMethod("Duration");
 		}
 	}
-	
+
 	public void showExamsHandler(ActionEvent event) {
 		setTableInExamsManagement();
 	}
-	
+
 	private void setTableInExamsManagement() {
 		client.getExamsFromDB().clear();
-		client.handleMessageFromClientUI(
-				Message.getExamBySubject + " " + subjectExamManagement.getValue());
+		client.handleMessageFromClientUI(Message.getExamBySubject + " " + subjectExamManagement.getValue());
 		tableViewInExamsManagement.setItems(client.getExamsFromDB());
 	}
-	
+
 	private void setColumnsInExamsManagement() {
 		subjectColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
 		courseColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("courseID"));
 		examNumColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("examNum"));
 		authorColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("teacherName"));
 		durationColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("examDuration"));
-		textExamineesColInExamsManagement
-				.setCellValueFactory(new PropertyValueFactory<>("freeTextForExaminees"));
+		textExamineesColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("freeTextForExaminees"));
 		textTeachersColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("freeTextForTeacherOnly"));
-	
+
 	}
 
 	/**
-	 * Init for comboBox in CreateExam
+	 * Initialize for comboBox in CreateExam
 	 */
 	private void initAnchorPaneInCreateExamFirstWindow() {
 		setSubjectComboBox(subjectInCreateExamComboBox);
@@ -749,8 +747,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 			@Override
 			public void handle(ActionEvent event) {
 				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
-				//check executionCode
-				ActiveExam activeExam = new ActiveExam(selectedExam,executionCode.getText());
+				// check executionCode
+				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
 				client.handleMessageFromClientUI(new ExamHandle("Activate", activeExam));
 				tableViewInExamsManagement.getItems().clear();
 				primaryStage.hide();

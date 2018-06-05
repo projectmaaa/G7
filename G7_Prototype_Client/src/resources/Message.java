@@ -29,6 +29,10 @@ public class Message {
 	public final static String getExamBySubject = "#ExamBySubject";
 
 	public final static String getExecutionCode = "#ExecutionCode";
+	
+	public final static String getSubjects = "#Subjects";
+	
+	public final static String getCourses = "#Courses";
 
 	// end region -> Constants
 
