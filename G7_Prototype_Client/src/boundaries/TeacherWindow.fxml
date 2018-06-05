@@ -316,10 +316,15 @@
                   <InnerShadow />
                </effect>
             </ComboBox>
-            <TableView layoutX="8.0" layoutY="95.0" prefHeight="310.0" prefWidth="828.0">
+            <TableView fx:id="tableViewInExamsManagement" layoutX="8.0" layoutY="95.0" prefHeight="310.0" prefWidth="950.0" stylesheets="@table%20view.css">
               <columns>
-                <TableColumn prefWidth="127.20000648498535" text="C1" />
-                <TableColumn minWidth="0.0" prefWidth="131.20001220703125" text="C2" />
+                <TableColumn fx:id="subjectColInExamsManagement" prefWidth="93.0" text="Subject" />
+                <TableColumn fx:id="courseColInExamsManagement" minWidth="0.0" prefWidth="86.0" text="Course" />
+                  <TableColumn fx:id="examNumColInExamsManagement" minWidth="0.0" prefWidth="118.0" text="Exam Number" />
+                  <TableColumn fx:id="authorColInExamsManagement" minWidth="0.0" prefWidth="131.0" text="Author" />
+                  <TableColumn fx:id="durationColInExamsManagement" minWidth="0.0" prefWidth="148.0" text="Duration (min)" />
+                  <TableColumn fx:id="textExamineesColInExamsManagement" minWidth="0.0" prefWidth="178.0" text="Text For Examinees" />
+                  <TableColumn fx:id="textTeachersColInExamsManagement" minWidth="0.0" prefWidth="195.0" text="Text For Teachers" />
               </columns>
             </TableView>
             <Button fx:id="activateButton" layoutX="8.0" layoutY="420.0" mnemonicParsing="false" onAction="#activateButtonHandler" prefHeight="25.0" prefWidth="74.0" text="Activate">
@@ -342,7 +347,10 @@
                   <InnerShadow />
                </effect>
             </Button>
-            <Button fx:id="examManagementUpdateButton" layoutX="250.0" layoutY="54.0" mnemonicParsing="false" text="Update table" />
+            <Button fx:id="showExamButtonInExamsManagement" layoutX="250.0" layoutY="54.0" mnemonicParsing="false" onAction="#showExamsHandler" text="Show Exams">
+               <effect>
+                  <InnerShadow />
+               </effect></Button>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="backAnchorPane" layoutY="63.0" onMouseClicked="#backToMainScreen" prefHeight="84.0" prefWidth="74.0" visible="false">

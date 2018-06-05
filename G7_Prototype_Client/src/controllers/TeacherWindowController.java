@@ -285,6 +285,33 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button deleteExamButton;
+	
+	@FXML
+	private Button showExamsButtonInExamManagement;
+	
+	@FXML
+	private TableColumn<Exam, String> subjectColInExamsManagement;
+
+	@FXML
+	private TableColumn<Exam, String> courseColInExamsManagement;
+
+	@FXML
+	private TableColumn<Exam, String> examNumColInExamsManagement;
+
+	@FXML
+	private TableColumn<Exam, String> authorColInExamsManagement;
+
+	@FXML
+	private TableColumn<Exam, String> durationColInExamsManagement;
+
+	@FXML
+	private TableColumn<Exam, String> textExamineesColInExamsManagement;
+
+	@FXML
+	private TableColumn<Exam, String> textTeachersColInExamsManagement;
+
+	@FXML
+	private TableView<Exam> tableViewInExamsManagement;
 
 	//
 
@@ -321,6 +348,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setColumnsInEditOrRemove();
 		setColumnInCreateExamAllQuestions();
 		setColumnInCreateExamQuestions();
+		setColumnsInExamsManagement();
 		initAnchorPaneInCreateExamFirstWindow();
 		tableViewInCreateExamQuestion.setEditable(true);
 		tableViewInCreateExamQuestion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -634,6 +662,29 @@ public class TeacherWindowController implements Initializable, IScreenController
 			flag = false;
 			Utilities.popUpMethod("Duration");
 		}
+	}
+	
+	public void showExamsHandler(ActionEvent event) {
+		setTableInExamsManagement();
+	}
+	
+	private void setTableInExamsManagement() {
+		client.getExamsFromDB().clear();
+		client.handleMessageFromClientUI(
+				Message.getExamBySubject + " " + subjectExamManagement.getValue());
+		tableViewInExamsManagement.setItems(client.getExamsFromDB());
+	}
+	
+	private void setColumnsInExamsManagement() {
+		subjectColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
+		courseColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("courseID"));
+		examNumColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("examNum"));
+		authorColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("teacherName"));
+		durationColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("examDuration"));
+		textExamineesColInExamsManagement
+				.setCellValueFactory(new PropertyValueFactory<>("freeTextForExaminees"));
+		textTeachersColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("freeTextForTeacherOnly"));
+
 	}
 
 	/**
