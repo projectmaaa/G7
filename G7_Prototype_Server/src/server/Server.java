@@ -106,7 +106,6 @@ public class Server extends AbstractServer {
 				}
 			}
 			else if(examHandle.getCommand().equals("Activate")) {
-				System.out.println("Activate");
 				try {
 					SqlUtilities.insertActiveExam(examHandle.getActiveExam(), connection);
 					client.sendToClient(Message.tableSaved);

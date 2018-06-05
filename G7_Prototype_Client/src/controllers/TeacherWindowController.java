@@ -736,9 +736,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		Stage primaryStage = new Stage();
 		primaryStage.setTitle("AES7");
 		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-		primaryStage.setHeight(100);
-		primaryStage.setWidth(250);
-		primaryStage.setResizable(false);
 		Popup popup = new Popup();
 		popup.setX(700);
 		popup.setY(400);
@@ -751,10 +748,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				// get selected exam
-				// create reference to ActiveExam
-				// getText in TextField
-				// update DB
+				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
+				//check executionCode
+				ActiveExam activeExam = new ActiveExam(selectedExam,executionCode.getText());
+				client.handleMessageFromClientUI(new ExamHandle("Activate", activeExam));
+				tableViewInExamsManagement.getItems().clear();
 				primaryStage.hide();
 			}
 		});
