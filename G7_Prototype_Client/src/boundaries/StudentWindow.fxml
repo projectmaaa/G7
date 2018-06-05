@@ -105,7 +105,7 @@
                   <Bloom />
                </effect>
             </Label>
-            <Button layoutX="184.0" layoutY="87.0" mnemonicParsing="false" onAction="#checkExecutionCode" onMouseClicked="#checkExecutionCode" text="Enter" />
+            <Button layoutX="184.0" layoutY="87.0" mnemonicParsing="false" onMouseClicked="#checkExecutionCode" text="Enter" />
          </children></AnchorPane>
       <AnchorPane fx:id="computerizedExamAnchorPane" layoutX="24.0" layoutY="96.0" prefHeight="459.0" prefWidth="824.0" visible="false">
          <children>

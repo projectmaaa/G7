@@ -92,10 +92,10 @@ public class MainAppClient extends Application {
 				System.out.println("Close");
 				client.handleMessageFromClientUI(Message.logout);
 				client.closeConnection();
-				Platform.exit();
 			} catch (IOException event) {
 				event.printStackTrace();
 			}
+			System.exit(0);
 		});
 		primaryStage.show();
 	}

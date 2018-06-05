@@ -11,6 +11,7 @@ import com.mysql.jdbc.Statement;
 import java.sql.PreparedStatement;
 
 import resources.ActiveExam;
+import resources.ActiveExamHandle;
 import resources.Exam;
 import resources.ExamHandle;
 import resources.Question;
@@ -51,7 +52,7 @@ public class SqlUtilities {
 
 	public final static String GetQuestionBySubject = "SELECT * FROM Questions WHERE subjectID=?;";
 
-	public final static String GetQuestionBySubjectIDAndQuestionNum = "SELECT * FROM Question WHERE subjectID=? AND questionNum=?;";
+	public final static String GetQuestionBySubjectIDAndQuestionNum = "SELECT * FROM Questions WHERE subjectID=? AND questionNum=?;";
 
 	public final static String SELECT_FROM_Course = "SELECT examsCount FROM Course Where courseID=?;";
 
@@ -95,7 +96,7 @@ public class SqlUtilities {
 	}
 
 	@SuppressWarnings("resource")
-	public static ActiveExam getActiveExam(String executionCode, Connection connection) throws SQLException {
+	public static ActiveExamHandle getActiveExam(String executionCode, Connection connection) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(SELECT_ActiveExam);
 		statement.setString(1, executionCode);
 		ResultSet resultSet = statement.executeQuery();
@@ -132,7 +133,8 @@ public class SqlUtilities {
 					}
 				}
 				closeResultSetAndStatement(resultSet, null, statement);
-				return (new ActiveExam(exam, executionCode));
+				ActiveExam activeExam = new ActiveExam(exam, executionCode);
+				return (new ActiveExamHandle("ActiveExam", activeExam));
 			}
 		}
 		return null;

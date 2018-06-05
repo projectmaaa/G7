@@ -96,6 +96,14 @@ public class StudentWindowController implements Initializable, IScreenController
 
 	}
 
+	public ActiveExam getActiveExam() {
+		return activeExam;
+	}
+
+	public void setActiveExam(ActiveExam activeExam) {
+		this.activeExam = activeExam;
+	}
+
 	/**
 	 * 
 	 */
@@ -138,8 +146,8 @@ public class StudentWindowController implements Initializable, IScreenController
 	public void checkExecutionCode(MouseEvent event) {
 		String code = executionCodeTextField.getText();
 		if (code != null) {
-			client.handleMessageFromClientUI(Message.getExecutionCode);
-
+			client.handleMessageFromClientUI(Message.getExecutionCode + " " + code);
+			System.out.println("ActiveExam");
 		} else {
 			Utilities.popUpMethod("Duration");
 		}

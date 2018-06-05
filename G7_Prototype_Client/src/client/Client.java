@@ -12,6 +12,7 @@ import controllers.TeacherWindowController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ocsf.client.AbstractClient;
+import resources.ActiveExamHandle;
 import resources.Exam;
 import resources.ExamHandle;
 import resources.Message;
@@ -223,6 +224,10 @@ public class Client extends AbstractClient implements IScreenController {
 			else if (questionsHandle.getCommand().equals("Subject")) {
 				setQuestionsFromDB(questionsHandle.getQuestionArray());
 			}
+		} else if (msg instanceof ActiveExamHandle) {
+			ActiveExamHandle activeExamsHandle = (ActiveExamHandle) msg;
+			studentWindowController.setActiveExam(activeExamsHandle.getActiveExam());
+			System.out.println("Test ActiveExam");
 		} else if (msg instanceof ExamHandle) {
 			ExamHandle examsHandle = (ExamHandle) msg;
 			if (examsHandle.getCommand().equals("Subject")) {

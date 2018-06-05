@@ -46,6 +46,7 @@ public class Exam implements Serializable {
 		this.examDuration = examDuration;
 		this.freeTextForExaminees = freeTextForExaminees;
 		this.freeTextForTeacherOnly = freeTextForTeacherOnly;
+		questions = new ArrayList<>();
 	}
 
 	public Exam(String subjectID, String courseID, String examNum, String teacherName, int examDuration,
