@@ -66,7 +66,6 @@ public class Utilities {
 		});
 		border.setStyle(
 				"-fx-background-color: cornsilk; -fx-padding: 10; -fx-border-color: black; -fx-border-width: 1;");
-
 		/*
 		 * // layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;"); //
 		 * String[] strArray = str.split(" "); // switch (strArray[0]) { // case "add":
@@ -89,7 +88,6 @@ public class Utilities {
 		 * case "SelectQuestions": // text = new Label("Please Select Questions"); //
 		 * break; // }
 		 */
-
 		try {
 			text = new Label(str);
 		} catch (NullPointerException e) {

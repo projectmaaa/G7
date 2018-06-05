@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import resources.ActiveExam;
 import resources.Message;
 import resources.Utilities;
 
@@ -26,6 +27,8 @@ public class StudentWindowController implements Initializable, IScreenController
 	private String lastName;
 
 	private Client client;
+
+	private ActiveExam activeExam;
 
 	@FXML
 	private AnchorPane mainAnchorPane;
@@ -135,6 +138,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	public void checkExecutionCode(MouseEvent event) {
 		String code = executionCodeTextField.getText();
 		if (code != null) {
+			client.handleMessageFromClientUI(Message.getExecutionCode);
 
 		} else {
 			Utilities.popUpMethod("Duration");

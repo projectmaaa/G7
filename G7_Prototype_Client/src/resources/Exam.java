@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
 
-public class Exam implements Serializable{
+public class Exam implements Serializable {
 
 	/**
 	 * 
@@ -17,7 +17,7 @@ public class Exam implements Serializable{
 	private String courseID;
 
 	private String examNum;
-	
+
 	private String teacherName;
 
 	private int examDuration;
@@ -28,19 +28,14 @@ public class Exam implements Serializable{
 
 	private ArrayList<QuestionInExam> questions;
 
-	
 	public Exam(String subjectID, String courseID, int examDuration, String teacherName) {
-
 		this.subjectID = subjectID;
 		this.courseID = courseID;
 		this.examDuration = examDuration;
 		this.teacherName = teacherName;
 		questions = new ArrayList<>();
-		//examCounter++;
+		// examCounter++;
 	}
-	
-	
-	
 
 	public Exam(String subjectID, String courseID, String examNum, String teacherName, int examDuration,
 			String freeTextForExaminees, String freeTextForTeacherOnly) {
@@ -53,8 +48,17 @@ public class Exam implements Serializable{
 		this.freeTextForTeacherOnly = freeTextForTeacherOnly;
 	}
 
-
-
+	public Exam(String subjectID, String courseID, String examNum, String teacherName, int examDuration,
+			String freeTextForExaminees, String freeTextForTeacherOnly, ArrayList<QuestionInExam> questions) {
+		this.subjectID = subjectID;
+		this.courseID = courseID;
+		this.examNum = examNum;
+		this.teacherName = teacherName;
+		this.examDuration = examDuration;
+		this.freeTextForExaminees = freeTextForExaminees;
+		this.freeTextForTeacherOnly = freeTextForTeacherOnly;
+		this.questions = questions;
+	}
 
 	// setters, getters
 
@@ -113,7 +117,7 @@ public class Exam implements Serializable{
 	public void setTeacherName(String teacherName) {
 		this.teacherName = teacherName;
 	}
-	
+
 	public String getExamNum() {
 		return examNum;
 	}

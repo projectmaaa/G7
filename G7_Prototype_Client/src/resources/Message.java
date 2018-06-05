@@ -25,8 +25,10 @@ public class Message {
 	public final static String getQuestionBySubject = "#GetQuestionBySubject";
 
 	public final static String logout = "#Logout";
-	
+
 	public final static String getExamBySubject = "#ExamBySubject";
+
+	public final static String getExecutionCode = "#ExecutionCode";
 
 	// end region -> Constants
 

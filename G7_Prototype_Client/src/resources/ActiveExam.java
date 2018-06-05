@@ -12,7 +12,7 @@ public class ActiveExam {
 	public ActiveExam(Exam exam, String executionCode) {
 		this.exam=exam;
 		this.executionCode=executionCode;
-		this.duration=exam.getExamDuration();
+		this.duration = exam.getExamDuration();
 	}
 	
 	//setters, getters

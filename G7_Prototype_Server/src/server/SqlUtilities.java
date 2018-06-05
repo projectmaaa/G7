@@ -5,10 +5,17 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import org.graalvm.compiler.core.common.type.Stamp;
+
+import com.mysql.jdbc.Statement;
+
 import java.sql.PreparedStatement;
 
+import resources.ActiveExam;
 import resources.Exam;
 import resources.ExamHandle;
+import resources.Message;
 import resources.Question;
 import resources.QuestionInExam;
 import resources.QuestionsHandle;
@@ -37,6 +44,8 @@ public class SqlUtilities {
 
 	public final static String INSERET_QUESTION_IN_EXAM = "INSERT INTO QuestionInExam VALUES (?, ?, ?, ?, ?);";
 
+	public final static String SELECT_QUESTION_IN_EXAM = "SELECT * FROM QuestionInExam WHERE subjectID=? AND courseID=? AND examNum=?;";
+
 	public final static String SELECT_FROM_Subject = "SELECT questionsCount FROM Subject WHERE subjectID=?;";
 
 	public final static String UPDATE_Subject = "UPDATE Subject SET questionsCount=? WHERE subjectID=?;";
@@ -44,6 +53,8 @@ public class SqlUtilities {
 	public final static String GetTypeAndUserNameAndLastName = "SELECT type, firstName, lastName FROM Users WHERE idUsers=?;";
 
 	public final static String GetQuestionBySubject = "SELECT * FROM Questions WHERE subjectID=?;";
+
+	public final static String GetQuestionBySubjectIDAndQuestionNum = "SELECT * FROM Question WHERE subjectID=? AND questionNum=?;";
 
 	public final static String SELECT_FROM_Course = "SELECT examsCount FROM Course Where courseID=?;";
 
@@ -53,7 +64,11 @@ public class SqlUtilities {
 
 	public final static String SELECT_courseID_FROM_Course = "SELECT courseID FROM Course WHERE courseName=?;";
 
-	public final static String SELECT_Exams_BY_SubjectID = "SELECT * FROM Exam WHERE subjectID=?;";
+	public final static String SELECT_Exam_BY_SubjectID = "SELECT * FROM Exam WHERE subjectID=?;";
+
+	public final static String SELECT_Exam_BY_Subject_CourseID_ExamID = "SELECT * FROM Exam WHERE subjectID=? AND courseID=? AND examNum=? ;";
+
+	public final static String SELECT_ActiveExam = "SELECT * FROM ActiveExam WHERE executionCode=?;";
 
 	// region Public Methods
 
@@ -76,6 +91,50 @@ public class SqlUtilities {
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		return null;
+	}
+
+	@SuppressWarnings("resource")
+	public static ActiveExam getActiveExam(String executionCode, Connection connection) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(SELECT_ActiveExam);
+		statement.setString(1, executionCode);
+		ResultSet resultSet = statement.executeQuery();
+		if (resultSet.next()) {
+			statement = connection.prepareStatement(SELECT_Exam_BY_Subject_CourseID_ExamID);
+			statement.setString(1, resultSet.getString(1));
+			statement.setString(2, resultSet.getString(2));
+			statement.setString(3, resultSet.getString(3));
+			resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				Exam exam = new Exam(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
+						resultSet.getString(4), resultSet.getInt(5), resultSet.getString(6), resultSet.getString(7));
+				statement = connection.prepareStatement(SELECT_QUESTION_IN_EXAM);
+				statement.setString(1, resultSet.getString(1));
+				statement.setString(2, resultSet.getString(2));
+				statement.setString(3, resultSet.getString(3));
+				resultSet = statement.executeQuery();
+				while (resultSet.next()) {
+					ArrayList<String> possibleAnswers = new ArrayList<String>(4);
+					statement = connection.prepareStatement(GetQuestionBySubjectIDAndQuestionNum);
+					statement.setString(1, resultSet.getString(1));
+					statement.setString(2, resultSet.getString(2));
+					resultSet = statement.executeQuery();
+					int index = 0;
+					if (resultSet.next()) {
+						while (index < 4) { // add the possible answers to the array list
+							possibleAnswers.add(index, resultSet.getString(index + 5));
+							index++;
+						}
+						Question question = new Question(resultSet.getString(1), resultSet.getString(2),
+								resultSet.getString(3), resultSet.getString(4), possibleAnswers,
+								resultSet.getString(9));
+						exam.getQuestions().add(new QuestionInExam(exam, question));
+					}
+				}
+				closeResultSetAndStatement(resultSet, null, statement);
+				return (new ActiveExam(exam, executionCode));
+			}
 		}
 		return null;
 	}
@@ -111,8 +170,7 @@ public class SqlUtilities {
 					possibleAnswers, rs.getString(9)));
 			index = 0;
 		}
-		statement.close();
-		rs.close();
+		closeResultSetAndStatement(rs, null, statement);
 		return (new QuestionsHandle("All", questions));
 	}
 
@@ -136,14 +194,13 @@ public class SqlUtilities {
 					possibleAnswers, rs.getString(9)));
 			index = 0;
 		}
-		statement.close();
-		rs.close();
+		closeResultSetAndStatement(rs, null, statement);
 		return (new QuestionsHandle("Subject", questionsBySubject));
 	}
 
 	public static ExamHandle getExamsBySubject(Connection connection, String subject) throws SQLException {
 		ArrayList<Exam> examsBySubject = new ArrayList<Exam>();
-		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_Exams_BY_SubjectID);
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_Exam_BY_SubjectID);
 		try {
 			statement.setString(1, getSubjectID(subject, connection));
 		} catch (NullPointerException e) {
@@ -154,8 +211,7 @@ public class SqlUtilities {
 			examsBySubject.add(new Exam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
 					rs.getInt(5), rs.getString(6), rs.getString(7)));
 		}
-		statement.close();
-		rs.close();
+		closeResultSetAndStatement(rs, null, statement);
 		return (new ExamHandle("Subject", examsBySubject));
 	}
 
@@ -179,7 +235,7 @@ public class SqlUtilities {
 			update.setString(8, question.getQuestionNum());
 			update.executeUpdate();
 		}
-		update.close();
+		closeResultSetAndStatement(null, null, update);
 	}
 
 	/**
@@ -202,7 +258,7 @@ public class SqlUtilities {
 		insert.setString(8, question.getFourthPossibleAnswer());
 		insert.setString(9, question.getCorrectAnswer());
 		insert.executeUpdate();
-		insert.close();
+		closeResultSetAndStatement(null, null, insert);
 	}
 
 	/**
@@ -224,7 +280,7 @@ public class SqlUtilities {
 		insert.setString(6, exam.getFreeTextForExaminees());
 		insert.setString(7, exam.getFreeTextForTeacherOnly());
 		insert.executeUpdate();
-		insert.close();
+		closeResultSetAndStatement(null, null, insert);
 		insertQuestionInExam(exam, examNumber, connection); // insert all the questions to the QuestionInExam table
 	}
 
@@ -242,10 +298,33 @@ public class SqlUtilities {
 			remove.setString(2, question.getQuestionNum());
 			remove.executeUpdate();
 		}
-		remove.close();
+		closeResultSetAndStatement(null, null, remove);
 	}
 
 	// end region -> Public Methods
+
+	/**
+	 * 
+	 * @param resultSet
+	 * @param statement
+	 * @param preparedStatement
+	 */
+	private static void closeResultSetAndStatement(ResultSet resultSet, Statement statement,
+			PreparedStatement preparedStatement) {
+		try {
+			if (resultSet != null) {
+				resultSet.close();
+			}
+			if (statement != null) {
+				statement.close();
+			}
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * get subject as name and return as id
@@ -260,7 +339,7 @@ public class SqlUtilities {
 		ResultSet rs = statement.executeQuery();
 		rs.next();
 		String subjectID = rs.getString(1);
-		rs.close();
+		closeResultSetAndStatement(rs, null, statement);
 		return subjectID;
 	}
 
@@ -277,7 +356,7 @@ public class SqlUtilities {
 		ResultSet rs = statement.executeQuery();
 		rs.next();
 		String courseID = rs.getString(1);
-		rs.close();
+		closeResultSetAndStatement(rs, null, statement);
 		return courseID;
 	}
 
@@ -299,7 +378,7 @@ public class SqlUtilities {
 			insert.setInt(5, questionInExam.getPoints());
 			insert.executeUpdate();
 		}
-		insert.close();
+		closeResultSetAndStatement(null, null, insert);
 	}
 
 	/**
@@ -321,8 +400,7 @@ public class SqlUtilities {
 		statement.setInt(1, examsCount); // update the new count in the DB
 		statement.setString(2, courseID);
 		statement.executeUpdate();
-		statement.close();
-		rs.close();
+		closeResultSetAndStatement(rs, null, statement);
 		return examsCount;
 	}
 
@@ -345,8 +423,7 @@ public class SqlUtilities {
 		statement.setInt(1, questionsCount); // update the new count in the DB
 		statement.setString(2, subjectID);
 		statement.executeUpdate();
-		statement.close();
-		rs.close();
+		closeResultSetAndStatement(rs, null, statement);
 		return questionsCount;
 	}
 
