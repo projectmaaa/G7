@@ -293,7 +293,7 @@ public class SqlUtilities {
 		insert.setString(3, activeExam.getExam().getExamNum());
 		insert.setString(4, activeExam.getExecutionCode());
 		insert.setInt(5, activeExam.getExam().getExamDuration());
-		insert.setInt(6, 0);
+		insert.setInt(6, activeExam.getLocked());
 		insert.setString(7, "c");
 		insert.executeUpdate();
 		insert.close();
