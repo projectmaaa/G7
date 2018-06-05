@@ -2,7 +2,7 @@ package resources;
 
 import java.io.Serializable;
 
-public class ActiveExam implements Serializable{
+public class ActiveExam implements Serializable {
 
 	/**
 	 * 
@@ -10,20 +10,21 @@ public class ActiveExam implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Exam exam;
-	
+
 	private int duration;
-	
+
 	private String executionCode;
-	
+
+	private int locked;
+
 	public ActiveExam(Exam exam, String executionCode) {
-		this.exam=exam;
-		this.executionCode=executionCode;
+		this.exam = exam;
+		this.executionCode = executionCode;
 		this.duration = exam.getExamDuration();
-		locked=0;
-		
+		locked = 0;
 	}
-	
-	//setters, getters
+
+	// setters, getters
 
 	public Exam getExam() {
 		return exam;
@@ -48,7 +49,7 @@ public class ActiveExam implements Serializable{
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
-	
+
 	public int getLocked() {
 		return locked;
 	}
@@ -56,6 +57,5 @@ public class ActiveExam implements Serializable{
 	public void setLocked(int locked) {
 		this.locked = locked;
 	}
-	
-	
+
 }
