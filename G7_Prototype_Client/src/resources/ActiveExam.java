@@ -1,7 +1,13 @@
 package resources;
 
+import java.io.Serializable;
 
-public class ActiveExam {
+public class ActiveExam implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Exam exam;
 	

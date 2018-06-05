@@ -59,7 +59,9 @@ public class MainAppServer extends Application {
 		primaryStage.setOnCloseRequest(e -> {
 			// System.out.println("Close");
 			try {
-				server.close();
+				if (server.isListening()) {
+					server.close();
+				}
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -67,20 +69,14 @@ public class MainAppServer extends Application {
 				if (!server.getConnection().isClosed()) {
 					server.getConnection().close();
 					System.out.println("db connection closed");
-
 				}
-				if (server.isListening()) {
-					server.close();
-				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
+			} catch (SQLException sqlException) {
+				sqlException.printStackTrace();
+			} catch (NullPointerException nullPointerException) {
 			}
-			Platform.exit();
+			System.exit(0);
 		});
 		primaryStage.show();
-
 	}
 
 }
