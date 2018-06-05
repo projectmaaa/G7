@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import resources.Message;
@@ -49,8 +51,15 @@ public class StudentWindowController implements Initializable, IScreenController
 	@FXML
 	private MenuBar menuBar;
 
+	/*********************************************************/
+
 	@FXML
 	private AnchorPane manualExamAnchorPane;
+
+	@FXML
+	private TextField executionCodeTextField;
+
+	/*********************************************************/
 
 	@FXML
 	private AnchorPane computerizedExamAnchorPane;
@@ -81,7 +90,7 @@ public class StudentWindowController implements Initializable, IScreenController
 		date.setText(Utilities.setDate());
 		this.client = MainAppClient.getClient();
 		client.setStudentWindowController(this);
-		
+
 	}
 
 	/**
@@ -121,6 +130,15 @@ public class StudentWindowController implements Initializable, IScreenController
 		welcomeAnchorPane.setVisible(false);
 		computerizedExamAnchorPane.setVisible(true);
 		manualExamAnchorPane.setVisible(false);
+	}
+
+	public void checkExecutionCode(MouseEvent event) {
+		String code = executionCodeTextField.getText();
+		if (code != null) {
+
+		} else {
+			Utilities.popUpMethod("Duration");
+		}
 	}
 
 }

@@ -962,7 +962,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 						setText(item);
 					}
 				}
-
 			});
 		}
 		if (!questionTextField.getText().isEmpty()) {
