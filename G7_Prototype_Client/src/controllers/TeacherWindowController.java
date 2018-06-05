@@ -684,7 +684,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		textExamineesColInExamsManagement
 				.setCellValueFactory(new PropertyValueFactory<>("freeTextForExaminees"));
 		textTeachersColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("freeTextForTeacherOnly"));
-
+	
 	}
 
 	/**

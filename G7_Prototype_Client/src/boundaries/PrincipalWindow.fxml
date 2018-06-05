@@ -63,7 +63,7 @@
             </Menu>
          </menus>
       </MenuBar>
-      <AnchorPane fx:id="welcomeAnchorPane" layoutX="62.0" layoutY="171.0" prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="welcomeAnchorPane" layoutX="62.0" layoutY="171.0" prefHeight="200.0" prefWidth="200.0" visible="false">
          <children>
             <Label layoutX="23.0" layoutY="77.0" prefHeight="50.0" prefWidth="316.0" text="Let AES help you!" textOverrun="CENTER_ELLIPSIS">
                <font>
@@ -89,6 +89,7 @@
                   <Bloom />
                </effect>
             </Label>
+            <AnchorPane layoutX="-64.0" layoutY="26.0" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="questionsPoolAnchorPane" layoutX="21.0" layoutY="161.0" prefHeight="350.0" prefWidth="950.0" visible="false">
@@ -101,12 +102,12 @@
                   <Bloom />
                </effect>
             </Label>
-            <Label fx:id="subjectInQuestionsPoolLabel" layoutX="99.0" layoutY="45.0" text="Subject">
+            <Label fx:id="subjectInQuestionsPoolLabel" layoutX="188.0" layoutY="43.0" text="Subject">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="subjectComboBoxInQuestionsPool" layoutX="160.0" layoutY="41.0" prefWidth="150.0">
+            <ComboBox fx:id="subjectComboBoxInQuestionsPool" layoutX="249.0" layoutY="39.0" prefWidth="150.0">
                <effect>
                   <InnerShadow />
                </effect>
@@ -128,7 +129,7 @@
                   <TableColumn fx:id="correctAnswerColumnInQuestionsPool" maxWidth="255.0" minWidth="33.0" prefWidth="128.0" text="Correct Answer" />
                </columns>
             </TableView>
-            <Button fx:id="showQuestionsInQuestionsPool" layoutX="337.0" layoutY="41.0" mnemonicParsing="false" onAction="#showQuestionHandler" text="Show Questions">
+            <Button fx:id="showQuestionsInQuestionsPool" layoutX="426.0" layoutY="39.0" mnemonicParsing="false" onAction="#showQuestionHandler" text="Show Questions">
                <effect>
                   <InnerShadow />
                </effect>
@@ -174,6 +175,24 @@
                   <InnerShadow />
                </effect>
             </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="handlingRequestsAnchorPane1" layoutX="14.0" layoutY="139.0" prefHeight="355.0" prefWidth="833.0" visible="false">
+         <children>
+            <TableView layoutY="48.0" prefHeight="350.0" prefWidth="760.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+            <Label layoutX="2.0" layoutY="3.0" text="Handling Requests" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="24.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
          </children>
       </AnchorPane>
    </children>

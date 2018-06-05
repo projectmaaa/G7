@@ -1,43 +1,25 @@
 package resources;
 
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
+
 public class StudentInActiveExam {
+	
+	private Date date;
+	
+	private Time hour;
 
 	private Student student;
 	
 	private ActiveExam activeExam;
 	
-	private int timeToSolve;
-
-	public StudentInActiveExam(Student student, ActiveExam activeExam, int timeToSolve) {
-		this.student = student;
-		this.activeExam = activeExam;
-		//this.timeToSolve = timeToSolve;
-	}
-
-	//setters, getters
+	private ArrayList<StudentAnswerInQuestion> answers;
 	
-	public Student getStudent() {
-		return student;
-	}
+	private int timeTakeToSolve;
+	
+	//private int grade;
 
-	public void setStudent(Student student) {
-		this.student = student;
-	}
 
-	public ActiveExam getActiveExam() {
-		return activeExam;
-	}
-
-	public void setActiveExam(ActiveExam activeExam) {
-		this.activeExam = activeExam;
-	}
-
-	public int getTimeToSolve() {
-		return timeToSolve;
-	}
-
-	public void setTimeToSolve(int timeToSolve) {
-		this.timeToSolve = timeToSolve;
-	}
 	
 }
