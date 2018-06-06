@@ -2,21 +2,21 @@ package resources;
 
 public class User {
 	private String id;
-	
+
 	private String password;
-	
+
 	private String firstName;
-	
+
 	private String lastName;
-	
+
 	public User(String id, String password, String firstName, String lastName) {
-		this.id=id;
-		this.password=password;
-		this.firstName=firstName;
-		this.lastName=lastName;
+		this.id = id;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
-	
-	//setters, getters
+
+	// setters, getters
 
 	public String getId() {
 		return id;
@@ -49,5 +49,11 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName
+				+ "]";
+	}
+
 }

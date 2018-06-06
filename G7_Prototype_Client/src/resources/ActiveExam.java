@@ -14,6 +14,8 @@ public class ActiveExam implements Serializable{
 	private int duration;
 	
 	private String executionCode;
+
+	private int locked;
 	
 	public ActiveExam(Exam exam, String executionCode) {
 		this.exam=exam;
@@ -55,6 +57,12 @@ public class ActiveExam implements Serializable{
 
 	public void setLocked(int locked) {
 		this.locked = locked;
+	}
+
+	@Override
+	public String toString() {
+		return "ActiveExam [exam=" + exam + ", duration=" + duration + ", executionCode=" + executionCode + ", locked="
+				+ locked + "]";
 	}
 	
 	

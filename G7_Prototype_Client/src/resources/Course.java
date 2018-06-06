@@ -3,16 +3,16 @@ package resources;
 import java.io.Serializable;
 
 public class Course implements Serializable {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	private String courseID;
-	
+
 	private String subjectID;
-	
+
 	private String courseName;
 
 	public Course(String courseID, String subjectID, String courseName) {
@@ -20,8 +20,8 @@ public class Course implements Serializable {
 		this.subjectID = subjectID;
 		this.courseName = courseName;
 	}
-	
-	//setters, getters
+
+	// setters, getters
 
 	public String getCourseID() {
 		return courseID;
@@ -46,4 +46,10 @@ public class Course implements Serializable {
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
+
+	@Override
+	public String toString() {
+		return "Course [courseID=" + courseID + ", subjectID=" + subjectID + ", courseName=" + courseName + "]";
+	}
+
 }
