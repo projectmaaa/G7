@@ -2,7 +2,6 @@ package client;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import controllers.IScreenController;
 import controllers.LoginWindowController;
 import controllers.PrincipalWindowController;
@@ -12,12 +11,7 @@ import controllers.TeacherWindowController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ocsf.client.AbstractClient;
-import resources.ActiveExamHandle;
-import resources.Exam;
-import resources.ExamHandle;
-import resources.Message;
-import resources.Question;
-import resources.QuestionsHandle;
+import resources.*;
 
 public class Client extends AbstractClient implements IScreenController {
 
@@ -33,7 +27,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private ObservableList<Exam> examsFromDB = FXCollections.observableArrayList();
 
-	private ObservableList<String> types; // courses or subjects
+	private ObservableList<String> subjects = FXCollections.observableArrayList();
+
+	private ObservableList<String> courses = FXCollections.observableArrayList();
 
 	private ScreensController controller;
 
@@ -158,12 +154,20 @@ public class Client extends AbstractClient implements IScreenController {
 		this.lastName = lastName;
 	}
 
-	public ObservableList<String> getTypes() {
-		return types;
+	public ObservableList<String> getSubjects() {
+		return subjects;
 	}
 
-	public void setTypes(ArrayList<String> types) {
-		this.types.setAll(types);
+	public void setSubjects(ArrayList<String> subjects) {
+		this.subjects.setAll(subjects);
+	}
+	
+	public ObservableList<String> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(ArrayList<String> courses) {
+		this.courses.setAll(courses);
 	}
 
 	// end region -> Setters
@@ -235,6 +239,12 @@ public class Client extends AbstractClient implements IScreenController {
 			if (examsHandle.getCommand().equals("Subject")) {
 				setExamsFromDB(examsHandle.getExams());
 			}
+		} else if (msg instanceof TypeHandle) {
+			TypeHandle typeHandle = (TypeHandle) msg;
+			if (typeHandle.getCommand().equals("Subjects"))
+				setSubjects(typeHandle.getTypes());
+			else if (typeHandle.getCommand().equals("Courses"))
+				setCourses(typeHandle.getTypes());
 		}
 	}
 

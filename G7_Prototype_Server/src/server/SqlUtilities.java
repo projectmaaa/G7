@@ -329,31 +329,16 @@ public class SqlUtilities {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static TypeHandle getSubjects(Connection connection) throws SQLException {
-		PreparedStatement subjects = connection.prepareStatement(SqlUtilities.SELECT_Subjects);
-		ArrayList<String> subjectsFromDB = new ArrayList<>();
-		ResultSet rs = subjects.executeQuery();
+	public static TypeHandle getTypeFromDB(String query, String type, Connection connection) throws SQLException {
+		PreparedStatement typeOfSet = connection.prepareStatement(query);
+		ArrayList<String> typeOfSetFromDB = new ArrayList<>();
+		ResultSet rs = typeOfSet.executeQuery();
 		while (rs.next())
-			subjectsFromDB.add(rs.getString(1));
-		return new TypeHandle("Subjects", subjectsFromDB);
+			typeOfSetFromDB.add(rs.getString(1));
+		closeResultSetAndStatement(rs, null, typeOfSet);
+		return new TypeHandle(type, typeOfSetFromDB);
 	}
-
-	/**
-	 * returns the courses that exists in the DB
-	 * 
-	 * @param connection
-	 * @return
-	 * @throws SQLException
-	 */
-	public static TypeHandle getCourses(Connection connection) throws SQLException {
-		PreparedStatement courses = connection.prepareStatement(SqlUtilities.SELECT_Courses);
-		ArrayList<String> coursesFromDB = new ArrayList<>();
-		ResultSet rs = courses.executeQuery();
-		while (rs.next())
-			coursesFromDB.add(rs.getString(1));
-		return new TypeHandle("Courses", coursesFromDB);
-	}
-
+	
 	// end region -> Public Methods
 
 	/**
