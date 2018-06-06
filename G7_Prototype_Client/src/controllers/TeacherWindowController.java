@@ -833,6 +833,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				client.handleMessageFromClientUI(new ActiveExamHandle("Lock", activeExam));
 				//tableViewInExamsManagement.getItems().clear();
 				Utilities.popUpMethod("Exam locked successfully!");
+				primaryStage.hide();
 			}
 		});
 //		Button cancelButton = new Button("Cancel");
