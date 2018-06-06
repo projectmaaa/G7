@@ -64,6 +64,8 @@ public class SqlUtilities {
 	public final static String SELECT_Subjects = "SELECT subjectName FROM Subject";
 
 	public final static String SELECT_Courses = "SELECT courseName FROM Course";
+	
+	public final static String LOCK_Exam = "UPDATE ActiveExam SET locked=1 WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
 
 	// region Public Methods
 
@@ -289,6 +291,16 @@ public class SqlUtilities {
 		insert.setInt(5, activeExam.getExam().getExamDuration());
 		insert.setInt(6, activeExam.getLocked());
 		insert.setString(7, "c");
+		insert.executeUpdate();
+		insert.close();
+	}
+	
+	public static void lockActiveExam(ActiveExam activeExam, Connection connection) throws SQLException {
+		PreparedStatement insert = connection.prepareStatement(SqlUtilities.LOCK_Exam);
+		insert.setString(1, activeExam.getExam().getSubjectID());
+		insert.setString(2, activeExam.getExam().getCourseID());
+		insert.setString(3, activeExam.getExam().getExamNum());
+		insert.setString(4, activeExam.getExecutionCode());
 		insert.executeUpdate();
 		insert.close();
 	}
