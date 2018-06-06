@@ -3,7 +3,6 @@ package controllers;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import client.Client;
 import client.MainAppClient;
 import javafx.collections.FXCollections;
@@ -15,7 +14,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -105,9 +103,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private TableColumn<Question, String> correctAnswerColumnInEditOrRemove;
-
-	@FXML
-	private TableColumn<Question, CheckBox> checkColumnInEditOrRemove;
 
 	@FXML
 	private Button saveButton;
@@ -344,7 +339,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		backAnchorPane.setVisible(false);
 		date.setText(Utilities.setDate());
 		this.client = MainAppClient.getClient();
-		setSubjectComboBox(subjectComboBoxInEditOrRemove);
 		setColumnsInEditOrRemove();
 		setColumnInCreateExamAllQuestions();
 		setColumnInCreateExamQuestions();
@@ -398,6 +392,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 */
 	public void openEditorRemove(ActionEvent event) {
 		try {
+			setSubjectComboBox(subjectComboBoxInEditOrRemove);
 			tableViewInEditOrRemove.getItems().clear();
 			questionsTableAnchorPaneInEditOrRemove.setVisible(true);
 			backAnchorPane.setVisible(true);
@@ -1039,7 +1034,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private void setSubjectComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
 		comboBox.setPromptText("Select Subject");
-		comboBox.getItems().addAll("Software", "Math", "Physics");
+		client.handleMessageFromClientUI(Message.getSubjects);
+		comboBox.setItems(client.getSubjects());
 	}
 
 	/**
@@ -1053,7 +1049,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private void setCourseComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
 		comboBox.setPromptText("Select Course");
-		comboBox.getItems().addAll("MLM", "MTM", "ATM", "OOP");
+		client.handleMessageFromClientUI(Message.getCourses);
+		comboBox.setItems(client.getCourses());
 	}
 
 	/**

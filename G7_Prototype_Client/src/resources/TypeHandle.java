@@ -3,11 +3,6 @@ package resources;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * this class handles the list of courses\subjects that is returned from the
- * data base
- * 
- */
 public class TypeHandle implements Serializable {
 
 	/**
@@ -40,4 +35,4 @@ public class TypeHandle implements Serializable {
 		this.types = types;
 	}
 
-} // end of class
+}
