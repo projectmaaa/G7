@@ -50,10 +50,4 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName
-				+ "]";
-	}
-
 }

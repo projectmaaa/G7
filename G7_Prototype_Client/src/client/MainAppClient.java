@@ -3,7 +3,6 @@ package client;
 import java.io.IOException;
 import controllers.ScreensController;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;

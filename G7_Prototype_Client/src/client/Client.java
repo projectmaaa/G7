@@ -205,14 +205,6 @@ public class Client extends AbstractClient implements IScreenController {
 				studentWindowController.setLastName(lastName);
 				studentWindowController.setName();
 				break;
-			case "#No":
-				System.out.println("Wrong Type");
-				try {
-					sendToServer(Message.logout);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				break;
 			case "#TableSaved":
 				System.out.println("Data Base Updated successfully");
 				break;
@@ -237,7 +229,7 @@ public class Client extends AbstractClient implements IScreenController {
 		} else if (msg instanceof ActiveExamHandle) {
 			ActiveExamHandle activeExamsHandle = (ActiveExamHandle) msg;
 			studentWindowController.setActiveExam(activeExamsHandle.getActiveExam());
-			System.out.println("Test ActiveExam");
+			System.out.println(studentWindowController.getActiveExam());
 		} else if (msg instanceof ExamHandle) {
 			ExamHandle examsHandle = (ExamHandle) msg;
 			if (examsHandle.getCommand().equals("Subject")) {

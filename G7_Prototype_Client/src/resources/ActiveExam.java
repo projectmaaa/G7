@@ -16,11 +16,7 @@ public class ActiveExam implements Serializable {
 	private String executionCode;
 
 	private int locked;
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> branch 'master' of https://github.com/projectmaaa/G7
 	public ActiveExam(Exam exam, String executionCode) {
 		this.exam = exam;
 		this.executionCode = executionCode;
@@ -62,14 +58,24 @@ public class ActiveExam implements Serializable {
 		this.locked = locked;
 	}
 
-<<<<<<< HEAD
 	@Override
 	public String toString() {
-		return "ActiveExam [exam=" + exam + ", duration=" + duration + ", executionCode=" + executionCode + ", locked="
-				+ locked + "]";
+		return "[CourseID : " + exam.getCourseID() + ", ExamNum : " + exam.getExamNum() + ", TextForExaminees : "
+				+ exam.getFreeTextForExaminees() + ", TextForTeacherOnly : " + exam.getFreeTextForTeacherOnly()
+				+ ", SubjectID : " + exam.getSubjectID() + ", TeacherName : " + exam.getTeacherName() + "]\n[duration="
+				+ duration + ", executionCode=" + executionCode + ", locked=" + locked + "]" + questionString();
 	}
-	
-	
-=======
->>>>>>> branch 'master' of https://github.com/projectmaaa/G7
+
+	private String questionString() {
+		String string = "";
+		for (QuestionInExam questionInExam : exam.getQuestions()) {
+			string += "\n";
+			string += "Question :  " + questionInExam.getQuestion().getQuestionText() + "\n";
+			string += "FirstPossibleAnswer : " + questionInExam.getQuestion().getFirstPossibleAnswer() + "\n";
+			string += "SecondPossibleAnswer : " + questionInExam.getQuestion().getSecondPossibleAnswer() + "\n";
+			string += "ThirdPossibleAnswer : " + questionInExam.getQuestion().getThirdPossibleAnswer() + "\n";
+			string += "FourthPossibleAnswer : " + questionInExam.getQuestion().getFourthPossibleAnswer();
+		}
+		return string;
+	}
 }

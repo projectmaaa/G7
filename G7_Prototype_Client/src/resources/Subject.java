@@ -11,9 +11,9 @@ public class Subject implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String subjectID;
-	
+
 	private String subjectName;
-	
+
 	private ArrayList<Course> courses;
 
 	public Subject(String subjectID, String subjectName) {
@@ -22,8 +22,8 @@ public class Subject implements Serializable {
 		this.courses = new ArrayList<Course>();
 	}
 
-	//setters, getters
-	
+	// setters, getters
+
 	public String getSubjectID() {
 		return subjectID;
 	}
@@ -44,17 +44,10 @@ public class Subject implements Serializable {
 		return courses;
 	}
 
-	//specific methods
-	
+	// specific methods
+
 	public void addCourseToSubject(Course course) {
 		courses.add(course);
 	}
 
-	@Override
-	public String toString() {
-		return "Subject [subjectID=" + subjectID + ", subjectName=" + subjectName + ", courses=" + courses + "]";
-	}
-	
-	
-	
 }

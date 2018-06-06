@@ -91,6 +91,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	// region Public Methods
 
 	public void loginButtonHandler(ActionEvent event) {
+		loginText.setText("");
 		loginCheck();
 	}
 

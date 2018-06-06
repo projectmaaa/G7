@@ -76,9 +76,4 @@ public class QuestionInExam implements Serializable {
 		this.points = points;
 	}
 
-	@Override
-	public String toString() {
-		return "QuestionInExam [exam=" + exam + ", question=" + question + ", points=" + points + "]";
-	}
-
 }

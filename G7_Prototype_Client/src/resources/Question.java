@@ -144,12 +144,4 @@ public class Question implements Serializable {
 		this.correctAnswer = correctAnswer;
 	}
 
-	@Override
-	public String toString() {
-		return "Question [subjectID=" + subjectID + ", questionNum=" + questionNum + ", author=" + author
-				+ ", questionText=" + questionText + ", firstPossibleAnswer=" + firstPossibleAnswer
-				+ ", secondPossibleAnswer=" + secondPossibleAnswer + ", thirdPossibleAnswer=" + thirdPossibleAnswer
-				+ ", fourthPossibleAnswer=" + fourthPossibleAnswer + ", correctAnswer=" + correctAnswer + "]";
-	}
-
 }// end of class Question

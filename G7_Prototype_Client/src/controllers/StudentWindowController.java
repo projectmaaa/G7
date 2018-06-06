@@ -14,6 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import resources.ActiveExam;
 import resources.Message;
 import resources.Utilities;
@@ -147,10 +149,25 @@ public class StudentWindowController implements Initializable, IScreenController
 		String code = executionCodeTextField.getText();
 		if (code != null) {
 			client.handleMessageFromClientUI(Message.getExecutionCode + " " + code);
-			System.out.println("ActiveExam");
 		} else {
 			Utilities.popUpMethod("Duration");
 		}
+	}
+
+	private void popUpexam() {
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("AES7");
+		primaryStage.setResizable(false);		
+		primaryStage.initStyle(StageStyle.UNDECORATED);
+
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 
 }
