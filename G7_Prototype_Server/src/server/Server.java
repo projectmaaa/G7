@@ -104,9 +104,13 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} else if (examHandle.getCommand().equals("Activate")) {
+			} 
+		}else if(msg instanceof ActiveExamHandle)
+		{
+			ActiveExamHandle activeExamHandle = (ActiveExamHandle) msg;
+			if (activeExamHandle.getCommand().equals("Activate")) {
 				try {
-					SqlUtilities.insertActiveExam(examHandle.getActiveExam(), connection);
+					SqlUtilities.insertActiveExam(activeExamHandle.getActiveExam(), connection);
 					client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -114,8 +118,18 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-
-		} else if (msg instanceof String) {
+			else if(activeExamHandle.getCommand().equals("Lock")) {
+				try {
+					SqlUtilities.lockActiveExam(activeExamHandle.getActiveExam(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
 			try {

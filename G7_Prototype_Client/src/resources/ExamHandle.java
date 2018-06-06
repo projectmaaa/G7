@@ -16,8 +16,6 @@ public class ExamHandle implements Serializable {
 
 	private ArrayList<Exam> exams;
 
-	private ActiveExam activeExam;
-
 	public ExamHandle(String command, Exam exam) {
 		this.command = command;
 		this.exam = exam;
@@ -26,11 +24,6 @@ public class ExamHandle implements Serializable {
 	public ExamHandle(String command, ArrayList<Exam> exams) {
 		this.command = command;
 		this.setExams(exams);
-	}
-
-	public ExamHandle(String command, ActiveExam activeExam) {
-		this.command = command;
-		this.activeExam = activeExam;
 	}
 
 	public String getCommand() {
@@ -55,14 +48,6 @@ public class ExamHandle implements Serializable {
 
 	public void setExams(ArrayList<Exam> exams) {
 		this.exams = exams;
-	}
-
-	public ActiveExam getActiveExam() {
-		return activeExam;
-	}
-
-	public void setActiveExam(ActiveExam activeExam) {
-		this.activeExam = activeExam;
 	}
 
 }

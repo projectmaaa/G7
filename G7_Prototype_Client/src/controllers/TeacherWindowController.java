@@ -307,6 +307,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private TableView<Exam> tableViewInExamsManagement;
+	
+	@FXML
+	private TextField executionCode;
 
 	//
 
@@ -735,7 +738,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		HBox layout = new HBox(10);
 		text = new Label("Please enter an execution code:");
 		popup.getContent().addAll(text);
-		TextField executionCode = new TextField();
+		executionCode = new TextField();
 		executionCode.setEditable(true);
 		Button okButton = new Button("OK");
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -744,8 +747,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
 				// check executionCode
 				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
-				client.handleMessageFromClientUI(new ExamHandle("Activate", activeExam));
-				tableViewInExamsManagement.getItems().clear();
+				client.handleMessageFromClientUI(new ActiveExamHandle("Activate", activeExam));
+				//tableViewInExamsManagement.getItems().clear();
 				primaryStage.hide();
 			}
 		});
@@ -798,6 +801,52 @@ public class TeacherWindowController implements Initializable, IScreenController
 		});
 		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
 		layout.getChildren().addAll(text, newDuration, okButton, cancelButton);
+		primaryStage.setScene(new Scene(layout));
+		primaryStage.show();
+	}
+	
+	public void lockButtonHandler(ActionEvent event) {
+		Label text = null;
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("AES7");
+		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		Popup popup = new Popup();
+		popup.setX(700);
+		popup.setY(400);
+		HBox layout = new HBox(10);
+		text = new Label("Please enter the execution code of the exam:");
+		popup.getContent().addAll(text);
+		executionCode = new TextField();
+		executionCode.setEditable(true);
+		Button okButton = new Button("OK");
+		okButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
+				// check executionCode
+				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
+				client.handleMessageFromClientUI(new ActiveExamHandle("Lock", activeExam));
+				//tableViewInExamsManagement.getItems().clear();
+				Utilities.popUpMethod("Exam locked successfully!");
+			}
+		});
+//		Button cancelButton = new Button("Cancel");
+//		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+//			@Override
+//			public void handle(ActionEvent event) {
+//				primaryStage.hide();
+//			}
+//		});
+		
+		Button closeButton = new Button("Close");
+		closeButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+			}
+		});
+		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+		layout.getChildren().addAll(text, executionCode, okButton, closeButton);
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}
