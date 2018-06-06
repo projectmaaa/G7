@@ -96,7 +96,7 @@
 				<Cursor fx:constant="DEFAULT" />
 			</cursor>
 		</ImageView>
-		<Text fx:id="date" layoutX="767.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="173.115234375">
+		<Text fx:id="date" fill="WHITE" layoutX="767.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="173.115234375">
 			<font>
 				<Font size="30.0" />
 			</font>

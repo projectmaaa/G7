@@ -21,10 +21,10 @@
    <children>
       <ImageView fitHeight="650.0" fitWidth="1000.0" pickOnBounds="true">
          <image>
-            <Image url="@Images/si-citations.jpg" />
+            <Image url="@Images/macbook-925480_960_720.jpg" />
          </image>
       </ImageView>
-      <Text fx:id="welcomeText" layoutX="32.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="370.0">
+      <Text fx:id="welcomeText" fill="WHITE" layoutX="32.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="370.0">
          <font>
             <Font size="24.0" />
          </font>
@@ -35,7 +35,7 @@
             <Image url="@Images/logo.jpg" />
          </image>
       </ImageView>
-      <Text fx:id="date" layoutX="762.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="140.0">
+      <Text fx:id="date" fill="WHITE" layoutX="762.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="140.0">
          <font>
             <Font size="24.0" />
          </font>
@@ -63,9 +63,9 @@
             </Menu>
          </menus>
       </MenuBar>
-      <AnchorPane fx:id="welcomeAnchorPane" layoutX="62.0" layoutY="171.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+      <AnchorPane fx:id="welcomeAnchorPane" layoutX="62.0" layoutY="171.0" prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Label layoutX="23.0" layoutY="77.0" prefHeight="50.0" prefWidth="316.0" text="Let AES help you!" textOverrun="CENTER_ELLIPSIS">
+            <Label layoutX="23.0" layoutY="77.0" prefHeight="50.0" prefWidth="316.0" text="Let AES help you!" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="40.0" />
                </font>
@@ -73,7 +73,7 @@
                   <Bloom />
                </effect>
             </Label>
-            <Label layoutY="49.0" prefHeight="29.0" prefWidth="287.0" text="What's Your First Move?" textOverrun="CENTER_ELLIPSIS">
+            <Label layoutY="49.0" prefHeight="29.0" prefWidth="287.0" text="What's Your First Move?" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="26.0" />
                </font>
@@ -81,7 +81,7 @@
                   <Bloom />
                </effect>
             </Label>
-            <Label layoutX="10.0" layoutY="127.0" prefHeight="31.0" prefWidth="388.0" text="Choose one of the options above" textOverrun="CENTER_ELLIPSIS">
+            <Label layoutX="10.0" layoutY="127.0" prefHeight="31.0" prefWidth="388.0" text="Choose one of the options above" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="26.0" />
                </font>
@@ -94,7 +94,7 @@
       </AnchorPane>
       <AnchorPane fx:id="questionsPoolAnchorPane" layoutX="21.0" layoutY="161.0" prefHeight="350.0" prefWidth="950.0" visible="false">
          <children>
-            <Label layoutX="2.0" layoutY="-9.0" text="Questions Pool" textOverrun="CENTER_ELLIPSIS">
+            <Label layoutX="2.0" layoutY="-9.0" text="Questions Pool" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="24.0" />
                </font>
@@ -102,7 +102,7 @@
                   <Bloom />
                </effect>
             </Label>
-            <Label fx:id="subjectInQuestionsPoolLabel" layoutX="188.0" layoutY="43.0" text="Subject">
+            <Label fx:id="subjectInQuestionsPoolLabel" layoutX="188.0" layoutY="43.0" text="Subject" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -152,7 +152,7 @@
                   <TableColumn fx:id="textTeachersColInExamsPool" prefWidth="221.0" text="Text For Teachers" />
               </columns>
             </TableView>
-            <Label layoutX="2.0" layoutY="-9.0" text="Exams Pool" textOverrun="CENTER_ELLIPSIS">
+            <Label layoutX="2.0" layoutY="-9.0" text="Exams Pool" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="24.0" />
                </font>
@@ -160,7 +160,7 @@
                   <Bloom />
                </effect>
             </Label>
-            <Label fx:id="subjectInExamsPoolLabel" layoutX="184.0" layoutY="39.0" text="Subject">
+            <Label fx:id="subjectInExamsPoolLabel" layoutX="184.0" layoutY="39.0" text="Subject" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -185,7 +185,7 @@
                 <TableColumn prefWidth="75.0" text="C2" />
               </columns>
             </TableView>
-            <Label layoutX="2.0" layoutY="3.0" text="Handling Requests" textOverrun="CENTER_ELLIPSIS">
+            <Label layoutX="2.0" layoutY="3.0" text="Handling Requests" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="24.0" />
                </font>
