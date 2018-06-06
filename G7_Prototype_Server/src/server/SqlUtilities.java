@@ -5,18 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import com.mysql.jdbc.Statement;
-
 import java.sql.PreparedStatement;
-
-import resources.ActiveExam;
-import resources.ActiveExamHandle;
-import resources.Exam;
-import resources.ExamHandle;
-import resources.Question;
-import resources.QuestionInExam;
-import resources.QuestionsHandle;
+import resources.*;
 
 public class SqlUtilities {
 
@@ -71,7 +62,7 @@ public class SqlUtilities {
 	public final static String INSERT_ActiveExam = "INSERT INTO ActiveExam VALUES (?, ?, ?, ?, ?, ?, ?);";
 
 	public final static String SELECT_Subjects = "SELECT subjectName FROM Subject";
-	
+
 	public final static String SELECT_Courses = "SELECT courseName FROM Course";
 
 	// region Public Methods
@@ -317,6 +308,38 @@ public class SqlUtilities {
 			remove.executeUpdate();
 		}
 		closeResultSetAndStatement(null, null, remove);
+	}
+
+	/**
+	 * returns the subjects that exists in the DB
+	 * 
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
+	public static TypeHandle getSubjects(Connection connection) throws SQLException {
+		PreparedStatement subjects = connection.prepareStatement(SqlUtilities.SELECT_Subjects);
+		ArrayList<String> subjectsFromDB = new ArrayList<>();
+		ResultSet rs = subjects.executeQuery();
+		while (rs.next())
+			subjectsFromDB.add(rs.getString(1));
+		return new TypeHandle("Subjects", subjectsFromDB);
+	}
+
+	/**
+	 * returns the courses that exists in the DB
+	 * 
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
+	public static TypeHandle getCourses(Connection connection) throws SQLException {
+		PreparedStatement courses = connection.prepareStatement(SqlUtilities.SELECT_Courses);
+		ArrayList<String> coursesFromDB = new ArrayList<>();
+		ResultSet rs = courses.executeQuery();
+		while (rs.next())
+			coursesFromDB.add(rs.getString(1));
+		return new TypeHandle("Courses", coursesFromDB);
 	}
 
 	// end region -> Public Methods
