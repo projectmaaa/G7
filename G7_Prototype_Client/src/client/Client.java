@@ -33,6 +33,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private ObservableList<Exam> examsFromDB = FXCollections.observableArrayList();
 
+	private ObservableList<String> types; // courses or subjects
+
 	private ScreensController controller;
 
 	private LoginWindowController loginWindowController;
@@ -154,6 +156,14 @@ public class Client extends AbstractClient implements IScreenController {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public ObservableList<String> getTypes() {
+		return types;
+	}
+
+	public void setTypes(ArrayList<String> types) {
+		this.types.setAll(types);
 	}
 
 	// end region -> Setters

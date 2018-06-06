@@ -104,8 +104,13 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+<<<<<<< HEAD
 			} else if (examHandle.getCommand().equals("Activate")) {
 				System.out.println("Activate");
+=======
+			}
+			else if(examHandle.getCommand().equals("Activate")) {
+>>>>>>> branch 'master' of https://github.com/projectmaaa/G7
 				try {
 					SqlUtilities.insertActiveExam(examHandle.getActiveExam(), connection);
 					client.sendToClient(Message.tableSaved);
