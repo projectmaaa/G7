@@ -7,7 +7,7 @@
 }
 .menu .label, .menu-item .label {
 	-fx-font-size: 17.0 pt;
-    -fx-text-fill: #000000;
+    -fx-text-fill: #F8F8FF;
     -fx-background-radius: 5.0,4.0,3.0,5.0;
     -fx-background-insets: 0.0,1.0,2.0,0.0;
 }
