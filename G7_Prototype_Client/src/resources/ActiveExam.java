@@ -16,7 +16,11 @@ public class ActiveExam implements Serializable {
 	private String executionCode;
 
 	private int locked;
+<<<<<<< HEAD
+	
+=======
 
+>>>>>>> branch 'master' of https://github.com/projectmaaa/G7
 	public ActiveExam(Exam exam, String executionCode) {
 		this.exam = exam;
 		this.executionCode = executionCode;
@@ -58,4 +62,14 @@ public class ActiveExam implements Serializable {
 		this.locked = locked;
 	}
 
+<<<<<<< HEAD
+	@Override
+	public String toString() {
+		return "ActiveExam [exam=" + exam + ", duration=" + duration + ", executionCode=" + executionCode + ", locked="
+				+ locked + "]";
+	}
+	
+	
+=======
+>>>>>>> branch 'master' of https://github.com/projectmaaa/G7
 }

@@ -67,8 +67,6 @@ public class Question implements Serializable {
 		this.fourthPossibleAnswer = possibleAnswers.get(3);
 		this.correctAnswer = correctAnswer;
 	}
-	
-	
 
 	// end region -> Constructors
 
@@ -144,6 +142,14 @@ public class Question implements Serializable {
 
 	public void setCorrectAnswer(String correctAnswer) {
 		this.correctAnswer = correctAnswer;
+	}
+
+	@Override
+	public String toString() {
+		return "Question [subjectID=" + subjectID + ", questionNum=" + questionNum + ", author=" + author
+				+ ", questionText=" + questionText + ", firstPossibleAnswer=" + firstPossibleAnswer
+				+ ", secondPossibleAnswer=" + secondPossibleAnswer + ", thirdPossibleAnswer=" + thirdPossibleAnswer
+				+ ", fourthPossibleAnswer=" + fourthPossibleAnswer + ", correctAnswer=" + correctAnswer + "]";
 	}
 
 }// end of class Question

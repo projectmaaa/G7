@@ -49,5 +49,12 @@ public class Subject implements Serializable {
 	public void addCourseToSubject(Course course) {
 		courses.add(course);
 	}
+
+	@Override
+	public String toString() {
+		return "Subject [subjectID=" + subjectID + ", subjectName=" + subjectName + ", courses=" + courses + "]";
+	}
+	
+	
 	
 }

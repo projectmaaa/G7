@@ -133,4 +133,11 @@ public class Exam implements Serializable {
 		questions.add(question);
 	}
 
+	@Override
+	public String toString() {
+		return "Exam [subjectID=" + subjectID + ", courseID=" + courseID + ", examNum=" + examNum + ", teacherName="
+				+ teacherName + ", examDuration=" + examDuration + ", freeTextForExaminees=" + freeTextForExaminees
+				+ ", freeTextForTeacherOnly=" + freeTextForTeacherOnly + ", questions=" + questions + "]";
+	}
+
 }
