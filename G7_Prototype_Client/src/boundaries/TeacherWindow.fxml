@@ -296,7 +296,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="examManagementAnchorPane" layoutX="14.0" layoutY="91.0" prefHeight="432.0" prefWidth="846.0">
+      <AnchorPane fx:id="examManagementAnchorPane" layoutX="14.0" layoutY="91.0" prefHeight="432.0" prefWidth="846.0" visible="false">
          <children>
             <Label layoutX="53.0" layoutY="9.0" prefWidth="253.0" text="Exam Management" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>

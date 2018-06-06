@@ -749,6 +749,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
 				client.handleMessageFromClientUI(new ActiveExamHandle("Activate", activeExam));
 				//tableViewInExamsManagement.getItems().clear();
+				Utilities.popUpMethod("Exam activated successfully!");
 				primaryStage.hide();
 			}
 		});
