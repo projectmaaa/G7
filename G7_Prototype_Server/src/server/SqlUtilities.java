@@ -64,7 +64,7 @@ public class SqlUtilities {
 	public final static String SELECT_Subjects = "SELECT subjectName FROM Subject";
 
 	public final static String SELECT_Courses = "SELECT courseName FROM Course";
-	
+
 	public final static String LOCK_Exam = "UPDATE ActiveExam SET locked=1 WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
 
 	// region Public Methods
@@ -294,7 +294,7 @@ public class SqlUtilities {
 		insert.executeUpdate();
 		insert.close();
 	}
-	
+
 	public static void lockActiveExam(ActiveExam activeExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.LOCK_Exam);
 		insert.setString(1, activeExam.getExam().getSubjectID());
@@ -323,8 +323,10 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * returns the subjects that exists in the DB
+	 * Returns the Subjects\Courses that is in the DB
 	 * 
+	 * @param query
+	 * @param type
 	 * @param connection
 	 * @return
 	 * @throws SQLException
@@ -338,7 +340,7 @@ public class SqlUtilities {
 		closeResultSetAndStatement(rs, null, typeOfSet);
 		return new TypeHandle(type, typeOfSetFromDB);
 	}
-	
+
 	// end region -> Public Methods
 
 	/**
