@@ -739,6 +739,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		text = new Label("Please enter an execution code:");
 		popup.getContent().addAll(text);
 		executionCode = new TextField();
+		executionCode.setPrefWidth(50);
 		executionCode.setEditable(true);
 		Button okButton = new Button("OK");
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -771,25 +772,33 @@ public class TeacherWindowController implements Initializable, IScreenController
 		Stage primaryStage = new Stage();
 		primaryStage.setTitle("AES7");
 		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-		primaryStage.setHeight(100);
-		primaryStage.setWidth(250);
-		primaryStage.setResizable(false);
+//		primaryStage.setHeight(100);
+//		primaryStage.setWidth(250);
+//		primaryStage.setResizable(false);
 		Popup popup = new Popup();
 		popup.setX(700);
 		popup.setY(400);
 		HBox layout = new HBox(10);
-		text = new Label("Please enter new exam duration:");
-		popup.getContent().addAll(text);
-		TextField newDuration = new TextField();
+		text = new Label("Please enter an execution code:");
+		executionCode = new TextField();
+		executionCode.setPrefWidth(50);
+		executionCode.setEditable(true);
+		TextField newDuration = new TextField("Enter new time here.");
+		TextField reason = new TextField("Enter reason here.");
+		popup.getContent().addAll(text, reason);
+//		newDuration.setPrefWidth(45);
 		newDuration.setEditable(true);
-		Button okButton = new Button("OK");
+		reason.setEditable(true);
+		Button okButton = new Button("Send");
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				// get selected exam
-				// getText in TextField
-				// change exam duration to newDuration
-				// update DB
+//				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
+//				// check executionCode
+//				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
+//				client.handleMessageFromClientUI(new ActiveExamHandle("ChangeTime", activeExam));
+//				//tableViewInExamsManagement.getItems().clear();
+//				Utilities.popUpMethod("Exam activated successfully!");
 				primaryStage.hide();
 			}
 		});
@@ -801,7 +810,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			}
 		});
 		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		layout.getChildren().addAll(text, newDuration, okButton, cancelButton);
+		layout.getChildren().addAll(text, executionCode, newDuration, reason, okButton, cancelButton);
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}
@@ -818,6 +827,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		text = new Label("Please enter the execution code of the exam:");
 		popup.getContent().addAll(text);
 		executionCode = new TextField();
+		executionCode.setPrefWidth(50);
 		executionCode.setEditable(true);
 		Button okButton = new Button("OK");
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
