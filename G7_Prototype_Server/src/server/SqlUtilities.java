@@ -63,7 +63,7 @@ public class SqlUtilities {
 
 	public final static String SELECT_Subjects = "SELECT subjectName FROM Subject";
 
-	public final static String SELECT_Courses = "SELECT courseName FROM Course";
+	public final static String SELECT_Courses_BY_SubjectID = "SELECT courseName FROM Course WHERE subjectID=?;";
 
 	public final static String LOCK_Exam = "UPDATE ActiveExam SET locked=1 WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
 
@@ -323,16 +323,20 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * Returns the Subjects\Courses that is in the DB
+	 * Returns the Subjects\Courses filtered by subject
 	 * 
 	 * @param query
+	 * @param insertIntoQuery
 	 * @param type
 	 * @param connection
 	 * @return
 	 * @throws SQLException
 	 */
-	public static TypeHandle getTypeFromDB(String query, String type, Connection connection) throws SQLException {
+	public static TypeHandle getTypeFromDB(String query, String insertIntoQuery, String type, Connection connection)
+			throws SQLException {
 		PreparedStatement typeOfSet = connection.prepareStatement(query);
+		if (insertIntoQuery != null) // if the method need to return the subjects
+			typeOfSet.setString(1, getSubjectID(insertIntoQuery, connection));
 		ArrayList<String> typeOfSetFromDB = new ArrayList<>();
 		ResultSet rs = typeOfSet.executeQuery();
 		while (rs.next())

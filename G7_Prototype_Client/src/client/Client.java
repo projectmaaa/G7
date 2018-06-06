@@ -27,9 +27,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private ObservableList<Exam> examsFromDB = FXCollections.observableArrayList();
 
-	private ObservableList<String> subjects = FXCollections.observableArrayList();
+	private ObservableList<String> subjectsFromDB = FXCollections.observableArrayList();
 
-	private ObservableList<String> courses = FXCollections.observableArrayList();
+	private ObservableList<String> coursesFromDB = FXCollections.observableArrayList();
 
 	private ScreensController controller;
 
@@ -154,20 +154,20 @@ public class Client extends AbstractClient implements IScreenController {
 		this.lastName = lastName;
 	}
 
-	public ObservableList<String> getSubjects() {
-		return subjects;
+	public ObservableList<String> getSubjectsFromDB() {
+		return subjectsFromDB;
 	}
 
-	public void setSubjects(ArrayList<String> subjects) {
-		this.subjects.setAll(subjects);
-	}
-	
-	public ObservableList<String> getCourses() {
-		return courses;
+	public void setSubjectsFromDB(ArrayList<String> subjects) {
+		subjectsFromDB.setAll(subjects);
 	}
 
-	public void setCourses(ArrayList<String> courses) {
-		this.courses.setAll(courses);
+	public ObservableList<String> getCoursesFromDB() {
+		return coursesFromDB;
+	}
+
+	public void setCoursesFromDB(ArrayList<String> courses) {
+		coursesFromDB.setAll(courses);
 	}
 
 	// end region -> Setters
@@ -242,9 +242,9 @@ public class Client extends AbstractClient implements IScreenController {
 		} else if (msg instanceof TypeHandle) {
 			TypeHandle typeHandle = (TypeHandle) msg;
 			if (typeHandle.getCommand().equals("Subjects"))
-				setSubjects(typeHandle.getTypes());
+				setSubjectsFromDB(typeHandle.getTypes());
 			else if (typeHandle.getCommand().equals("Courses"))
-				setCourses(typeHandle.getTypes());
+				setCoursesFromDB(typeHandle.getTypes());
 		}
 	}
 
