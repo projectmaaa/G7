@@ -420,7 +420,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			String answerNumber = question.getCorrectAnswer();
 			if (!answerNumber.equals("1") && !answerNumber.equals("2") && !answerNumber.equals("3")
 					&& !answerNumber.equals("4")) {
-				Utilities.popUpMethod("IncorrectAnswer");
+				Utilities.popUpMethod("Please insert only numbers from 1 to 4 in the correct answer column");
 				tableViewInEditOrRemove.getItems().clear();
 				setQuestionsTableInfoInEditOrRemove();
 				System.out.println("answerNumber 1<-->4");
@@ -429,7 +429,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			updateDB.add(question);
 		}
 		client.handleMessageFromClientUI(new QuestionsHandle("All", updateDB));
-		Utilities.popUpMethod("save");
+		Utilities.popUpMethod("Question updated successfully");
 	}
 
 	/**
@@ -496,7 +496,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				tableViewInCreateExamAllQuestion.getItems().add(question.getQuestion());
 			initTablesInCreateExam(true, true);
 		} else // if the teacher didn't choose anything
-			Utilities.popUpMethod("SelectQuestions");
+			Utilities.popUpMethod("Please Select Questions");
 	}
 
 	@FXML
@@ -511,7 +511,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				tableViewInCreateExamQuestion.getItems().add(new QuestionInExam(exam, question));
 			initTablesInCreateExam(true, true);
 		} else // if the teacher didn't choose anything
-			Utilities.popUpMethod("SelectQuestions");
+			Utilities.popUpMethod("Please Select Questions");
 	}
 
 	public void checkTotalPointsInCreateExam(MouseEvent event) {
@@ -519,13 +519,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 		for (QuestionInExam question : tableViewInCreateExamQuestion.getItems()) {
 			int points = question.getPoints();
 			if ((points < 1) || (points > 100)) {
-				Utilities.popUpMethod("Points" + " " + question.getQuestion().getQuestionNum());
+				Utilities.popUpMethod(
+						"Wrong amount of points in question number" + " " + question.getQuestion().getQuestionNum());
 				return;
 			}
 			totalPoints += points;
 		}
 		if (totalPoints != 100) {
-			Utilities.popUpMethod("TotalPoints");
+			Utilities.popUpMethod("The total amount of points isn't 100");
 		} else {
 			exam.setQuestions(tableViewInCreateExamQuestion.getItems());
 			System.out.println(exam.getQuestions());
@@ -542,7 +543,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			exam.setFreeTextForTeacherOnly(textAreaTeachersInCreateExam.getText());
 		}
 		client.handleMessageFromClientUI(new ExamHandle(Message.exam, exam));
-		Utilities.popUpMethod("Exam");
+		Utilities.popUpMethod("Exam created successfully");
 	}
 
 	/**
@@ -671,8 +672,20 @@ public class TeacherWindowController implements Initializable, IScreenController
 		} else {
 			client.handleMessageFromClientUI(Message.getCourses + " " + selectedSubject);
 			courseInCreateExamComboBox.getItems().clear();
-			courseInCreateExamComboBox.setItems(client.getCoursesFromDB()); // sets the courses that is under specific subject
-																			 
+			courseInCreateExamComboBox.setItems(client.getCoursesFromDB()); // sets the courses that is under specific
+																			// subject
+			courseInCreateExamComboBox.setPromptText("Select Course");
+			courseInCreateExamComboBox.setButtonCell(new ListCell<String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty || item == null) {
+						setText("Select Course");
+					} else {
+						setText(item);
+					}
+				}
+			});
 		}
 	}
 
@@ -1035,7 +1048,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		if (subject != null) {
 			client.handleMessageFromClientUI(Message.editOrRemove + " " + firstName + " " + lastName + " " + subject);
 		} else {
-			Utilities.popUpMethod("SelectSubject");
+			Utilities.popUpMethod("Please select the subject");
 		}
 		tableViewInEditOrRemove.setItems(client.getQuestionsFromDB());
 	}

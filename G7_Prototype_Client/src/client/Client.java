@@ -8,6 +8,7 @@ import controllers.PrincipalWindowController;
 import controllers.ScreensController;
 import controllers.StudentWindowController;
 import controllers.TeacherWindowController;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ocsf.client.AbstractClient;
@@ -114,10 +115,6 @@ public class Client extends AbstractClient implements IScreenController {
 		return questionsFromDB;
 	}
 
-	/*
-	 * set the questions observable list from the returned array list of
-	 * SqlUtilities.getQuestions
-	 */
 	public void setQuestionsFromDB(ArrayList<Question> questions) {
 		questionsFromDB.setAll(questions);
 	}
@@ -167,7 +164,9 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	public void setCoursesFromDB(ArrayList<String> courses) {
-		coursesFromDB.setAll(courses);
+		Platform.runLater(() -> {
+			coursesFromDB.setAll(courses);
+		});
 	}
 
 	// end region -> Setters
@@ -243,8 +242,9 @@ public class Client extends AbstractClient implements IScreenController {
 			TypeHandle typeHandle = (TypeHandle) msg;
 			if (typeHandle.getCommand().equals("Subjects"))
 				setSubjectsFromDB(typeHandle.getTypes());
-			else if (typeHandle.getCommand().equals("Courses"))
+			else if (typeHandle.getCommand().equals("Courses")) {
 				setCoursesFromDB(typeHandle.getTypes());
+			}
 		}
 	}
 

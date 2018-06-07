@@ -48,7 +48,7 @@ public class Utilities {
 		primaryStage.setTitle("AES7");
 		primaryStage.setResizable(false);
 		primaryStage.setHeight(80);
-		primaryStage.setWidth(350);
+		primaryStage.setWidth(400);
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		Popup popup = new Popup();
 		popup.setX(700);
