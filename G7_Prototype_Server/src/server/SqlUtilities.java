@@ -68,6 +68,8 @@ public class SqlUtilities {
 	public final static String LOCK_Exam = "UPDATE ActiveExam SET locked=1 WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
 	
 	public final static String INSERT_WaitingActiveExam = "INSERT INTO WaitingActiveExam VALUES (?, ?, ?, ?, ?, ?, ?);";
+	
+	public final static String SELECT_All_WaitingActiveExam = "SELECT * FROM WaitingActiveExam";
 
 	// region Public Methods
 
@@ -212,6 +214,19 @@ public class SqlUtilities {
 		}
 		closeResultSetAndStatement(rs, null, statement);
 		return (new ExamHandle("Subject", examsBySubject));
+	}
+	
+	public static WaitingActiveExamHandle getWaitingActiveExam(Connection connection)
+			throws SQLException {
+		ArrayList<WaitingActiveExam> waitingActiveExams = new ArrayList<WaitingActiveExam>();
+		PreparedStatement statement = connection.prepareStatement(SELECT_All_WaitingActiveExam);
+		ResultSet rs = statement.executeQuery();
+		while (rs.next()) {
+			ActiveExam activeExam = new ActiveExam(new Exam(rs.getString(1), rs.getString(2), rs.getString(3)), rs.getString(4), rs.getInt(5));
+			waitingActiveExams.add(new WaitingActiveExam(activeExam, rs.getInt(6), rs.getString(7)));
+		}
+		closeResultSetAndStatement(rs, null, statement);
+		return (new WaitingActiveExamHandle("AllWaiting", waitingActiveExams));
 	}
 
 	/**

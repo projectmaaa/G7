@@ -31,6 +31,8 @@ public class Client extends AbstractClient implements IScreenController {
 	private ObservableList<String> subjectsFromDB = FXCollections.observableArrayList();
 
 	private ObservableList<String> coursesFromDB = FXCollections.observableArrayList();
+	
+	private ObservableList<WaitingActiveExam> WaitingActiveExamsFromDB = FXCollections.observableArrayList();
 
 	private ScreensController controller;
 
@@ -180,6 +182,16 @@ public class Client extends AbstractClient implements IScreenController {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	public ObservableList<WaitingActiveExam> getWaitingActiveExamsFromDB() {
+		return WaitingActiveExamsFromDB;
+	}
+
+	public void setWaitingActiveExamsFromDB(ArrayList<WaitingActiveExam> waitingActiveExamsFromDB) {
+		Platform.runLater(() -> {
+			WaitingActiveExamsFromDB.setAll(waitingActiveExamsFromDB);
+		});
+	}
 
 	// end region -> Setters
 
@@ -258,6 +270,10 @@ public class Client extends AbstractClient implements IScreenController {
 			else if (typeHandle.getCommand().equals("Courses")) {
 				setCoursesFromDB(typeHandle.getTypes());
 			}
+		} else if(msg instanceof WaitingActiveExamHandle) {
+			WaitingActiveExamHandle waitingActiveExamHandle = (WaitingActiveExamHandle) msg;
+			if(waitingActiveExamHandle.getCommand().equals("AllWaiting"))
+				setWaitingActiveExamsFromDB(waitingActiveExamHandle.getWaitingActiveExams());
 		}
 	}
 
@@ -286,6 +302,7 @@ public class Client extends AbstractClient implements IScreenController {
 		}
 		System.exit(0);
 	}
+
 
 	// end region -> Public Methods
 

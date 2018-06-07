@@ -36,6 +36,14 @@ public class Exam implements Serializable {
 		questions = new ArrayList<>();
 		// examCounter++;
 	}
+	
+	public Exam(String subjectID, String courseID, String examNum) {
+		this.subjectID = subjectID;
+		this.courseID = courseID;
+		this.examNum=examNum;
+		questions = new ArrayList<>();
+		// examCounter++;
+	}
 
 	public Exam(String subjectID, String courseID, String examNum, String teacherName, int examDuration,
 			String freeTextForExaminees, String freeTextForTeacherOnly) {
@@ -125,6 +133,11 @@ public class Exam implements Serializable {
 
 	public void setExamNum(String examNum) {
 		this.examNum = examNum;
+	}
+	
+	public String getDurationInString() {
+		//Integer dur = examDuration;
+		return String.valueOf(examDuration);
 	}
 
 	// specific methods

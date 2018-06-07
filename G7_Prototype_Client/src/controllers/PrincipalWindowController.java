@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import client.Client;
 import client.MainAppClient;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,6 +23,7 @@ import resources.Exam;
 import resources.Message;
 import resources.Question;
 import resources.Utilities;
+import resources.WaitingActiveExam;
 
 public class PrincipalWindowController implements Initializable, IScreenController {
 
@@ -144,6 +146,36 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	@FXML
 	private TableView<Exam> tableViewInExamsPool;
+	
+	//handling requests
+	
+	@FXML
+	private AnchorPane handlingRequestsAnchorPane;
+	
+	@FXML
+	private TableView<WaitingActiveExam> handlingRequestsTableView;
+	
+	@FXML
+	private TableColumn<WaitingActiveExam, String> subjectColInHandlingRequests;
+	
+	@FXML
+	private TableColumn<WaitingActiveExam, String> courseColInHandlingRequests;
+	
+	@FXML
+	private TableColumn<WaitingActiveExam, String> examNumColInHandlingRequests;
+	
+	@FXML
+	private TableColumn<WaitingActiveExam, String> executionCodeColInHandlingRequests;
+	
+	@FXML
+	private TableColumn<WaitingActiveExam, String> durationColInHandlingRequests;
+	
+	@FXML
+	private TableColumn<WaitingActiveExam, Integer> newDurationColInHandlingRequests;
+	
+	@FXML
+	private TableColumn<WaitingActiveExam, String> reasonColInHandlingRequests;
+	
 
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
@@ -181,8 +213,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		client.setPrincipalWindowController(this);
 		setColumnsInQuestionsPool();
 		setColumnsInExamsPool();
-
-		// client.setPrincipalWindowController(this);
+		setColumnsInHandlingRequests();
 	}
 
 	/**
@@ -212,6 +243,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		questionsPoolAnchorPane.setVisible(true);
 		welcomeAnchorPane.setVisible(false);
 		examsPoolAnchorPane.setVisible(false);
+		handlingRequestsAnchorPane.setVisible(false);
 		setSubjectComboBox(subjectComboBoxInQuestionsPool);
 	}
 
@@ -220,19 +252,32 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void showQuestionHandler(ActionEvent event) {
 		setTableInQuestionPool();
 	}
+	
+	// exam pool tab was pressed
 
 	public void openExamPool(ActionEvent event) {
 		examsPoolAnchorPane.setVisible(true);
 		questionsPoolAnchorPane.setVisible(false);
 		welcomeAnchorPane.setVisible(false);
+		handlingRequestsAnchorPane.setVisible(false);
 		setSubjectComboBox(subjectComboBoxInExamPool);
 	}
 	
 	// show exams button was clicked
 
-		public void showExamsHandler(ActionEvent event) {
-			setTableInExamsPool();
+	public void showExamsHandler(ActionEvent event) {
+		setTableInExamsPool();
 		}
+	
+	// handling requests tab was pressed
+	
+	public void openHandlingRequests(ActionEvent event) {
+		handlingRequestsAnchorPane.setVisible(true);
+		examsPoolAnchorPane.setVisible(false);
+		questionsPoolAnchorPane.setVisible(false);
+		welcomeAnchorPane.setVisible(false);
+		setTableInHandlingRequests();
+	}
 
 	/* --------------------- private methods ---------------------- */
 
@@ -255,6 +300,13 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 				Message.getExamBySubject + " " + subjectComboBoxInExamPool.getValue());
 		tableViewInExamsPool.setItems(client.getExamsFromDB());
 	}
+	
+	private void setTableInHandlingRequests() {
+		client.getWaitingActiveExamsFromDB().clear();
+		client.handleMessageFromClientUI(Message.getWaitingActiveExams);
+		handlingRequestsTableView.setItems(client.getWaitingActiveExamsFromDB());
+	}
+	
 
 	private void setColumnsInQuestionsPool() {
 		subjectIDColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
@@ -280,6 +332,24 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		textExamineesColInExamsPool
 				.setCellValueFactory(new PropertyValueFactory<>("freeTextForExaminees"));
 		textTeachersColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("freeTextForTeacherOnly"));
+
+	}
+	
+	private void setColumnsInHandlingRequests() {
+		
+		subjectColInHandlingRequests.setCellValueFactory(cellData -> 
+        new SimpleStringProperty(cellData.getValue().getActiveExam().getExam().getSubjectID()));
+		courseColInHandlingRequests.setCellValueFactory(cellData -> 
+        new SimpleStringProperty(cellData.getValue().getActiveExam().getExam().getCourseID()));
+		examNumColInHandlingRequests.setCellValueFactory(cellData -> 
+        new SimpleStringProperty(cellData.getValue().getActiveExam().getExam().getExamNum()));
+		executionCodeColInHandlingRequests.setCellValueFactory(cellData -> 
+        new SimpleStringProperty(cellData.getValue().getActiveExam().getExecutionCode()));
+		durationColInExamsPool.setCellValueFactory(cellData -> 
+        new SimpleStringProperty(cellData.getValue().getDurationInString()));
+		newDurationColInHandlingRequests
+				.setCellValueFactory(new PropertyValueFactory<>("newDuration"));
+		reasonColInHandlingRequests.setCellValueFactory(new PropertyValueFactory<>("reason"));
 
 	}
 }

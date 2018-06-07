@@ -33,6 +33,8 @@ public class Message {
 	public final static String getSubjects = "#Subjects";
 	
 	public final static String getCourses = "#Courses";
+	
+	public final static String getWaitingActiveExams = "#WaitingActiveExams";
 
 	// end region -> Constants
 

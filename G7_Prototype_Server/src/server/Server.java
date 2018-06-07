@@ -233,6 +233,8 @@ public class Server extends AbstractServer {
 					client.sendToClient(SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Courses_BY_SubjectID,
 							strArray[1], "Courses", connection));
 					break;
+				case Message.getWaitingActiveExams:
+					client.sendToClient(SqlUtilities.getWaitingActiveExam(connection));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

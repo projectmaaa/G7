@@ -23,6 +23,12 @@ public class ActiveExam implements Serializable {
 		this.duration = exam.getExamDuration();
 		locked = 0;
 	}
+	
+	public ActiveExam(Exam exam, String executionCode, int duration) {
+		this.exam = exam;
+		this.executionCode = executionCode;
+		this.duration = duration;
+	}
 
 	// setters, getters
 

@@ -1,6 +1,7 @@
 package resources;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class WaitingActiveExamHandle implements Serializable {
 
@@ -12,11 +13,19 @@ public class WaitingActiveExamHandle implements Serializable {
 	private String command;
 
 	private WaitingActiveExam waitingActiveExam;
+	
+	private ArrayList<WaitingActiveExam> waitingActiveExams;
 
 	public WaitingActiveExamHandle(String command, WaitingActiveExam waitingActiveExam) {
 		super();
 		this.command = command;
 		this.waitingActiveExam = waitingActiveExam;
+	}
+	
+	public WaitingActiveExamHandle(String command, ArrayList<WaitingActiveExam> waitingActiveExams) {
+		super();
+		this.command = command;
+		this.waitingActiveExams = waitingActiveExams;
 	}
 
 	public String getCommand() {
@@ -34,5 +43,15 @@ public class WaitingActiveExamHandle implements Serializable {
 	public void setWaitingActiveExam(WaitingActiveExam waitingActiveExam) {
 		this.waitingActiveExam = waitingActiveExam;
 	}
+
+	public ArrayList<WaitingActiveExam> getWaitingActiveExams() {
+		return waitingActiveExams;
+	}
+
+	public void setWaitingActiveExams(ArrayList<WaitingActiveExam> waitingActiveExams) {
+		this.waitingActiveExams = waitingActiveExams;
+	}
+	
+	
 
 }

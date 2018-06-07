@@ -14,7 +14,7 @@ public class WaitingActiveExam implements Serializable {
 	private int newDuration;
 	
 	private String reason;
-
+	
 	public WaitingActiveExam(ActiveExam activeExam, int newDuration, String reason) {
 		this.activeExam = activeExam;
 		this.newDuration = newDuration;
@@ -44,6 +44,5 @@ public class WaitingActiveExam implements Serializable {
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
-	
 	
 }
