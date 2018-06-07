@@ -92,7 +92,6 @@ public class SqlUtilities {
 		return null;
 	}
 
-	@SuppressWarnings("resource")
 	public static ActiveExamHandle getActiveExam(String executionCode, Connection connection) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(SELECT_ActiveExam);
 		statement.setString(1, executionCode);
@@ -116,18 +115,18 @@ public class SqlUtilities {
 					statement = connection.prepareStatement(GetQuestionBySubjectIDAndQuestionNum);
 					statement.setString(1, resultSet.getString(1));
 					statement.setString(2, resultSet.getString(2));
-					resultSet = statement.executeQuery();
+					ResultSet rs = statement.executeQuery();
 					int index = 0;
-					if (resultSet.next()) {
+					if (rs.next()) {
 						while (index < 4) { // add the possible answers to the array list
-							possibleAnswers.add(index, resultSet.getString(index + 5));
+							possibleAnswers.add(index, rs.getString(index + 5));
 							index++;
 						}
-						Question question = new Question(resultSet.getString(1), resultSet.getString(2),
-								resultSet.getString(3), resultSet.getString(4), possibleAnswers,
-								resultSet.getString(9));
+						Question question = new Question(rs.getString(1), rs.getString(2), rs.getString(3),
+								rs.getString(4), possibleAnswers, rs.getString(9));
 						exam.getQuestions().add(new QuestionInExam(exam, question));
 					}
+					rs.close();
 				}
 				closeResultSetAndStatement(resultSet, null, statement);
 				ActiveExam activeExam = new ActiveExam(exam, executionCode);

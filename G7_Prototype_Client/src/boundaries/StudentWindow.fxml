@@ -5,12 +5,14 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -24,14 +26,8 @@
             <Blend opacity="0.0" />
          </effect>
       </ImageView>
-      <ImageView blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="431.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/logo.jpg" />
-         </image>
-      </ImageView>
-      <Text fill="WHITE" layoutX="427.0" layoutY="632.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
       <Button fx:id="logoutButton" layoutX="932.0" layoutY="12.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
-      <AnchorPane fx:id="welconeAnchorPane" layoutX="542.0" layoutY="42.0" prefHeight="168.0" prefWidth="344.0" rotate="18.0">
+      <AnchorPane fx:id="welcomeAnchorPane" layoutX="542.0" layoutY="42.0" prefHeight="168.0" prefWidth="344.0" rotate="18.0">
          <children>
             <Text fx:id="welcomeText" fill="#111111" layoutX="97.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="139.52104949951172">
                <font>
@@ -50,7 +46,18 @@
             </Text>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="welcomeAnchorPane" layoutX="14.0" layoutY="159.0" prefHeight="200.0" prefWidth="200.0">
+      <MenuBar fx:id="menuBar" focusTraversable="false" layoutX="14.0" layoutY="24.0" prefHeight="42.0" prefWidth="344.0" stylesheets="@TeacherWindow.css">
+         <menus>
+            <Menu mnemonicParsing="false" text="Execute Exam">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#openManualExamHandler" text="Manual" />
+                  <MenuItem mnemonicParsing="false" onAction="#openComputerizedExamHandler" text="Computerized" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Order Checked Exam" />
+         </menus>
+      </MenuBar>
+      <AnchorPane fx:id="aesAnchorPane" layoutX="14.0" layoutY="159.0" prefHeight="200.0" prefWidth="200.0">
          <children>
             <Label layoutX="23.0" layoutY="79.0" prefHeight="50.0" prefWidth="316.0" text="Let AES help you!" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>
@@ -78,18 +85,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <MenuBar fx:id="menuBar" focusTraversable="false" layoutX="14.0" layoutY="24.0" prefHeight="42.0" prefWidth="344.0" stylesheets="@TeacherWindow.css">
-         <menus>
-            <Menu mnemonicParsing="false" text="Execute Exam">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#openManualExamHandler" text="Manual" />
-                  <MenuItem mnemonicParsing="false" onAction="#openComputerizedExamHandler" text="Computerized" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Order Checked Exam" />
-         </menus>
-      </MenuBar>
-      <AnchorPane fx:id="manualExamAnchorPane" layoutX="14.0" layoutY="86.0" prefHeight="459.0" prefWidth="926.0">
+      <AnchorPane fx:id="manualExamAnchorPane" layoutX="14.0" layoutY="86.0" prefHeight="150.0" prefWidth="315.0" visible="false">
          <children>
             <Label layoutX="18.0" layoutY="45.0" text="Execution Code" textFill="WHITE">
                <font>
@@ -107,7 +103,7 @@
             </Label>
             <Button layoutX="184.0" layoutY="87.0" mnemonicParsing="false" onMouseClicked="#checkExecutionCode" text="Enter" />
          </children></AnchorPane>
-      <AnchorPane fx:id="computerizedExamAnchorPane" layoutX="24.0" layoutY="96.0" prefHeight="459.0" prefWidth="824.0" visible="false">
+      <AnchorPane fx:id="computerizedExamAnchorPane" layoutX="24.0" layoutY="96.0" prefHeight="150.0" prefWidth="315.0" visible="false">
          <children>
             <Label layoutX="18.0" layoutY="45.0" text="Execution Code" textFill="WHITE">
                <font>
@@ -125,5 +121,29 @@
             </Label>
          </children>
       </AnchorPane>
+      <AnchorPane fx:id="computerizeExamPane" layoutX="30.0" layoutY="65.0" prefHeight="500.0" prefWidth="600.0" visible="false">
+         <children>
+            <TextField fx:id="examIDTextField" layoutX="14.0" layoutY="14.0" promptText="ID" />
+            <Button fx:id="checkIDComputerizeExamButton" layoutX="183.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#checkExamID" text="Check" />
+            <Text fx:id="examTextName" layoutX="400.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="185.00000607967377">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <ScrollPane layoutX="14.0" layoutY="50.0">
+               <content>
+                  <VBox fx:id="examSheetVBox" prefHeight="400.0" prefWidth="574.0" />
+               </content>
+            </ScrollPane>
+            <Button layoutX="501.0" layoutY="461.0" mnemonicParsing="false" text="Sumbit Exam" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="timerPane" layoutX="786.0" layoutY="65.0" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: white;" visible="false" />
+      <ImageView blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="431.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/logo.jpg" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" layoutX="427.0" layoutY="632.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
    </children>
 </AnchorPane>

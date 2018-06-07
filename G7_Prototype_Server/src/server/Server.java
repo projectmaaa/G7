@@ -104,9 +104,8 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} 
-		}else if(msg instanceof ActiveExamHandle)
-		{
+			}
+		} else if (msg instanceof ActiveExamHandle) {
 			ActiveExamHandle activeExamHandle = (ActiveExamHandle) msg;
 			if (activeExamHandle.getCommand().equals("Activate")) {
 				try {
@@ -117,8 +116,7 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			else if(activeExamHandle.getCommand().equals("Lock")) {
+			} else if (activeExamHandle.getCommand().equals("Lock")) {
 				try {
 					SqlUtilities.lockActiveExam(activeExamHandle.getActiveExam(), connection);
 					client.sendToClient(Message.tableSaved);
@@ -128,8 +126,7 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-		}
-		else if (msg instanceof String) {
+		} else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
 			try {
@@ -142,6 +139,7 @@ public class Server extends AbstractServer {
 					rs = login.executeQuery();
 					if (rs.next()) {
 						if (rs.getString(1).equals(strArray[1])) {
+							String id = rs.getString(1);
 							login = connection.prepareStatement(SqlUtilities.Login_getlog_Status);
 							login.setString(1, strArray[1]);
 							login.setString(2, strArray[2]);
@@ -160,7 +158,7 @@ public class Server extends AbstractServer {
 									break;
 								case "Student":
 									client.sendToClient(
-											Message.studnet + " " + rs.getString(2) + " " + rs.getString(3));
+											Message.studnet + " " + rs.getString(2) + " " + rs.getString(3) + " " + id);
 									break;
 								case "Principal":
 									client.sendToClient(
@@ -181,7 +179,7 @@ public class Server extends AbstractServer {
 								return;
 							} else {
 								client.sendToClient(Message.userAlreadyConnected);
-								System.out.println("User Already Connected");
+								// System.out.println("User Already Connected");
 								login.close();
 								rs.close();
 								return;
@@ -189,7 +187,7 @@ public class Server extends AbstractServer {
 						}
 					} else {
 						client.sendToClient(Message.noSuchUser);
-						System.out.println("Wrong Username or Pasword");
+						// System.out.println("Wrong Username or Password");
 						return;
 					}
 				case Message.editOrRemove:

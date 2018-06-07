@@ -2,22 +2,28 @@ package controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
 
 import client.Client;
 import client.MainAppClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import resources.ActiveExam;
 import resources.Message;
+import resources.Question;
+import resources.QuestionInExam;
+import resources.QuestionInExamGui;
 import resources.Utilities;
 
 public class StudentWindowController implements Initializable, IScreenController {
@@ -39,7 +45,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	private Button logoutButton;
 
 	@FXML
-	private AnchorPane welconeAnchorPane;
+	private AnchorPane welcomeAnchorPane;
 
 	@FXML
 	private Text welcomeText;
@@ -51,7 +57,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	private Text name;
 
 	@FXML
-	private AnchorPane welcomeAnchorPane;
+	private AnchorPane aesAnchorPane;
 
 	@FXML
 	private MenuBar menuBar;
@@ -68,6 +74,28 @@ public class StudentWindowController implements Initializable, IScreenController
 
 	@FXML
 	private AnchorPane computerizedExamAnchorPane;
+
+	/*********************************************************/
+
+	@FXML
+	private AnchorPane computerizeExamPane;
+
+	@FXML
+	private TextField examIDTextField;
+
+	@FXML
+	private Text examTextName;
+
+	@FXML
+	private Button checkIDComputerizeExamButton;
+
+	@FXML
+	private VBox examSheetVBox;
+
+	/*********************************************************/
+
+	@FXML
+	private AnchorPane timerPane;
 
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
@@ -118,9 +146,8 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * @param event
 	 */
 	public void logOutButtonHandler(ActionEvent event) {
-		manualExamAnchorPane.setVisible(false);
-		computerizedExamAnchorPane.setVisible(false);
-		welcomeAnchorPane.setVisible(true);
+		aesAnchorPane.setVisible(true);
+		turnOffAllPane();
 		this.client.handleMessageFromClientUI(Message.logout);
 		screensController.setScreen(MainAppClient.loginScreenID);
 	}
@@ -130,9 +157,36 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * @param event
 	 */
 	public void openManualExamHandler(ActionEvent event) {
-		welcomeAnchorPane.setVisible(false);
+		turnOffAllPane();
 		manualExamAnchorPane.setVisible(true);
-		computerizedExamAnchorPane.setVisible(false);
+		// aesAnchorPane.setVisible(false);
+		// computerizedExamAnchorPane.setVisible(false);
+	}
+
+	public void checkExamID(MouseEvent e) {
+		if (!examIDTextField.getText().isEmpty()) {
+			if (examIDTextField.getText().equals(client.getId())) {
+				checkIDComputerizeExamButton.setDisable(true);
+				examIDTextField.setDisable(true);
+				examTextName.setText(firstName + " " + lastName);
+				int index = 0;
+				for (QuestionInExam questionInExam : activeExam.getExam().getQuestions()) {
+					QuestionInExamGui questionInExamGui = new QuestionInExamGui(
+							Integer.toString(++index) + ". " + questionInExam.getQuestion().getQuestionText(),
+							questionInExam.getQuestion().getFirstPossibleAnswer(),
+							questionInExam.getQuestion().getSecondPossibleAnswer(),
+							questionInExam.getQuestion().getThirdPossibleAnswer(),
+							questionInExam.getQuestion().getFourthPossibleAnswer());
+					examSheetVBox.getChildren().addAll(questionInExamGui.getList());
+					examSheetVBox.getChildren().add(new Text(""));
+
+				}
+			} else {
+				Utilities.popUpMethod("Wrong ID");
+			}
+		} else {
+			Utilities.popUpMethod("Please Enter ID");
+		}
 	}
 
 	/**
@@ -140,34 +194,34 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * @param event
 	 */
 	public void openComputerizedExamHandler(ActionEvent event) {
-		welcomeAnchorPane.setVisible(false);
+		turnOffAllPane();
 		computerizedExamAnchorPane.setVisible(true);
-		manualExamAnchorPane.setVisible(false);
+		// aesAnchorPane.setVisible(false);
+		// manualExamAnchorPane.setVisible(false);
 	}
 
 	public void checkExecutionCode(MouseEvent event) {
 		String code = executionCodeTextField.getText();
 		if (code != null) {
 			client.handleMessageFromClientUI(Message.getExecutionCode + " " + code);
+			turnOffAllPane();
+			computerizeExamPane.setVisible(true);
+			timerPane.setVisible(true);
 		} else {
 			Utilities.popUpMethod("Duration");
 		}
 	}
 
-	private void popUpexam() {
-		Stage primaryStage = new Stage();
-		primaryStage.setTitle("AES7");
-		primaryStage.setResizable(false);		
-		primaryStage.initStyle(StageStyle.UNDECORATED);
-
-		
-		
-		
-		
-		
-		
-		
-		
+	/**
+	 * 
+	 */
+	private void turnOffAllPane() {
+		aesAnchorPane.setVisible(false);
+		welcomeAnchorPane.setVisible(false);
+		manualExamAnchorPane.setVisible(false);
+		computerizedExamAnchorPane.setVisible(false);
+		computerizeExamPane.setVisible(false);
+		timerPane.setVisible(false);
 	}
 
 }
