@@ -222,8 +222,8 @@ public class SqlUtilities {
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_WaitingActiveExam);
 		ResultSet rs = statement.executeQuery();
 		while (rs.next()) {
-			ActiveExam activeExam = new ActiveExam(new Exam(rs.getString(1), rs.getString(2), rs.getString(3)), rs.getString(4));
-			waitingActiveExams.add(new WaitingActiveExam(activeExam, rs.getInt(5), rs.getInt(6), rs.getString(7)));
+			ActiveExam activeExam = new ActiveExam(new Exam(rs.getString(1), rs.getString(2), rs.getString(3)), rs.getString(4), rs.getInt(5));
+			waitingActiveExams.add(new WaitingActiveExam(activeExam, rs.getInt(6), rs.getString(7)));
 		}
 		closeResultSetAndStatement(rs, null, statement);
 		return (new WaitingActiveExamHandle("AllWaiting", waitingActiveExams));

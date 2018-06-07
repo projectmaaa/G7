@@ -63,6 +63,11 @@ public class ActiveExam implements Serializable {
 	public void setLocked(int locked) {
 		this.locked = locked;
 	}
+	
+	public String getDurationInString() {
+		Integer dur = duration;
+		return dur.toString();
+	}
 
 	@Override
 	public String toString() {

@@ -345,7 +345,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
         new SimpleStringProperty(cellData.getValue().getActiveExam().getExam().getExamNum()));
 		executionCodeColInHandlingRequests.setCellValueFactory(cellData -> 
         new SimpleStringProperty(cellData.getValue().getActiveExam().getExecutionCode()));
-		durationColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("originalDuration"));
+		durationColInHandlingRequests.setCellValueFactory(cellData -> 
+        new SimpleStringProperty(cellData.getValue().getActiveExam().getDurationInString()));
 		newDurationColInHandlingRequests
 				.setCellValueFactory(new PropertyValueFactory<>("newDuration"));
 		reasonColInHandlingRequests.setCellValueFactory(new PropertyValueFactory<>("reason"));
