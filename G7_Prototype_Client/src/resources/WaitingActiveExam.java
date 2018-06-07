@@ -11,6 +11,8 @@ public class WaitingActiveExam implements Serializable {
 
 	private ActiveExam activeExam;
 	
+	private int originalDuration;
+	
 	private int newDuration;
 	
 	private String reason;
@@ -18,6 +20,13 @@ public class WaitingActiveExam implements Serializable {
 	public WaitingActiveExam(ActiveExam activeExam, int newDuration, String reason) {
 		this.activeExam = activeExam;
 		this.newDuration = newDuration;
+		this.reason = reason;
+	}
+	
+	public WaitingActiveExam(ActiveExam activeExam, int originalDuration, int newDuration, String reason) {
+		this.activeExam = activeExam;
+		this.newDuration = newDuration;
+		this.originalDuration=originalDuration;
 		this.reason = reason;
 	}
 
@@ -44,5 +53,15 @@ public class WaitingActiveExam implements Serializable {
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
+
+	public int getOriginalDuration() {
+		return originalDuration;
+	}
+
+	public void setOriginalDuration(int originalDuration) {
+		this.originalDuration = originalDuration;
+	}
+	
+	
 	
 }

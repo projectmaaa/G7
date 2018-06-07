@@ -24,23 +24,11 @@
             <Image url="@Images/macbook-925480_960_720.jpg" />
          </image>
       </ImageView>
-      <Text fx:id="welcomeText" fill="WHITE" layoutX="32.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="370.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-      <Text fx:id="TextGroup7" layoutX="423.0" layoutY="618.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
-      <ImageView fx:id="Group7Logo" blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="427.0" layoutY="557.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="20.0" fitWidth="21.0" layoutX="346.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Images/logo.jpg" />
+            <Image url="@Images/high-importance-256.png" />
          </image>
       </ImageView>
-      <Text fx:id="date" fill="WHITE" layoutX="762.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="140.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-      <Button fx:id="logoutButton" layoutX="932.0" layoutY="20.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
       <MenuBar fx:id="menuBar" focusTraversable="false" layoutX="10.0" layoutY="64.0" prefHeight="42.0" prefWidth="784.0" style="-fx-background-color: none;" stylesheets="@PrincipalWindow.css">
          <menus>
             <Menu mnemonicParsing="false" text="Questions">
@@ -66,6 +54,23 @@
             </Menu>
          </menus>
       </MenuBar>
+      <Text fx:id="welcomeText" fill="WHITE" layoutX="32.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="370.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="TextGroup7" layoutX="423.0" layoutY="632.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright © 2018 Group7" />
+      <ImageView fx:id="Group7Logo" blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="427.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/logo.jpg" />
+         </image>
+      </ImageView>
+      <Text fx:id="date" fill="WHITE" layoutX="762.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="140.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Button fx:id="logoutButton" layoutX="932.0" layoutY="20.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
       <AnchorPane fx:id="welcomeAnchorPane" layoutX="62.0" layoutY="171.0" prefHeight="200.0" prefWidth="200.0">
          <children>
             <Label layoutX="23.0" layoutY="77.0" prefHeight="50.0" prefWidth="316.0" text="Let AES help you!" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
@@ -180,9 +185,9 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="handlingRequestsAnchorPane" layoutX="14.0" layoutY="139.0" prefHeight="355.0" prefWidth="833.0" visible="false">
+      <AnchorPane fx:id="handlingRequestsAnchorPane" layoutX="14.0" layoutY="139.0" prefHeight="415.0" prefWidth="967.0" visible="false">
          <children>
-            <TableView fx:id="handlingRequestsTableView" layoutY="48.0" prefHeight="350.0" prefWidth="967.0" stylesheets="@table%20view.css">
+            <TableView fx:id="handlingRequestsTableView" layoutY="56.0" prefHeight="313.0" prefWidth="967.0" stylesheets="@table%20view.css">
               <columns>
                 <TableColumn fx:id="subjectColInHandlingRequests" prefWidth="88.0" text="Subject" />
                 <TableColumn fx:id="courseColInHandlingRequests" prefWidth="89.0" text="Course" />
@@ -193,9 +198,32 @@
                   <TableColumn fx:id="reasonColInHandlingRequests" prefWidth="328.0" text="Reason" />
               </columns>
             </TableView>
-            <Label layoutX="2.0" layoutY="3.0" text="Handling Requests" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+            <Label layoutX="2.0" layoutY="3.0" text="Teachers Requests" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="24.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+            <Button layoutX="369.0" layoutY="381.0" mnemonicParsing="false" text="Approve">
+               <effect>
+                  <InnerShadow choke="0.34" color="#51d329" />
+               </effect>
+            </Button>
+            <Button layoutX="534.0" layoutY="381.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" text="Reject">
+               <effect>
+                  <InnerShadow color="RED" />
+               </effect>
+            </Button>
+            <ImageView fitHeight="31.0" fitWidth="29.0" layoutX="469.0" layoutY="379.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/refresh.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="125.0" layoutY="31.0" text="Changing exam duration" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="14.0" />
                </font>
                <effect>
                   <Bloom />

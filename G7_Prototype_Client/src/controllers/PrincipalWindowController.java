@@ -171,7 +171,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	private TableColumn<WaitingActiveExam, String> durationColInHandlingRequests;
 	
 	@FXML
-	private TableColumn<WaitingActiveExam, Integer> newDurationColInHandlingRequests;
+	private TableColumn<WaitingActiveExam, String> newDurationColInHandlingRequests;
 	
 	@FXML
 	private TableColumn<WaitingActiveExam, String> reasonColInHandlingRequests;
@@ -345,8 +345,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
         new SimpleStringProperty(cellData.getValue().getActiveExam().getExam().getExamNum()));
 		executionCodeColInHandlingRequests.setCellValueFactory(cellData -> 
         new SimpleStringProperty(cellData.getValue().getActiveExam().getExecutionCode()));
-		durationColInExamsPool.setCellValueFactory(cellData -> 
-        new SimpleStringProperty(cellData.getValue().getDurationInString()));
+		durationColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("originalDuration"));
 		newDurationColInHandlingRequests
 				.setCellValueFactory(new PropertyValueFactory<>("newDuration"));
 		reasonColInHandlingRequests.setCellValueFactory(new PropertyValueFactory<>("reason"));
