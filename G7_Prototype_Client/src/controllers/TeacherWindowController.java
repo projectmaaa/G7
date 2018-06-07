@@ -307,7 +307,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private TableView<Exam> tableViewInExamsManagement;
-	
+
 	@FXML
 	private TextField executionCode;
 
@@ -420,7 +420,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			String answerNumber = question.getCorrectAnswer();
 			if (!answerNumber.equals("1") && !answerNumber.equals("2") && !answerNumber.equals("3")
 					&& !answerNumber.equals("4")) {
-				Utilities.popUpMethod("IncorrectAnswer");
+				Utilities.popUpMethod("Please insert only numbers from 1 to 4 in the correct answer column");
 				tableViewInEditOrRemove.getItems().clear();
 				setQuestionsTableInfoInEditOrRemove();
 				System.out.println("answerNumber 1<-->4");
@@ -429,7 +429,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			updateDB.add(question);
 		}
 		client.handleMessageFromClientUI(new QuestionsHandle("All", updateDB));
-		Utilities.popUpMethod("save");
+		Utilities.popUpMethod("Question updated successfully");
 	}
 
 	/**
@@ -496,7 +496,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				tableViewInCreateExamAllQuestion.getItems().add(question.getQuestion());
 			initTablesInCreateExam(true, true);
 		} else // if the teacher didn't choose anything
-			Utilities.popUpMethod("SelectQuestions");
+			Utilities.popUpMethod("Please Select Questions");
 	}
 
 	@FXML
@@ -511,7 +511,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				tableViewInCreateExamQuestion.getItems().add(new QuestionInExam(exam, question));
 			initTablesInCreateExam(true, true);
 		} else // if the teacher didn't choose anything
-			Utilities.popUpMethod("SelectQuestions");
+			Utilities.popUpMethod("Please Select Questions");
 	}
 
 	public void checkTotalPointsInCreateExam(MouseEvent event) {
@@ -519,13 +519,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 		for (QuestionInExam question : tableViewInCreateExamQuestion.getItems()) {
 			int points = question.getPoints();
 			if ((points < 1) || (points > 100)) {
-				Utilities.popUpMethod("Points" + " " + question.getQuestion().getQuestionNum());
+				Utilities.popUpMethod(
+						"Wrong amount of points in question number" + " " + question.getQuestion().getQuestionNum());
 				return;
 			}
 			totalPoints += points;
 		}
 		if (totalPoints != 100) {
-			Utilities.popUpMethod("TotalPoints");
+			Utilities.popUpMethod("The total amount of points isn't 100");
 		} else {
 			exam.setQuestions(tableViewInCreateExamQuestion.getItems());
 			System.out.println(exam.getQuestions());
@@ -542,7 +543,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			exam.setFreeTextForTeacherOnly(textAreaTeachersInCreateExam.getText());
 		}
 		client.handleMessageFromClientUI(new ExamHandle(Message.exam, exam));
-		Utilities.popUpMethod("Exam");
+		Utilities.popUpMethod("Exam created successfully");
 	}
 
 	/**
@@ -585,19 +586,19 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void addNewQuestion(ActionEvent event) {
 		// if the user didn't select a subject
 		if (subjectComboBox.getValue() == null) {
-			Utilities.popUpMethod("SelectSubject");
+			Utilities.popUpMethod("Please Select Subject");
 			return;
 		}
 		// if the user didn't filled all the fields
 		if (questionTextField.getText().isEmpty() || firstAnswerField.getText().isEmpty()
 				|| secondAnswerField.getText().isEmpty() || thirdAnswerField.getText().isEmpty()
 				|| fourthAnswerField.getText().isEmpty()) {
-			Utilities.popUpMethod("EnterText");
+			Utilities.popUpMethod("Please Enter Text");
 			return;
 		}
 		// if the user didn't select the correct answer
 		if (correctAnswerComboBox.getValue() == null) {
-			Utilities.popUpMethod("SelectAnswer");
+			Utilities.popUpMethod("Please Select Answer");
 			return;
 		}
 		Question question = new Question(subjectComboBox.getValue(), firstName + " " + lastName,
@@ -605,7 +606,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				thirdAnswerField.getText(), fourthAnswerField.getText(), correctAnswerComboBox.getValue());
 		client.setQuestion(question);
 		client.handleMessageFromClientUI(new QuestionsHandle("Add", question));
-		Utilities.popUpMethod("add");
+		Utilities.popUpMethod("Question Added successfully");
 		clearAddQuestionFields();
 	}
 
@@ -632,33 +633,59 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * @param event
 	 */
 	public void createExamInit(ActionEvent event) {
-		Boolean flag = true;
 		String subject = subjectInCreateExamComboBox.getValue();
 		if (subject == null) {
-			flag = false;
-			Utilities.popUpMethod("SelectSubject");
+			Utilities.popUpMethod("You must select the subject first");
+			return;
 		}
 		String course = courseInCreateExamComboBox.getValue();
 		if (course == null) {
-			flag = false;
-			Utilities.popUpMethod("SelectCourse");
+			Utilities.popUpMethod("Please select for which course you creating the exam");
+			return;
 		}
 		try {
 			int duration = Integer.parseInt(durationInCreateExamField.getText());
 			if (duration <= 0) {
-				flag = false;
-				Utilities.popUpMethod("Duration");
+				Utilities.popUpMethod("You must enter duration before you proceed");
+				return;
 			}
-			if (flag) {
-				exam = new Exam(subject, course, duration, firstName + " " + lastName);
-				anchorPaneInCreateExamFirstWindow.setVisible(false);
-				client.getQuestionsFromDB().clear();
-				anchorPaneInCreateExamSecondWindow.setVisible(true);
-				setTableInCreateExamAllQuestions();
-			}
+			exam = new Exam(subject, course, duration, firstName + " " + lastName);
+			anchorPaneInCreateExamFirstWindow.setVisible(false);
+			client.getQuestionsFromDB().clear();
+			anchorPaneInCreateExamSecondWindow.setVisible(true);
+			setTableInCreateExamAllQuestions();
 		} catch (NumberFormatException e) {
-			flag = false;
-			Utilities.popUpMethod("Duration");
+			Utilities.popUpMethod("You must enter duration before you proceed");
+		}
+	}
+
+	/**
+	 * Prevents from the user to select course if he\she didn't select a subject
+	 * 
+	 * @param event
+	 */
+	public void selectCourseComboBoxHandler(MouseEvent event) {
+		String selectedSubject = subjectInCreateExamComboBox.getValue();
+		if (selectedSubject == null) {
+			Utilities.popUpMethod("You must select the subject first");
+			return;
+		} else {
+			client.handleMessageFromClientUI(Message.getCourses + " " + selectedSubject);
+			courseInCreateExamComboBox.getItems().clear();
+			courseInCreateExamComboBox.setItems(client.getCoursesFromDB()); // sets the courses that is under specific
+																			// subject
+			courseInCreateExamComboBox.setPromptText("Select Course");
+			courseInCreateExamComboBox.setButtonCell(new ListCell<String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty || item == null) {
+						setText("Select Course");
+					} else {
+						setText(item);
+					}
+				}
+			});
 		}
 	}
 
@@ -749,7 +776,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				// check executionCode
 				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
 				client.handleMessageFromClientUI(new ActiveExamHandle("Activate", activeExam));
-				//tableViewInExamsManagement.getItems().clear();
+				// tableViewInExamsManagement.getItems().clear();
 				Utilities.popUpMethod("Exam activated successfully!");
 				primaryStage.hide();
 			}
@@ -772,9 +799,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 		Stage primaryStage = new Stage();
 		primaryStage.setTitle("AES7");
 		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-//		primaryStage.setHeight(100);
-//		primaryStage.setWidth(250);
-//		primaryStage.setResizable(false);
+		// primaryStage.setHeight(100);
+		// primaryStage.setWidth(250);
+		// primaryStage.setResizable(false);
 		Popup popup = new Popup();
 		popup.setX(700);
 		popup.setY(400);
@@ -786,19 +813,20 @@ public class TeacherWindowController implements Initializable, IScreenController
 		TextField newDuration = new TextField("Enter new time here.");
 		TextField reason = new TextField("Enter reason here.");
 		popup.getContent().addAll(text, reason);
-//		newDuration.setPrefWidth(45);
+		// newDuration.setPrefWidth(45);
 		newDuration.setEditable(true);
 		reason.setEditable(true);
 		Button okButton = new Button("Send");
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-//				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
-//				// check executionCode
-//				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
-//				client.handleMessageFromClientUI(new ActiveExamHandle("ChangeTime", activeExam));
-//				//tableViewInExamsManagement.getItems().clear();
-//				Utilities.popUpMethod("Exam activated successfully!");
+				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
+				// check executionCode
+				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
+				WaitingActiveExam waitingActiveExam = new WaitingActiveExam(activeExam, Integer.parseInt(newDuration.getText()),reason.getText());
+				client.handleMessageFromClientUI(new WaitingActiveExamHandle("ChangeTime", waitingActiveExam));
+				//tableViewInExamsManagement.getItems().clear();
+				Utilities.popUpMethod("Request sent to Principal!");
 				primaryStage.hide();
 			}
 		});
@@ -814,7 +842,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}
-	
+
 	public void lockButtonHandler(ActionEvent event) {
 		Label text = null;
 		Stage primaryStage = new Stage();
@@ -837,19 +865,19 @@ public class TeacherWindowController implements Initializable, IScreenController
 				// check executionCode
 				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
 				client.handleMessageFromClientUI(new ActiveExamHandle("Lock", activeExam));
-				//tableViewInExamsManagement.getItems().clear();
+				// tableViewInExamsManagement.getItems().clear();
 				Utilities.popUpMethod("Exam locked successfully!");
 				primaryStage.hide();
 			}
 		});
-//		Button cancelButton = new Button("Cancel");
-//		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-//			@Override
-//			public void handle(ActionEvent event) {
-//				primaryStage.hide();
-//			}
-//		});
-		
+		// Button cancelButton = new Button("Cancel");
+		// cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+		// @Override
+		// public void handle(ActionEvent event) {
+		// primaryStage.hide();
+		// }
+		// });
+
 		Button closeButton = new Button("Close");
 		closeButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -1018,7 +1046,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		if (subject != null) {
 			client.handleMessageFromClientUI(Message.editOrRemove + " " + firstName + " " + lastName + " " + subject);
 		} else {
-			Utilities.popUpMethod("SelectSubject");
+			Utilities.popUpMethod("Please select the subject");
 		}
 		tableViewInEditOrRemove.setItems(client.getQuestionsFromDB());
 	}
@@ -1096,7 +1124,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		comboBox.getSelectionModel().clearSelection();
 		comboBox.setPromptText("Select Subject");
 		client.handleMessageFromClientUI(Message.getSubjects);
-		comboBox.setItems(client.getSubjects());
+		comboBox.setItems(client.getSubjectsFromDB());
 	}
 
 	/**
@@ -1110,8 +1138,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private void setCourseComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
 		comboBox.setPromptText("Select Course");
-		client.handleMessageFromClientUI(Message.getCourses);
-		comboBox.setItems(client.getCourses());
 	}
 
 	/**

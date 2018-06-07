@@ -126,6 +126,18 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
+		} else if (msg instanceof WaitingActiveExamHandle) {
+			WaitingActiveExamHandle waitingActiveExamHandle = (WaitingActiveExamHandle) msg;
+			if (waitingActiveExamHandle.getCommand().equals("ChangeTime")) {
+				try {
+					SqlUtilities.insertWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		} else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
@@ -215,10 +227,11 @@ public class Server extends AbstractServer {
 					break;
 				case Message.getSubjects:
 					client.sendToClient(
-							SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Subjects, "Subjects", connection));
+							SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Subjects, null, "Subjects", connection));
 					break;
 				case Message.getCourses:
-					client.sendToClient(SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Courses, "Courses", connection));
+					client.sendToClient(SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Courses_BY_SubjectID,
+							strArray[1], "Courses", connection));
 					break;
 				}
 			} catch (SQLException e) {
@@ -227,7 +240,6 @@ public class Server extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	/**
