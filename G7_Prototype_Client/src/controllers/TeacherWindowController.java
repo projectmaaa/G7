@@ -793,12 +793,13 @@ public class TeacherWindowController implements Initializable, IScreenController
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-//				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
-//				// check executionCode
-//				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
-//				client.handleMessageFromClientUI(new ActiveExamHandle("ChangeTime", activeExam));
-//				//tableViewInExamsManagement.getItems().clear();
-//				Utilities.popUpMethod("Exam activated successfully!");
+				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
+				// check executionCode
+				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
+				WaitingActiveExam waitingActiveExam = new WaitingActiveExam(activeExam, Integer.parseInt(newDuration.getText()),reason.getText());
+				client.handleMessageFromClientUI(new WaitingActiveExamHandle("ChangeTime", waitingActiveExam));
+				//tableViewInExamsManagement.getItems().clear();
+				Utilities.popUpMethod("Request sent to Principal!");
 				primaryStage.hide();
 			}
 		});

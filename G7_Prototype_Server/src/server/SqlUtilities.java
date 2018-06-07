@@ -66,6 +66,8 @@ public class SqlUtilities {
 	public final static String SELECT_Courses = "SELECT courseName FROM Course";
 
 	public final static String LOCK_Exam = "UPDATE ActiveExam SET locked=1 WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
+	
+	public final static String INSERT_WaitingActiveExam = "INSERT INTO WaitingActiveExam VALUES (?, ?, ?, ?, ?, ?, ?);";
 
 	// region Public Methods
 
@@ -301,6 +303,19 @@ public class SqlUtilities {
 		insert.setString(2, activeExam.getExam().getCourseID());
 		insert.setString(3, activeExam.getExam().getExamNum());
 		insert.setString(4, activeExam.getExecutionCode());
+		insert.executeUpdate();
+		insert.close();
+	}
+	
+	public static void insertWaitingActiveExam(WaitingActiveExam waitingActiveExam, Connection connection) throws SQLException {
+		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_WaitingActiveExam);
+		insert.setString(1, waitingActiveExam.getActiveExam().getExam().getSubjectID());
+		insert.setString(2, waitingActiveExam.getActiveExam().getExam().getCourseID());
+		insert.setString(3, waitingActiveExam.getActiveExam().getExam().getExamNum());
+		insert.setString(4, waitingActiveExam.getActiveExam().getExecutionCode());
+		insert.setInt(5, waitingActiveExam.getActiveExam().getExam().getExamDuration());
+		insert.setInt(6, waitingActiveExam.getNewDuration());
+		insert.setString(7, waitingActiveExam.getReason());
 		insert.executeUpdate();
 		insert.close();
 	}

@@ -129,6 +129,19 @@ public class Server extends AbstractServer {
 				}
 			}
 		}
+		else if(msg instanceof WaitingActiveExamHandle) {
+			WaitingActiveExamHandle waitingActiveExamHandle = (WaitingActiveExamHandle) msg;
+			if (waitingActiveExamHandle.getCommand().equals("ChangeTime")) {
+				try {
+					SqlUtilities.insertWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
