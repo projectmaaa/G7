@@ -126,6 +126,18 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
+		} else if (msg instanceof WaitingActiveExamHandle) {
+			WaitingActiveExamHandle waitingActiveExamHandle = (WaitingActiveExamHandle) msg;
+			if (waitingActiveExamHandle.getCommand().equals("ChangeTime")) {
+				try {
+					SqlUtilities.insertWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		} else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
@@ -139,6 +151,7 @@ public class Server extends AbstractServer {
 					rs = login.executeQuery();
 					if (rs.next()) {
 						if (rs.getString(1).equals(strArray[1])) {
+							String id = rs.getString(1);
 							login = connection.prepareStatement(SqlUtilities.Login_getlog_Status);
 							login.setString(1, strArray[1]);
 							login.setString(2, strArray[2]);
@@ -157,7 +170,7 @@ public class Server extends AbstractServer {
 									break;
 								case "Student":
 									client.sendToClient(
-											Message.studnet + " " + rs.getString(2) + " " + rs.getString(3));
+											Message.studnet + " " + rs.getString(2) + " " + rs.getString(3) + " " + id);
 									break;
 								case "Principal":
 									client.sendToClient(
@@ -178,7 +191,7 @@ public class Server extends AbstractServer {
 								return;
 							} else {
 								client.sendToClient(Message.userAlreadyConnected);
-								System.out.println("User Already Connected");
+								// System.out.println("User Already Connected");
 								login.close();
 								rs.close();
 								return;
@@ -186,7 +199,7 @@ public class Server extends AbstractServer {
 						}
 					} else {
 						client.sendToClient(Message.noSuchUser);
-						System.out.println("Wrong Username or Pasword");
+						// System.out.println("Wrong Username or Password");
 						return;
 					}
 				case Message.editOrRemove:
@@ -217,8 +230,8 @@ public class Server extends AbstractServer {
 							SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Subjects, null, "Subjects", connection));
 					break;
 				case Message.getCourses:
-					client.sendToClient(SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Courses_BY_SubjectID, strArray[1], "Courses",
-							connection));
+					client.sendToClient(SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Courses_BY_SubjectID,
+							strArray[1], "Courses", connection));
 					break;
 				}
 			} catch (SQLException e) {
@@ -227,7 +240,6 @@ public class Server extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	/**

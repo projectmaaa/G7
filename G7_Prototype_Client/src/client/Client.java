@@ -48,6 +48,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private String lastName = "";
 
+	private String id = "";
+
 	// end region -> Fields
 
 	// region Constructors
@@ -156,7 +158,9 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	public void setSubjectsFromDB(ArrayList<String> subjects) {
-		subjectsFromDB.setAll(subjects);
+		Platform.runLater(() -> {
+			subjectsFromDB.setAll(subjects);
+		});
 	}
 
 	public ObservableList<String> getCoursesFromDB() {
@@ -167,6 +171,14 @@ public class Client extends AbstractClient implements IScreenController {
 		Platform.runLater(() -> {
 			coursesFromDB.setAll(courses);
 		});
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	// end region -> Setters
@@ -203,6 +215,7 @@ public class Client extends AbstractClient implements IScreenController {
 			case Message.studnet:
 				firstName = strArray[1];
 				lastName = strArray[2];
+				id = strArray[3];
 				controller.setScreen(MainAppClient.studentScreenID);
 				studentWindowController.setFirstName(firstName);
 				studentWindowController.setLastName(lastName);
@@ -232,7 +245,7 @@ public class Client extends AbstractClient implements IScreenController {
 		} else if (msg instanceof ActiveExamHandle) {
 			ActiveExamHandle activeExamsHandle = (ActiveExamHandle) msg;
 			studentWindowController.setActiveExam(activeExamsHandle.getActiveExam());
-			System.out.println(studentWindowController.getActiveExam());
+			// System.out.println(studentWindowController.getActiveExam());
 		} else if (msg instanceof ExamHandle) {
 			ExamHandle examsHandle = (ExamHandle) msg;
 			if (examsHandle.getCommand().equals("Subject")) {
