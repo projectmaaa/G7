@@ -104,9 +104,8 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} 
-		}else if(msg instanceof ActiveExamHandle)
-		{
+			}
+		} else if (msg instanceof ActiveExamHandle) {
 			ActiveExamHandle activeExamHandle = (ActiveExamHandle) msg;
 			if (activeExamHandle.getCommand().equals("Activate")) {
 				try {
@@ -117,8 +116,7 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			else if(activeExamHandle.getCommand().equals("Lock")) {
+			} else if (activeExamHandle.getCommand().equals("Lock")) {
 				try {
 					SqlUtilities.lockActiveExam(activeExamHandle.getActiveExam(), connection);
 					client.sendToClient(Message.tableSaved);
@@ -141,8 +139,7 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-		}
-		else if (msg instanceof String) {
+		} else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
 			try {
@@ -230,10 +227,11 @@ public class Server extends AbstractServer {
 					break;
 				case Message.getSubjects:
 					client.sendToClient(
-							SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Subjects, "Subjects", connection));
+							SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Subjects, null, "Subjects", connection));
 					break;
 				case Message.getCourses:
-					client.sendToClient(SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Courses, "Courses", connection));
+					client.sendToClient(SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Courses_BY_SubjectID, strArray[1], "Courses",
+							connection));
 					break;
 				}
 			} catch (SQLException e) {
