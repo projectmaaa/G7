@@ -532,6 +532,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			System.out.println(exam.getQuestions());
 			anchorPaneInCreateExamSecondWindow.setVisible(false);
 			anchorPaneInCreateExamThirdWindow.setVisible(true);
+			clearFieldsInAddExamWindows("second");
 		}
 	}
 
@@ -544,6 +545,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 		client.handleMessageFromClientUI(new ExamHandle(Message.exam, exam));
 		Utilities.popUpMethod("Exam created successfully");
+		anchorPaneInCreateExamThirdWindow.setVisible(false);
+		clearFieldsInAddExamWindows("third");
+		anchorPaneInCreateExamFirstWindow.setVisible(true);
 	}
 
 	/**
@@ -646,7 +650,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		try {
 			int duration = Integer.parseInt(durationInCreateExamField.getText());
 			if (duration <= 0) {
-				Utilities.popUpMethod("You must enter duration before you proceed");
+				Utilities.popUpMethod("You must enter valid duration before you proceed");
 				return;
 			}
 			exam = new Exam(subject, course, duration, firstName + " " + lastName);
@@ -654,8 +658,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 			client.getQuestionsFromDB().clear();
 			anchorPaneInCreateExamSecondWindow.setVisible(true);
 			setTableInCreateExamAllQuestions();
+			clearFieldsInAddExamWindows("first");
 		} catch (NumberFormatException e) {
-			Utilities.popUpMethod("You must enter duration before you proceed");
+			Utilities.popUpMethod("You must enter valid duration before you proceed");
 		}
 	}
 
@@ -1111,6 +1116,49 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 		if (!fourthAnswerField.getText().isEmpty()) {
 			fourthAnswerField.clear();
+		}
+	}
+
+	/**
+	 * Clears the add exam screen according to the requested window
+	 * 
+	 * @param window
+	 */
+	private void clearFieldsInAddExamWindows(String window) {
+		// clear the first window fields
+		if (window.equals("first")) {
+			subjectInCreateExamComboBox.getSelectionModel().clearSelection();
+			subjectInCreateExamComboBox.setPromptText("Select Subject");
+			subjectInCreateExamComboBox.setButtonCell(new ListCell<String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty || item == null) {
+						setText("Select Subject");
+					} else {
+						setText(item);
+					}
+				}
+			});
+			courseInCreateExamComboBox.getSelectionModel().clearSelection();
+			courseInCreateExamComboBox.setPromptText("Select Course");
+			courseInCreateExamComboBox.setButtonCell(new ListCell<String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty || item == null) {
+						setText("Select Course");
+					} else {
+						setText(item);
+					}
+				}
+			});
+			durationInCreateExamField.clear();
+		} else if (window.equals("second")) // clears the table in the second window
+			tableViewInCreateExamQuestion.getItems().clear();
+		else if (window.equals("third")) { // clears the the text fields in the third window
+			textAreaStudentsInCreateExam.clear();
+			textAreaTeachersInCreateExam.clear();
 		}
 	}
 
