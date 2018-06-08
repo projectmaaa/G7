@@ -746,6 +746,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	public void openExamManagement(ActionEvent event) {
 		try {
+			tableViewInExamsManagement.getItems().clear();
 			examManagementAnchorPane.setVisible(true);
 			backAnchorPane.setVisible(true);
 			createExamAnchorPane.setVisible(false);
@@ -828,9 +829,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
 				// check executionCode
 				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
-				WaitingActiveExam waitingActiveExam = new WaitingActiveExam(activeExam, Integer.parseInt(newDuration.getText()),reason.getText());
+				WaitingActiveExam waitingActiveExam = new WaitingActiveExam(activeExam,
+						Integer.parseInt(newDuration.getText()), reason.getText());
 				client.handleMessageFromClientUI(new WaitingActiveExamHandle("ChangeTime", waitingActiveExam));
-				//tableViewInExamsManagement.getItems().clear();
+				// tableViewInExamsManagement.getItems().clear();
 				Utilities.popUpMethod("Request sent to Principal!");
 				primaryStage.hide();
 			}
@@ -1171,6 +1173,17 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private void setSubjectComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
 		comboBox.setPromptText("Select Subject");
+		comboBox.setButtonCell(new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("Select Subject");
+				} else {
+					setText(item);
+				}
+			}
+		});
 		client.handleMessageFromClientUI(Message.getSubjects);
 		comboBox.setItems(client.getSubjectsFromDB());
 	}
