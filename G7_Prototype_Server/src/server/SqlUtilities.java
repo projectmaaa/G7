@@ -70,6 +70,10 @@ public class SqlUtilities {
 	public final static String INSERT_WaitingActiveExam = "INSERT INTO WaitingActiveExam VALUES (?, ?, ?, ?, ?, ?, ?);";
 	
 	public final static String SELECT_All_WaitingActiveExam = "SELECT * FROM WaitingActiveExam";
+	
+	public final static String CHANGE_ActiveExamDuration = "UPDATE ActiveExam SET duration=? WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
+	
+	public final static String REMOVE_WaitingActiveExam = "DELETE FROM WaitingActiveExam WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
 
 	// region Public Methods
 
@@ -333,6 +337,29 @@ public class SqlUtilities {
 		insert.executeUpdate();
 		insert.close();
 	}
+	
+	public static void changeTimeActiveExam(WaitingActiveExam waitingActiveExam, Connection connection) throws SQLException {
+		PreparedStatement insert = connection.prepareStatement(SqlUtilities.CHANGE_ActiveExamDuration);
+		insert.setInt(1, waitingActiveExam.getNewDuration());
+		insert.setString(2, waitingActiveExam.getActiveExam().getExam().getSubjectID());
+		insert.setString(3, waitingActiveExam.getActiveExam().getExam().getCourseID());
+		insert.setString(4, waitingActiveExam.getActiveExam().getExam().getExamNum());
+		insert.setString(5, waitingActiveExam.getActiveExam().getExecutionCode());
+		insert.executeUpdate();
+		insert.close();
+	}
+	
+	public static void removeWaitingActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
+			throws SQLException {
+		PreparedStatement remove = connection.prepareStatement(SqlUtilities.REMOVE_WaitingActiveExam);
+		remove.setString(1, waitingActiveExam.getActiveExam().getExam().getSubjectID());
+		remove.setString(2, waitingActiveExam.getActiveExam().getExam().getCourseID());
+		remove.setString(3, waitingActiveExam.getActiveExam().getExam().getExamNum());
+		remove.setString(4, waitingActiveExam.getActiveExam().getExecutionCode());
+		remove.executeUpdate();
+		closeResultSetAndStatement(null, null, remove);
+	}
+
 
 	/**
 	 * removes questions from DB

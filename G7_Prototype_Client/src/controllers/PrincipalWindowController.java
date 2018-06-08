@@ -1,4 +1,4 @@
-package controllers;
+ package controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -7,8 +7,10 @@ import client.Client;
 import client.MainAppClient;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -17,13 +19,19 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 import resources.Exam;
 import resources.Message;
 import resources.Question;
 import resources.Utilities;
 import resources.WaitingActiveExam;
+import resources.WaitingActiveExamHandle;
 
 public class PrincipalWindowController implements Initializable, IScreenController {
 
@@ -176,6 +184,15 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private TableColumn<WaitingActiveExam, String> reasonColInHandlingRequests;
 	
+	@FXML
+	private Button approveButtonInHandlingRequests;
+	
+	@FXML
+	private Button rejectButtonInHandlingRequests;
+	
+	@FXML
+	private ImageView refreshButtonInHandlingRequests;
+	
 
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
@@ -278,6 +295,46 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		welcomeAnchorPane.setVisible(false);
 		setTableInHandlingRequests();
 	}
+	
+	// approve button was pressed
+	
+	public void approveButtonHandle(ActionEvent event) {
+		Label text;
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("AES7");
+		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		Popup popup = new Popup();
+		popup.setX(700);
+		popup.setY(400);
+		HBox layout = new HBox(10);
+		text = new Label("Are you sure?");
+		popup.getContent().addAll(text);
+		Button yesButton = new Button("Yes");
+		yesButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				WaitingActiveExam waitingActiveExam = handlingRequestsTableView.getSelectionModel()
+						.getSelectedItem();
+				client.handleMessageFromClientUI(new WaitingActiveExamHandle("Approve", waitingActiveExam));
+				//handlingRequestsTableView.getItems().clear();
+				client.handleMessageFromClientUI(new WaitingActiveExamHandle("Remove", waitingActiveExam));
+				Utilities.popUpMethod("Exam duration changed successfully!");
+				setTableInHandlingRequests();
+				primaryStage.hide();
+			}
+		});
+		Button noButton = new Button("No");
+		noButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+			}
+		});
+		layout.getChildren().addAll(text, yesButton, noButton);
+		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+		primaryStage.setScene(new Scene(layout));
+		primaryStage.show();
+	}
 
 	/* --------------------- private methods ---------------------- */
 
@@ -351,5 +408,5 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 				.setCellValueFactory(new PropertyValueFactory<>("newDuration"));
 		reasonColInHandlingRequests.setCellValueFactory(new PropertyValueFactory<>("reason"));
 
-	}
+	}	
 }

@@ -138,6 +138,27 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
+			else if(waitingActiveExamHandle.getCommand().equals("Approve")) {
+				try {
+					SqlUtilities.changeTimeActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			else if(waitingActiveExamHandle.getCommand().equals("Remove")) {
+				try {
+					SqlUtilities.removeWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		} else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
