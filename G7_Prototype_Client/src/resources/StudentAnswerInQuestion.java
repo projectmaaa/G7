@@ -3,11 +3,11 @@ package resources;
 public class StudentAnswerInQuestion {
 
 	private String subjectID;
-	
+
 	private String questionNum;
-	
+
 	private String studentAnswer;
-	
+
 	private Student student;
 
 	public StudentAnswerInQuestion(String subjectID, String questionNum, String studentAnswer, Student student) {
@@ -48,6 +48,5 @@ public class StudentAnswerInQuestion {
 	public void setStudent(Student student) {
 		this.student = student;
 	}
-	
-	
+
 }

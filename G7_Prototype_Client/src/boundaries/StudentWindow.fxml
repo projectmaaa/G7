@@ -135,10 +135,17 @@
                   <VBox fx:id="examSheetVBox" prefHeight="400.0" prefWidth="574.0" />
                </content>
             </ScrollPane>
-            <Button layoutX="501.0" layoutY="461.0" mnemonicParsing="false" text="Sumbit Exam" />
+            <Button fx:id="sumbitExamButton" layoutX="501.0" layoutY="461.0" mnemonicParsing="false" onMouseClicked="#sumbitExam" text="Sumbit Exam" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="timerPane" layoutX="786.0" layoutY="65.0" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: white;" visible="false" />
+      <AnchorPane fx:id="timerPane" layoutX="786.0" layoutY="65.0" prefHeight="70.0" prefWidth="200.0" visible="false">
+         <children>
+            <Label layoutX="8.0" layoutY="13.0" prefHeight="45.0" prefWidth="185.0">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
       <ImageView blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="431.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/logo.jpg" />

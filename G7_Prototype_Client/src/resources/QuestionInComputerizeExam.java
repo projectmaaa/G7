@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 
-public class QuestionInExamGui {
+public class QuestionInComputerizeExam {
 
 	Label labelfirst;
 
@@ -20,13 +20,17 @@ public class QuestionInExamGui {
 
 	ObservableList<Node> list = FXCollections.observableArrayList();
 
-	public QuestionInExamGui(String questionText, String ans1, String ans2, String ans3, String ans4) {
+	public QuestionInComputerizeExam(String questionText, String ans1, String ans2, String ans3, String ans4) {
 
 		this.labelfirst = new Label(questionText);
 		this.radio1 = new RadioButton(ans1);
+		radio1.setUserData("1");
 		this.radio2 = new RadioButton(ans2);
+		radio2.setUserData("2");
 		this.radio3 = new RadioButton(ans3);
+		radio3.setUserData("3");
 		this.radio4 = new RadioButton(ans4);
+		radio4.setUserData("4");
 
 		this.radio1.setOnAction(e -> button.setDisable(false));
 		this.radio2.setOnAction(e -> button.setDisable(false));
@@ -39,7 +43,7 @@ public class QuestionInExamGui {
 		radio2.setToggleGroup(toggleGroup);
 		radio3.setToggleGroup(toggleGroup);
 		radio4.setToggleGroup(toggleGroup);
-		
+
 		button = new Button("Submit");
 		button.setDisable(true);
 		list.addAll(labelfirst, radio1, radio2, radio3, radio4);

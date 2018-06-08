@@ -1,5 +1,6 @@
 package resources;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,6 +34,12 @@ public class Utilities {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
 		return (dateFormat.format(date));
+	}
+
+	public static String getTime() {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH.mm.ss");
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		return (sdf.format(timestamp));
 	}
 
 	/**
