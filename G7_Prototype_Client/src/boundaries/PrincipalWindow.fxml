@@ -211,12 +211,12 @@
                   <InnerShadow choke="0.34" color="#51d329" />
                </effect>
             </Button>
-            <Button fx:id="rejectButtonInHandlingRequests" layoutX="534.0" layoutY="381.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" text="Reject">
+            <Button fx:id="rejectButtonInHandlingRequests" layoutX="534.0" layoutY="381.0" mnemonicParsing="false" onAction="#rejectButtonHandle" prefHeight="25.0" prefWidth="62.0" text="Reject">
                <effect>
                   <InnerShadow color="RED" />
                </effect>
             </Button>
-            <ImageView fx:id="refreshButtonInHandlingRequests" fitHeight="31.0" fitWidth="29.0" layoutX="469.0" layoutY="379.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="refreshButtonInHandlingRequests" fitHeight="31.0" fitWidth="29.0" layoutX="469.0" layoutY="379.0" onMouseClicked="#refreshButtonHandle" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/refresh.png" />
                </image>

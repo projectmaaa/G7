@@ -21,6 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -334,6 +335,50 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
+	}
+	
+	// reject button was pressed
+	
+	public void rejectButtonHandle(ActionEvent event) {
+		Label text;
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("AES7");
+		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		Popup popup = new Popup();
+		popup.setX(700);
+		popup.setY(400);
+		HBox layout = new HBox(10);
+		text = new Label("Are you sure?");
+		popup.getContent().addAll(text);
+		Button yesButton = new Button("Yes");
+		yesButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				WaitingActiveExam waitingActiveExam = handlingRequestsTableView.getSelectionModel()
+						.getSelectedItem();
+				client.handleMessageFromClientUI(new WaitingActiveExamHandle("Remove", waitingActiveExam));
+				Utilities.popUpMethod("Request rejected! Message was sent to Teacher.");
+				setTableInHandlingRequests();
+				primaryStage.hide();
+			}
+		});
+		Button noButton = new Button("No");
+		noButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+			}
+		});
+		layout.getChildren().addAll(text, yesButton, noButton);
+		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+		primaryStage.setScene(new Scene(layout));
+		primaryStage.show();
+	}
+	
+	// reject button was pressed
+	
+	public void refreshButtonHandle(MouseEvent event) {
+		setTableInHandlingRequests();
 	}
 
 	/* --------------------- private methods ---------------------- */
