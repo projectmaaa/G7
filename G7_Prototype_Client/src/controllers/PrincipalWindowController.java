@@ -194,7 +194,39 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private ImageView refreshButtonInHandlingRequests;
 	
+	// teacher report
+	
+	@FXML
+	private AnchorPane teacherReportAnchorPane;
+	
+	@FXML
+	private ComboBox<String> selectTeacherComboBoxInTeacherReport;
+	
+	// course report
+	
+	@FXML
+	private AnchorPane courseReportAnchorPane;
+	
+	@FXML
+	private ComboBox<String> selectSubjectComboBoxInTeacherReport;
+	
+	@FXML
+	private ComboBox<String> selectCourseComboBoxInTeacherReport;
+	
+	// student report
+	
+	@FXML
+	private AnchorPane studentReportAnchorPane;
+	
+	@FXML
+	private ComboBox<String> selectStudentComboBoxInTeacherReport;
+	
+	/***********************************************************************************************************/
 
+	
+	/* --------------------- setters & getters ---------------------- */
+	
+	
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
 		screensController = screenParent;
@@ -216,13 +248,12 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		this.lastName = lastName;
 	}
 
-	/* --------------------- setters & getters ---------------------- */
 
 	public void setName() {
 		name.setText(firstName + " " + lastName);
 	}
 
-	/* --------------------- public methods ---------------------- */
+	/* ---------------------------------- public methods --------------------------------- */
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -258,10 +289,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	// question tab was pressed
 
 	public void openQuestionPool(ActionEvent event) {
+		setAnchorPanesFalse();
 		questionsPoolAnchorPane.setVisible(true);
-		welcomeAnchorPane.setVisible(false);
-		examsPoolAnchorPane.setVisible(false);
-		handlingRequestsAnchorPane.setVisible(false);
 		setSubjectComboBox(subjectComboBoxInQuestionsPool);
 	}
 
@@ -274,10 +303,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	// exam pool tab was pressed
 
 	public void openExamPool(ActionEvent event) {
+		setAnchorPanesFalse();
 		examsPoolAnchorPane.setVisible(true);
-		questionsPoolAnchorPane.setVisible(false);
-		welcomeAnchorPane.setVisible(false);
-		handlingRequestsAnchorPane.setVisible(false);
 		setSubjectComboBox(subjectComboBoxInExamPool);
 	}
 	
@@ -290,10 +317,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	// handling requests tab was pressed
 	
 	public void openHandlingRequests(ActionEvent event) {
+		setAnchorPanesFalse();
 		handlingRequestsAnchorPane.setVisible(true);
-		examsPoolAnchorPane.setVisible(false);
-		questionsPoolAnchorPane.setVisible(false);
-		welcomeAnchorPane.setVisible(false);
 		setTableInHandlingRequests();
 	}
 	
@@ -375,13 +400,32 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		primaryStage.show();
 	}
 	
-	// reject button was pressed
+	// refresh button was pressed
 	
 	public void refreshButtonHandle(MouseEvent event) {
 		setTableInHandlingRequests();
 	}
+	
+	public void openTeacherReport(ActionEvent event) {
+		setAnchorPanesFalse();
+		teacherReportAnchorPane.setVisible(true);
+	}
+	
+	public void openCourseReport(ActionEvent event) {
+		setAnchorPanesFalse();
+		courseReportAnchorPane.setVisible(true);
+		setSubjectComboBox(selectSubjectComboBoxInTeacherReport);
+		
+	}
+	
+	public void openStudentReport(ActionEvent event) {
+		setAnchorPanesFalse();
+		studentReportAnchorPane.setVisible(true);
+	}
+	
+	
 
-	/* --------------------- private methods ---------------------- */
+	/* -------------------------------- private methods ----------------------------------- */
 
 	private void setSubjectComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
@@ -454,4 +498,14 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		reasonColInHandlingRequests.setCellValueFactory(new PropertyValueFactory<>("reason"));
 
 	}	
+	
+	private void setAnchorPanesFalse() {
+		teacherReportAnchorPane.setVisible(false);
+		handlingRequestsAnchorPane.setVisible(false);
+		examsPoolAnchorPane.setVisible(false);
+		questionsPoolAnchorPane.setVisible(false);
+		welcomeAnchorPane.setVisible(false);
+		courseReportAnchorPane.setVisible(false);
+		studentReportAnchorPane.setVisible(false);
+	}
 }
