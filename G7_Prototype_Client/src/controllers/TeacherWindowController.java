@@ -820,8 +820,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		executionCode = new TextField();
 		executionCode.setPrefWidth(50);
 		executionCode.setEditable(true);
-		TextField newDuration = new TextField("Enter new time here.");
-		TextField reason = new TextField("Enter reason here.");
+		TextField newDuration = new TextField();
+		newDuration.setPromptText("Enter new time here.");
+		TextField reason = new TextField();
+		reason.setPromptText("Enter reason here.");
 		popup.getContent().addAll(text, reason);
 		// newDuration.setPrefWidth(45);
 		newDuration.setEditable(true);
