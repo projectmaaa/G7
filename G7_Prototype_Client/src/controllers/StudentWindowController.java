@@ -23,6 +23,7 @@ import resources.QuestionInExam;
 import resources.Student;
 import resources.StudentAnswerInQuestion;
 import resources.StudentInActiveExam;
+import resources.StudentInActiveExamHandle;
 import resources.SubmittedExam;
 import resources.SubmittedExamHandle;
 import resources.Utilities;
@@ -179,6 +180,8 @@ public class StudentWindowController implements Initializable, IScreenController
 			if (examIDTextField.getText().equals(client.getId())) {
 				studentInActiveExam = new StudentInActiveExam(new Student(client.getId(), firstName, lastName),
 						activeExam);
+				client.handleMessageFromClientUI(
+						new StudentInActiveExamHandle(Message.studentInActiveExam, studentInActiveExam));
 				checkIDComputerizeExamButton.setDisable(true);
 				examIDTextField.setDisable(true);
 				examTextName.setText(firstName + " " + lastName);

@@ -37,7 +37,7 @@ public class Utilities {
 	}
 
 	public static String getTime() {
-		SimpleDateFormat sdf = new SimpleDateFormat("HH.mm.ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		return (sdf.format(timestamp));
 	}

@@ -3,7 +3,7 @@ package resources;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class QuestionsHandle implements Serializable {
+public class QuestionHandle implements Serializable {
 
 	/**
 	 * 
@@ -16,12 +16,12 @@ public class QuestionsHandle implements Serializable {
 
 	private Question question;
 
-	public QuestionsHandle(String command, Question question) {
+	public QuestionHandle(String command, Question question) {
 		this.command = command;
 		this.question = question;
 	}
 
-	public QuestionsHandle(String command, ArrayList<Question> questionArray) {
+	public QuestionHandle(String command, ArrayList<Question> questionArray) {
 		this.command = command;
 		this.questionArray = questionArray;
 	}

@@ -428,7 +428,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			}
 			updateDB.add(question);
 		}
-		client.handleMessageFromClientUI(new QuestionsHandle("All", updateDB));
+		client.handleMessageFromClientUI(new QuestionHandle("All", updateDB));
 		Utilities.popUpMethod("Question updated successfully");
 	}
 
@@ -461,7 +461,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 						.getSelectedItems();
 				ArrayList<Question> questions = new ArrayList<Question>();
 				questions.addAll(selectedQuestions);
-				client.handleMessageFromClientUI(new QuestionsHandle("Delete", questions));
+				client.handleMessageFromClientUI(new QuestionHandle("Delete", questions));
 				tableViewInEditOrRemove.getItems().clear();
 				setQuestionsTableInfoInEditOrRemove();
 			}
@@ -609,7 +609,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				questionTextField.getText(), firstAnswerField.getText(), secondAnswerField.getText(),
 				thirdAnswerField.getText(), fourthAnswerField.getText(), correctAnswerComboBox.getValue());
 		client.setQuestion(question);
-		client.handleMessageFromClientUI(new QuestionsHandle("Add", question));
+		client.handleMessageFromClientUI(new QuestionHandle("Add", question));
 		Utilities.popUpMethod("Question Added successfully");
 		clearAddQuestionFields();
 	}

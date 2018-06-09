@@ -245,8 +245,8 @@ public class Client extends AbstractClient implements IScreenController {
 			case Message.getQuestionBySubject:
 				break;
 			}
-		} else if (msg instanceof QuestionsHandle) {
-			QuestionsHandle questionsHandle = (QuestionsHandle) msg;
+		} else if (msg instanceof QuestionHandle) {
+			QuestionHandle questionsHandle = (QuestionHandle) msg;
 			if (questionsHandle.getQuestionArray().isEmpty()) // if the table in the DB is empty
 				return;
 			else if (questionsHandle.getCommand().equals("All")) /* if it's from the questions table */

@@ -38,6 +38,8 @@ public class Message {
 
 	public final static String getWaitingActiveExams = "#WaitingActiveExams";
 
+	public final static String studentInActiveExam = "#StudentInActiveExam";
+
 	// end region -> Constants
 
 }

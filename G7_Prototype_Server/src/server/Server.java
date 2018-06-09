@@ -63,8 +63,8 @@ public class Server extends AbstractServer {
 		if (msg == null) {
 			System.out.println("error window");
 			return;
-		} else if (msg instanceof QuestionsHandle) {
-			QuestionsHandle questionsHandle = (QuestionsHandle) msg;
+		} else if (msg instanceof QuestionHandle) {
+			QuestionHandle questionsHandle = (QuestionHandle) msg;
 			if (questionsHandle.getCommand().equals("Delete")) { // question to remove
 				try {
 					SqlUtilities.removeQuestions(questionsHandle.getQuestionArray(), connection);
@@ -132,6 +132,16 @@ public class Server extends AbstractServer {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		} else if (msg instanceof StudentInActiveExamHandle) {
+			StudentInActiveExamHandle studentInActiveExamHandle = (StudentInActiveExamHandle) msg;
+			if (studentInActiveExamHandle.getCommand().equals(Message.studentInActiveExam)) {
+				try {
+					SqlUtilities.Insert_StudentInActiveExam(studentInActiveExamHandle.getStudentInActiveExam(),
+							connection);
+				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			}

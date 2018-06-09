@@ -77,6 +77,8 @@ public class SqlUtilities {
 
 	public final static String INSERT_StudentAnswerInQuestion = "INSERT INTO StudentAnswerInQuestion VALUES(?, ?, ?, ?, ?);";
 
+	public final static String INSERT_StudentInActiveExam = "INSERT INTO StudentInActiveExam VALUES(?, ?, ?, ?, ?, ?, ?);";
+
 	// region Public Methods
 
 	// end region -> Constants
@@ -146,6 +148,12 @@ public class SqlUtilities {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param submittedExam
+	 * @param connection
+	 * @throws SQLException
+	 */
 	public static void Insert_StudentAnswerInQuestion(SubmittedExam submittedExam, Connection connection)
 			throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(INSERT_StudentAnswerInQuestion);
@@ -161,6 +169,26 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * 
+	 * @param studentInActiveExam
+	 * @param connection
+	 * @throws SQLException
+	 */
+	public static void Insert_StudentInActiveExam(StudentInActiveExam studentInActiveExam, Connection connection)
+			throws SQLException {
+		PreparedStatement preparedStatement = connection.prepareStatement(INSERT_StudentInActiveExam);
+		preparedStatement.setString(1, studentInActiveExam.getStudent().getId());
+		preparedStatement.setString(2, studentInActiveExam.getActiveExam().getExam().getSubjectID());
+		preparedStatement.setString(3, studentInActiveExam.getActiveExam().getExam().getCourseID());
+		preparedStatement.setString(4, studentInActiveExam.getActiveExam().getExam().getExamNum());
+		preparedStatement.setString(5, studentInActiveExam.getActiveExam().getExecutionCode());
+		preparedStatement.setString(6, studentInActiveExam.getDate());
+		preparedStatement.setString(7, studentInActiveExam.getStartedTime());
+		preparedStatement.executeUpdate();
+		closeResultSetAndStatement(null, null, preparedStatement);
+	}
+
+	/**
 	 * returns the whole table of questions of the specific author (the user) for
 	 * the table view when edit\remove is pressed
 	 * 
@@ -169,7 +197,7 @@ public class SqlUtilities {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static QuestionsHandle getQuestions(String author, String subject, Connection connection)
+	public static QuestionHandle getQuestions(String author, String subject, Connection connection)
 			throws SQLException {
 		ArrayList<Question> questions = new ArrayList<Question>();
 		ArrayList<String> possibleAnswers = new ArrayList<String>(4);
@@ -192,10 +220,10 @@ public class SqlUtilities {
 			index = 0;
 		}
 		closeResultSetAndStatement(rs, null, statement);
-		return (new QuestionsHandle("All", questions));
+		return (new QuestionHandle("All", questions));
 	}
 
-	public static QuestionsHandle getQuestionsBySubject(Connection connection, String subject) throws SQLException {
+	public static QuestionHandle getQuestionsBySubject(Connection connection, String subject) throws SQLException {
 		ArrayList<Question> questionsBySubject = new ArrayList<Question>();
 		ArrayList<String> possibleAnswers = new ArrayList<String>(4);
 		PreparedStatement statement = connection.prepareStatement(SqlUtilities.GetQuestionBySubject);
@@ -216,7 +244,7 @@ public class SqlUtilities {
 			index = 0;
 		}
 		closeResultSetAndStatement(rs, null, statement);
-		return (new QuestionsHandle("Subject", questionsBySubject));
+		return (new QuestionHandle("Subject", questionsBySubject));
 	}
 
 	public static ExamHandle getExamsBySubject(Connection connection, String subject) throws SQLException {
