@@ -10,6 +10,13 @@ public class StudentAnswerInQuestion {
 
 	private Student student;
 
+	/**
+	 * 
+	 * @param subjectID
+	 * @param questionNum
+	 * @param studentAnswer
+	 * @param student
+	 */
 	public StudentAnswerInQuestion(String subjectID, String questionNum, String studentAnswer, Student student) {
 		this.subjectID = subjectID;
 		this.questionNum = questionNum;

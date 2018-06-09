@@ -99,15 +99,18 @@ public class ServerController implements Initializable {
 	}
 
 	public void turnOnOffServer(MouseEvent event) {
-		if (serverButton.getText().equals("Off")) {
-			translateAnimationServer.setByX(50);
-			serverButton.setText("On");
-			try {
-				server.listen(); // Start listening for connections
-			} catch (Exception ex) {
-				System.out.println("ERROR - Could not listen for clients!");
+		if (serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX() == 602.3999981731176) {
+			if (serverButton.getText().equals("Off")) {
+				translateAnimationServer.setByX(50);
+				serverButton.setText("On");
+				try {
+					server.listen(); // Start listening for connections
+				} catch (Exception ex) {
+					System.out.println("ERROR - Could not listen for clients!");
+				}
 			}
-		} else {
+		} else if (serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX() == 652.3999959677458) {
+
 			translateAnimationServer.setByX(-50);
 			serverButton.setText("Off");
 			try {
@@ -117,26 +120,33 @@ public class ServerController implements Initializable {
 			}
 		}
 		translateAnimationServer.play();
+		// System.out.println(serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX());
+
 	}
 
 	public void turnOnOffDB(MouseEvent event) {
-		if (dbButton.getText().equals("Off")) {
-			translateAnimationDB.setByX(50);
-			server.setConnection(SqlUtilities.connection(server.getUserNameDBcon(), server.getPassWordDBcon()));
-			dbButton.setText("On");
-		} else {
-			translateAnimationDB.setByX(-50);
-			dbButton.setText("Off");
-			try {
-				if (!server.getConnection().isClosed()) {
-					server.getConnection().close();
-					System.out.println("db connection closed");
+		if (dbButton.localToScreen(dbButton.getBoundsInLocal()).getMinX() == 602.3999981731176) {
+			if (dbButton.getText().equals("Off")) {
+				translateAnimationDB.setByX(50);
+				server.setConnection(SqlUtilities.connection(server.getUserNameDBcon(), server.getPassWordDBcon()));
+				dbButton.setText("On");
+			}
+		} else if (dbButton.localToScreen(dbButton.getBoundsInLocal()).getMinX() == 652.3999959677458) {
+			if (dbButton.getText().equals("On")) {
+				translateAnimationDB.setByX(-50);
+				dbButton.setText("Off");
+				try {
+					if (!server.getConnection().isClosed()) {
+						server.getConnection().close();
+						System.out.println("db connection closed");
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
 				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
 			}
 		}
 		translateAnimationDB.play();
+		// System.out.println(dbButton.localToScreen(dbButton.getBoundsInLocal()).getMinX());
 	}
 
 	private void clearSettings() {

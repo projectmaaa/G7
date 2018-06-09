@@ -9,17 +9,22 @@ public class SubmittedExam implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private ArrayList<StudentAnswerInQuestion> answers;
-	
+
 	private int grade;
-	
+
 	private int timeToSolve;
-	
+
 	private StudentInActiveExam studentInActiveExam;
 
-	public SubmittedExam(ArrayList<StudentAnswerInQuestion> answers, int timeToSolve,
-			StudentInActiveExam studentInActiveExam) {
+	/**
+	 * 
+	 * @param answers
+	 * @param timeToSolve
+	 * @param studentInActiveExam
+	 */
+	public SubmittedExam(int timeToSolve, StudentInActiveExam studentInActiveExam) {
 		this.answers = new ArrayList<StudentAnswerInQuestion>();
 		this.timeToSolve = timeToSolve;
 		this.studentInActiveExam = studentInActiveExam;
@@ -29,7 +34,7 @@ public class SubmittedExam implements Serializable {
 		return answers;
 	}
 
-	public void setAnswer(StudentAnswerInQuestion answer) {
+	public void addAnswer(StudentAnswerInQuestion answer) {
 		answers.add(answer);
 	}
 
@@ -57,5 +62,18 @@ public class SubmittedExam implements Serializable {
 		this.studentInActiveExam = studentInActiveExam;
 	}
 
+	@Override
+	public String toString() {
+		return "SubmittedExam \n" + answerString();
+	}
+
+	private String answerString() {
+		String string = "";
+		for (StudentAnswerInQuestion studentAnswerInQuestion : answers) {
+			string += "Question : " + studentAnswerInQuestion.getQuestionNum() + ", Answer : "
+					+ studentAnswerInQuestion.getStudentAnswer() + "\n";
+		}
+		return string;
+	}
 
 }

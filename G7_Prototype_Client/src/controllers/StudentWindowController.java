@@ -19,7 +19,9 @@ import resources.ActiveExam;
 import resources.Message;
 import resources.QuestionInExam;
 import resources.Student;
+import resources.StudentAnswerInQuestion;
 import resources.StudentInActiveExam;
+import resources.SubmittedExam;
 import resources.QuestionInComputerizeExam;
 import resources.Utilities;
 
@@ -97,6 +99,8 @@ public class StudentWindowController implements Initializable, IScreenController
 	/*********************************************************/
 
 	private StudentInActiveExam studentInActiveExam;
+
+	private SubmittedExam submittedExam;
 
 	/*********************************************************/
 
@@ -197,11 +201,15 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	public void sumbitExam(MouseEvent mouseEvent) {
+		submittedExam = new SubmittedExam(10, studentInActiveExam);
+		int num = 0;
 		for (QuestionInComputerizeExam questionInComputerizeExam : QuestionInComputerizeExamArray) {
-			System.out.println(questionInComputerizeExam.getToggleGroup().getSelectedToggle().getUserData());
-
-			// ;
+			submittedExam
+					.addAnswer(new StudentAnswerInQuestion(activeExam.getExam().getSubjectID(), Integer.toString(++num),
+							questionInComputerizeExam.getToggleGroup().getSelectedToggle().getUserData().toString(),
+							studentInActiveExam.getStudent()));
 		}
+		//System.out.println(submittedExam);
 	}
 
 	/**
