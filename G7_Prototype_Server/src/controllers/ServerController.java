@@ -52,6 +52,12 @@ public class ServerController implements Initializable {
 
 	private Boolean turnSettings = false;
 
+	private Boolean saveX = false;
+
+	private double startX;
+
+	private double endX;
+
 	private TranslateTransition translateAnimationServer = new TranslateTransition(Duration.seconds(0.25));
 
 	private TranslateTransition translateAnimationDB = new TranslateTransition(Duration.seconds(0.25));
@@ -99,7 +105,11 @@ public class ServerController implements Initializable {
 	}
 
 	public void turnOnOffServer(MouseEvent event) {
-		if (serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX() == 602.3999981731176) {
+		if (!saveX) {
+			setX();
+		}
+		if ((serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX() <= startX + 5)
+				&& (serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX() >= startX - 5)) {
 			if (serverButton.getText().equals("Off")) {
 				translateAnimationServer.setByX(50);
 				serverButton.setText("On");
@@ -109,8 +119,8 @@ public class ServerController implements Initializable {
 					System.out.println("ERROR - Could not listen for clients!");
 				}
 			}
-		} else if (serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX() == 652.3999959677458) {
-
+		} else if ((serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX() <= endX + 5)
+				&& (serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX() >= endX - 5)) {
 			translateAnimationServer.setByX(-50);
 			serverButton.setText("Off");
 			try {
@@ -121,17 +131,21 @@ public class ServerController implements Initializable {
 		}
 		translateAnimationServer.play();
 		// System.out.println(serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX());
-
 	}
 
 	public void turnOnOffDB(MouseEvent event) {
-		if (dbButton.localToScreen(dbButton.getBoundsInLocal()).getMinX() == 602.3999981731176) {
+		if (!saveX) {
+			setX();
+		}
+		if ((dbButton.localToScreen(dbButton.getBoundsInLocal()).getMinX() <= startX + 5)
+				&& (dbButton.localToScreen(dbButton.getBoundsInLocal()).getMinX() >= startX - 5)) {
 			if (dbButton.getText().equals("Off")) {
 				translateAnimationDB.setByX(50);
 				server.setConnection(SqlUtilities.connection(server.getUserNameDBcon(), server.getPassWordDBcon()));
 				dbButton.setText("On");
 			}
-		} else if (dbButton.localToScreen(dbButton.getBoundsInLocal()).getMinX() == 652.3999959677458) {
+		} else if ((dbButton.localToScreen(dbButton.getBoundsInLocal()).getMinX() <= endX + 5)
+				&& (dbButton.localToScreen(dbButton.getBoundsInLocal()).getMinX() >= endX - 5)) {
 			if (dbButton.getText().equals("On")) {
 				translateAnimationDB.setByX(-50);
 				dbButton.setText("Off");
@@ -153,6 +167,13 @@ public class ServerController implements Initializable {
 		portField.setText(null);
 		dbUserNameField.setText(null);
 		dbPasswordField.setText(null);
+	}
+
+	private void setX() {
+		saveX = true;
+		startX = serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX();
+		endX = serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX() + 50;
+		System.out.println(startX + ", " + endX);
 	}
 
 	@Override

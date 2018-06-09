@@ -127,6 +127,8 @@ public class StudentWindowController implements Initializable, IScreenController
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
