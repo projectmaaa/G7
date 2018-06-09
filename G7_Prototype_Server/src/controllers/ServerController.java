@@ -173,7 +173,6 @@ public class ServerController implements Initializable {
 		saveX = true;
 		startX = serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX();
 		endX = serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX() + 50;
-		System.out.println(startX + ", " + endX);
 	}
 
 	@Override
