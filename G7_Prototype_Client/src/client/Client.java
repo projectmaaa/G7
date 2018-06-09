@@ -31,7 +31,7 @@ public class Client extends AbstractClient implements IScreenController {
 	private ObservableList<String> subjectsFromDB = FXCollections.observableArrayList();
 
 	private ObservableList<String> coursesFromDB = FXCollections.observableArrayList();
-	
+
 	private ObservableList<WaitingActiveExam> WaitingActiveExamsFromDB = FXCollections.observableArrayList();
 
 	private ScreensController controller;
@@ -182,7 +182,7 @@ public class Client extends AbstractClient implements IScreenController {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	public ObservableList<WaitingActiveExam> getWaitingActiveExamsFromDB() {
 		return WaitingActiveExamsFromDB;
 	}
@@ -233,6 +233,12 @@ public class Client extends AbstractClient implements IScreenController {
 				studentWindowController.setLastName(lastName);
 				studentWindowController.setName();
 				break;
+			case "#ChangeTime":
+				if (studentWindowController.getActiveExam().getExecutionCode().equals(strArray[1])) {
+					studentWindowController.getActiveExam().setDuration(Integer.parseInt(strArray[2]));
+					studentWindowController.setSecondTimer();
+				}
+				break;
 			case "#TableSaved":
 				System.out.println("Data Base Updated successfully");
 				break;
@@ -257,6 +263,7 @@ public class Client extends AbstractClient implements IScreenController {
 		} else if (msg instanceof ActiveExamHandle) {
 			ActiveExamHandle activeExamsHandle = (ActiveExamHandle) msg;
 			studentWindowController.setActiveExam(activeExamsHandle.getActiveExam());
+			studentWindowController.setTimer();
 			// System.out.println(studentWindowController.getActiveExam());
 		} else if (msg instanceof ExamHandle) {
 			ExamHandle examsHandle = (ExamHandle) msg;
@@ -270,9 +277,9 @@ public class Client extends AbstractClient implements IScreenController {
 			else if (typeHandle.getCommand().equals("Courses")) {
 				setCoursesFromDB(typeHandle.getTypes());
 			}
-		} else if(msg instanceof WaitingActiveExamHandle) {
+		} else if (msg instanceof WaitingActiveExamHandle) {
 			WaitingActiveExamHandle waitingActiveExamHandle = (WaitingActiveExamHandle) msg;
-			if(waitingActiveExamHandle.getCommand().equals("AllWaiting"))
+			if (waitingActiveExamHandle.getCommand().equals("AllWaiting"))
 				setWaitingActiveExamsFromDB(waitingActiveExamHandle.getWaitingActiveExams());
 		}
 	}
@@ -302,7 +309,6 @@ public class Client extends AbstractClient implements IScreenController {
 		}
 		System.exit(0);
 	}
-
 
 	// end region -> Public Methods
 

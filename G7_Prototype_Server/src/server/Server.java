@@ -150,21 +150,25 @@ public class Server extends AbstractServer {
 			if (waitingActiveExamHandle.getCommand().equals("ChangeTime")) {
 				try {
 					SqlUtilities.insertWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
-					client.sendToClient(Message.tableSaved);
+					// client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
+				// catch (IOException e) {
+				// e.printStackTrace();
+				// }
 			} else if (waitingActiveExamHandle.getCommand().equals("Approve")) {
 				try {
-					SqlUtilities.changeTimeActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
-					client.sendToClient(Message.tableSaved);
+					sendToAllClients("#ChangeTime" + " " + SqlUtilities
+							.changeTimeActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection));
+					// client.sendToClient();
+					// client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
+				// catch (IOException e) {
+				// e.printStackTrace();
+				// }
 			}
 
 			else if (waitingActiveExamHandle.getCommand().equals("Remove")) {

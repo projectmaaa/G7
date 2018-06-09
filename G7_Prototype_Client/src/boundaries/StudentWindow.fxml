@@ -26,10 +26,10 @@
             <Blend opacity="0.0" />
          </effect>
       </ImageView>
-      <Button fx:id="logoutButton" layoutX="932.0" layoutY="12.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
+      <Button fx:id="logoutButton" layoutX="932.0" layoutY="13.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
       <AnchorPane fx:id="welcomeAnchorPane" layoutX="542.0" layoutY="42.0" prefHeight="168.0" prefWidth="344.0" rotate="18.0">
          <children>
-            <Text fx:id="welcomeText" fill="#111111" layoutX="97.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="139.52104949951172">
+            <Text fx:id="welcomeText" fill="#111111" layoutX="7.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="139.52104949951172">
                <font>
                   <Font size="30.0" />
                </font>
@@ -39,7 +39,7 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text fx:id="name" layoutX="11.0" layoutY="132.0" rotate="1.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="327.23929388821125">
+            <Text fx:id="name" layoutX="8.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="327.23929388821125">
                <font>
                   <Font size="35.0" />
                </font>
@@ -124,28 +124,24 @@
       <AnchorPane fx:id="computerizeExamPane" layoutX="30.0" layoutY="65.0" prefHeight="500.0" prefWidth="600.0" visible="false">
          <children>
             <TextField fx:id="examIDTextField" layoutX="14.0" layoutY="14.0" promptText="ID" />
-            <Button fx:id="checkIDComputerizeExamButton" layoutX="183.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#checkExamID" text="Check" />
-            <Text fx:id="examTextName" layoutX="400.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="185.00000607967377">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
+            <Button fx:id="enterIDComputerizeExamButton" layoutX="183.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#checkExamID" text="Enter" />
             <ScrollPane layoutX="14.0" layoutY="50.0">
                <content>
                   <VBox fx:id="examSheetVBox" prefHeight="400.0" prefWidth="574.0" />
                </content>
             </ScrollPane>
             <Button fx:id="sumbitExamButton" layoutX="501.0" layoutY="461.0" mnemonicParsing="false" onMouseClicked="#sumbitExam" text="Sumbit Exam" />
+            <AnchorPane fx:id="timerPane" layoutX="280.0" prefHeight="70.0" prefWidth="160.0">
+               <children>
+                  <Text fx:id="timerDisplay" fill="WHITE" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="199.99998807907104">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="timerPane" layoutX="786.0" layoutY="65.0" prefHeight="70.0" prefWidth="200.0" visible="false">
-         <children>
-            <Label layoutX="8.0" layoutY="13.0" prefHeight="45.0" prefWidth="185.0">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Label>
-         </children></AnchorPane>
       <ImageView blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="431.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/logo.jpg" />

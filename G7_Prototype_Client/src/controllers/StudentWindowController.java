@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 import boundaries.QuestionInComputerizeExam;
 import client.Client;
 import client.MainAppClient;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import resources.ActiveExam;
 import resources.Message;
 import resources.QuestionInExam;
@@ -86,10 +89,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	private TextField examIDTextField;
 
 	@FXML
-	private Text examTextName;
-
-	@FXML
-	private Button checkIDComputerizeExamButton;
+	private Button enterIDComputerizeExamButton;
 
 	@FXML
 	private VBox examSheetVBox;
@@ -110,6 +110,13 @@ public class StudentWindowController implements Initializable, IScreenController
 	@FXML
 	private AnchorPane timerPane;
 
+	@FXML
+	private Text timerDisplay;
+
+	private int secondTimer;
+
+	/*********************************************************/
+
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
 		screensController = screenParent;
@@ -129,6 +136,25 @@ public class StudentWindowController implements Initializable, IScreenController
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public int getSecondTimer() {
+		return secondTimer;
+	}
+
+	public void setSecondTimer() {
+		int time = activeExam.getDuration() * 60;
+		if (time - activeExam.getExam().getExamDuration() * 60 > 0) {
+			this.secondTimer += (time - activeExam.getExam().getExamDuration() * 60);
+		} else {
+			int subTime = activeExam.getExam().getExamDuration() * 60 - time;
+			if (secondTimer > subTime) {
+				secondTimer -= subTime;
+			} else {
+				secondTimer = 0;
+			}
+		}
+		System.out.println(secondTimer);
 	}
 
 	@Override
@@ -173,18 +199,19 @@ public class StudentWindowController implements Initializable, IScreenController
 	public void openManualExamHandler(ActionEvent event) {
 		turnOffAllPane();
 		manualExamAnchorPane.setVisible(true);
+		welcomeAnchorPane.setVisible(true);
 	}
 
 	public void checkExamID(MouseEvent e) {
 		if (!examIDTextField.getText().isEmpty()) {
 			if (examIDTextField.getText().equals(client.getId())) {
+				startTimer();
 				studentInActiveExam = new StudentInActiveExam(new Student(client.getId(), firstName, lastName),
 						activeExam);
 				client.handleMessageFromClientUI(
 						new StudentInActiveExamHandle(Message.studentInActiveExam, studentInActiveExam));
-				checkIDComputerizeExamButton.setDisable(true);
+				enterIDComputerizeExamButton.setDisable(true);
 				examIDTextField.setDisable(true);
-				examTextName.setText(firstName + " " + lastName);
 				int index = 0;
 				for (QuestionInExam questionInExam : activeExam.getExam().getQuestions()) {
 					QuestionInComputerizeExam questionInComputerizeExam = new QuestionInComputerizeExam(
@@ -235,16 +262,37 @@ public class StudentWindowController implements Initializable, IScreenController
 		computerizedExamAnchorPane.setVisible(true);
 	}
 
+	public void setTimer() {
+		secondTimer = activeExam.getDuration() * 60;
+		timerDisplay.setText(
+				String.format("%02d:%02d:%02d", secondTimer / 3600, (secondTimer % 3600) / 60, secondTimer % 60));
+	}
+
 	public void checkExecutionCode(MouseEvent event) {
 		String code = executionCodeTextField.getText();
 		if (code != null) {
 			client.handleMessageFromClientUI(Message.getExecutionCode + " " + code);
 			turnOffAllPane();
 			computerizeExamPane.setVisible(true);
+			welcomeAnchorPane.setVisible(true);
 			timerPane.setVisible(true);
 		} else {
 			Utilities.popUpMethod("Please Enter Execution Code");
 		}
+	}
+
+	/**
+	 * 
+	 * @param time
+	 */
+	private void startTimer() {
+		Timeline stopWatchTimeline = new Timeline(new KeyFrame(Duration.seconds(1), (ActionEvent event) -> {
+			if (secondTimer-- > 0)
+				timerDisplay.setText(String.format("%02d:%02d:%02d", secondTimer / 3600, (secondTimer % 3600) / 60,
+						secondTimer % 60));
+		}));
+		stopWatchTimeline.setCycleCount(Timeline.INDEFINITE);
+		stopWatchTimeline.play();
 	}
 
 	/**

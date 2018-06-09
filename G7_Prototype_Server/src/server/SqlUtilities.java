@@ -75,7 +75,7 @@ public class SqlUtilities {
 
 	public final static String REMOVE_WaitingActiveExam = "DELETE FROM WaitingActiveExam WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
 
-	public final static String INSERT_StudentAnswerInQuestion = "INSERT INTO StudentAnswerInQuestion VALUES(?, ?, ?, ?, ?);";
+	public final static String INSERT_StudentAnswerInQuestion = "INSERT INTO StudentAnswerInQuestion VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
 
 	public final static String INSERT_StudentInActiveExam = "INSERT INTO StudentInActiveExam VALUES(?, ?, ?, ?, ?, ?, ?);";
 
@@ -160,9 +160,14 @@ public class SqlUtilities {
 		for (StudentAnswerInQuestion studentAnswerInQuestion : submittedExam.getAnswers()) {
 			preparedStatement.setString(1, studentAnswerInQuestion.getStudent().getId());
 			preparedStatement.setString(2, studentAnswerInQuestion.getSubjectID());
-			preparedStatement.setString(3, studentAnswerInQuestion.getQuestionNum());
-			preparedStatement.setString(4, studentAnswerInQuestion.getQuestionOrderInExam());
-			preparedStatement.setString(5, studentAnswerInQuestion.getStudentAnswer());
+			preparedStatement.setString(3,
+					submittedExam.getStudentInActiveExam().getActiveExam().getExam().getCourseID());
+			preparedStatement.setString(4,
+					submittedExam.getStudentInActiveExam().getActiveExam().getExam().getExamNum());
+			preparedStatement.setString(5, submittedExam.getStudentInActiveExam().getActiveExam().getExecutionCode());
+			preparedStatement.setString(6, studentAnswerInQuestion.getQuestionNum());
+			preparedStatement.setString(7, studentAnswerInQuestion.getQuestionOrderInExam());
+			preparedStatement.setString(8, studentAnswerInQuestion.getStudentAnswer());
 			preparedStatement.executeUpdate();
 		}
 		closeResultSetAndStatement(null, null, preparedStatement);
@@ -386,7 +391,7 @@ public class SqlUtilities {
 		insert.close();
 	}
 
-	public static void changeTimeActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
+	public static String changeTimeActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
 			throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.CHANGE_ActiveExamDuration);
 		insert.setInt(1, waitingActiveExam.getNewDuration());
@@ -396,6 +401,7 @@ public class SqlUtilities {
 		insert.setString(5, waitingActiveExam.getActiveExam().getExecutionCode());
 		insert.executeUpdate();
 		insert.close();
+		return waitingActiveExam.getActiveExam().getExecutionCode() + " " + waitingActiveExam.getNewDuration();
 	}
 
 	public static void removeWaitingActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
