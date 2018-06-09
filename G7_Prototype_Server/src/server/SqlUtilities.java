@@ -310,7 +310,10 @@ public class SqlUtilities {
 		insert.setString(4, activeExam.getExecutionCode());
 		insert.setInt(5, activeExam.getExam().getExamDuration());
 		insert.setInt(6, activeExam.getLocked());
-		insert.setString(7, "c");
+		if(activeExam.getType().equals("Computerized"))
+			insert.setString(7, "c");
+		else
+			insert.setString(7, "m");
 		insert.executeUpdate();
 		insert.close();
 	}

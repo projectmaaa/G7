@@ -772,15 +772,19 @@ public class TeacherWindowController implements Initializable, IScreenController
 		text = new Label("Please enter an execution code:");
 		popup.getContent().addAll(text);
 		executionCode = new TextField();
-		executionCode.setPrefWidth(50);
+		executionCode.setPrefWidth(55);
 		executionCode.setEditable(true);
+		ComboBox<String> type = new ComboBox<String>();
+		type.getSelectionModel().clearSelection();
+		type.setPromptText("Select Type");
+		type.getItems().addAll("Computerized", "Manual");
 		Button okButton = new Button("OK");
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
 				// check executionCode
-				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
+				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText(), type.getValue());
 				client.handleMessageFromClientUI(new ActiveExamHandle("Activate", activeExam));
 				// tableViewInExamsManagement.getItems().clear();
 				Utilities.popUpMethod("Exam activated successfully!");
@@ -795,7 +799,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			}
 		});
 		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		layout.getChildren().addAll(text, executionCode, okButton, cancelButton);
+		layout.getChildren().addAll(text, executionCode, type, okButton, cancelButton);
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}

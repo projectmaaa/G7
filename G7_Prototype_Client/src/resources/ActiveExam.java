@@ -16,11 +16,21 @@ public class ActiveExam implements Serializable {
 	private String executionCode;
 
 	private int locked;
+	
+	private String type;
 
 	public ActiveExam(Exam exam, String executionCode) {
 		this.exam = exam;
 		this.executionCode = executionCode;
 		this.duration = exam.getExamDuration();
+		locked = 0;
+	}
+	
+	public ActiveExam(Exam exam, String executionCode, String type) {
+		this.exam = exam;
+		this.executionCode = executionCode;
+		this.duration = exam.getExamDuration();
+		this.type = type;
 		locked = 0;
 	}
 	
@@ -67,6 +77,14 @@ public class ActiveExam implements Serializable {
 	public String getDurationInString() {
 		Integer dur = duration;
 		return dur.toString();
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	@Override
