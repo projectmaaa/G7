@@ -66,14 +66,16 @@ public class SqlUtilities {
 	public final static String SELECT_Courses_BY_SubjectID = "SELECT courseName FROM Course WHERE subjectID=?;";
 
 	public final static String LOCK_Exam = "UPDATE ActiveExam SET locked=1 WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
-	
+
 	public final static String INSERT_WaitingActiveExam = "INSERT INTO WaitingActiveExam VALUES (?, ?, ?, ?, ?, ?, ?);";
-	
+
 	public final static String SELECT_All_WaitingActiveExam = "SELECT * FROM WaitingActiveExam";
-	
+
 	public final static String CHANGE_ActiveExamDuration = "UPDATE ActiveExam SET duration=? WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
-	
+
 	public final static String REMOVE_WaitingActiveExam = "DELETE FROM WaitingActiveExam WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
+
+	public final static String INSERT_StudentAnswerInQuestion = "INSERT INTO StudentAnswerInQuestion VALUES(?, ?, ?, ?, ?);";
 
 	// region Public Methods
 
@@ -142,6 +144,20 @@ public class SqlUtilities {
 			}
 		}
 		return null;
+	}
+
+	public static void Insert_StudentAnswerInQuestion(SubmittedExam submittedExam, Connection connection)
+			throws SQLException {
+		PreparedStatement preparedStatement = connection.prepareStatement(INSERT_StudentAnswerInQuestion);
+		for (StudentAnswerInQuestion studentAnswerInQuestion : submittedExam.getAnswers()) {
+			preparedStatement.setString(1, studentAnswerInQuestion.getStudent().getId());
+			preparedStatement.setString(2, studentAnswerInQuestion.getSubjectID());
+			preparedStatement.setString(3, studentAnswerInQuestion.getQuestionNum());
+			preparedStatement.setString(4, studentAnswerInQuestion.getQuestionOrderInExam());
+			preparedStatement.setString(5, studentAnswerInQuestion.getStudentAnswer());
+			preparedStatement.executeUpdate();
+		}
+		closeResultSetAndStatement(null, null, preparedStatement);
 	}
 
 	/**
@@ -219,14 +235,14 @@ public class SqlUtilities {
 		closeResultSetAndStatement(rs, null, statement);
 		return (new ExamHandle("Subject", examsBySubject));
 	}
-	
-	public static WaitingActiveExamHandle getWaitingActiveExam(Connection connection)
-			throws SQLException {
+
+	public static WaitingActiveExamHandle getWaitingActiveExam(Connection connection) throws SQLException {
 		ArrayList<WaitingActiveExam> waitingActiveExams = new ArrayList<WaitingActiveExam>();
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_WaitingActiveExam);
 		ResultSet rs = statement.executeQuery();
 		while (rs.next()) {
-			ActiveExam activeExam = new ActiveExam(new Exam(rs.getString(1), rs.getString(2), rs.getString(3)), rs.getString(4), rs.getInt(5));
+			ActiveExam activeExam = new ActiveExam(new Exam(rs.getString(1), rs.getString(2), rs.getString(3)),
+					rs.getString(4), rs.getInt(5));
 			waitingActiveExams.add(new WaitingActiveExam(activeExam, rs.getInt(6), rs.getString(7)));
 		}
 		closeResultSetAndStatement(rs, null, statement);
@@ -310,7 +326,7 @@ public class SqlUtilities {
 		insert.setString(4, activeExam.getExecutionCode());
 		insert.setInt(5, activeExam.getExam().getExamDuration());
 		insert.setInt(6, activeExam.getLocked());
-		if(activeExam.getType().equals("Computerized"))
+		if (activeExam.getType().equals("Computerized"))
 			insert.setString(7, "c");
 		else
 			insert.setString(7, "m");
@@ -327,8 +343,9 @@ public class SqlUtilities {
 		insert.executeUpdate();
 		insert.close();
 	}
-	
-	public static void insertWaitingActiveExam(WaitingActiveExam waitingActiveExam, Connection connection) throws SQLException {
+
+	public static void insertWaitingActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
+			throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_WaitingActiveExam);
 		insert.setString(1, waitingActiveExam.getActiveExam().getExam().getSubjectID());
 		insert.setString(2, waitingActiveExam.getActiveExam().getExam().getCourseID());
@@ -340,8 +357,9 @@ public class SqlUtilities {
 		insert.executeUpdate();
 		insert.close();
 	}
-	
-	public static void changeTimeActiveExam(WaitingActiveExam waitingActiveExam, Connection connection) throws SQLException {
+
+	public static void changeTimeActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
+			throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.CHANGE_ActiveExamDuration);
 		insert.setInt(1, waitingActiveExam.getNewDuration());
 		insert.setString(2, waitingActiveExam.getActiveExam().getExam().getSubjectID());
@@ -351,7 +369,7 @@ public class SqlUtilities {
 		insert.executeUpdate();
 		insert.close();
 	}
-	
+
 	public static void removeWaitingActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
 			throws SQLException {
 		PreparedStatement remove = connection.prepareStatement(SqlUtilities.REMOVE_WaitingActiveExam);
@@ -362,7 +380,6 @@ public class SqlUtilities {
 		remove.executeUpdate();
 		closeResultSetAndStatement(null, null, remove);
 	}
-
 
 	/**
 	 * removes questions from DB

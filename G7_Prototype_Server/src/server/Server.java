@@ -93,6 +93,15 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
+		} else if (msg instanceof SubmittedExamHandle) {
+			SubmittedExamHandle submittedExamHandle = (SubmittedExamHandle) msg;
+			if (submittedExamHandle.getCommand().equals(Message.submittedExam)) {
+				try {
+					SqlUtilities.Insert_StudentAnswerInQuestion(submittedExamHandle.getSubmittedExam(), connection);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		} else if (msg instanceof ExamHandle) {
 			ExamHandle examHandle = (ExamHandle) msg;
 			if (examHandle.getCommand().equals(Message.exam)) {
@@ -137,8 +146,7 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			else if(waitingActiveExamHandle.getCommand().equals("Approve")) {
+			} else if (waitingActiveExamHandle.getCommand().equals("Approve")) {
 				try {
 					SqlUtilities.changeTimeActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
 					client.sendToClient(Message.tableSaved);
@@ -148,8 +156,8 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-			
-			else if(waitingActiveExamHandle.getCommand().equals("Remove")) {
+
+			else if (waitingActiveExamHandle.getCommand().equals("Remove")) {
 				try {
 					SqlUtilities.removeWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
 					client.sendToClient(Message.tableSaved);

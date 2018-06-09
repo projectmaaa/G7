@@ -1,4 +1,4 @@
-package resources;
+package boundaries;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import resources.QuestionInExam;
 
 public class QuestionInComputerizeExam {
 
@@ -16,12 +17,23 @@ public class QuestionInComputerizeExam {
 
 	Button button;
 
+	QuestionInExam questionInExam;
+
 	ToggleGroup toggleGroup;
 
 	ObservableList<Node> list = FXCollections.observableArrayList();
 
-	public QuestionInComputerizeExam(String questionText, String ans1, String ans2, String ans3, String ans4) {
-
+	/**
+	 * 
+	 * @param questionText
+	 * @param ans1
+	 * @param ans2
+	 * @param ans3
+	 * @param ans4
+	 * @param questionInExam
+	 */
+	public QuestionInComputerizeExam(String questionText, String ans1, String ans2, String ans3, String ans4,
+			QuestionInExam questionInExam) {
 		this.labelfirst = new Label(questionText);
 		this.radio1 = new RadioButton(ans1);
 		radio1.setUserData("1");
@@ -46,6 +58,7 @@ public class QuestionInComputerizeExam {
 
 		button = new Button("Submit");
 		button.setDisable(true);
+		this.questionInExam = questionInExam;
 		list.addAll(labelfirst, radio1, radio2, radio3, radio4);
 	}
 
@@ -111,6 +124,14 @@ public class QuestionInComputerizeExam {
 
 	public void setList(ObservableList<Node> list) {
 		this.list = list;
+	}
+
+	public QuestionInExam getQuestionInExam() {
+		return questionInExam;
+	}
+
+	public void setQuestionInExam(QuestionInExam questionInExam) {
+		this.questionInExam = questionInExam;
 	}
 
 }

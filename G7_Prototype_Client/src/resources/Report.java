@@ -1,15 +1,22 @@
 package resources;
 
-public abstract class Report {
+import java.io.Serializable;
+
+public abstract class Report implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private int average;
-	
+
 	private int median;
-	
-	//histogram?
-	
+
+	// histogram?
+
 	public Report() {
-		
+
 	}
 
 	public int getAverage() {
@@ -27,6 +34,5 @@ public abstract class Report {
 	public void setMedian(int median) {
 		this.median = median;
 	}
-	
-	
+
 }

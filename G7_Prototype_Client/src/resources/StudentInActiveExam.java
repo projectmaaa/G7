@@ -1,6 +1,13 @@
 package resources;
 
-public class StudentInActiveExam {
+import java.io.Serializable;
+
+public class StudentInActiveExam implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private String date;
 

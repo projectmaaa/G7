@@ -70,7 +70,8 @@ public class SubmittedExam implements Serializable {
 	private String answerString() {
 		String string = "";
 		for (StudentAnswerInQuestion studentAnswerInQuestion : answers) {
-			string += "Question : " + studentAnswerInQuestion.getQuestionNum() + ", Answer : "
+			string += "QuestionNum : " + studentAnswerInQuestion.getQuestionNum() + ", QuestionOder : "
+					+ studentAnswerInQuestion.getQuestionOrderInExam() + ", Answer : "
 					+ studentAnswerInQuestion.getStudentAnswer() + "\n";
 		}
 		return string;

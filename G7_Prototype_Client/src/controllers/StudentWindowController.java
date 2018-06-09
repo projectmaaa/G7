@@ -3,6 +3,8 @@ package controllers;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import boundaries.QuestionInComputerizeExam;
 import client.Client;
 import client.MainAppClient;
 import javafx.event.ActionEvent;
@@ -22,7 +24,7 @@ import resources.Student;
 import resources.StudentAnswerInQuestion;
 import resources.StudentInActiveExam;
 import resources.SubmittedExam;
-import resources.QuestionInComputerizeExam;
+import resources.SubmittedExamHandle;
 import resources.Utilities;
 
 public class StudentWindowController implements Initializable, IScreenController {
@@ -187,7 +189,7 @@ public class StudentWindowController implements Initializable, IScreenController
 							questionInExam.getQuestion().getFirstPossibleAnswer(),
 							questionInExam.getQuestion().getSecondPossibleAnswer(),
 							questionInExam.getQuestion().getThirdPossibleAnswer(),
-							questionInExam.getQuestion().getFourthPossibleAnswer());
+							questionInExam.getQuestion().getFourthPossibleAnswer(), questionInExam);
 					QuestionInComputerizeExamArray.add(questionInComputerizeExam);
 					examSheetVBox.getChildren().addAll(questionInComputerizeExam.getList());
 					examSheetVBox.getChildren().add(new Text(""));
@@ -205,16 +207,17 @@ public class StudentWindowController implements Initializable, IScreenController
 		int num = 0;
 		for (QuestionInComputerizeExam questionInComputerizeExam : QuestionInComputerizeExamArray) {
 			if (questionInComputerizeExam.getToggleGroup().getSelectedToggle() != null) {
-				submittedExam.addAnswer(
-						new StudentAnswerInQuestion(activeExam.getExam().getSubjectID(), Integer.toString(++num),
-								questionInComputerizeExam.getToggleGroup().getSelectedToggle().getUserData().toString(),
-								studentInActiveExam.getStudent()));
+				submittedExam.addAnswer(new StudentAnswerInQuestion(activeExam.getExam().getSubjectID(),
+						questionInComputerizeExam.getQuestionInExam().getQuestionNum(), Integer.toString(++num),
+						questionInComputerizeExam.getToggleGroup().getSelectedToggle().getUserData().toString(),
+						studentInActiveExam.getStudent()));
 			} else {
 				Utilities.popUpMethod("Question : " + Integer.toString(++num) + " No Answer.");
 				submittedExam.getAnswers().clear();
 				break;
 			}
 		}
+		client.handleMessageFromClientUI(new SubmittedExamHandle(Message.submittedExam, submittedExam));
 		if (!submittedExam.getAnswers().isEmpty()) {
 			System.out.println(submittedExam);
 		}

@@ -1,10 +1,19 @@
 package resources;
 
-public class StudentAnswerInQuestion {
+import java.io.Serializable;
+
+public class StudentAnswerInQuestion implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private String subjectID;
 
 	private String questionNum;
+
+	private String questionOrderInExam;
 
 	private String studentAnswer;
 
@@ -14,12 +23,15 @@ public class StudentAnswerInQuestion {
 	 * 
 	 * @param subjectID
 	 * @param questionNum
+	 * @param questionNum
 	 * @param studentAnswer
 	 * @param student
 	 */
-	public StudentAnswerInQuestion(String subjectID, String questionNum, String studentAnswer, Student student) {
+	public StudentAnswerInQuestion(String subjectID, String questionNum, String questionOrderInExam,
+			String studentAnswer, Student student) {
 		this.subjectID = subjectID;
 		this.questionNum = questionNum;
+		this.questionOrderInExam = questionOrderInExam;
 		this.studentAnswer = studentAnswer;
 		this.student = student;
 	}
@@ -54,6 +66,14 @@ public class StudentAnswerInQuestion {
 
 	public void setStudent(Student student) {
 		this.student = student;
+	}
+
+	public String getQuestionOrderInExam() {
+		return questionOrderInExam;
+	}
+
+	public void setQuestionOrderInExam(String questionOrderInExam) {
+		this.questionOrderInExam = questionOrderInExam;
 	}
 
 }
