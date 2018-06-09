@@ -127,8 +127,6 @@ public class StudentWindowController implements Initializable, IScreenController
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
-
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -206,12 +204,20 @@ public class StudentWindowController implements Initializable, IScreenController
 		submittedExam = new SubmittedExam(10, studentInActiveExam);
 		int num = 0;
 		for (QuestionInComputerizeExam questionInComputerizeExam : QuestionInComputerizeExamArray) {
-			submittedExam
-					.addAnswer(new StudentAnswerInQuestion(activeExam.getExam().getSubjectID(), Integer.toString(++num),
-							questionInComputerizeExam.getToggleGroup().getSelectedToggle().getUserData().toString(),
-							studentInActiveExam.getStudent()));
+			if (questionInComputerizeExam.getToggleGroup().getSelectedToggle() != null) {
+				submittedExam.addAnswer(
+						new StudentAnswerInQuestion(activeExam.getExam().getSubjectID(), Integer.toString(++num),
+								questionInComputerizeExam.getToggleGroup().getSelectedToggle().getUserData().toString(),
+								studentInActiveExam.getStudent()));
+			} else {
+				Utilities.popUpMethod("Question : " + Integer.toString(++num) + " No Answer.");
+				submittedExam.getAnswers().clear();
+				break;
+			}
 		}
-		//System.out.println(submittedExam);
+		if (!submittedExam.getAnswers().isEmpty()) {
+			System.out.println(submittedExam);
+		}
 	}
 
 	/**
