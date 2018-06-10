@@ -234,7 +234,9 @@ public class Client extends AbstractClient implements IScreenController {
 				studentWindowController.setName();
 				break;
 			case "#ChangeTime":
-				if (studentWindowController.getActiveExam().getExecutionCode().equals(strArray[1])) {
+				if ((studentWindowController != null)
+						&& (studentWindowController.getActiveExam().getExecutionCode().equals(strArray[1]))) {
+					System.out.println(this.firstName + " " + this.lastName);
 					studentWindowController.getActiveExam().setDuration(Integer.parseInt(strArray[2]));
 					studentWindowController.setSecondTimer();
 				}
@@ -250,6 +252,9 @@ public class Client extends AbstractClient implements IScreenController {
 				break;
 			case Message.getQuestionBySubject:
 				break;
+			default:
+				break;
+
 			}
 		} else if (msg instanceof QuestionHandle) {
 			QuestionHandle questionsHandle = (QuestionHandle) msg;

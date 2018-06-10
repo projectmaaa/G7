@@ -148,10 +148,11 @@ public class StudentWindowController implements Initializable, IScreenController
 			this.secondTimer += (time - activeExam.getExam().getExamDuration() * 60);
 		} else {
 			int subTime = activeExam.getExam().getExamDuration() * 60 - time;
-			if (secondTimer > subTime) {
-				secondTimer -= subTime;
-			} else {
+			if (secondTimer / 60 < activeExam.getExam().getExamDuration() - activeExam.getDuration()) {
 				secondTimer = 0;
+				setTimerDisplay();
+			} else {
+				secondTimer -= subTime;
 			}
 		}
 		System.out.println(secondTimer);
@@ -283,13 +284,21 @@ public class StudentWindowController implements Initializable, IScreenController
 
 	/**
 	 * 
+	 */
+	private void setTimerDisplay() {
+		timerDisplay.setText(
+				String.format("%02d:%02d:%02d", secondTimer / 3600, (secondTimer % 3600) / 60, secondTimer % 60));
+	}
+
+	/**
+	 * 
 	 * @param time
 	 */
 	private void startTimer() {
 		Timeline stopWatchTimeline = new Timeline(new KeyFrame(Duration.seconds(1), (ActionEvent event) -> {
-			if (secondTimer-- > 0)
-				timerDisplay.setText(String.format("%02d:%02d:%02d", secondTimer / 3600, (secondTimer % 3600) / 60,
-						secondTimer % 60));
+			if (secondTimer-- > 0) {
+				setTimerDisplay();
+			}
 		}));
 		stopWatchTimeline.setCycleCount(Timeline.INDEFINITE);
 		stopWatchTimeline.play();
