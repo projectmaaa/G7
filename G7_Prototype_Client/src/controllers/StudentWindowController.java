@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -85,6 +86,9 @@ public class StudentWindowController implements Initializable, IScreenController
 	private Button sumbitExamButton;
 
 	private ArrayList<QuestionInComputerizeExam> QuestionInComputerizeExamArray;
+
+	@FXML
+	private ScrollPane computrizedScrollPane;
 
 	/*********************************************************/
 
@@ -215,7 +219,10 @@ public class StudentWindowController implements Initializable, IScreenController
 							new StudentInActiveExamHandle(Message.studentInActiveExam, studentInActiveExam));
 					enterIDComputerizeExamButton.setDisable(true);
 					examIDTextField.setDisable(true);
+
 					if (activeExam.getType().equals("c")) {
+						sumbitExamButton.setVisible(true);
+						computrizedScrollPane.setVisible(true);
 						int index = 0;
 						for (QuestionInExam questionInExam : activeExam.getExam().getQuestions()) {
 							QuestionInComputerizeExam questionInComputerizeExam = new QuestionInComputerizeExam(
@@ -229,6 +236,9 @@ public class StudentWindowController implements Initializable, IScreenController
 							examSheetVBox.getChildren().add(new Text(""));
 						}
 					} else {
+						sumbitExamButton.setLayoutY(50);
+						sumbitExamButton.setLayoutX(370);
+						sumbitExamButton.setVisible(true);
 						client.handleMessageFromClientUI(
 								new ActiveExamHandle("#ManualExam", activeExam, client.getId()));
 					}

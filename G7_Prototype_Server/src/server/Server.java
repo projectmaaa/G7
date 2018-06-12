@@ -142,7 +142,7 @@ public class Server extends AbstractServer {
 					System.out.println(e);
 				}
 			}
-		} else if(msg instanceof ExecutionCodeHandle) {
+		} else if (msg instanceof ExecutionCodeHandle) {
 			ExecutionCodeHandle executionCodeHandle = (ExecutionCodeHandle) msg;
 			try {
 				client.sendToClient(SqlUtilities.checkCode(executionCodeHandle, connection));
@@ -152,7 +152,7 @@ public class Server extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		
+
 		else if (msg instanceof StudentInActiveExamHandle) {
 			StudentInActiveExamHandle studentInActiveExamHandle = (StudentInActiveExamHandle) msg;
 			if (studentInActiveExamHandle.getCommand().equals(Message.studentInActiveExam)) {
