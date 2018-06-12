@@ -1,5 +1,7 @@
 package server;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -113,6 +115,7 @@ public class SqlUtilities {
 			statement.setString(1, resultSet.getString(1));
 			statement.setString(2, resultSet.getString(2));
 			statement.setString(3, resultSet.getString(3));
+			String type = resultSet.getString(7);
 			resultSet = statement.executeQuery();
 			if (resultSet.next()) {
 				Exam exam = new Exam(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
@@ -142,10 +145,23 @@ public class SqlUtilities {
 				}
 				closeResultSetAndStatement(resultSet, null, statement);
 				ActiveExam activeExam = new ActiveExam(exam, executionCode);
+				activeExam.setType(type);
 				return (new ActiveExamHandle("ActiveExam", activeExam));
 			}
 		}
-		return null;
+		return (new ActiveExamHandle("ActiveExam", null));
+	}
+
+	public static void getManualExam(ActiveExam activeExam, String userID) throws IOException {
+		DocxGenerator docxGenerator = new DocxGenerator(userID);
+		for (QuestionInExam questionInExam : activeExam.getExam().getQuestions()) {
+			docxGenerator.addQuestionToWord(questionInExam.getQuestionText(),
+					questionInExam.getQuestion().getFirstPossibleAnswer(),
+					questionInExam.getQuestion().getSecondPossibleAnswer(),
+					questionInExam.getQuestion().getThirdPossibleAnswer(),
+					questionInExam.getQuestion().getFourthPossibleAnswer());
+		}
+		docxGenerator.getDocument().close();
 	}
 
 	/**

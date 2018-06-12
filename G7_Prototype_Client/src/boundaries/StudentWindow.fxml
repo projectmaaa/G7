@@ -48,11 +48,10 @@
       </AnchorPane>
       <MenuBar fx:id="menuBar" focusTraversable="false" layoutX="14.0" layoutY="24.0" prefHeight="42.0" prefWidth="344.0" stylesheets="@TeacherWindow.css">
          <menus>
-            <Menu mnemonicParsing="false" text="Execute Exam">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#openManualExamHandler" text="Manual" />
-                  <MenuItem mnemonicParsing="false" onAction="#openComputerizedExamHandler" text="Computerized" />
-              </items>
+            <Menu mnemonicParsing="false" onAction="#openExamHandler" text="Execute Exam">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#openExamHandler" text="Unspecified Action" />
+               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Order Checked Exam" />
          </menus>
@@ -85,15 +84,15 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="manualExamAnchorPane" layoutX="14.0" layoutY="86.0" prefHeight="150.0" prefWidth="315.0" visible="false">
+      <AnchorPane fx:id="examAnchorPane" layoutX="14.0" layoutY="86.0" prefHeight="150.0" prefWidth="315.0" visible="false">
          <children>
-            <Label layoutX="18.0" layoutY="45.0" text="Execution Code" textFill="WHITE">
+            <Label layoutX="38.0" layoutY="44.0" text="Execution Code" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="executionCodeTextField" layoutX="132.0" layoutY="42.0" />
-            <Label prefWidth="253.0" text="Manual Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+            <TextField fx:id="executionCodeTextField" layoutX="152.0" layoutY="41.0" />
+            <Label layoutX="18.0" layoutY="11.0" prefHeight="30.0" prefWidth="75.0" text="Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="24.0" />
                </font>
@@ -103,24 +102,6 @@
             </Label>
             <Button layoutX="184.0" layoutY="87.0" mnemonicParsing="false" onMouseClicked="#checkExecutionCode" text="Enter" />
          </children></AnchorPane>
-      <AnchorPane fx:id="computerizedExamAnchorPane" layoutX="24.0" layoutY="96.0" prefHeight="150.0" prefWidth="315.0" visible="false">
-         <children>
-            <Label layoutX="18.0" layoutY="45.0" text="Execution Code" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <TextField layoutX="132.0" layoutY="42.0" />
-            <Label prefWidth="253.0" text="Computerized Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
-               <font>
-                  <Font name="Maiandra GD" size="24.0" />
-               </font>
-               <effect>
-                  <Bloom />
-               </effect>
-            </Label>
-         </children>
-      </AnchorPane>
       <AnchorPane fx:id="computerizeExamPane" layoutX="30.0" layoutY="65.0" prefHeight="500.0" prefWidth="600.0" visible="false">
          <children>
             <TextField fx:id="examIDTextField" layoutX="14.0" layoutY="14.0" promptText="ID" />

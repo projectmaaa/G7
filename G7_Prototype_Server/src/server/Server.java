@@ -1,6 +1,7 @@
 package server;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -134,6 +135,12 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			} else if (activeExamHandle.getCommand().equals("#ManualExam")) {
+				try {
+					SqlUtilities.getManualExam(activeExamHandle.getActiveExam(), activeExamHandle.getUserID());
+				} catch (IOException e) {
+					System.out.println(e);
+				}
 			}
 		} else if (msg instanceof StudentInActiveExamHandle) {
 			StudentInActiveExamHandle studentInActiveExamHandle = (StudentInActiveExamHandle) msg;
@@ -174,12 +181,13 @@ public class Server extends AbstractServer {
 			else if (waitingActiveExamHandle.getCommand().equals("Remove")) {
 				try {
 					SqlUtilities.removeWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
-					client.sendToClient(Message.tableSaved);
+					// client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
+				// catch (IOException e) {
+				// e.printStackTrace();
+				// }
 			}
 		} else if (msg instanceof String) {
 			String str = (String) msg;
@@ -278,12 +286,14 @@ public class Server extends AbstractServer {
 					break;
 				case Message.getWaitingActiveExams:
 					client.sendToClient(SqlUtilities.getWaitingActiveExam(connection));
+					break;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			// System.out.println(client.getId());
 		}
 	}
 

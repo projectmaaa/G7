@@ -3,6 +3,7 @@ package controllers;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 import boundaries.QuestionInComputerizeExam;
 import client.Client;
@@ -20,16 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import resources.ActiveExam;
-import resources.Message;
-import resources.QuestionInExam;
-import resources.Student;
-import resources.StudentAnswerInQuestion;
-import resources.StudentInActiveExam;
-import resources.StudentInActiveExamHandle;
-import resources.SubmittedExam;
-import resources.SubmittedExamHandle;
-import resources.Utilities;
+import resources.*;
 
 public class StudentWindowController implements Initializable, IScreenController {
 
@@ -70,15 +62,10 @@ public class StudentWindowController implements Initializable, IScreenController
 	/*********************************************************/
 
 	@FXML
-	private AnchorPane manualExamAnchorPane;
+	private AnchorPane examAnchorPane;
 
 	@FXML
 	private TextField executionCodeTextField;
-
-	/*********************************************************/
-
-	@FXML
-	private AnchorPane computerizedExamAnchorPane;
 
 	/*********************************************************/
 
@@ -197,39 +184,62 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-	public void openManualExamHandler(ActionEvent event) {
+	public void openExamHandler(ActionEvent event) {
 		turnOffAllPane();
-		manualExamAnchorPane.setVisible(true);
+		examAnchorPane.setVisible(true);
 		welcomeAnchorPane.setVisible(true);
 	}
 
+	public void checkExecutionCodeForNull() {
+		System.out.println("2");
+		if (activeExam == null) {
+			// Utilities.popUpMethod("Wrong Code");
+		} else {
+			setTimer();
+			setComputerizeExam();
+		}
+	}
+
+	/**
+	 * 
+	 * @param e
+	 */
 	public void checkExamID(MouseEvent e) {
-		if (!examIDTextField.getText().isEmpty()) {
-			if (examIDTextField.getText().equals(client.getId())) {
-				startTimer();
-				studentInActiveExam = new StudentInActiveExam(new Student(client.getId(), firstName, lastName),
-						activeExam);
-				client.handleMessageFromClientUI(
-						new StudentInActiveExamHandle(Message.studentInActiveExam, studentInActiveExam));
-				enterIDComputerizeExamButton.setDisable(true);
-				examIDTextField.setDisable(true);
-				int index = 0;
-				for (QuestionInExam questionInExam : activeExam.getExam().getQuestions()) {
-					QuestionInComputerizeExam questionInComputerizeExam = new QuestionInComputerizeExam(
-							Integer.toString(++index) + ". " + questionInExam.getQuestion().getQuestionText(),
-							questionInExam.getQuestion().getFirstPossibleAnswer(),
-							questionInExam.getQuestion().getSecondPossibleAnswer(),
-							questionInExam.getQuestion().getThirdPossibleAnswer(),
-							questionInExam.getQuestion().getFourthPossibleAnswer(), questionInExam);
-					QuestionInComputerizeExamArray.add(questionInComputerizeExam);
-					examSheetVBox.getChildren().addAll(questionInComputerizeExam.getList());
-					examSheetVBox.getChildren().add(new Text(""));
+		if (activeExam != null) {
+			if (!examIDTextField.getText().isEmpty()) {
+				if (examIDTextField.getText().equals(client.getId())) {
+					startTimer();
+					studentInActiveExam = new StudentInActiveExam(new Student(client.getId(), firstName, lastName),
+							activeExam);
+					client.handleMessageFromClientUI(
+							new StudentInActiveExamHandle(Message.studentInActiveExam, studentInActiveExam));
+					enterIDComputerizeExamButton.setDisable(true);
+					examIDTextField.setDisable(true);
+					if (activeExam.getType().equals("c")) {
+						int index = 0;
+						for (QuestionInExam questionInExam : activeExam.getExam().getQuestions()) {
+							QuestionInComputerizeExam questionInComputerizeExam = new QuestionInComputerizeExam(
+									Integer.toString(++index) + ". " + questionInExam.getQuestion().getQuestionText(),
+									questionInExam.getQuestion().getFirstPossibleAnswer(),
+									questionInExam.getQuestion().getSecondPossibleAnswer(),
+									questionInExam.getQuestion().getThirdPossibleAnswer(),
+									questionInExam.getQuestion().getFourthPossibleAnswer(), questionInExam);
+							QuestionInComputerizeExamArray.add(questionInComputerizeExam);
+							examSheetVBox.getChildren().addAll(questionInComputerizeExam.getList());
+							examSheetVBox.getChildren().add(new Text(""));
+						}
+					} else {
+						client.handleMessageFromClientUI(
+								new ActiveExamHandle("#ManualExam", activeExam, client.getId()));
+					}
+				} else {
+					Utilities.popUpMethod("Wrong ID");
 				}
 			} else {
-				Utilities.popUpMethod("Wrong ID");
+				Utilities.popUpMethod("Please Enter ID");
 			}
 		} else {
-			Utilities.popUpMethod("Please Enter ID");
+			Utilities.popUpMethod("Wrong code");
 		}
 	}
 
@@ -260,7 +270,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 */
 	public void openComputerizedExamHandler(ActionEvent event) {
 		turnOffAllPane();
-		computerizedExamAnchorPane.setVisible(true);
+		examAnchorPane.setVisible(true);
 	}
 
 	public void setTimer() {
@@ -269,18 +279,32 @@ public class StudentWindowController implements Initializable, IScreenController
 				String.format("%02d:%02d:%02d", secondTimer / 3600, (secondTimer % 3600) / 60, secondTimer % 60));
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void checkExecutionCode(MouseEvent event) {
 		String code = executionCodeTextField.getText();
 		if (code != null) {
 			client.handleMessageFromClientUI(Message.getExecutionCode + " " + code);
-			turnOffAllPane();
-			computerizeExamPane.setVisible(true);
-			welcomeAnchorPane.setVisible(true);
-			timerPane.setVisible(true);
 		} else {
 			Utilities.popUpMethod("Please Enter Execution Code");
 		}
 	}
+
+	/**
+	 * 
+	 */
+	public void setComputerizeExam() {
+		turnOffAllPane();
+		computerizeExamPane.setVisible(true);
+		welcomeAnchorPane.setVisible(true);
+		timerPane.setVisible(true);
+	}
+
+	// public void setManualExam() {
+	// client.handleMessageFromClientUI(message);
+	// }
 
 	/**
 	 * 
@@ -310,8 +334,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	private void turnOffAllPane() {
 		aesAnchorPane.setVisible(false);
 		welcomeAnchorPane.setVisible(false);
-		manualExamAnchorPane.setVisible(false);
-		computerizedExamAnchorPane.setVisible(false);
+		examAnchorPane.setVisible(false);
 		computerizeExamPane.setVisible(false);
 		timerPane.setVisible(false);
 	}
