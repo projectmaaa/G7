@@ -142,7 +142,18 @@ public class Server extends AbstractServer {
 					System.out.println(e);
 				}
 			}
-		} else if (msg instanceof StudentInActiveExamHandle) {
+		} else if(msg instanceof ExecutionCodeHandle) {
+			ExecutionCodeHandle executionCodeHandle = (ExecutionCodeHandle) msg;
+			try {
+				client.sendToClient(SqlUtilities.checkCode(executionCodeHandle, connection));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		else if (msg instanceof StudentInActiveExamHandle) {
 			StudentInActiveExamHandle studentInActiveExamHandle = (StudentInActiveExamHandle) msg;
 			if (studentInActiveExamHandle.getCommand().equals(Message.studentInActiveExam)) {
 				try {
