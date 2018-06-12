@@ -135,7 +135,18 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-		} else if (msg instanceof StudentInActiveExamHandle) {
+		} else if(msg instanceof ExecutionCodeHandle) {
+			ExecutionCodeHandle executionCodeHandle = (ExecutionCodeHandle) msg;
+			try {
+				client.sendToClient(SqlUtilities.checkCode(executionCodeHandle, connection));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		else if (msg instanceof StudentInActiveExamHandle) {
 			StudentInActiveExamHandle studentInActiveExamHandle = (StudentInActiveExamHandle) msg;
 			if (studentInActiveExamHandle.getCommand().equals(Message.studentInActiveExam)) {
 				try {
@@ -278,6 +289,7 @@ public class Server extends AbstractServer {
 					break;
 				case Message.getWaitingActiveExams:
 					client.sendToClient(SqlUtilities.getWaitingActiveExam(connection));
+					break;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

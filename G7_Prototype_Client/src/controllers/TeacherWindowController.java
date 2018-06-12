@@ -3,6 +3,7 @@ package controllers;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 import client.Client;
 import client.MainAppClient;
 import javafx.collections.FXCollections;
@@ -331,7 +332,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void setScreenParent(ScreensController screenParent) {
 		screensController = screenParent;
 	}
-
 	// end region -> Setters
 
 	/**
@@ -784,11 +784,20 @@ public class TeacherWindowController implements Initializable, IScreenController
 			public void handle(ActionEvent event) {
 				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
 				// check executionCode
-				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText(), type.getValue());
-				client.handleMessageFromClientUI(new ActiveExamHandle("Activate", activeExam));
-				// tableViewInExamsManagement.getItems().clear();
-				Utilities.popUpMethod("Exam activated successfully!");
-				primaryStage.hide();
+				if ((executionCode.getText().length() != 4)) {
+					Utilities.popUpMethod("Illegal execution code. please try again!");
+					primaryStage.hide();
+				} else if (type.getValue() == null) {
+					Utilities.popUpMethod("Type was not selected. please try again!");
+					primaryStage.hide();
+				} else if (!executionCodeExist(executionCode.getText())) {
+					ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText(), type.getValue());
+					client.handleMessageFromClientUI(new ActiveExamHandle("Activate", activeExam));
+					Utilities.popUpMethod("Exam activated successfully!");
+					primaryStage.hide();
+				} else {
+					Utilities.popUpMethod("Exam with this execution Code already exist!");
+				}
 			}
 		});
 		Button cancelButton = new Button("Cancel");
@@ -809,9 +818,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		Stage primaryStage = new Stage();
 		primaryStage.setTitle("AES7");
 		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-		// primaryStage.setHeight(100);
-		// primaryStage.setWidth(250);
-		// primaryStage.setResizable(false);
 		Popup popup = new Popup();
 		popup.setX(700);
 		popup.setY(400);
@@ -825,7 +831,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		TextField reason = new TextField();
 		reason.setPromptText("Enter reason here.");
 		popup.getContent().addAll(text, reason);
-		// newDuration.setPrefWidth(45);
 		newDuration.setEditable(true);
 		reason.setEditable(true);
 		Button okButton = new Button("Send");
@@ -838,7 +843,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 				WaitingActiveExam waitingActiveExam = new WaitingActiveExam(activeExam,
 						Integer.parseInt(newDuration.getText()), reason.getText());
 				client.handleMessageFromClientUI(new WaitingActiveExamHandle("ChangeTime", waitingActiveExam));
-				// tableViewInExamsManagement.getItems().clear();
 				Utilities.popUpMethod("Request sent to Principal!");
 				primaryStage.hide();
 			}
@@ -878,7 +882,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 				// check executionCode
 				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
 				client.handleMessageFromClientUI(new ActiveExamHandle("Lock", activeExam));
-				// tableViewInExamsManagement.getItems().clear();
 				Utilities.popUpMethod("Exam locked successfully!");
 				primaryStage.hide();
 			}
@@ -936,6 +939,22 @@ public class TeacherWindowController implements Initializable, IScreenController
 		questionsTableAnchorPaneInEditOrRemove.setVisible(false);
 		createExamAnchorPane.setVisible(false);
 		examManagementAnchorPane.setVisible(false);
+	}
+
+	/**
+	 * checks if the execution code already exists in the DB
+	 * 
+	 * @param code
+	 * @return
+	 */
+	public boolean executionCodeExist(String code) {
+		client.handleMessageFromClientUI(new ExecutionCodeHandle("Check", code));
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return client.getExecutionCodeExistFlag();
 	}
 
 	// end region -> Public Methods

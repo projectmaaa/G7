@@ -51,6 +51,8 @@ public class Client extends AbstractClient implements IScreenController {
 	private String lastName = "";
 
 	private String id = "";
+	
+	private boolean executionCodeExistFlag;
 
 	// end region -> Fields
 
@@ -192,6 +194,15 @@ public class Client extends AbstractClient implements IScreenController {
 			WaitingActiveExamsFromDB.setAll(waitingActiveExamsFromDB);
 		});
 	}
+	
+	public boolean getExecutionCodeExistFlag() {
+		return executionCodeExistFlag;
+	}
+
+	public void setExecutionCodeExistFlag(boolean executionCodeExistFlag) {
+		this.executionCodeExistFlag = executionCodeExistFlag;
+	}
+
 
 	// end region -> Setters
 
@@ -254,7 +265,6 @@ public class Client extends AbstractClient implements IScreenController {
 				break;
 			default:
 				break;
-
 			}
 		} else if (msg instanceof QuestionHandle) {
 			QuestionHandle questionsHandle = (QuestionHandle) msg;
@@ -286,6 +296,9 @@ public class Client extends AbstractClient implements IScreenController {
 			WaitingActiveExamHandle waitingActiveExamHandle = (WaitingActiveExamHandle) msg;
 			if (waitingActiveExamHandle.getCommand().equals("AllWaiting"))
 				setWaitingActiveExamsFromDB(waitingActiveExamHandle.getWaitingActiveExams());
+		} else if (msg instanceof Boolean) {
+			boolean codeExist = (boolean) msg;
+			setExecutionCodeExistFlag(codeExist);
 		}
 	}
 

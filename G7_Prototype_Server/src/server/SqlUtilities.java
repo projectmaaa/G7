@@ -78,6 +78,8 @@ public class SqlUtilities {
 	public final static String INSERT_StudentAnswerInQuestion = "INSERT INTO StudentAnswerInQuestion VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
 
 	public final static String INSERT_StudentInActiveExam = "INSERT INTO StudentInActiveExam VALUES(?, ?, ?, ?, ?, ?, ?);";
+	
+	public final static String CHECK_ExecutionCodeExist = "SELECT * FROM ActiveExam WHERE executionCode=?;";
 
 	// region Public Methods
 
@@ -453,6 +455,15 @@ public class SqlUtilities {
 			typeOfSetFromDB.add(rs.getString(1));
 		closeResultSetAndStatement(rs, null, typeOfSet);
 		return new TypeHandle(type, typeOfSetFromDB);
+	}
+	
+	public static Boolean checkCode(ExecutionCodeHandle code, Connection connection) throws SQLException {
+		PreparedStatement check = connection.prepareStatement(SqlUtilities.CHECK_ExecutionCodeExist);
+		check.setString(1, code.getCode());
+		ResultSet rs = check.executeQuery();
+//		if(rs.next())
+//			System.out.println("Exist");
+		return rs.next();
 	}
 
 	// end region -> Public Methods
