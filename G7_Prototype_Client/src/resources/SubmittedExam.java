@@ -28,6 +28,11 @@ public class SubmittedExam implements Serializable {
 		this.timeToSolve = timeToSolve;
 		this.studentInActiveExam = studentInActiveExam;
 	}
+	
+	public SubmittedExam(StudentInActiveExam studentInActiveExam) {
+		this.answers = new ArrayList<StudentAnswerInQuestion>();
+		this.studentInActiveExam = studentInActiveExam;
+	}
 
 	public ArrayList<StudentAnswerInQuestion> getAnswers() {
 		return answers;

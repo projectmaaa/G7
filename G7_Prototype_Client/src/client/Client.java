@@ -34,6 +34,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private ObservableList<WaitingActiveExam> WaitingActiveExamsFromDB = FXCollections.observableArrayList();
 
+	private ObservableList<CheckedExam> checkedExamsFromDB = FXCollections.observableArrayList();
+
 	private ScreensController controller;
 
 	private LoginWindowController loginWindowController;
@@ -51,7 +53,7 @@ public class Client extends AbstractClient implements IScreenController {
 	private String lastName = "";
 
 	private String id = "";
-	
+
 	private boolean executionCodeExistFlag;
 
 	// end region -> Fields
@@ -194,7 +196,7 @@ public class Client extends AbstractClient implements IScreenController {
 			WaitingActiveExamsFromDB.setAll(waitingActiveExamsFromDB);
 		});
 	}
-	
+
 	public boolean getExecutionCodeExistFlag() {
 		return executionCodeExistFlag;
 	}
@@ -203,6 +205,15 @@ public class Client extends AbstractClient implements IScreenController {
 		this.executionCodeExistFlag = executionCodeExistFlag;
 	}
 
+	public ObservableList<CheckedExam> getCheckedExamsFromDB() {
+		return checkedExamsFromDB;
+	}
+
+	public void setCheckedExamsFromDB(ArrayList<CheckedExam> checkedExamsFromDB) {
+		Platform.runLater(() -> {
+			this.checkedExamsFromDB.setAll(checkedExamsFromDB);
+		});
+	}
 
 	// end region -> Setters
 
@@ -294,6 +305,11 @@ public class Client extends AbstractClient implements IScreenController {
 			WaitingActiveExamHandle waitingActiveExamHandle = (WaitingActiveExamHandle) msg;
 			if (waitingActiveExamHandle.getCommand().equals("AllWaiting"))
 				setWaitingActiveExamsFromDB(waitingActiveExamHandle.getWaitingActiveExams());
+		} else if (msg instanceof CheckedExamHandle) {
+			CheckedExamHandle checkedExamHandle = (CheckedExamHandle) msg;
+			if (checkedExamHandle.getCommand().equals("AllCheckedExams")) {
+				setCheckedExamsFromDB(checkedExamHandle.getCheckedExams());
+			}
 		} else if (msg instanceof Boolean) {
 			boolean codeExist = (boolean) msg;
 			setExecutionCodeExistFlag(codeExist);

@@ -294,6 +294,9 @@ public class Server extends AbstractServer {
 				case Message.getWaitingActiveExams:
 					client.sendToClient(SqlUtilities.getWaitingActiveExam(connection));
 					break;
+				case Message.getCheckedExams:
+					client.sendToClient(SqlUtilities.getCheckedExam(connection));
+					break;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

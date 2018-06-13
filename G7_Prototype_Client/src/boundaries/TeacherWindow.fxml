@@ -63,11 +63,10 @@
                   <MenuItem mnemonicParsing="false" onAction="#openExamManagement" text="Exam Management" />
 					</items>
 				</Menu>
-				<Menu mnemonicParsing="false" text="Confirm Grades ">
-					<items>
-						<MenuItem mnemonicParsing="false" text="Grade Managment" />
-					</items>
-				</Menu>
+				<Menu mnemonicParsing="false" text="Grades Management">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#openConfirmGrades" text="Confirm Grades" />
+               </items></Menu>
 				<Menu mnemonicParsing="false" text="Order Reports">
 					<items>
                   <MenuItem mnemonicParsing="false" text="Course Report   " />
@@ -370,6 +369,43 @@
                   </Lighting>
                </effect>
             </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="confirmGradesAnchorPane" layoutY="94.0" prefHeight="454.0" prefWidth="958.0" visible="false">
+         <children>
+            <TableView fx:id="confirmGradeTableView" layoutX="17.0" layoutY="49.0" prefHeight="356.0" prefWidth="555.0" stylesheets="@table%20view.css">
+              <columns>
+                <TableColumn fx:id="subjectColInConfirmGrades" prefWidth="67.0" text="Subject" />
+                <TableColumn fx:id="courseColInConfirmGrades" prefWidth="79.0" text="Course" />
+                  <TableColumn fx:id="examNumColInConfirmGrades" prefWidth="106.0" text="Exam Number" />
+                  <TableColumn fx:id="executionCodeColInConfirmGrades" prefWidth="110.0" text="Execution Code" />
+                  <TableColumn fx:id="studentIDColInConfirmGrades" prefWidth="107.0" text="Student ID" />
+                  <TableColumn fx:id="gradeColInConfirmGrades" prefWidth="84.0" text="Grade" />
+              </columns>
+            </TableView>
+            <Button fx:id="approveButtonInConfirmGrade" layoutX="134.0" layoutY="415.0" mnemonicParsing="false" text="Approve">
+               <effect>
+                  <InnerShadow choke="0.27" color="#00ff1e" height="35.83" radius="12.225" width="15.07" />
+               </effect>
+            </Button>
+            <Button fx:id="changeGradeButtonInConfirmGrades" layoutX="222.0" layoutY="415.0" mnemonicParsing="false" text="Change Grade">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+            <Button fx:id="addCommentsButtonInConfirmGrades" layoutX="336.0" layoutY="415.0" mnemonicParsing="false" text="Add Comments">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+            <Label layoutX="16.0" layoutY="7.0" prefWidth="253.0" text="Confirm Grades" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="24.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
          </children>
       </AnchorPane>
 	</children>

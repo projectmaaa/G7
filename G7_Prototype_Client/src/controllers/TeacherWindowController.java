@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import client.Client;
 import client.MainAppClient;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -311,6 +312,43 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private TextField executionCode;
+	
+	// confirm grades
+	
+	@FXML
+	private AnchorPane confirmGradesAnchorPane;
+	
+	@FXML
+	private TableView<CheckedExam> confirmGradeTableView;
+	
+	@FXML
+	private TableColumn<CheckedExam, String> subjectColInConfirmGrades;
+	
+	@FXML
+	private TableColumn<CheckedExam, String> courseColInConfirmGrades;
+	
+	@FXML
+	private TableColumn<CheckedExam, String> examNumColInConfirmGrades;
+	
+	@FXML
+	private TableColumn<CheckedExam, String> executionCodeColInConfirmGrades;
+	
+	@FXML
+	private TableColumn<CheckedExam, String> studentIDColInConfirmGrades;
+	
+	@FXML
+	private TableColumn<CheckedExam, Integer> gradeColInConfirmGrades;
+	
+	@FXML
+	private Button approveButtonInConfirmGrade;
+	
+	@FXML
+	private Button changeGradeButtonInConfirmGrades;
+	
+	@FXML
+	private Button addCommentsButtonInConfirmGrades;
+	
+	
 
 	//
 
@@ -346,6 +384,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setColumnInCreateExamAllQuestions();
 		setColumnInCreateExamQuestions();
 		setColumnsInExamsManagement();
+		setColumnInConfirmGrades();
 		initAnchorPaneInCreateExamFirstWindow();
 		tableViewInCreateExamQuestion.setEditable(true);
 		tableViewInCreateExamQuestion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -910,6 +949,17 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void clearButtonPressed(ActionEvent event) {
 		clearAddQuestionFields();
 	}
+	
+	public void openConfirmGrades(ActionEvent event) {
+		confirmGradesAnchorPane.setVisible(true);
+		welcomeAnchorPane.setVisible(false);
+		backAnchorPane.setVisible(false);
+		addQuestionAnchorPane.setVisible(false);
+		questionsTableAnchorPaneInEditOrRemove.setVisible(false);
+		createExamAnchorPane.setVisible(false);
+		examManagementAnchorPane.setVisible(false);
+		setTableInConfirmGrades();
+	}
 
 	/**
 	 * With this method you can jump between the fields in add question screen
@@ -939,6 +989,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		questionsTableAnchorPaneInEditOrRemove.setVisible(false);
 		createExamAnchorPane.setVisible(false);
 		examManagementAnchorPane.setVisible(false);
+		confirmGradesAnchorPane.setVisible(false);
 	}
 
 	/**
@@ -960,6 +1011,13 @@ public class TeacherWindowController implements Initializable, IScreenController
 	// end region -> Public Methods
 
 	// region Private Methods
+	
+	private void setTableInConfirmGrades() {
+		client.getCheckedExamsFromDB().clear();
+		client.handleMessageFromClientUI(Message.getCheckedExams);
+//		initTablesInCreateExam(true, false);
+		confirmGradeTableView.setItems(client.getCheckedExamsFromDB());
+	}
 
 	/**
 	 * Define the columns
@@ -1068,6 +1126,21 @@ public class TeacherWindowController implements Initializable, IScreenController
 						.setPoints(t.getNewValue());
 			}
 		});
+	}
+	
+	private void setColumnInConfirmGrades() {
+		subjectColInConfirmGrades.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()
+				.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID()));
+		courseColInConfirmGrades.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()
+				.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getCourseID()));
+		examNumColInConfirmGrades.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()
+				.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getExamNum()));
+		executionCodeColInConfirmGrades.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()
+				.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExecutionCode()));
+		studentIDColInConfirmGrades.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()
+				.getSubmittedExam().getStudentInActiveExam().getStudent().getId()));
+		gradeColInConfirmGrades.setCellValueFactory(new PropertyValueFactory<>("grade"));
+
 	}
 
 	/**

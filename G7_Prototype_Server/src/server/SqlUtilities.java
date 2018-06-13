@@ -81,6 +81,8 @@ public class SqlUtilities {
 	public final static String INSERT_StudentInActiveExam = "INSERT INTO StudentInActiveExam VALUES(?, ?, ?, ?, ?, ?, ?);";
 	
 	public final static String CHECK_ExecutionCodeExist = "SELECT * FROM ActiveExam WHERE executionCode=?;";
+	
+	public final static String SELECT_All_CheckedExams = "SELECT * FROM CheckedExam";
 
 	// region Public Methods
 
@@ -298,6 +300,22 @@ public class SqlUtilities {
 		closeResultSetAndStatement(rs, null, statement);
 		return (new WaitingActiveExamHandle("AllWaiting", waitingActiveExams));
 	}
+	
+	public static CheckedExamHandle getCheckedExam(Connection connection) throws SQLException {
+		ArrayList<CheckedExam> checkedExams = new ArrayList<CheckedExam>();
+		PreparedStatement statement = connection.prepareStatement(SELECT_All_CheckedExams);
+		ResultSet rs = statement.executeQuery();
+		while (rs.next()) {
+			Exam exam = new Exam(rs.getString(1), rs.getString(2), rs.getString(3));
+			ActiveExam activeExam = new ActiveExam(exam, rs.getString(4));
+			StudentInActiveExam studentInActiveExam = new StudentInActiveExam(new Student(rs.getString(5), "firstName", "lastName"), activeExam);
+			SubmittedExam submittedExam = new SubmittedExam(studentInActiveExam);
+			checkedExams.add(new CheckedExam(submittedExam, rs.getInt(6)));
+		}
+		closeResultSetAndStatement(rs, null, statement);
+		return (new CheckedExamHandle("AllCheckedExams", checkedExams));
+	}
+	
 
 	/**
 	 * updates the questions table in the data base

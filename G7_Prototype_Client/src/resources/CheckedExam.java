@@ -18,6 +18,23 @@ public class CheckedExam implements Serializable {
 	private String comments;
 	
 	private String commentsOfChangeGrade;
+	
+	
+
+	public CheckedExam(SubmittedExam submittedExam, int grade, boolean approved, String comments,
+			String commentsOfChangeGrade) {
+		super();
+		this.submittedExam = submittedExam;
+		this.grade = grade;
+		this.approved = approved;
+		this.comments = comments;
+		this.commentsOfChangeGrade = commentsOfChangeGrade;
+	}
+
+	public CheckedExam(SubmittedExam submittedExam, int grade) {
+		this.submittedExam = submittedExam;
+		this.grade = grade;
+	}
 
 	public SubmittedExam getSubmittedExam() {
 		return submittedExam;
