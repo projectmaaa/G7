@@ -112,6 +112,7 @@
                </content>
             </ScrollPane>
             <Button fx:id="sumbitExamButton" layoutX="501.0" layoutY="461.0" mnemonicParsing="false" onMouseClicked="#sumbitExam" text="Sumbit Exam" visible="false" />
+            <Button fx:id="uploadManualExam" layoutX="340.0" layoutY="70.0" mnemonicParsing="false" onMouseClicked="#uploadManualExam" text="Upload Exam" visible="false" />
             <AnchorPane fx:id="timerPane" layoutX="280.0" prefHeight="70.0" prefWidth="160.0">
                <children>
                   <Text fx:id="timerDisplay" fill="WHITE" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="199.99998807907104">

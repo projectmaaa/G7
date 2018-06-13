@@ -92,6 +92,9 @@ public class StudentWindowController implements Initializable, IScreenController
 	@FXML
 	private ScrollPane computrizedScrollPane;
 
+	@FXML
+	private Button uploadManualExam;
+
 	/*********************************************************/
 
 	private StudentInActiveExam studentInActiveExam;
@@ -254,9 +257,8 @@ public class StudentWindowController implements Initializable, IScreenController
 						examSheetVBox.getChildren().add(new Text(""));
 					}
 				} else {
-					sumbitExamButton.setLayoutY(50);
-					sumbitExamButton.setLayoutX(370);
-					sumbitExamButton.setVisible(true);
+					uploadManualExam.setVisible(true);
+					sumbitExamButton.setVisible(false);
 					client.handleMessageFromClientUI(new ActiveExamHandle("#ManualExam", activeExam, client.getId()));
 				}
 			} else {
@@ -287,6 +289,10 @@ public class StudentWindowController implements Initializable, IScreenController
 		if (!submittedExam.getAnswers().isEmpty()) {
 			System.out.println(submittedExam);
 		}
+	}
+
+	public void uploadManualExam(MouseEvent mouseEvent) {
+
 	}
 
 	/**
