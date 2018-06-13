@@ -1,5 +1,7 @@
 package client;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import controllers.IScreenController;
@@ -313,6 +315,9 @@ public class Client extends AbstractClient implements IScreenController {
 		} else if (msg instanceof Boolean) {
 			boolean codeExist = (boolean) msg;
 			setExecutionCodeExistFlag(codeExist);
+		} else if (msg instanceof MyFile) {
+			MyFile myFile = (MyFile) msg;
+			Utilities.writeWordFile(myFile);
 		}
 	}
 

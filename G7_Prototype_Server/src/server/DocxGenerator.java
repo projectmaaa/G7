@@ -18,12 +18,9 @@ public class DocxGenerator {
 
 	private int index;
 
-	public DocxGenerator(String studentID) throws FileNotFoundException {
+	public DocxGenerator(String executionCode, String studentID) throws FileNotFoundException {
 		document = new XWPFDocument();
-		// docxFile = new File("/exams/" + studentID + ".docx");
-		docxFile = new File(studentID + ".docx");
-		// fileOutputStream = new FileOutputStream(docxFile);
-
+		docxFile = new File("./exams/" + executionCode + "_" + studentID + ".docx");
 	}
 
 	public XWPFDocument getDocument() {
