@@ -823,7 +823,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			@Override
 			public void handle(ActionEvent event) {
 				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
-				// check executionCode
+				// check execution code
 				if ((executionCode.getText().length() != 4)) {
 					Utilities.popUpMethod("Illegal execution code. please try again!");
 					primaryStage.hide();
@@ -831,7 +831,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 					Utilities.popUpMethod("Type was not selected. please try again!");
 					primaryStage.hide();
 				} else if (!executionCodeExist(executionCode.getText())) {
-					ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText(), type.getValue());
+					ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText(), type.getValue(),
+							firstName + " " + lastName);
 					client.handleMessageFromClientUI(new ActiveExamHandle("Activate", activeExam));
 					Utilities.popUpMethod("Exam activated successfully!");
 					primaryStage.hide();
@@ -926,13 +927,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 				primaryStage.hide();
 			}
 		});
-		// Button cancelButton = new Button("Cancel");
-		// cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-		// @Override
-		// public void handle(ActionEvent event) {
-		// primaryStage.hide();
-		// }
-		// });
 
 		Button closeButton = new Button("Close");
 		closeButton.setOnAction(new EventHandler<ActionEvent>() {

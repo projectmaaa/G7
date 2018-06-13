@@ -61,6 +61,7 @@
 					<items>
 						<MenuItem fx:id="createExam" mnemonicParsing="false" onAction="#openCreateExam" text="Create Exam" />
                   <MenuItem mnemonicParsing="false" onAction="#openExamManagement" text="Exam Management" />
+                  <MenuItem mnemonicParsing="false" text="Active Exam Management" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Grades Management">
@@ -74,7 +75,7 @@
 				</Menu>
 			</menus>
 		</MenuBar>
-      <AnchorPane fx:id="welcomeAnchorPane" layoutX="57.0" layoutY="152.0" prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="welcomeAnchorPane" layoutX="57.0" layoutY="152.0" prefHeight="200.0" prefWidth="200.0" visible="false">
          <children>
             <Label layoutX="23.0" layoutY="79.0" prefHeight="50.0" prefWidth="316.0" text="Let AES help you!" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>
@@ -326,22 +327,12 @@
                   <TableColumn fx:id="textTeachersColInExamsManagement" minWidth="0.0" prefWidth="195.0" text="Text For Teachers" />
               </columns>
             </TableView>
-            <Button fx:id="activateButton" layoutX="8.0" layoutY="420.0" mnemonicParsing="false" onAction="#activateButtonHandler" prefHeight="25.0" prefWidth="74.0" text="Activate">
+            <Button fx:id="activateButton" layoutX="364.0" layoutY="419.0" mnemonicParsing="false" onAction="#activateButtonHandler" prefHeight="25.0" prefWidth="74.0" text="Activate">
                <effect>
                   <InnerShadow />
                </effect>
             </Button>
-            <Button fx:id="changeTimeButton" layoutX="109.0" layoutY="421.0" mnemonicParsing="false" onAction="#changeTimeButtonHandler" text="Change Time">
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </Button>
-            <Button fx:id="lockButton" layoutX="222.0" layoutY="421.0" mnemonicParsing="false" onAction="#lockButtonHandler" prefHeight="25.0" prefWidth="80.0" text="Lock">
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </Button>
-            <Button fx:id="deleteExamButton" layoutX="334.0" layoutY="421.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="74.0" text="Delete">
+            <Button fx:id="deleteExamButton" layoutX="498.0" layoutY="419.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="74.0" text="Delete">
                <effect>
                   <InnerShadow />
                </effect>
@@ -350,6 +341,53 @@
                <effect>
                   <InnerShadow />
                </effect></Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="13.0" layoutY="87.0" prefHeight="479.0" prefWidth="985.0" visible="false">
+         <children>
+            <Button fx:id="changeTimeButton" layoutX="533.0" layoutY="440.0" mnemonicParsing="false" onAction="#changeTimeButtonHandler" text="Change Time">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+            <Button fx:id="lockButton" layoutX="345.0" layoutY="440.0" mnemonicParsing="false" onAction="#lockButtonHandler" prefHeight="25.0" prefWidth="80.0" text="Lock">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+            <Label layoutX="14.0" layoutY="14.0" prefHeight="35.0" prefWidth="277.0" text="Active Exam Management" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="24.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+            <Label layoutX="14.0" layoutY="61.0" text="Subject" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="subjectActiveExamManagement" layoutX="70.0" layoutY="58.0" prefWidth="150.0">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ComboBox>
+            <Button fx:id="showActiveExamButtonInExamsManagement" layoutX="250.0" layoutY="58.0" mnemonicParsing="false" onAction="#showExamsHandler" text="Show Exams">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+            <TableView layoutX="124.0" layoutY="93.0" prefHeight="338.0" prefWidth="738.0">
+              <columns>
+                <TableColumn prefWidth="95.0" text="Subject" />
+                <TableColumn prefWidth="95.0" text="Course" />
+                  <TableColumn prefWidth="115.0" text="Exam Number" />
+                  <TableColumn prefWidth="115.0" text="Execution Code" />
+                  <TableColumn prefWidth="115.0" text="Duration (min)" />
+                  <TableColumn prefWidth="200.0" text="Type" />
+              </columns>
+            </TableView>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="backAnchorPane" layoutY="63.0" onMouseClicked="#backToMainScreen" prefHeight="84.0" prefWidth="74.0" visible="false">

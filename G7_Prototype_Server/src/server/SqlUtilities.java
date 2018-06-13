@@ -59,7 +59,7 @@ public class SqlUtilities {
 
 	public final static String SELECT_ActiveExam = "SELECT * FROM ActiveExam WHERE executionCode=?;";
 
-	public final static String INSERT_ActiveExam = "INSERT INTO ActiveExam VALUES (?, ?, ?, ?, ?, ?, ?);";
+	public final static String INSERT_ActiveExam = "INSERT INTO ActiveExam VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
 	public final static String SELECT_Subjects = "SELECT subjectName FROM Subject";
 
@@ -78,11 +78,11 @@ public class SqlUtilities {
 	public final static String INSERT_StudentAnswerInQuestion = "INSERT INTO StudentAnswerInQuestion VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
 
 	public final static String INSERT_StudentInActiveExam = "INSERT INTO StudentInActiveExam VALUES(?, ?, ?, ?, ?, ?, ?);";
-	
+
 	public final static String CHECK_ExecutionCodeExist = "SELECT * FROM ActiveExam WHERE executionCode=?;";
-	
+
 	public final static String SELECT_All_CheckedExams = "SELECT * FROM CheckedExam";
-	
+
 	public final static String APPROVED_EXAM_by_teacher = "UPDATE CheckedExam SET approved=1 WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
 
 	// region Public Methods
@@ -289,7 +289,7 @@ public class SqlUtilities {
 		closeResultSetAndStatement(rs, null, statement);
 		return (new WaitingActiveExamHandle("AllWaiting", waitingActiveExams));
 	}
-	
+
 	public static CheckedExamHandle getCheckedExam(Connection connection) throws SQLException {
 		ArrayList<CheckedExam> checkedExams = new ArrayList<CheckedExam>();
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_CheckedExams);
@@ -297,14 +297,14 @@ public class SqlUtilities {
 		while (rs.next()) {
 			Exam exam = new Exam(rs.getString(1), rs.getString(2), rs.getString(3));
 			ActiveExam activeExam = new ActiveExam(exam, rs.getString(4));
-			StudentInActiveExam studentInActiveExam = new StudentInActiveExam(new Student(rs.getString(5), "firstName", "lastName"), activeExam);
+			StudentInActiveExam studentInActiveExam = new StudentInActiveExam(
+					new Student(rs.getString(5), "firstName", "lastName"), activeExam);
 			SubmittedExam submittedExam = new SubmittedExam(studentInActiveExam);
 			checkedExams.add(new CheckedExam(submittedExam, rs.getInt(6)));
 		}
 		closeResultSetAndStatement(rs, null, statement);
 		return (new CheckedExamHandle("AllCheckedExams", checkedExams));
 	}
-	
 
 	/**
 	 * updates the questions table in the data base
@@ -381,12 +381,13 @@ public class SqlUtilities {
 		insert.setString(2, activeExam.getExam().getCourseID());
 		insert.setString(3, activeExam.getExam().getExamNum());
 		insert.setString(4, activeExam.getExecutionCode());
-		insert.setInt(5, activeExam.getExam().getExamDuration());
-		insert.setInt(6, activeExam.getLocked());
+		insert.setString(5, activeExam.getActivator());
+		insert.setInt(6, activeExam.getExam().getExamDuration());
+		insert.setInt(7, activeExam.getLocked());
 		if (activeExam.getType().equals("Computerized"))
-			insert.setString(7, "c");
+			insert.setString(8, "c");
 		else
-			insert.setString(7, "m");
+			insert.setString(8, "m");
 		insert.executeUpdate();
 		insert.close();
 	}
@@ -455,12 +456,15 @@ public class SqlUtilities {
 		}
 		closeResultSetAndStatement(null, null, remove);
 	}
-	
+
 	public static void approveCheckedExam(CheckedExam checkedExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.APPROVED_EXAM_by_teacher);
-		insert.setString(1, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
-		insert.setString(2, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getCourseID());
-		insert.setString(3, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getExamNum());
+		insert.setString(1,
+				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
+		insert.setString(2,
+				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getCourseID());
+		insert.setString(3,
+				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getExamNum());
 		insert.setString(4, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExecutionCode());
 		insert.setString(5, checkedExam.getSubmittedExam().getStudentInActiveExam().getStudent().getId());
 		insert.executeUpdate();
@@ -489,13 +493,13 @@ public class SqlUtilities {
 		closeResultSetAndStatement(rs, null, typeOfSet);
 		return new TypeHandle(type, typeOfSetFromDB);
 	}
-	
+
 	public static Boolean checkCode(ExecutionCodeHandle code, Connection connection) throws SQLException {
 		PreparedStatement check = connection.prepareStatement(SqlUtilities.CHECK_ExecutionCodeExist);
 		check.setString(1, code.getCode());
 		ResultSet rs = check.executeQuery();
-//		if(rs.next())
-//			System.out.println("Exist");
+		// if(rs.next())
+		// System.out.println("Exist");
 		return rs.next();
 	}
 
