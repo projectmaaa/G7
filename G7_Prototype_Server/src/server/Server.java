@@ -191,13 +191,12 @@ public class Server extends AbstractServer {
 			else if (waitingActiveExamHandle.getCommand().equals("Remove")) {
 				try {
 					SqlUtilities.removeWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
-					// client.sendToClient(Message.tableSaved);
+					client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				// catch (IOException e) {
-				// e.printStackTrace();
-				// }
 			}
 		} else if (msg instanceof String) {
 			String str = (String) msg;
@@ -252,7 +251,6 @@ public class Server extends AbstractServer {
 								return;
 							} else {
 								client.sendToClient(Message.userAlreadyConnected);
-								// System.out.println("User Already Connected");
 								login.close();
 								rs.close();
 								return;
@@ -260,7 +258,6 @@ public class Server extends AbstractServer {
 						}
 					} else {
 						client.sendToClient(Message.noSuchUser);
-						// System.out.println("Wrong Username or Password");
 						return;
 					}
 				case Message.editOrRemove:
@@ -303,7 +300,6 @@ public class Server extends AbstractServer {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			// System.out.println(client.getId());
 		}
 	}
 
