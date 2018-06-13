@@ -1,5 +1,7 @@
 package client;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import controllers.IScreenController;
@@ -51,7 +53,7 @@ public class Client extends AbstractClient implements IScreenController {
 	private String lastName = "";
 
 	private String id = "";
-	
+
 	private boolean executionCodeExistFlag;
 
 	// end region -> Fields
@@ -194,7 +196,7 @@ public class Client extends AbstractClient implements IScreenController {
 			WaitingActiveExamsFromDB.setAll(waitingActiveExamsFromDB);
 		});
 	}
-	
+
 	public boolean getExecutionCodeExistFlag() {
 		return executionCodeExistFlag;
 	}
@@ -202,7 +204,6 @@ public class Client extends AbstractClient implements IScreenController {
 	public void setExecutionCodeExistFlag(boolean executionCodeExistFlag) {
 		this.executionCodeExistFlag = executionCodeExistFlag;
 	}
-
 
 	// end region -> Setters
 
@@ -297,6 +298,9 @@ public class Client extends AbstractClient implements IScreenController {
 		} else if (msg instanceof Boolean) {
 			boolean codeExist = (boolean) msg;
 			setExecutionCodeExistFlag(codeExist);
+		} else if (msg instanceof MyFile) {
+			MyFile myFile = (MyFile) msg;
+			Utilities.writeWordFile(myFile);
 		}
 	}
 

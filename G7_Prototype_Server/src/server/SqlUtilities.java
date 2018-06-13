@@ -153,18 +153,6 @@ public class SqlUtilities {
 		return (new ActiveExamHandle("ActiveExam", null));
 	}
 
-	public static void getManualExam(ActiveExam activeExam, String userID) throws IOException {
-		DocxGenerator docxGenerator = new DocxGenerator(userID);
-		for (QuestionInExam questionInExam : activeExam.getExam().getQuestions()) {
-			docxGenerator.addQuestionToWord(questionInExam.getQuestionText(),
-					questionInExam.getQuestion().getFirstPossibleAnswer(),
-					questionInExam.getQuestion().getSecondPossibleAnswer(),
-					questionInExam.getQuestion().getThirdPossibleAnswer(),
-					questionInExam.getQuestion().getFourthPossibleAnswer());
-		}
-		docxGenerator.getDocument().close();
-	}
-
 	/**
 	 * 
 	 * @param submittedExam

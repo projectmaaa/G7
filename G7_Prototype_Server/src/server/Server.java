@@ -136,7 +136,10 @@ public class Server extends AbstractServer {
 				}
 			} else if (activeExamHandle.getCommand().equals("#ManualExam")) {
 				try {
-					SqlUtilities.getManualExam(activeExamHandle.getActiveExam(), activeExamHandle.getUserID());
+					Utilities.getManualExam(activeExamHandle.getActiveExam(),
+							activeExamHandle.getActiveExam().getExecutionCode(), activeExamHandle.getUserID());
+					client.sendToClient(Utilities.getWordFile(activeExamHandle.getActiveExam().getExecutionCode(),
+							activeExamHandle.getUserID()));
 				} catch (IOException e) {
 					System.out.println(e);
 				}

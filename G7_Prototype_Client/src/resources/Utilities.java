@@ -1,5 +1,8 @@
 package resources;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -82,6 +85,28 @@ public class Utilities {
 		border.setCenter(okButton);
 		primaryStage.setScene(new Scene(border));
 		primaryStage.show();
+	}
+
+	/**
+	 * 
+	 * @param myFile
+	 */
+	public static void writeWordFile(MyFile myFile) {
+		try {
+			File file = new File(myFile.getFileName());
+			FileOutputStream fileOutputStream = new FileOutputStream(file);
+			fileOutputStream.write(myFile.getMybytearray());
+			fileOutputStream.close();
+			if (!Desktop.isDesktopSupported()) {
+				System.out.println("Desktop is not supported");
+				return;
+			}
+			Desktop desktop = Desktop.getDesktop();
+			if (file.exists())
+				desktop.open(file);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 	// end region -> Public Methods
