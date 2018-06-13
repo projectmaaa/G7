@@ -306,6 +306,7 @@ public class StudentWindowController implements Initializable, IScreenController
 		} else {
 			Utilities.popUpMethod("Please Enter Execution Code");
 		}
+		executionCodeTextField.clear();
 	}
 
 	/**
