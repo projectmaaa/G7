@@ -195,9 +195,9 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	public void checkExecutionCodeForNull() {
-		System.out.println("2");
+		// System.out.println("2");
 		if (activeExam == null) {
-			// Utilities.popUpMethod("Wrong Code");
+			Utilities.popUpMethod("Wrong Code");
 		} else {
 			setTimer();
 			setComputerizeExam();
@@ -295,8 +295,14 @@ public class StudentWindowController implements Initializable, IScreenController
 	 */
 	public void checkExecutionCode(MouseEvent event) {
 		String code = executionCodeTextField.getText();
-		if (code != null) {
+		if (!code.isEmpty()) {
 			client.handleMessageFromClientUI(Message.getExecutionCode + " " + code);
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			checkExecutionCodeForNull();
 		} else {
 			Utilities.popUpMethod("Please Enter Execution Code");
 		}

@@ -2,8 +2,6 @@ package client;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
 import controllers.IScreenController;
 import controllers.LoginWindowController;
 import controllers.PrincipalWindowController;
@@ -280,8 +278,6 @@ public class Client extends AbstractClient implements IScreenController {
 		} else if (msg instanceof ActiveExamHandle) {
 			ActiveExamHandle activeExamsHandle = (ActiveExamHandle) msg;
 			studentWindowController.setActiveExam(activeExamsHandle.getActiveExam());
-			studentWindowController.checkExecutionCodeForNull();
-			// System.out.println(studentWindowController.getActiveExam());
 		} else if (msg instanceof ExamHandle) {
 			ExamHandle examsHandle = (ExamHandle) msg;
 			if (examsHandle.getCommand().equals("Subject")) {
