@@ -212,6 +212,16 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
+			else if(checkedExam.getCommand().equals("Remove")) {
+				try {
+					SqlUtilities.removeCheckedExam(checkedExam.getCheckedExam(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		else if (msg instanceof String) {

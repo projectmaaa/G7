@@ -979,6 +979,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 			public void handle(ActionEvent event) {
 				CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
 				client.handleMessageFromClientUI(new CheckedExamHandle("Approve", selectedExam));
+				client.handleMessageFromClientUI(new CheckedExamHandle("Remove", selectedExam));
+				setTableInConfirmGrades();
 				Utilities.popUpMethod("Exam sent to Student!");
 				primaryStage.hide();
 			}
