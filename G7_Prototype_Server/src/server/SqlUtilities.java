@@ -82,6 +82,8 @@ public class SqlUtilities {
 	public final static String CHECK_ExecutionCodeExist = "SELECT * FROM ActiveExam WHERE executionCode=?;";
 	
 	public final static String SELECT_All_CheckedExams = "SELECT * FROM CheckedExam";
+	
+	public final static String APPROVED_EXAM_by_teacher = "UPDATE CheckedExam SET approved=1 WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
 
 	// region Public Methods
 
@@ -452,6 +454,17 @@ public class SqlUtilities {
 			remove.executeUpdate();
 		}
 		closeResultSetAndStatement(null, null, remove);
+	}
+	
+	public static void approveCheckedExam(CheckedExam checkedExam, Connection connection) throws SQLException {
+		PreparedStatement insert = connection.prepareStatement(SqlUtilities.APPROVED_EXAM_by_teacher);
+		insert.setString(1, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
+		insert.setString(2, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getCourseID());
+		insert.setString(3, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getExamNum());
+		insert.setString(4, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExecutionCode());
+		insert.setString(5, checkedExam.getSubmittedExam().getStudentInActiveExam().getStudent().getId());
+		insert.executeUpdate();
+		insert.close();
 	}
 
 	/**

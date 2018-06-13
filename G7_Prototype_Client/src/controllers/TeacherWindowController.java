@@ -312,43 +312,41 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private TextField executionCode;
-	
+
 	// confirm grades
-	
+
 	@FXML
 	private AnchorPane confirmGradesAnchorPane;
-	
+
 	@FXML
 	private TableView<CheckedExam> confirmGradeTableView;
-	
+
 	@FXML
 	private TableColumn<CheckedExam, String> subjectColInConfirmGrades;
-	
+
 	@FXML
 	private TableColumn<CheckedExam, String> courseColInConfirmGrades;
-	
+
 	@FXML
 	private TableColumn<CheckedExam, String> examNumColInConfirmGrades;
-	
+
 	@FXML
 	private TableColumn<CheckedExam, String> executionCodeColInConfirmGrades;
-	
+
 	@FXML
 	private TableColumn<CheckedExam, String> studentIDColInConfirmGrades;
-	
+
 	@FXML
 	private TableColumn<CheckedExam, Integer> gradeColInConfirmGrades;
-	
+
 	@FXML
 	private Button approveButtonInConfirmGrade;
-	
+
 	@FXML
 	private Button changeGradeButtonInConfirmGrades;
-	
+
 	@FXML
 	private Button addCommentsButtonInConfirmGrades;
-	
-	
 
 	//
 
@@ -614,6 +612,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			welcomeAnchorPane.setVisible(false);
 			createExamAnchorPane.setVisible(false);
 			examManagementAnchorPane.setVisible(false);
+			confirmGradesAnchorPane.setVisible(false);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -665,6 +664,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			questionsTableAnchorPaneInEditOrRemove.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
 			examManagementAnchorPane.setVisible(false);
+			confirmGradesAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -792,6 +792,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			addQuestionAnchorPane.setVisible(false);
 			questionsTableAnchorPaneInEditOrRemove.setVisible(false);
 			welcomeAnchorPane.setVisible(false);
+			confirmGradesAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 			setSubjectComboBox(subjectExamManagement);
 		} catch (Throwable e) {
@@ -949,7 +950,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void clearButtonPressed(ActionEvent event) {
 		clearAddQuestionFields();
 	}
-	
+
 	public void openConfirmGrades(ActionEvent event) {
 		confirmGradesAnchorPane.setVisible(true);
 		welcomeAnchorPane.setVisible(false);
@@ -959,6 +960,40 @@ public class TeacherWindowController implements Initializable, IScreenController
 		createExamAnchorPane.setVisible(false);
 		examManagementAnchorPane.setVisible(false);
 		setTableInConfirmGrades();
+	}
+
+	public void approveButtonHandler(ActionEvent event) {
+		Label text = null;
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("AES7");
+		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		Popup popup = new Popup();
+		popup.setX(700);
+		popup.setY(400);
+		HBox layout = new HBox(10);
+		text = new Label("Are you sure?");
+		popup.getContent().addAll(text);
+		Button yesButton = new Button("Yes");
+		yesButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
+				client.handleMessageFromClientUI(new CheckedExamHandle("Approve", selectedExam));
+				Utilities.popUpMethod("Exam sent to Student!");
+				primaryStage.hide();
+			}
+		});
+		Button noButton = new Button("No");
+		noButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+			}
+		});
+		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+		layout.getChildren().addAll(text, yesButton, noButton);
+		primaryStage.setScene(new Scene(layout));
+		primaryStage.show();
 	}
 
 	/**
@@ -1011,11 +1046,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 	// end region -> Public Methods
 
 	// region Private Methods
-	
+
 	private void setTableInConfirmGrades() {
 		client.getCheckedExamsFromDB().clear();
 		client.handleMessageFromClientUI(Message.getCheckedExams);
-//		initTablesInCreateExam(true, false);
+		// initTablesInCreateExam(true, false);
 		confirmGradeTableView.setItems(client.getCheckedExamsFromDB());
 	}
 
@@ -1127,7 +1162,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			}
 		});
 	}
-	
+
 	private void setColumnInConfirmGrades() {
 		subjectColInConfirmGrades.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()
 				.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID()));
@@ -1135,10 +1170,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 				.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getCourseID()));
 		examNumColInConfirmGrades.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()
 				.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getExamNum()));
-		executionCodeColInConfirmGrades.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()
-				.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExecutionCode()));
-		studentIDColInConfirmGrades.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()
-				.getSubmittedExam().getStudentInActiveExam().getStudent().getId()));
+		executionCodeColInConfirmGrades.setCellValueFactory(cellData -> new SimpleStringProperty(
+				cellData.getValue().getSubmittedExam().getStudentInActiveExam().getActiveExam().getExecutionCode()));
+		studentIDColInConfirmGrades.setCellValueFactory(cellData -> new SimpleStringProperty(
+				cellData.getValue().getSubmittedExam().getStudentInActiveExam().getStudent().getId()));
 		gradeColInConfirmGrades.setCellValueFactory(new PropertyValueFactory<>("grade"));
 
 	}

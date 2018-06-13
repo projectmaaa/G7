@@ -201,7 +201,22 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-		} else if (msg instanceof String) {
+		} else if(msg instanceof CheckedExamHandle) {
+			CheckedExamHandle checkedExam = (CheckedExamHandle) msg;
+			
+			if(checkedExam.getCommand().equals("Approve")) {
+				try {
+					SqlUtilities.approveCheckedExam(checkedExam.getCheckedExam(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
 			try {
