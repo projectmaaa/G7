@@ -56,7 +56,7 @@ public class SqlUtilities {
 
 	public final static String SELECT_Exam_BY_SubjectID = "SELECT * FROM Exam WHERE subjectID=?;";
 
-	public final static String SELECT_Exam_BY_Subject_CourseID_ExamID = "SELECT * FROM Exam WHERE subjectID=? AND courseID=? AND examNum=? ;";
+	public final static String SELECT_Exam_BY_Subject_CourseID_ExamID = "SELECT * FROM Exam WHERE subjectID=? AND courseID=? AND examNum=?;";
 
 	public final static String SELECT_ActiveExam = "SELECT * FROM ActiveExam WHERE executionCode=?;";
 

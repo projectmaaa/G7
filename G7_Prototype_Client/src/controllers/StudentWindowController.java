@@ -17,6 +17,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -195,7 +197,6 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	public void checkExecutionCodeForNull() {
-		// System.out.println("2");
 		if (activeExam == null) {
 			Utilities.popUpMethod("Wrong Code");
 		} else {
@@ -205,51 +206,65 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * when the user clicked on 'enter' after entering his\hers ID
 	 * 
 	 * @param e
 	 */
-	public void checkExamID(MouseEvent e) {
-		if (activeExam != null) {
-			if (!examIDTextField.getText().isEmpty()) {
-				if (examIDTextField.getText().equals(client.getId())) {
-					startTimer();
-					studentInActiveExam = new StudentInActiveExam(new Student(client.getId(), firstName, lastName),
-							activeExam);
-					client.handleMessageFromClientUI(
-							new StudentInActiveExamHandle(Message.studentInActiveExam, studentInActiveExam));
-					enterIDComputerizeExamButton.setDisable(true);
-					examIDTextField.setDisable(true);
+	public void enterIsClickedInEnterID(MouseEvent e) {
+		checkStudentID();
+	}
 
-					if (activeExam.getType().equals("c")) {
-						sumbitExamButton.setVisible(true);
-						computrizedScrollPane.setVisible(true);
-						int index = 0;
-						for (QuestionInExam questionInExam : activeExam.getExam().getQuestions()) {
-							QuestionInComputerizeExam questionInComputerizeExam = new QuestionInComputerizeExam(
-									Integer.toString(++index) + ". " + questionInExam.getQuestion().getQuestionText(),
-									questionInExam.getQuestion().getFirstPossibleAnswer(),
-									questionInExam.getQuestion().getSecondPossibleAnswer(),
-									questionInExam.getQuestion().getThirdPossibleAnswer(),
-									questionInExam.getQuestion().getFourthPossibleAnswer(), questionInExam);
-							QuestionInComputerizeExamArray.add(questionInComputerizeExam);
-							examSheetVBox.getChildren().addAll(questionInComputerizeExam.getList());
-							examSheetVBox.getChildren().add(new Text(""));
-						}
-					} else {
-						sumbitExamButton.setLayoutY(50);
-						sumbitExamButton.setLayoutX(370);
-						sumbitExamButton.setVisible(true);
-						client.handleMessageFromClientUI(
-								new ActiveExamHandle("#ManualExam", activeExam, client.getId()));
+	/**
+	 * When the user pressed enter key after entering his\hers ID
+	 * 
+	 * @param e
+	 */
+	public void enterIDKeyHandler(KeyEvent e) {
+		KeyCode code = e.getCode();
+		if (code == KeyCode.ENTER)
+			checkStudentID();
+	}
+
+	/**
+	 * Checks if the inserted student ID is the same as the connected user
+	 */
+	public void checkStudentID() {
+		if (!examIDTextField.getText().isEmpty()) {
+			if (examIDTextField.getText().equals(client.getId())) {
+				startTimer();
+				studentInActiveExam = new StudentInActiveExam(new Student(client.getId(), firstName, lastName),
+						activeExam);
+				client.handleMessageFromClientUI(
+						new StudentInActiveExamHandle(Message.studentInActiveExam, studentInActiveExam));
+				enterIDComputerizeExamButton.setDisable(true);
+				examIDTextField.setDisable(true);
+				if (activeExam.getType().equals("c")) {
+					sumbitExamButton.setVisible(true);
+					computrizedScrollPane.setVisible(true);
+					int index = 0;
+					for (QuestionInExam questionInExam : activeExam.getExam().getQuestions()) {
+						QuestionInComputerizeExam questionInComputerizeExam = new QuestionInComputerizeExam(
+								Integer.toString(++index) + ". " + questionInExam.getQuestion().getQuestionText(),
+								questionInExam.getQuestion().getFirstPossibleAnswer(),
+								questionInExam.getQuestion().getSecondPossibleAnswer(),
+								questionInExam.getQuestion().getThirdPossibleAnswer(),
+								questionInExam.getQuestion().getFourthPossibleAnswer(), questionInExam);
+						QuestionInComputerizeExamArray.add(questionInComputerizeExam);
+						examSheetVBox.getChildren().addAll(questionInComputerizeExam.getList());
+						examSheetVBox.getChildren().add(new Text(""));
 					}
 				} else {
-					Utilities.popUpMethod("Wrong ID");
+					sumbitExamButton.setLayoutY(50);
+					sumbitExamButton.setLayoutX(370);
+					sumbitExamButton.setVisible(true);
+					client.handleMessageFromClientUI(new ActiveExamHandle("#ManualExam", activeExam, client.getId()));
 				}
 			} else {
-				Utilities.popUpMethod("Please Enter ID");
+				Utilities.popUpMethod("Wrong ID");
+				examIDTextField.clear();
 			}
 		} else {
-			Utilities.popUpMethod("Wrong code");
+			Utilities.popUpMethod("Please Enter ID");
 		}
 	}
 
@@ -290,15 +305,34 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * when the user clicked on 'enter' after entering the execution code
 	 * 
-	 * @param event
+	 * @param e
 	 */
-	public void checkExecutionCode(MouseEvent event) {
+	public void enterIsClickedInExecuteExam(MouseEvent e) {
+		checkExecutionCode();
+	}
+
+	/**
+	 * When the user pressed enter key after entering the execution code
+	 * 
+	 * @param e
+	 */
+	public void executionCodeKeyHandler(KeyEvent e) {
+		KeyCode code = e.getCode();
+		if (code == KeyCode.ENTER)
+			checkExecutionCode();
+	}
+
+	/**
+	 * Doesn't let the student to do an exam with wrong execution code
+	 */
+	public void checkExecutionCode() {
 		String code = executionCodeTextField.getText();
 		if (!code.isEmpty()) {
 			client.handleMessageFromClientUI(Message.getExecutionCode + " " + code);
 			try {
-				TimeUnit.SECONDS.sleep(1);
+				TimeUnit.SECONDS.sleep(3);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -318,10 +352,6 @@ public class StudentWindowController implements Initializable, IScreenController
 		welcomeAnchorPane.setVisible(true);
 		timerPane.setVisible(true);
 	}
-
-	// public void setManualExam() {
-	// client.handleMessageFromClientUI(message);
-	// }
 
 	/**
 	 * 
