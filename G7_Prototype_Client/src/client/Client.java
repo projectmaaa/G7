@@ -256,12 +256,12 @@ public class Client extends AbstractClient implements IScreenController {
 				studentWindowController.setName();
 				break;
 			case "#ChangeTime":
-				if ((studentWindowController != null)
-						&& (studentWindowController.getActiveExam().getExecutionCode().equals(strArray[1]))) {
-					System.out.println(this.firstName + " " + this.lastName);
-					studentWindowController.getActiveExam().setDuration(Integer.parseInt(strArray[2]));
-					studentWindowController.setSecondTimer();
-				}
+				if (studentWindowController.getActiveExam() != null)
+					if (studentWindowController.getActiveExam().getExecutionCode().equals(strArray[1])) {
+						System.out.println(this.firstName + " " + this.lastName);
+						studentWindowController.getActiveExam().setDuration(Integer.parseInt(strArray[2]));
+						studentWindowController.setSecondTimer();
+					}
 				break;
 			case "#TableSaved":
 				System.out.println("Data Base Updated successfully");

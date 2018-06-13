@@ -189,9 +189,7 @@ public class Server extends AbstractServer {
 				// catch (IOException e) {
 				// e.printStackTrace();
 				// }
-			}
-
-			else if (waitingActiveExamHandle.getCommand().equals("Remove")) {
+			} else if (waitingActiveExamHandle.getCommand().equals("Remove")) {
 				try {
 					SqlUtilities.removeWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
 					client.sendToClient(Message.tableSaved);
