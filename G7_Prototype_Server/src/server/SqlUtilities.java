@@ -83,7 +83,9 @@ public class SqlUtilities {
 
 	public final static String SELECT_All_CheckedExams = "SELECT * FROM CheckedExam";
 
-	public final static String APPROVED_EXAM_by_teacher = "UPDATE CheckedExam SET approved=1 WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
+	public final static String INSERT_ApprovedExamForStudent = "INSERT INTO ApprovedExamForStudent VALUES (?, ?, ?, ?, ?, ?, ?);";
+
+	public final static String REMOVE_checkedExam = "DELETE FROM CheckedExam WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
 
 	// region Public Methods
 
@@ -458,7 +460,7 @@ public class SqlUtilities {
 	}
 
 	public static void approveCheckedExam(CheckedExam checkedExam, Connection connection) throws SQLException {
-		PreparedStatement insert = connection.prepareStatement(SqlUtilities.APPROVED_EXAM_by_teacher);
+		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_ApprovedExamForStudent);
 		insert.setString(1,
 				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
 		insert.setString(2,
@@ -467,8 +469,24 @@ public class SqlUtilities {
 				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getExamNum());
 		insert.setString(4, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExecutionCode());
 		insert.setString(5, checkedExam.getSubmittedExam().getStudentInActiveExam().getStudent().getId());
+		insert.setInt(6, checkedExam.getGrade());
+		insert.setString(7, checkedExam.getComments() + checkedExam.getCommentsOfChangeGrade());
 		insert.executeUpdate();
 		insert.close();
+	}
+
+	public static void removeCheckedExam(CheckedExam checkedExam, Connection connection) throws SQLException {
+		PreparedStatement remove = connection.prepareStatement(SqlUtilities.REMOVE_checkedExam);
+		remove.setString(1,
+				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
+		remove.setString(2,
+				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getCourseID());
+		remove.setString(3,
+				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getExamNum());
+		remove.setString(4, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExecutionCode());
+		remove.setString(5, checkedExam.getSubmittedExam().getStudentInActiveExam().getStudent().getId());
+		remove.executeUpdate();
+		closeResultSetAndStatement(null, null, remove);
 	}
 
 	/**
