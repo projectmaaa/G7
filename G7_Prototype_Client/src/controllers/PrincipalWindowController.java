@@ -1,8 +1,8 @@
 package controllers;
 
+
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.Client;
 import client.MainAppClient;
 import javafx.beans.property.SimpleStringProperty;
