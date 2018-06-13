@@ -12,7 +12,6 @@ public class SubmittedExam implements Serializable {
 
 	private ArrayList<StudentAnswerInQuestion> answers;
 
-	private int grade;
 
 	private int timeToSolve;
 
@@ -38,13 +37,6 @@ public class SubmittedExam implements Serializable {
 		answers.add(answer);
 	}
 
-	public int getGrade() {
-		return grade;
-	}
-
-	public void setGrade(int grade) {
-		this.grade = grade;
-	}
 
 	public int getTimeToSolve() {
 		return timeToSolve;
