@@ -1041,7 +1041,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}
-	
+
 	public void changeGradeButtonHandler(ActionEvent event) {
 		Label text = null;
 		Stage primaryStage = new Stage();
@@ -1064,11 +1064,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			@Override
 			public void handle(ActionEvent event) {
 				CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
-				if(reasons.getText().equals("") || newGrade.getText().equals("")) {
+				if (reasons.getText().equals("") || newGrade.getText().equals("")) {
 					Utilities.popUpMethod("Some fields are missing. Try again!");
 					primaryStage.hide();
-				}
-				else {
+				} else {
 					selectedExam.setGrade(Integer.parseInt(newGrade.getText()));
 					selectedExam.setCommentsOfChangeGrade(reasons.getText());
 					client.handleMessageFromClientUI(new CheckedExamHandle("ChangeGrade", selectedExam));
@@ -1090,7 +1089,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}
-	
+
 	public void addcommentsButtonHandler(ActionEvent event) {
 		Stage primaryStage = new Stage();
 		primaryStage.setTitle("AES7");
@@ -1107,11 +1106,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			@Override
 			public void handle(ActionEvent event) {
 				CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
-				if(comments.getText().equals("")) {
+				if (comments.getText().equals("")) {
 					Utilities.popUpMethod("Some fields are missing. Try again!");
 					primaryStage.hide();
-				}
-				else {
+				} else {
 					selectedExam.setComments(comments.getText());
 					client.handleMessageFromClientUI(new CheckedExamHandle("AddComments", selectedExam));
 					setTableInConfirmGrades();
@@ -1162,6 +1160,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		createExamAnchorPane.setVisible(false);
 		examManagementAnchorPane.setVisible(false);
 		confirmGradesAnchorPane.setVisible(false);
+		activeExamManagementAnchorPane.setVisible(false);
 	}
 
 	/**
