@@ -1,6 +1,7 @@
 package resources;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class ActiveExamHandle implements Serializable {
 
@@ -14,6 +15,8 @@ public class ActiveExamHandle implements Serializable {
 	private ActiveExam activeExam;
 
 	private String userID;
+	
+	private ArrayList<ActiveExam> activeExams;
 
 	public ActiveExamHandle(String command, ActiveExam activeExam) {
 		super();
@@ -26,6 +29,11 @@ public class ActiveExamHandle implements Serializable {
 		this.command = command;
 		this.activeExam = activeExam;
 		this.userID = userID;
+	}
+
+	public ActiveExamHandle(String command, ArrayList<ActiveExam> activeExams) {
+		this.command = command;
+		this.activeExams = activeExams;
 	}
 
 	public String getCommand() {
@@ -50,6 +58,14 @@ public class ActiveExamHandle implements Serializable {
 
 	public void setUserID(String userID) {
 		this.userID = userID;
+	}
+
+	public ArrayList<ActiveExam> getActiveExams() {
+		return activeExams;
+	}
+
+	public void setActiveExams(ArrayList<ActiveExam> activeExams) {
+		this.activeExams = activeExams;
 	}
 
 }

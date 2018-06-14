@@ -275,12 +275,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private Button activateButton;
 
 	@FXML
-	private Button changeTimeButton;
-
-	@FXML
-	private Button LockButton;
-
-	@FXML
 	private Button deleteExamButton;
 
 	@FXML
@@ -312,6 +306,44 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private TextField executionCode;
+
+	/* Active Exam Management */
+
+	@FXML
+	private AnchorPane activeExamManagementAnchorPane;
+
+	@FXML
+	private TableView<ActiveExam> activeExamsTableView;
+
+	@FXML
+	private TableColumn<ActiveExam, String> subjectNumberOfActiveExam;
+
+	@FXML
+	private TableColumn<ActiveExam, String> courseNumberOfAvticeExam;
+
+	@FXML
+	private TableColumn<ActiveExam, String> examNumberOfAvticeExam;
+
+	@FXML
+	private TableColumn<ActiveExam, String> executionCodeOfAvticeExam;
+
+	@FXML
+	private TableColumn<ActiveExam, Integer> durationOfAvticeExam;
+
+	@FXML
+	private TableColumn<ActiveExam, String> typeOfAvticeExam;
+
+	@FXML
+	private Button showActiveExamButtonInExamsManagement;
+
+	@FXML
+	private ComboBox<String> subjectsActiveExamManagement;
+
+	@FXML
+	private Button LockButton;
+
+	@FXML
+	private Button changeTimeButton;
 
 	// confirm grades
 
@@ -383,6 +415,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setColumnInCreateExamQuestions();
 		setColumnsInExamsManagement();
 		setColumnInConfirmGrades();
+		setColumnsOfActiveExams();
 		initAnchorPaneInCreateExamFirstWindow();
 		tableViewInCreateExamQuestion.setEditable(true);
 		tableViewInCreateExamQuestion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -441,6 +474,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 			examManagementAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 			welcomeAnchorPane.setVisible(false);
+			confirmGradesAnchorPane.setVisible(false);
+			activeExamManagementAnchorPane.setVisible(false);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -613,6 +648,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			createExamAnchorPane.setVisible(false);
 			examManagementAnchorPane.setVisible(false);
 			confirmGradesAnchorPane.setVisible(false);
+			activeExamManagementAnchorPane.setVisible(false);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -665,6 +701,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			welcomeAnchorPane.setVisible(false);
 			examManagementAnchorPane.setVisible(false);
 			confirmGradesAnchorPane.setVisible(false);
+			activeExamManagementAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -734,13 +771,25 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	public void showExamsHandler(ActionEvent event) {
-		setTableInExamsManagement();
+		if (examManagementAnchorPane.isVisible() && subjectExamManagement.getValue() != null)
+			setTableInExamsManagement();
+		else if (activeExamManagementAnchorPane.isVisible() && subjectsActiveExamManagement.getValue() != null)
+			setTableInActiveExamManagement();
+		else
+			Utilities.popUpMethod("Please Select the Subject");
 	}
 
 	private void setTableInExamsManagement() {
 		client.getExamsFromDB().clear();
 		client.handleMessageFromClientUI(Message.getExamBySubject + " " + subjectExamManagement.getValue());
 		tableViewInExamsManagement.setItems(client.getExamsFromDB());
+	}
+
+	private void setTableInActiveExamManagement() {
+		client.getActivatedUnlockedExams().clear();
+		client.handleMessageFromClientUI(Message.getActiveExamsByActivator + " " + firstName + " " + lastName + " "
+				+ subjectsActiveExamManagement.getValue());
+		activeExamsTableView.setItems(client.getActivatedUnlockedExams());
 	}
 
 	private void setColumnsInExamsManagement() {
@@ -751,7 +800,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		durationColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("examDuration"));
 		textExamineesColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("freeTextForExaminees"));
 		textTeachersColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("freeTextForTeacherOnly"));
-
 	}
 
 	/**
@@ -795,6 +843,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			confirmGradesAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 			setSubjectComboBox(subjectExamManagement);
+			activeExamManagementAnchorPane.setVisible(false);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -953,6 +1002,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		questionsTableAnchorPaneInEditOrRemove.setVisible(false);
 		createExamAnchorPane.setVisible(false);
 		examManagementAnchorPane.setVisible(false);
+		activeExamManagementAnchorPane.setVisible(false);
 		setTableInConfirmGrades();
 	}
 
@@ -1130,6 +1180,25 @@ public class TeacherWindowController implements Initializable, IScreenController
 		return client.getExecutionCodeExistFlag();
 	}
 
+	/**
+	 * When Active Exam management is pressed
+	 * 
+	 * @param event
+	 */
+	public void openActiveExamManagement(ActionEvent event) {
+		welcomeAnchorPane.setVisible(false);
+		addQuestionAnchorPane.setVisible(false);
+		clearAddQuestionFields();
+		questionsTableAnchorPaneInEditOrRemove.setVisible(false);
+		createExamAnchorPane.setVisible(false);
+		examManagementAnchorPane.setVisible(false);
+		confirmGradesAnchorPane.setVisible(false);
+		setSubjectComboBox(subjectsActiveExamManagement);
+		activeExamsTableView.getItems().clear();
+		backAnchorPane.setVisible(true);
+		activeExamManagementAnchorPane.setVisible(true);
+	}
+
 	// end region -> Public Methods
 
 	// region Private Methods
@@ -1137,7 +1206,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private void setTableInConfirmGrades() {
 		client.getCheckedExamsFromDB().clear();
 		client.handleMessageFromClientUI(Message.getCheckedExams);
-		// initTablesInCreateExam(true, false);
 		confirmGradeTableView.setItems(client.getCheckedExamsFromDB());
 	}
 
@@ -1263,6 +1331,21 @@ public class TeacherWindowController implements Initializable, IScreenController
 				cellData.getValue().getSubmittedExam().getStudentInActiveExam().getStudent().getId()));
 		gradeColInConfirmGrades.setCellValueFactory(new PropertyValueFactory<>("grade"));
 
+	}
+
+	/**
+	 * Sets the columns of the activated exams table view
+	 */
+	private void setColumnsOfActiveExams() {
+		subjectNumberOfActiveExam.setCellValueFactory(
+				cellData -> new SimpleStringProperty(cellData.getValue().getExam().getSubjectID()));
+		courseNumberOfAvticeExam
+				.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExam().getCourseID()));
+		examNumberOfAvticeExam
+				.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExam().getExamNum()));
+		executionCodeOfAvticeExam.setCellValueFactory(new PropertyValueFactory<>("executionCode"));
+		durationOfAvticeExam.setCellValueFactory(new PropertyValueFactory<>("duration"));
+		typeOfAvticeExam.setCellValueFactory(new PropertyValueFactory<>("type"));
 	}
 
 	/**

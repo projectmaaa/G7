@@ -41,6 +41,8 @@ public class Message {
 	public final static String studentInActiveExam = "#StudentInActiveExam";
 	
 	public final static String getCheckedExams = "#CheckedExams";
+	
+	public final static String getActiveExamsByActivator = "#ActiveExamsByActivator";
 
 	// end region -> Constants
 
