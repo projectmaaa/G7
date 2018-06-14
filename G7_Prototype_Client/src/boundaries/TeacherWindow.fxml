@@ -74,8 +74,11 @@
 					</items>
 				</Menu>
 			</menus>
+         <effect>
+            <Bloom />
+         </effect>
 		</MenuBar>
-      <AnchorPane fx:id="welcomeAnchorPane" layoutX="57.0" layoutY="152.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+      <AnchorPane fx:id="welcomeAnchorPane" layoutX="57.0" layoutY="152.0" prefHeight="200.0" prefWidth="200.0">
          <children>
             <Label layoutX="23.0" layoutY="79.0" prefHeight="50.0" prefWidth="316.0" text="Let AES help you!" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>
@@ -426,12 +429,12 @@
                   <InnerShadow choke="0.27" color="#00ff1e" height="35.83" radius="12.225" width="15.07" />
                </effect>
             </Button>
-            <Button fx:id="changeGradeButtonInConfirmGrades" layoutX="222.0" layoutY="415.0" mnemonicParsing="false" text="Change Grade">
+            <Button fx:id="changeGradeButtonInConfirmGrades" layoutX="222.0" layoutY="415.0" mnemonicParsing="false" onAction="#changeGradeButtonHandler" text="Change Grade">
                <effect>
                   <InnerShadow />
                </effect>
             </Button>
-            <Button fx:id="addCommentsButtonInConfirmGrades" layoutX="336.0" layoutY="415.0" mnemonicParsing="false" text="Add Comments">
+            <Button fx:id="addCommentsButtonInConfirmGrades" layoutX="336.0" layoutY="415.0" mnemonicParsing="false" onAction="#addcommentsButtonHandler" text="Add Comments">
                <effect>
                   <InnerShadow />
                </effect>

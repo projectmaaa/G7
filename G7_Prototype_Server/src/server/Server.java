@@ -222,6 +222,27 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
+			else if(checkedExam.getCommand().equals("ChangeGrade")) {
+				try {
+					SqlUtilities.changeGradeByTeacher(checkedExam.getCheckedExam(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			else if(checkedExam.getCommand().equals("AddComments")) {
+				try {
+					SqlUtilities.addCommentsByTeacher(checkedExam.getCheckedExam(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		else if (msg instanceof String) {

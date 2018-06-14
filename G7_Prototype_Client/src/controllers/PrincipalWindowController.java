@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -194,32 +195,14 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private ImageView refreshButtonInHandlingRequests;
 
-	// teacher report
-
-	@FXML
-	private AnchorPane teacherReportAnchorPane;
-
-	@FXML
-	private ComboBox<String> selectTeacherComboBoxInTeacherReport;
-
-	// course report
-
-	@FXML
-	private AnchorPane courseReportAnchorPane;
-
-	@FXML
-	private ComboBox<String> selectSubjectComboBoxInTeacherReport;
-
-	@FXML
-	private ComboBox<String> selectCourseComboBoxInTeacherReport;
-
 	// student report
 
 	@FXML
 	private AnchorPane studentReportAnchorPane;
-
+	
 	@FXML
-	private ComboBox<String> selectStudentComboBoxInTeacherReport;
+	private ComboBox<String> selectStudentComboBox;
+
 
 	/***********************************************************************************************************/
 
@@ -404,16 +387,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		setTableInHandlingRequests();
 	}
 
-	public void openTeacherReport(ActionEvent event) {
-		setAnchorPanesFalse();
-		teacherReportAnchorPane.setVisible(true);
-	}
-
-	public void openCourseReport(ActionEvent event) {
-		setAnchorPanesFalse();
-		courseReportAnchorPane.setVisible(true);
-		setSubjectComboBox(selectSubjectComboBoxInTeacherReport);
-	}
 
 	public void openStudentReport(ActionEvent event) {
 		setAnchorPanesFalse();
@@ -428,7 +401,19 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	private void setSubjectComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
 		comboBox.setPromptText("Select Subject");
-		comboBox.getItems().addAll("Software", "Math", "Physics");
+		comboBox.setButtonCell(new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("Select Subject");
+				} else {
+					setText(item);
+				}
+			}
+		});
+		client.handleMessageFromClientUI(Message.getSubjects);
+		comboBox.setItems(client.getSubjectsFromDB());
 	}
 
 	private void setTableInQuestionPool() {
@@ -499,12 +484,10 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	private void setAnchorPanesFalse() {
-		teacherReportAnchorPane.setVisible(false);
 		handlingRequestsAnchorPane.setVisible(false);
 		examsPoolAnchorPane.setVisible(false);
 		questionsPoolAnchorPane.setVisible(false);
 		welcomeAnchorPane.setVisible(false);
-		courseReportAnchorPane.setVisible(false);
 		studentReportAnchorPane.setVisible(false);
 	}
 }

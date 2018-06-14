@@ -47,8 +47,8 @@
                </items></Menu>
             <Menu mnemonicParsing="false" text="Order Reports">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#openTeacherReport" text="Teacher Report   " />
-                  <MenuItem mnemonicParsing="false" onAction="#openCourseReport" text="Course Report   " />
+                  <MenuItem mnemonicParsing="false" text="Teacher Report   " />
+                  <MenuItem mnemonicParsing="false" text="Course Report   " />
                   <MenuItem mnemonicParsing="false" onAction="#openStudentReport" text="Student Report   " />
                </items>
             </Menu>
@@ -231,48 +231,6 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="teacherReportAnchorPane" layoutX="10.0" layoutY="125.0" prefHeight="437.0" prefWidth="749.0" visible="false">
-         <children>
-            <Label text="Teacher Report" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
-               <font>
-                  <Font name="Maiandra GD" size="24.0" />
-               </font>
-               <effect>
-                  <Bloom />
-               </effect>
-            </Label>
-            <Label layoutX="14.0" layoutY="46.0" text="Teacher" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="selectTeacherComboBoxInTeacherReport" layoutX="76.0" layoutY="43.0" prefWidth="150.0" />
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="courseReportAnchorPane" layoutX="20.0" layoutY="135.0" prefHeight="437.0" prefWidth="749.0" visible="false">
-         <children>
-            <Label text="Course Report" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
-               <font>
-                  <Font name="Maiandra GD" size="24.0" />
-               </font>
-               <effect>
-                  <Bloom />
-               </effect>
-            </Label>
-            <Label layoutX="14.0" layoutY="46.0" text="Subject" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="selectSubjectComboBoxInCourseReport" layoutX="76.0" layoutY="43.0" prefWidth="150.0" />
-            <Label layoutX="258.0" layoutY="46.0" text="Course" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="selectCourseComboBoxInCourseReport" layoutX="321.0" layoutY="43.0" prefWidth="150.0" />
-         </children>
-      </AnchorPane>
       <AnchorPane fx:id="studentReportAnchorPane" layoutX="20.0" layoutY="135.0" prefHeight="437.0" prefWidth="749.0" visible="false">
          <children>
             <Label text="Student Report" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
@@ -288,7 +246,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <ComboBox fx:id="selectStudentComboBoxInTeacherReport1" layoutX="76.0" layoutY="43.0" prefWidth="150.0" />
+            <ComboBox fx:id="selectStudentComboBox" layoutX="83.0" layoutY="43.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
    </children>

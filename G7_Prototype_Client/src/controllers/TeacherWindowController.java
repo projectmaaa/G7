@@ -991,6 +991,97 @@ public class TeacherWindowController implements Initializable, IScreenController
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}
+	
+	public void changeGradeButtonHandler(ActionEvent event) {
+		Label text = null;
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("AES7");
+		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		Popup popup = new Popup();
+		popup.setX(700);
+		popup.setY(400);
+		HBox layout = new HBox(10);
+		text = new Label("Please enter new grade:");
+		popup.getContent().addAll(text);
+		TextField newGrade = new TextField();
+		TextField reasons = new TextField();
+		newGrade.setPrefWidth(50);
+		newGrade.setEditable(true);
+		reasons.setPromptText("Enter reason here");
+		reasons.setEditable(true);
+		Button saveButton = new Button("Save");
+		saveButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
+				if(reasons.getText().equals("") || newGrade.getText().equals("")) {
+					Utilities.popUpMethod("Some fields are missing. Try again!");
+					primaryStage.hide();
+				}
+				else {
+					selectedExam.setGrade(Integer.parseInt(newGrade.getText()));
+					selectedExam.setCommentsOfChangeGrade(reasons.getText());
+					client.handleMessageFromClientUI(new CheckedExamHandle("ChangeGrade", selectedExam));
+					setTableInConfirmGrades();
+					Utilities.popUpMethod("Grade changed successfully!");
+					primaryStage.hide();
+				}
+			}
+		});
+		Button cancelButton = new Button("Cancel");
+		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+			}
+		});
+		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+		layout.getChildren().addAll(text, newGrade, reasons, saveButton, cancelButton);
+		primaryStage.setScene(new Scene(layout));
+		primaryStage.show();
+	}
+	
+	public void addcommentsButtonHandler(ActionEvent event) {
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("AES7");
+		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		Popup popup = new Popup();
+		popup.setX(700);
+		popup.setY(400);
+		HBox layout = new HBox(10);
+		TextField comments = new TextField();
+		comments.setPromptText("Enter comment here");
+		comments.setEditable(true);
+		Button saveButton = new Button("Save");
+		saveButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
+				if(comments.getText().equals("")) {
+					Utilities.popUpMethod("Some fields are missing. Try again!");
+					primaryStage.hide();
+				}
+				else {
+					selectedExam.setComments(comments.getText());
+					client.handleMessageFromClientUI(new CheckedExamHandle("AddComments", selectedExam));
+					setTableInConfirmGrades();
+					Utilities.popUpMethod("Comment added successfully!");
+					primaryStage.hide();
+				}
+			}
+		});
+		Button cancelButton = new Button("Cancel");
+		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+			}
+		});
+		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+		layout.getChildren().addAll(comments, saveButton, cancelButton);
+		primaryStage.setScene(new Scene(layout));
+		primaryStage.show();
+	}
 
 	/**
 	 * With this method you can jump between the fields in add question screen
