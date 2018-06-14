@@ -87,6 +87,8 @@ public class SqlUtilities {
 
 	public final static String REMOVE_checkedExam = "DELETE FROM CheckedExam WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
 
+	public final static String SELECT_Unlocked_Activated_Exams_By_Activator = "SELECT subjectID, courseID, examNum, executionCode, duration, type FROM ActiveExam WHERE activator=? AND subjectID=? AND locked=0;";
+
 	// region Public Methods
 
 	// end region -> Constants
@@ -113,6 +115,7 @@ public class SqlUtilities {
 	}
 
 	public static ActiveExamHandle getActiveExam(String executionCode, Connection connection) throws SQLException {
+		ActiveExam activeExam = null;
 		PreparedStatement statement = connection.prepareStatement(SELECT_ActiveExam);
 		statement.setString(1, executionCode);
 		ResultSet resultSet = statement.executeQuery();
@@ -150,12 +153,11 @@ public class SqlUtilities {
 					rs.close();
 				}
 				closeResultSetAndStatement(resultSet, null, statement);
-				ActiveExam activeExam = new ActiveExam(exam, executionCode);
+				activeExam = new ActiveExam(exam, executionCode);
 				activeExam.setType(type);
-				return (new ActiveExamHandle("ActiveExam", activeExam));
 			}
 		}
-		return (new ActiveExamHandle("ActiveExam", null));
+		return (new ActiveExamHandle("ActiveExam", activeExam));
 	}
 
 	/**
@@ -516,9 +518,23 @@ public class SqlUtilities {
 		PreparedStatement check = connection.prepareStatement(SqlUtilities.CHECK_ExecutionCodeExist);
 		check.setString(1, code.getCode());
 		ResultSet rs = check.executeQuery();
-		// if(rs.next())
-		// System.out.println("Exist");
 		return rs.next();
+	}
+
+	public static ActiveExamHandle getActiveExamsByActivator(String activator, String subject, Connection connection)
+			throws SQLException {
+		String subjectNumber = getSubjectID(subject, connection);
+		PreparedStatement statement = connection
+				.prepareStatement(SqlUtilities.SELECT_Unlocked_Activated_Exams_By_Activator);
+		statement.setString(1, activator);
+		statement.setString(2, subjectNumber);
+		ArrayList<ActiveExam> activeExams = new ArrayList<>();
+		ResultSet rs = statement.executeQuery();
+		while (rs.next())
+			activeExams.add(new ActiveExam(new Exam(rs.getString(1), rs.getString(2), rs.getString(3)), rs.getInt(5),
+					rs.getString(4), rs.getString(6).equals("c") ? "Computerized" : "Manual"));
+		closeResultSetAndStatement(rs, null, statement);
+		return new ActiveExamHandle("All", activeExams);
 	}
 
 	// end region -> Public Methods

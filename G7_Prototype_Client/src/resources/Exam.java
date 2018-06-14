@@ -34,7 +34,6 @@ public class Exam implements Serializable {
 		this.examDuration = examDuration;
 		this.teacherName = teacherName;
 		questions = new ArrayList<>();
-		// examCounter++;
 	}
 	
 	public Exam(String subjectID, String courseID, String examNum) {
@@ -42,7 +41,6 @@ public class Exam implements Serializable {
 		this.courseID = courseID;
 		this.examNum=examNum;
 		questions = new ArrayList<>();
-		// examCounter++;
 	}
 
 	public Exam(String subjectID, String courseID, String examNum, String teacherName, int examDuration,

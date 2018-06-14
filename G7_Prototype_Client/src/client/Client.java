@@ -36,6 +36,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private ObservableList<CheckedExam> checkedExamsFromDB = FXCollections.observableArrayList();
 
+	private ObservableList<ActiveExam> activatedUnlockedExams = FXCollections.observableArrayList();
+
 	private ScreensController controller;
 
 	private LoginWindowController loginWindowController;
@@ -215,6 +217,16 @@ public class Client extends AbstractClient implements IScreenController {
 		});
 	}
 
+	public ObservableList<ActiveExam> getActivatedUnlockedExams() {
+		return activatedUnlockedExams;
+	}
+
+	public void setActivatedUnlockedExams(ArrayList<ActiveExam> activatedUnlockedExams) {
+		Platform.runLater(() -> {
+			this.activatedUnlockedExams.setAll(activatedUnlockedExams);
+		});
+	}
+
 	// end region -> Setters
 
 	// region Public Methods
@@ -288,7 +300,10 @@ public class Client extends AbstractClient implements IScreenController {
 			}
 		} else if (msg instanceof ActiveExamHandle) {
 			ActiveExamHandle activeExamsHandle = (ActiveExamHandle) msg;
-			studentWindowController.setActiveExam(activeExamsHandle.getActiveExam());
+			if (activeExamsHandle.getCommand().equals("ActiveExam"))
+				studentWindowController.setActiveExam(activeExamsHandle.getActiveExam());
+			else if (activeExamsHandle.getCommand().equals("All"))
+				setActivatedUnlockedExams(activeExamsHandle.getActiveExams());
 		} else if (msg instanceof ExamHandle) {
 			ExamHandle examsHandle = (ExamHandle) msg;
 			if (examsHandle.getCommand().equals("Subject")) {

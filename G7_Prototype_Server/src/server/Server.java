@@ -199,10 +199,10 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-		} else if(msg instanceof CheckedExamHandle) {
+		} else if (msg instanceof CheckedExamHandle) {
 			CheckedExamHandle checkedExam = (CheckedExamHandle) msg;
-			
-			if(checkedExam.getCommand().equals("Approve")) {
+
+			if (checkedExam.getCommand().equals("Approve")) {
 				try {
 					SqlUtilities.approveCheckedExam(checkedExam.getCheckedExam(), connection);
 					client.sendToClient(Message.tableSaved);
@@ -211,8 +211,7 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			else if(checkedExam.getCommand().equals("Remove")) {
+			} else if (checkedExam.getCommand().equals("Remove")) {
 				try {
 					SqlUtilities.removeCheckedExam(checkedExam.getCheckedExam(), connection);
 					client.sendToClient(Message.tableSaved);
@@ -223,7 +222,7 @@ public class Server extends AbstractServer {
 				}
 			}
 		}
-		
+
 		else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
@@ -322,6 +321,10 @@ public class Server extends AbstractServer {
 					break;
 				case Message.getCheckedExams:
 					client.sendToClient(SqlUtilities.getCheckedExam(connection));
+					break;
+				case Message.getActiveExamsByActivator:
+					client.sendToClient(SqlUtilities.getActiveExamsByActivator(strArray[1] + " " + strArray[2],
+							strArray[3], connection));
 					break;
 				}
 			} catch (SQLException e) {
