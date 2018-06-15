@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -221,8 +222,12 @@ public class StudentWindowController implements Initializable, IScreenController
 		if (activeExam == null) {
 			Utilities_Client.popUpMethod("Wrong Code");
 		} else {
-			setTimer();
-			checkExamType();
+			if (!activeExam.isLocked()) {
+				setTimer();
+				checkExamType();
+			} else {
+				Utilities_Client.popUpMethod("Exam Locked");
+			}
 		}
 	}
 
@@ -308,7 +313,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * @param mouseEvent
 	 */
 	public void sumbitExam(MouseEvent mouseEvent) {
-		submittedExam = new SubmittedExam(10, studentInActiveExam);
+		submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer / 60, studentInActiveExam);
 		int num = 0;
 		for (QuestionInComputerizeExam questionInComputerizeExam : QuestionInComputerizeExamArray) {
 			if (questionInComputerizeExam.getToggleGroup().getSelectedToggle() != null) {
@@ -435,10 +440,58 @@ public class StudentWindowController implements Initializable, IScreenController
 		stopWatchTimeline = new Timeline(new KeyFrame(Duration.seconds(1), (ActionEvent event) -> {
 			if (secondTimer-- > 0) {
 				setTimerDisplay();
+			} else {
+				Utilities_Client.popUpMethod("Time is over exam, will be submited");
+				if (activeExam.getType().equals("c")) {
+					unWantedComputerizeSubmitExam();
+				} else {
+					unWantedManualSubmitExam();
+				}
+				stopWatchTimeline.stop();
 			}
 		}));
 		stopWatchTimeline.setCycleCount(Timeline.INDEFINITE);
 		stopWatchTimeline.play();
+	}
+
+	/**
+	 * 
+	 */
+	private void unWantedComputerizeSubmitExam() {
+		this.sumbitExamButton.setDisable(true);
+		submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer / 60, studentInActiveExam);
+		int num = 0;
+		for (QuestionInComputerizeExam questionInComputerizeExam : QuestionInComputerizeExamArray) {
+			String answer;
+			if (questionInComputerizeExam.getToggleGroup().getSelectedToggle() != null) {
+				answer = questionInComputerizeExam.getToggleGroup().getSelectedToggle().getUserData().toString();
+			} else {
+				answer = ("0");
+			}
+			submittedExam.addAnswer(new StudentAnswerInQuestion(activeExam.getExam().getSubjectID(),
+					questionInComputerizeExam.getQuestionInExam().getQuestionNum(), Integer.toString(++num), answer,
+					studentInActiveExam.getStudent()));
+		}
+		client.handleMessageFromClientUI(new SubmittedExamHandle(Message.submittedExam, submittedExam));
+		if (!submittedExam.getAnswers().isEmpty()) {
+			System.out.println(submittedExam);
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private void unWantedManualSubmitExam() {
+		try {
+			this.uploadManualExam.setDisable(true);
+			Runtime.getRuntime().exec("cmd /c taskkill /f /im winword.exe");
+			client.handleMessageFromClientUI(new MyFileHandle("UploadExam", Utilities_Client
+					.getWordFile(activeExam.getExecutionCode(), studentInActiveExam.getStudent().getId())));
+			uploadManualExam.setDisable(true);
+			Utilities_Client.popUpMethod("Exam Uploaded Successfully");
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 
 	/**

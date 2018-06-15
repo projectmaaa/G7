@@ -95,6 +95,8 @@ public class SqlUtilities {
 
 	public final static String SELECT_All_Students = "SELECT idUsers, firstName, lastName FROM Users WHERE type='Student'";
 
+	public final static String CALCULATE_StudentAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE studentID=?";
+
 	
 	// region Public Methods
 
@@ -533,6 +535,14 @@ public class SqlUtilities {
 		update.setString(6, checkedExam.getSubmittedExam().getStudentInActiveExam().getStudent().getId());
 		update.executeUpdate();
 		update.close();
+	}
+	
+	public static ReportAboutStudent calculateStudentAverage(ReportHandle reportHandle, Connection connection) throws SQLException {
+		PreparedStatement calculate = connection.prepareStatement(SqlUtilities.CALCULATE_StudentAVG);
+		calculate.setString(1, reportHandle.getStudent().getId());
+		ResultSet rs = calculate.executeQuery();
+		rs.next();
+		return new ReportAboutStudent(rs.getDouble(1), reportHandle.getStudent());
 	}
 
 	/**
