@@ -873,21 +873,23 @@ public class TeacherWindowController implements Initializable, IScreenController
 			public void handle(ActionEvent event) {
 				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
 				// check execution code
-				if ((executionCode.getText().length() != 4)) {
+				String typedExecutionCode = executionCode.getText();
+				if ((typedExecutionCode.length() != 4) || !typedExecutionCode.matches("[a-zA-Z0-9]*"))
 					Utilities_Client.popUpMethod("Illegal execution code. please try again!");
-					primaryStage.hide();
-				} else if (type.getValue() == null) {
+				else if (!typedExecutionCode.matches(".*\\d+.*"))
+					Utilities_Client.popUpMethod("The execution code must contain at least 1 numeric character");
+				else if (!typedExecutionCode.matches(".*[a-zA-Z]+.*"))
+					Utilities_Client.popUpMethod("The execution code must contain at least 1 alphabetic character");
+				else if (type.getValue() == null)
 					Utilities_Client.popUpMethod("Type was not selected. please try again!");
-					primaryStage.hide();
-				} else if (!executionCodeExist(executionCode.getText())) {
-					ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText(), type.getValue(),
+				else if (!executionCodeExist(typedExecutionCode)) {
+					ActiveExam activeExam = new ActiveExam(selectedExam, typedExecutionCode, type.getValue(),
 							firstName + " " + lastName);
 					client.handleMessageFromClientUI(new ActiveExamHandle("Activate", activeExam));
 					Utilities_Client.popUpMethod("Exam activated successfully!");
-					primaryStage.hide();
-				} else {
+				} else
 					Utilities_Client.popUpMethod("Exam with this execution Code already exist!");
-				}
+				primaryStage.hide();
 			}
 		});
 		Button cancelButton = new Button("Cancel");
