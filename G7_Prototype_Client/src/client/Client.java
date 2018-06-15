@@ -328,9 +328,11 @@ public class Client extends AbstractClient implements IScreenController {
 		} else if (msg instanceof Boolean) {
 			boolean codeExist = (boolean) msg;
 			setExecutionCodeExistFlag(codeExist);
-		} else if (msg instanceof MyFile) {
-			MyFile myFile = (MyFile) msg;
-			Utilities.writeWordFile(myFile);
+		} else if (msg instanceof MyFileHandle) {
+			MyFileHandle fileHandle = (MyFileHandle) msg;
+			if (fileHandle.getCommand().equals("StudnetExam")) {
+				Utilities_Client.writeWordFile(fileHandle.getFile(), true);
+			}
 		}
 	}
 

@@ -1,8 +1,11 @@
 package resources;
 
 import java.awt.Desktop;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,11 +24,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
+ * <p>
+ * Client Side
+ * </p>
  * This class will have method for general use
- * 
- *
  */
-public class Utilities {
+public class Utilities_Client {
 
 	// region Public Methods
 
@@ -92,25 +96,55 @@ public class Utilities {
 	 * 
 	 * @param myFile
 	 */
-	public static void writeWordFile(MyFile myFile) {
+	public static void writeWordFile(MyFile myFile, Boolean open) {
 		try {
 			File file = new File(myFile.getFileName());
-			
+
 			FileOutputStream fileOutputStream = new FileOutputStream(file);
 			fileOutputStream.write(myFile.getMybytearray());
 			fileOutputStream.close();
-			if (!Desktop.isDesktopSupported()) {
-				System.out.println("Desktop is not supported");
-				return;
+			if (open) {
+				if (!Desktop.isDesktopSupported()) {
+					System.out.println("Desktop is not supported");
+					return;
+				}
+				Desktop desktop = Desktop.getDesktop();
+				if (file.exists())
+					desktop.open(file);
 			}
-			Desktop desktop = Desktop.getDesktop();
-			if (file.exists())
-				desktop.open(file);
-		
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
+
+	/**
+	 * 
+	 * @param executionCode
+	 * @param studentID
+	 * @return
+	 */
+	public static MyFile getWordFile(String executionCode, String studentID) {
+		MyFile myFile = new MyFile("./exams/" + executionCode + "_" + studentID + ".docx");
+		File file = new File("./exams/" + executionCode + "_" + studentID + ".docx");
+		try {
+			byte[] byteArray = new byte[(int) file.length()];
+			FileInputStream fileInputStream;
+
+			fileInputStream = new FileInputStream(file);
+
+			BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+
+			myFile.initArray(byteArray.length);
+			myFile.setSize(byteArray.length);
+
+			bufferedInputStream.read(myFile.getMybytearray(), 0, byteArray.length);
+			bufferedInputStream.close();
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+		return myFile;
+	}
+
 
 	// end region -> Public Methods
 

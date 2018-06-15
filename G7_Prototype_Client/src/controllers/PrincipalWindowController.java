@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 import resources.Exam;
 import resources.Message;
 import resources.Question;
-import resources.Utilities;
+import resources.Utilities_Client;
 import resources.WaitingActiveExam;
 import resources.WaitingActiveExamHandle;
 
@@ -240,7 +240,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		date.setText(Utilities.setDate());
+		date.setText(Utilities_Client.setDate());
 		this.client = MainAppClient.getClient();
 		client.setPrincipalWindowController(this);
 		setColumnsInQuestionsPool();
@@ -326,7 +326,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 				client.handleMessageFromClientUI(new WaitingActiveExamHandle("Approve", waitingActiveExam));
 				// handlingRequestsTableView.getItems().clear();
 				client.handleMessageFromClientUI(new WaitingActiveExamHandle("Remove", waitingActiveExam));
-				Utilities.popUpMethod("Exam duration changed successfully!");
+				Utilities_Client.popUpMethod("Exam duration changed successfully!");
 				setTableInHandlingRequests();
 				primaryStage.hide();
 			}
@@ -363,7 +363,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			public void handle(ActionEvent event) {
 				WaitingActiveExam waitingActiveExam = handlingRequestsTableView.getSelectionModel().getSelectedItem();
 				client.handleMessageFromClientUI(new WaitingActiveExamHandle("Remove", waitingActiveExam));
-				Utilities.popUpMethod("Request rejected! Message was sent to Teacher.");
+				Utilities_Client.popUpMethod("Request rejected! Message was sent to Teacher.");
 				setTableInHandlingRequests();
 				primaryStage.hide();
 			}
@@ -423,7 +423,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 					Message.getQuestionBySubject + " " + subjectComboBoxInQuestionsPool.getValue());
 			tableViewInQuestionsPool.setItems(client.getQuestionsFromDB());
 		} else {
-			Utilities.popUpMethod("Select Subject");
+			Utilities_Client.popUpMethod("Select Subject");
 		}
 	}
 
@@ -433,7 +433,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			client.handleMessageFromClientUI(Message.getExamBySubject + " " + subjectComboBoxInExamPool.getValue());
 			tableViewInExamsPool.setItems(client.getExamsFromDB());
 		} else {
-			Utilities.popUpMethod("Select Subject");
+			Utilities_Client.popUpMethod("Select Subject");
 		}
 	}
 

@@ -408,7 +408,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		backAnchorPane.setVisible(false);
-		date.setText(Utilities.setDate());
+		date.setText(Utilities_Client.setDate());
 		this.client = MainAppClient.getClient();
 		setColumnsInEditOrRemove();
 		setColumnInCreateExamAllQuestions();
@@ -492,7 +492,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			String answerNumber = question.getCorrectAnswer();
 			if (!answerNumber.equals("1") && !answerNumber.equals("2") && !answerNumber.equals("3")
 					&& !answerNumber.equals("4")) {
-				Utilities.popUpMethod("Please insert only numbers from 1 to 4 in the correct answer column");
+				Utilities_Client.popUpMethod("Please insert only numbers from 1 to 4 in the correct answer column");
 				tableViewInEditOrRemove.getItems().clear();
 				setQuestionsTableInfoInEditOrRemove();
 				System.out.println("answerNumber 1<-->4");
@@ -501,7 +501,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			updateDB.add(question);
 		}
 		client.handleMessageFromClientUI(new QuestionHandle("All", updateDB));
-		Utilities.popUpMethod("Question updated successfully");
+		Utilities_Client.popUpMethod("Question updated successfully");
 	}
 
 	/**
@@ -568,7 +568,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				tableViewInCreateExamAllQuestion.getItems().add(question.getQuestion());
 			initTablesInCreateExam(true, true);
 		} else // if the teacher didn't choose anything
-			Utilities.popUpMethod("Please Select Questions");
+			Utilities_Client.popUpMethod("Please Select Questions");
 	}
 
 	@FXML
@@ -583,7 +583,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				tableViewInCreateExamQuestion.getItems().add(new QuestionInExam(exam, question));
 			initTablesInCreateExam(true, true);
 		} else // if the teacher didn't choose anything
-			Utilities.popUpMethod("Please Select Questions");
+			Utilities_Client.popUpMethod("Please Select Questions");
 	}
 
 	public void checkTotalPointsInCreateExam(MouseEvent event) {
@@ -591,14 +591,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 		for (QuestionInExam question : tableViewInCreateExamQuestion.getItems()) {
 			int points = question.getPoints();
 			if ((points < 1) || (points > 100)) {
-				Utilities.popUpMethod(
+				Utilities_Client.popUpMethod(
 						"Wrong amount of points in question number" + " " + question.getQuestion().getQuestionNum());
 				return;
 			}
 			totalPoints += points;
 		}
 		if (totalPoints != 100) {
-			Utilities.popUpMethod("The total amount of points isn't 100");
+			Utilities_Client.popUpMethod("The total amount of points isn't 100");
 		} else {
 			exam.setQuestions(tableViewInCreateExamQuestion.getItems());
 			System.out.println(exam.getQuestions());
@@ -616,7 +616,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			exam.setFreeTextForTeacherOnly(textAreaTeachersInCreateExam.getText());
 		}
 		client.handleMessageFromClientUI(new ExamHandle(Message.exam, exam));
-		Utilities.popUpMethod("Exam created successfully");
+		Utilities_Client.popUpMethod("Exam created successfully");
 		anchorPaneInCreateExamThirdWindow.setVisible(false);
 		clearFieldsInAddExamWindows("third");
 		anchorPaneInCreateExamFirstWindow.setVisible(true);
@@ -664,19 +664,19 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void addNewQuestion(ActionEvent event) {
 		// if the user didn't select a subject
 		if (subjectComboBox.getValue() == null) {
-			Utilities.popUpMethod("Please Select Subject");
+			Utilities_Client.popUpMethod("Please Select Subject");
 			return;
 		}
 		// if the user didn't filled all the fields
 		if (questionTextField.getText().isEmpty() || firstAnswerField.getText().isEmpty()
 				|| secondAnswerField.getText().isEmpty() || thirdAnswerField.getText().isEmpty()
 				|| fourthAnswerField.getText().isEmpty()) {
-			Utilities.popUpMethod("Please Enter Text");
+			Utilities_Client.popUpMethod("Please Enter Text");
 			return;
 		}
 		// if the user didn't select the correct answer
 		if (correctAnswerComboBox.getValue() == null) {
-			Utilities.popUpMethod("Please Select Answer");
+			Utilities_Client.popUpMethod("Please Select Answer");
 			return;
 		}
 		Question question = new Question(subjectComboBox.getValue(), firstName + " " + lastName,
@@ -684,7 +684,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				thirdAnswerField.getText(), fourthAnswerField.getText(), correctAnswerComboBox.getValue());
 		client.setQuestion(question);
 		client.handleMessageFromClientUI(new QuestionHandle("Add", question));
-		Utilities.popUpMethod("Question Added successfully");
+		Utilities_Client.popUpMethod("Question Added successfully");
 		clearAddQuestionFields();
 	}
 
@@ -715,18 +715,18 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void createExamInit(ActionEvent event) {
 		String subject = subjectInCreateExamComboBox.getValue();
 		if (subject == null) {
-			Utilities.popUpMethod("You must select the subject first");
+			Utilities_Client.popUpMethod("You must select the subject first");
 			return;
 		}
 		String course = courseInCreateExamComboBox.getValue();
 		if (course == null) {
-			Utilities.popUpMethod("Please select for which course you creating the exam");
+			Utilities_Client.popUpMethod("Please select for which course you creating the exam");
 			return;
 		}
 		try {
 			int duration = Integer.parseInt(durationInCreateExamField.getText());
 			if (duration <= 0) {
-				Utilities.popUpMethod("You must enter valid duration before you proceed");
+				Utilities_Client.popUpMethod("You must enter valid duration before you proceed");
 				return;
 			}
 			exam = new Exam(subject, course, duration, firstName + " " + lastName);
@@ -736,7 +736,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			setTableInCreateExamAllQuestions();
 			clearFieldsInAddExamWindows("first");
 		} catch (NumberFormatException e) {
-			Utilities.popUpMethod("You must enter valid duration before you proceed");
+			Utilities_Client.popUpMethod("You must enter valid duration before you proceed");
 		}
 	}
 
@@ -748,7 +748,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void selectCourseComboBoxHandler(MouseEvent event) {
 		String selectedSubject = subjectInCreateExamComboBox.getValue();
 		if (selectedSubject == null) {
-			Utilities.popUpMethod("You must select the subject first");
+			Utilities_Client.popUpMethod("You must select the subject first");
 			return;
 		} else {
 			client.handleMessageFromClientUI(Message.getCourses + " " + selectedSubject);
@@ -776,7 +776,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		else if (activeExamManagementAnchorPane.isVisible() && subjectsActiveExamManagement.getValue() != null)
 			setTableInActiveExamManagement();
 		else
-			Utilities.popUpMethod("Please Select the Subject");
+			Utilities_Client.popUpMethod("Please Select the Subject");
 	}
 
 	private void setTableInExamsManagement() {
@@ -874,19 +874,19 @@ public class TeacherWindowController implements Initializable, IScreenController
 				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
 				// check execution code
 				if ((executionCode.getText().length() != 4)) {
-					Utilities.popUpMethod("Illegal execution code. please try again!");
+					Utilities_Client.popUpMethod("Illegal execution code. please try again!");
 					primaryStage.hide();
 				} else if (type.getValue() == null) {
-					Utilities.popUpMethod("Type was not selected. please try again!");
+					Utilities_Client.popUpMethod("Type was not selected. please try again!");
 					primaryStage.hide();
 				} else if (!executionCodeExist(executionCode.getText())) {
 					ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText(), type.getValue(),
 							firstName + " " + lastName);
 					client.handleMessageFromClientUI(new ActiveExamHandle("Activate", activeExam));
-					Utilities.popUpMethod("Exam activated successfully!");
+					Utilities_Client.popUpMethod("Exam activated successfully!");
 					primaryStage.hide();
 				} else {
-					Utilities.popUpMethod("Exam with this execution Code already exist!");
+					Utilities_Client.popUpMethod("Exam with this execution Code already exist!");
 				}
 			}
 		});
@@ -933,7 +933,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				WaitingActiveExam waitingActiveExam = new WaitingActiveExam(activeExam,
 						Integer.parseInt(newDuration.getText()), reason.getText());
 				client.handleMessageFromClientUI(new WaitingActiveExamHandle("ChangeTime", waitingActiveExam));
-				Utilities.popUpMethod("Request sent to Principal!");
+				Utilities_Client.popUpMethod("Request sent to Principal!");
 				primaryStage.hide();
 			}
 		});
@@ -972,7 +972,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				// check executionCode
 				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
 				client.handleMessageFromClientUI(new ActiveExamHandle("Lock", activeExam));
-				Utilities.popUpMethod("Exam locked successfully!");
+				Utilities_Client.popUpMethod("Exam locked successfully!");
 				primaryStage.hide();
 			}
 		});
@@ -1025,7 +1025,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				client.handleMessageFromClientUI(new CheckedExamHandle("Approve", selectedExam));
 				client.handleMessageFromClientUI(new CheckedExamHandle("Remove", selectedExam));
 				setTableInConfirmGrades();
-				Utilities.popUpMethod("Exam sent to Student!");
+				Utilities_Client.popUpMethod("Exam sent to Student!");
 				primaryStage.hide();
 			}
 		});
@@ -1065,14 +1065,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 			public void handle(ActionEvent event) {
 				CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
 				if (reasons.getText().equals("") || newGrade.getText().equals("")) {
-					Utilities.popUpMethod("Some fields are missing. Try again!");
+					Utilities_Client.popUpMethod("Some fields are missing. Try again!");
 					primaryStage.hide();
 				} else {
 					selectedExam.setGrade(Integer.parseInt(newGrade.getText()));
 					selectedExam.setCommentsOfChangeGrade(reasons.getText());
 					client.handleMessageFromClientUI(new CheckedExamHandle("ChangeGrade", selectedExam));
 					setTableInConfirmGrades();
-					Utilities.popUpMethod("Grade changed successfully!");
+					Utilities_Client.popUpMethod("Grade changed successfully!");
 					primaryStage.hide();
 				}
 			}
@@ -1107,13 +1107,13 @@ public class TeacherWindowController implements Initializable, IScreenController
 			public void handle(ActionEvent event) {
 				CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
 				if (comments.getText().equals("")) {
-					Utilities.popUpMethod("Some fields are missing. Try again!");
+					Utilities_Client.popUpMethod("Some fields are missing. Try again!");
 					primaryStage.hide();
 				} else {
 					selectedExam.setComments(comments.getText());
 					client.handleMessageFromClientUI(new CheckedExamHandle("AddComments", selectedExam));
 					setTableInConfirmGrades();
-					Utilities.popUpMethod("Comment added successfully!");
+					Utilities_Client.popUpMethod("Comment added successfully!");
 					primaryStage.hide();
 				}
 			}
@@ -1355,7 +1355,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		if (subject != null) {
 			client.handleMessageFromClientUI(Message.editOrRemove + " " + firstName + " " + lastName + " " + subject);
 		} else {
-			Utilities.popUpMethod("Please select the subject");
+			Utilities_Client.popUpMethod("Please select the subject");
 		}
 		tableViewInEditOrRemove.setItems(client.getQuestionsFromDB());
 	}

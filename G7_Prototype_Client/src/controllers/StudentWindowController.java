@@ -156,7 +156,7 @@ public class StudentWindowController implements Initializable, IScreenController
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		date.setText(Utilities.setDate());
+		date.setText(Utilities_Client.setDate());
 		this.client = MainAppClient.getClient();
 		client.setStudentWindowController(this);
 		QuestionInComputerizeExamArray = new ArrayList<QuestionInComputerizeExam>();
@@ -201,7 +201,7 @@ public class StudentWindowController implements Initializable, IScreenController
 
 	public void checkExecutionCodeForNull() {
 		if (activeExam == null) {
-			Utilities.popUpMethod("Wrong Code");
+			Utilities_Client.popUpMethod("Wrong Code");
 		} else {
 			setTimer();
 			setComputerizeExam();
@@ -262,11 +262,11 @@ public class StudentWindowController implements Initializable, IScreenController
 					client.handleMessageFromClientUI(new ActiveExamHandle("#ManualExam", activeExam, client.getId()));
 				}
 			} else {
-				Utilities.popUpMethod("Wrong ID");
+				Utilities_Client.popUpMethod("Wrong ID");
 				examIDTextField.clear();
 			}
 		} else {
-			Utilities.popUpMethod("Please Enter ID");
+			Utilities_Client.popUpMethod("Please Enter ID");
 		}
 	}
 
@@ -280,7 +280,7 @@ public class StudentWindowController implements Initializable, IScreenController
 						questionInComputerizeExam.getToggleGroup().getSelectedToggle().getUserData().toString(),
 						studentInActiveExam.getStudent()));
 			} else {
-				Utilities.popUpMethod("Question : " + Integer.toString(++num) + " No Answer.");
+				Utilities_Client.popUpMethod("Question : " + Integer.toString(++num) + " No Answer.");
 				submittedExam.getAnswers().clear();
 				break;
 			}
@@ -292,7 +292,10 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	public void uploadManualExam(MouseEvent mouseEvent) {
-
+		client.handleMessageFromClientUI(new MyFileHandle("UploadExam",
+				Utilities_Client.getWordFile(activeExam.getExecutionCode(), studentInActiveExam.getStudent().getId())));
+		uploadManualExam.setDisable(true);
+		Utilities_Client.popUpMethod("Exam Uploaded Successfully");
 	}
 
 	/**
@@ -344,7 +347,7 @@ public class StudentWindowController implements Initializable, IScreenController
 			}
 			checkExecutionCodeForNull();
 		} else {
-			Utilities.popUpMethod("Please Enter Execution Code");
+			Utilities_Client.popUpMethod("Please Enter Execution Code");
 		}
 		executionCodeTextField.clear();
 	}

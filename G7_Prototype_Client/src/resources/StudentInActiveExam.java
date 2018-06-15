@@ -21,8 +21,8 @@ public class StudentInActiveExam implements Serializable {
 
 	public StudentInActiveExam(Student student, ActiveExam activeExam) {
 		super();
-		this.date = Utilities.setDate();
-		this.startedTime = Utilities.getTime();
+		this.date = Utilities_Client.setDate();
+		this.startedTime = Utilities_Client.getTime();
 		this.student = student;
 		this.activeExam = activeExam;
 	}

@@ -136,13 +136,20 @@ public class Server extends AbstractServer {
 				}
 			} else if (activeExamHandle.getCommand().equals("#ManualExam")) {
 				try {
-					Utilities.getManualExam(activeExamHandle.getActiveExam(),
+					Utilities_Server.getManualExam(activeExamHandle.getActiveExam(),
 							activeExamHandle.getActiveExam().getExecutionCode(), activeExamHandle.getUserID());
-					client.sendToClient(Utilities.getWordFile(activeExamHandle.getActiveExam().getExecutionCode(),
-							activeExamHandle.getUserID()));
+					client.sendToClient(new MyFileHandle("StudnetExam", Utilities_Client.getWordFile(
+							activeExamHandle.getActiveExam().getExecutionCode(), activeExamHandle.getUserID())));
 				} catch (IOException e) {
 					System.out.println(e);
 				}
+			}
+		} else if (msg instanceof MyFileHandle) {
+			MyFileHandle myFileHandle = (MyFileHandle) msg;
+			if (myFileHandle.getCommand().equals("UploadExam")) {
+				String[] strArray = myFileHandle.getFile().getFileName().split("/");
+				myFileHandle.getFile().setFileName(strArray[0] + "/uploadedExams/" + strArray[2]);
+				Utilities_Client.writeWordFile(myFileHandle.getFile(), false);
 			}
 		} else if (msg instanceof ExecutionCodeHandle) {
 			ExecutionCodeHandle executionCodeHandle = (ExecutionCodeHandle) msg;
@@ -153,9 +160,7 @@ public class Server extends AbstractServer {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-
-		else if (msg instanceof StudentInActiveExamHandle) {
+		} else if (msg instanceof StudentInActiveExamHandle) {
 			StudentInActiveExamHandle studentInActiveExamHandle = (StudentInActiveExamHandle) msg;
 			if (studentInActiveExamHandle.getCommand().equals(Message.studentInActiveExam)) {
 				try {
@@ -170,25 +175,16 @@ public class Server extends AbstractServer {
 			if (waitingActiveExamHandle.getCommand().equals("ChangeTime")) {
 				try {
 					SqlUtilities.insertWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
-					// client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				// catch (IOException e) {
-				// e.printStackTrace();
-				// }
 			} else if (waitingActiveExamHandle.getCommand().equals("Approve")) {
 				try {
 					sendToAllClients("#ChangeTime" + " " + SqlUtilities
 							.changeTimeActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection));
-					// client.sendToClient();
-					// client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				// catch (IOException e) {
-				// e.printStackTrace();
-				// }
 			} else if (waitingActiveExamHandle.getCommand().equals("Remove")) {
 				try {
 					SqlUtilities.removeWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
@@ -201,7 +197,6 @@ public class Server extends AbstractServer {
 			}
 		} else if (msg instanceof CheckedExamHandle) {
 			CheckedExamHandle checkedExam = (CheckedExamHandle) msg;
-
 			if (checkedExam.getCommand().equals("Approve")) {
 				try {
 					SqlUtilities.approveCheckedExam(checkedExam.getCheckedExam(), connection);
@@ -220,8 +215,7 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			else if(checkedExam.getCommand().equals("ChangeGrade")) {
+			} else if (checkedExam.getCommand().equals("ChangeGrade")) {
 				try {
 					SqlUtilities.changeGradeByTeacher(checkedExam.getCheckedExam(), connection);
 					client.sendToClient(Message.tableSaved);
@@ -230,9 +224,7 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			
-			else if(checkedExam.getCommand().equals("AddComments")) {
+			} else if (checkedExam.getCommand().equals("AddComments")) {
 				try {
 					SqlUtilities.addCommentsByTeacher(checkedExam.getCheckedExam(), connection);
 					client.sendToClient(Message.tableSaved);
@@ -242,9 +234,7 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-		}
-
-		else if (msg instanceof String) {
+		} else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
 			try {

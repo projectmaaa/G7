@@ -18,7 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import resources.Message;
-import resources.Utilities;
+import resources.Utilities_Client;
 
 public class LoginWindowController implements Initializable, IScreenController {
 
@@ -85,7 +85,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 		fieldFlag = 0;
 		this.client = MainAppClient.getClient();
 		this.client.setLoginWindowController(this);
-		date.setText(Utilities.setDate());
+		date.setText(Utilities_Client.setDate());
 	}
 
 	// region Public Methods

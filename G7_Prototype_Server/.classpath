@@ -8,7 +8,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.19-bin.jar" sourcepath="libs/mysql-connector-java-5.1.19-bin.jar"/>
 	<classpathentry kind="lib" path="libs/ocsf.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/G7_Prototype_Client"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/G7_Client"/>
 	<classpathentry kind="lib" path="libs/apache/curvesapi-1.04.jar"/>
 	<classpathentry kind="lib" path="libs/apache/poi-3.17.jar"/>
 	<classpathentry kind="lib" path="libs/apache/poi-ooxml-3.17.jar"/>
