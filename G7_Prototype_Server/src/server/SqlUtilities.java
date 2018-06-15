@@ -93,6 +93,9 @@ public class SqlUtilities {
 	
 	public final static String SELECT_Unlocked_Activated_Exams_By_Activator = "SELECT subjectID, courseID, examNum, executionCode, duration, type FROM ActiveExam WHERE activator=? AND subjectID=? AND locked=0;";
 
+	public final static String SELECT_All_Students = "SELECT idUsers, firstName, lastName FROM Users WHERE type='Student'";
+
+	
 	// region Public Methods
 
 	// end region -> Constants
@@ -242,6 +245,18 @@ public class SqlUtilities {
 		}
 		closeResultSetAndStatement(rs, null, statement);
 		return (new QuestionHandle("All", questions));
+	}
+	
+	public static StudentHandle getAllStudents(Connection connection)
+			throws SQLException {
+		ArrayList<Student> students = new ArrayList<Student>();
+		PreparedStatement statement = connection.prepareStatement(SELECT_All_Students);
+		ResultSet rs = statement.executeQuery();
+		while (rs.next()) {
+			students.add(new Student (rs.getString(1), rs.getString(2), rs.getString(3)));
+		}
+		closeResultSetAndStatement(rs, null, statement);
+		return (new StudentHandle("Students", students));
 	}
 
 	public static QuestionHandle getQuestionsBySubject(Connection connection, String subject) throws SQLException {
