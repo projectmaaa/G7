@@ -11,7 +11,18 @@ public class ReportAboutTeacher extends Report implements Serializable {
 
 	private String teacherName;
 	
-	public ReportAboutTeacher() {
-		
+	public ReportAboutTeacher(int average, int median, String teacherName) {
+		super(average, median);
+		this.teacherName = teacherName;
 	}
+
+	public String getTeacherName() {
+		return teacherName;
+	}
+
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
+	
+	
 }

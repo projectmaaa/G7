@@ -10,14 +10,14 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Bloom?>
-<?import javafx.scene.effect.DisplacementMap?>
-<?import javafx.scene.effect.FloatMap?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
@@ -247,51 +247,11 @@
                   <Bloom />
                </effect>
             </Label>
-            <SubScene height="437.0" layoutX="310.0" layoutY="59.0" width="622.0">
-              <root>
-                <Region />
-              </root>
-               <fill>
-                  <RadialGradient centerX="0.5055555555555555" centerY="0.5285714285714286" radius="0.5">
-                     <stops>
-                        <Stop color="BLACK" />
-                        <Stop color="WHITE" offset="1.0" />
-                     </stops>
-                  </RadialGradient>
-               </fill>
-            </SubScene>
-            <ImageView fitHeight="86.0" fitWidth="73.0" layoutX="310.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../Pictures/Statistics-Button.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="53.0" fitWidth="121.0" layoutX="383.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../Pictures/AES1.PNG" />
-               </image>
+            <Button fx:id="createReportButton" layoutX="104.0" layoutY="278.0" mnemonicParsing="false" onAction="#createReportHandler" text="Create Report">
                <effect>
-                  <DisplacementMap>
-                     <mapData>
-                        <FloatMap />
-                     </mapData>
-                  </DisplacementMap>
+                  <InnerShadow />
                </effect>
-            </ImageView>
-            <Label layoutX="333.0" layoutY="138.0" text="Name:">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="333.0" layoutY="162.0" text="Average:">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="333.0" layoutY="193.0" text="Median:">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
+            </Button>
             <TableView fx:id="studentsTableView" layoutX="14.0" layoutY="59.0" prefHeight="200.0" prefWidth="269.0" stylesheets="@table%20view.css">
               <columns>
                 <TableColumn fx:id="studentIDColInStudentReport" prefWidth="75.0" text="Student ID" />
@@ -299,6 +259,62 @@
                   <TableColumn fx:id="lastNameColInStudentReport" prefWidth="97.0" text="Last Name" />
               </columns>
             </TableView>
+            <AnchorPane fx:id="report3AnchorPane" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <SubScene height="437.0" layoutX="304.0" layoutY="20.0" width="622.0">
+                    <root>
+                      <Region />
+                    </root>
+                     <fill>
+                        <RadialGradient centerX="0.5055555555555555" centerY="0.5285714285714286" radius="0.5">
+                           <stops>
+                              <Stop color="BLACK" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </RadialGradient>
+                     </fill>
+                  </SubScene>
+                  <ImageView fitHeight="86.0" fitWidth="73.0" layoutX="304.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../Pictures/Statistics-Button.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="339.0" layoutY="121.0" text="Average:">
+                     <font>
+                        <Font name="Narkisim" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="341.0" layoutY="158.0" text="Median:">
+                     <font>
+                        <Font name="Narkisim" size="24.0" />
+                     </font>
+                  </Label>
+                  <Text layoutX="377.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AES7" wrappingWidth="341.375">
+                     <font>
+                        <Font name="Narkisim" size="52.0" />
+                     </font>
+                     <fill>
+                        <LinearGradient endX="0.47619047619047605" endY="1.0" startY="1.0">
+                           <stops>
+                              <Stop color="#2d77cc" />
+                              <Stop color="BLACK" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </fill>
+                  </Text>
+                  <TextField fx:id="averageTextFieldInStudentReport" layoutX="432.0" layoutY="127.0" prefHeight="25.0" prefWidth="62.0" />
+                  <Label layoutX="494.0" layoutY="72.0" text="Student:">
+                     <font>
+                        <Font name="Narkisim" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="studentNameLabel" layoutX="576.0" layoutY="72.0" prefHeight="31.0" prefWidth="225.0" textFill="#0f5be8">
+                     <font>
+                        <Font name="Narkisim" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>
