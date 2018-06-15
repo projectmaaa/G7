@@ -3,6 +3,9 @@ package controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.sun.webkit.Utilities;
+
 import client.Client;
 import client.MainAppClient;
 import javafx.beans.property.SimpleStringProperty;
@@ -29,6 +32,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import resources.Course;
 import resources.Exam;
 import resources.Message;
 import resources.Question;
@@ -227,6 +231,43 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	
 	@FXML
 	private Label studentNameLabel;
+	
+	@FXML
+	private TextField medianTextFieldInStudentReport;
+	
+	
+	// course report
+	
+	@FXML
+	private AnchorPane courseReportAnchorPane;
+	
+	@FXML
+	private Button createReportButtonInCourseReport;
+	
+	@FXML
+	private TableView<Course> courseTableView;
+	
+	@FXML
+	private TableColumn<Course, String> subjectColInStudentReport;
+	
+	@FXML
+	private TableColumn<Course, String> courseIDColInStudentReport;
+	
+	@FXML
+	private TableColumn<Course, String> courseNameColInStudentReport;
+	
+	@FXML
+	private AnchorPane report2AnchorPane;
+	
+	@FXML
+	private TextField averageTextFieldInCourseReport;
+	
+	@FXML
+	private Label CourseNameLabel;
+	
+	@FXML
+	private TextField medianTextFieldInCourseReport;
+	
 
 
 	/***********************************************************************************************************/
@@ -266,11 +307,19 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void setAverageTextFieldInStudentReport(TextField averageTextFieldInStudentReport) {
 		this.averageTextFieldInStudentReport = averageTextFieldInStudentReport;
 	}
+	
+	public void setNameAndLastName(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		welcomeText.setText(welcomeText.getText() + " " + this.firstName + " " + this.lastName);
+	}
+
 
 	/*
 	 * ---------------------------------- public methods  --------------------------------- *
 	 */
 
+	// initialize method
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -281,27 +330,22 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		setColumnsInExamsPool();
 		setColumnsInHandlingRequests();
 		setColInStudentReport();
-	}
-
-	/**
-	 * 
-	 */
-	public void setNameAndLastName(String firstName, String lastName) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		welcomeText.setText(welcomeText.getText() + " " + this.firstName + " " + this.lastName);
+		setColInCourseReport();
 	}
 
 	/**
 	 * 
 	 * @param event
 	 */
+	
+	// logout handler
 
 	public void logOutButtonHandler(ActionEvent event) {
 		welcomeText.setText("Welcome");
-		welcomeAnchorPane.setVisible(true);
 		this.client.handleMessageFromClientUI(Message.logout);
 		screensController.setScreen(MainAppClient.loginScreenID);
+		setAnchorPanesFalse();
+		welcomeAnchorPane.setVisible(true);
 	}
 
 	// question tab was pressed
@@ -421,6 +465,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void refreshButtonHandle(MouseEvent event) {
 		setTableInHandlingRequests();
 	}
+	
+	// student report tab was pressed
 
 
 	public void openStudentReport(ActionEvent event) {
@@ -429,12 +475,32 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		setTableInStudentReport();
 	}
 	
-	public void createReportHandler(ActionEvent event) {
+	// create report button was pressed
+	
+	public void createReportInStudentReportHandler(ActionEvent event) {
 		Student student = studentsTableView.getSelectionModel().getSelectedItem();
-		String fullName = student.getFirstName() + " " + student.getLastName();
-		studentNameLabel.setText(fullName);
-		client.handleMessageFromClientUI(new ReportHandle("Average", student));
-		report3AnchorPane.setVisible(true);
+		if(student==null) {
+			Utilities_Client.popUpMethod("Please choose student first!");
+		}
+		else {
+			String fullName = student.getFirstName() + " " + student.getLastName();
+			studentNameLabel.setText(fullName);
+			client.handleMessageFromClientUI(new ReportHandle("Average", student));
+			report3AnchorPane.setVisible(true);
+		}
+	}
+	
+	// course report tab was pressed
+
+
+		public void openCourseReport(ActionEvent event) {
+			setAnchorPanesFalse();
+			courseReportAnchorPane.setVisible(true);
+			setTableInCourseReport();
+		}
+	
+	public void createReportInCourseReportHandler(ActionEvent event) {
+		report2AnchorPane.setVisible(true);
 	}
 
 	/*
@@ -532,10 +598,22 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		lastNameColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 	}
 	
+	private void setColInCourseReport() {
+		subjectColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
+		courseIDColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("courseID"));
+		courseNameColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("courseName"));
+	}
+	
 	private void setTableInStudentReport() {
 		client.getStudentsFromDB().clear();
 		client.handleMessageFromClientUI(Message.getStudents);
 		studentsTableView.setItems(client.getStudentsFromDB());
+	}
+	
+	private void setTableInCourseReport() {
+		client.getAllCoursesFromDB().clear();
+		client.handleMessageFromClientUI(Message.getAllCourses);
+		courseTableView.setItems(client.getAllCoursesFromDB());
 	}
 
 	private void setAnchorPanesFalse() {
@@ -545,6 +623,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		welcomeAnchorPane.setVisible(false);
 		studentReportAnchorPane.setVisible(false);
 		report3AnchorPane.setVisible(false);
+		courseReportAnchorPane.setVisible(false);
 
 	}
 }

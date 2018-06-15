@@ -54,7 +54,7 @@
             <Menu mnemonicParsing="false" text="Order Reports">
                <items>
                   <MenuItem mnemonicParsing="false" text="Teacher Report   " />
-                  <MenuItem mnemonicParsing="false" text="Course Report   " />
+                  <MenuItem mnemonicParsing="false" onAction="#openCourseReport" text="Course Report   " />
                   <MenuItem mnemonicParsing="false" onAction="#openStudentReport" text="Student Report   " />
                </items>
             </Menu>
@@ -247,21 +247,21 @@
                   <Bloom />
                </effect>
             </Label>
-            <Button fx:id="createReportButton" layoutX="104.0" layoutY="278.0" mnemonicParsing="false" onAction="#createReportHandler" text="Create Report">
+            <Button fx:id="createReportButton" layoutX="104.0" layoutY="278.0" mnemonicParsing="false" onAction="#createReportInStudentReportHandler" text="Create Report">
                <effect>
                   <InnerShadow />
                </effect>
             </Button>
-            <TableView fx:id="studentsTableView" layoutX="14.0" layoutY="59.0" prefHeight="200.0" prefWidth="269.0" stylesheets="@table%20view.css">
+            <TableView fx:id="studentsTableView" layoutX="52.0" layoutY="59.0" prefHeight="200.0" prefWidth="269.0" stylesheets="@table%20view.css">
               <columns>
                 <TableColumn fx:id="studentIDColInStudentReport" prefWidth="75.0" text="Student ID" />
                 <TableColumn fx:id="firstNameColInStudentReport" prefWidth="95.0" text="First Name" />
                   <TableColumn fx:id="lastNameColInStudentReport" prefWidth="97.0" text="Last Name" />
               </columns>
             </TableView>
-            <AnchorPane fx:id="report3AnchorPane" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="report3AnchorPane" layoutX="334.0" prefHeight="459.0" prefWidth="636.0">
                <children>
-                  <SubScene height="437.0" layoutX="304.0" layoutY="20.0" width="622.0">
+                  <SubScene height="437.0" layoutX="15.0" layoutY="11.0" width="622.0">
                     <root>
                       <Region />
                     </root>
@@ -274,22 +274,22 @@
                         </RadialGradient>
                      </fill>
                   </SubScene>
-                  <ImageView fitHeight="86.0" fitWidth="73.0" layoutX="304.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="86.0" fitWidth="73.0" layoutX="221.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../../Pictures/Statistics-Button.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="339.0" layoutY="121.0" text="Average:">
+                  <Label layoutX="32.0" layoutY="123.0" text="Average:">
                      <font>
                         <Font name="Narkisim" size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="341.0" layoutY="158.0" text="Median:">
+                  <Label layoutX="34.0" layoutY="160.0" text="Median:">
                      <font>
                         <Font name="Narkisim" size="24.0" />
                      </font>
                   </Label>
-                  <Text layoutX="377.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AES7" wrappingWidth="341.375">
+                  <Text layoutX="294.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AES7" wrappingWidth="341.375">
                      <font>
                         <Font name="Narkisim" size="52.0" />
                      </font>
@@ -302,17 +302,99 @@
                         </LinearGradient>
                      </fill>
                   </Text>
-                  <TextField fx:id="averageTextFieldInStudentReport" layoutX="432.0" layoutY="127.0" prefHeight="25.0" prefWidth="62.0" />
-                  <Label layoutX="494.0" layoutY="72.0" text="Student:">
+                  <TextField fx:id="averageTextFieldInStudentReport" layoutX="125.0" layoutY="129.0" prefHeight="25.0" prefWidth="62.0" />
+                  <Label layoutX="159.0" layoutY="84.0" text="Student:">
                      <font>
                         <Font name="Narkisim" size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="studentNameLabel" layoutX="576.0" layoutY="72.0" prefHeight="31.0" prefWidth="225.0" textFill="#0f5be8">
+                  <Label fx:id="studentNameLabel" layoutX="241.0" layoutY="84.0" prefHeight="31.0" prefWidth="225.0" textFill="#0f5be8">
                      <font>
                         <Font name="Narkisim" size="24.0" />
                      </font>
                   </Label>
+                  <TextField fx:id="medianTextFieldInStudentReport" layoutX="125.0" layoutY="163.0" prefHeight="25.0" prefWidth="62.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="courseReportAnchorPane" layoutX="10.0" layoutY="116.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+         <children>
+            <Label layoutX="22.0" layoutY="7.0" text="Course Report" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="24.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+            <Button fx:id="createReportButtonInCourseReport" layoutX="104.0" layoutY="278.0" mnemonicParsing="false" onAction="#createReportInCourseReportHandler" text="Create Report">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+            <TableView fx:id="courseTableView" layoutX="22.0" layoutY="51.0" prefHeight="200.0" prefWidth="257.0" stylesheets="@table%20view.css">
+               <columns>
+                  <TableColumn fx:id="subjectColInStudentReport" prefWidth="75.0" text="SubjectID" />
+                  <TableColumn fx:id="courseIDColInStudentReport" prefWidth="79.0" text="CourseID" />
+                  <TableColumn fx:id="courseNameColInStudentReport" prefWidth="104.0" text="Course Name" />
+               </columns>
+            </TableView>
+            <AnchorPane fx:id="report2AnchorPane" layoutX="334.0" prefHeight="459.0" prefWidth="636.0">
+               <children>
+                  <SubScene height="437.0" layoutX="15.0" layoutY="11.0" width="622.0">
+                     <root>
+                        <Region />
+                     </root>
+                     <fill>
+                        <RadialGradient centerX="0.5055555555555555" centerY="0.5285714285714286" radius="0.5">
+                           <stops>
+                              <Stop color="BLACK" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </RadialGradient>
+                     </fill>
+                  </SubScene>
+                  <ImageView fitHeight="86.0" fitWidth="73.0" layoutX="221.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../Pictures/Statistics-Button.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="32.0" layoutY="123.0" text="Average:">
+                     <font>
+                        <Font name="Narkisim" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="34.0" layoutY="160.0" text="Median:">
+                     <font>
+                        <Font name="Narkisim" size="24.0" />
+                     </font>
+                  </Label>
+                  <Text layoutX="294.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AES7" wrappingWidth="341.375">
+                     <font>
+                        <Font name="Narkisim" size="52.0" />
+                     </font>
+                     <fill>
+                        <LinearGradient endX="0.47619047619047605" endY="1.0" startY="1.0">
+                           <stops>
+                              <Stop color="#2d77cc" />
+                              <Stop color="BLACK" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </fill>
+                  </Text>
+                  <TextField fx:id="averageTextFieldInCourseReport" layoutX="125.0" layoutY="129.0" prefHeight="25.0" prefWidth="62.0" />
+                  <Label layoutX="159.0" layoutY="84.0" text="Course:">
+                     <font>
+                        <Font name="Narkisim" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="CourseNameLabel" layoutX="241.0" layoutY="84.0" prefHeight="31.0" prefWidth="225.0" textFill="#0f5be8">
+                     <font>
+                        <Font name="Narkisim" size="24.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="medianTextFieldInCourseReport" layoutX="125.0" layoutY="163.0" prefHeight="25.0" prefWidth="62.0" />
                </children>
             </AnchorPane>
          </children>

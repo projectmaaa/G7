@@ -354,6 +354,9 @@ public class Server extends AbstractServer {
 				case Message.getStudents:
 					client.sendToClient(SqlUtilities.getAllStudents(connection));
 					break;
+				case Message.getAllCourses:
+					client.sendToClient(SqlUtilities.getAllCourses(connection));
+					break;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

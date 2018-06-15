@@ -90,14 +90,15 @@ public class SqlUtilities {
 	public final static String CHANGE_GradeByTeacher = "UPDATE CheckedExam SET grade=?, commentsOfChangeGrade=? WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
 
 	public final static String ADD_CommentsInCheckedExam = "UPDATE CheckedExam SET comment=? WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
-	
+
 	public final static String SELECT_Unlocked_Activated_Exams_By_Activator = "SELECT subjectID, courseID, examNum, executionCode, duration, type FROM ActiveExam WHERE activator=? AND subjectID=? AND locked=0;";
 
 	public final static String SELECT_All_Students = "SELECT idUsers, firstName, lastName FROM Users WHERE type='Student'";
 
 	public final static String CALCULATE_StudentAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE studentID=?";
 
-	
+	public final static String SELECT_All_Courses = "SELECT subjectID, courseID, courseName FROM Course";
+
 	// region Public Methods
 
 	// end region -> Constants
@@ -248,17 +249,27 @@ public class SqlUtilities {
 		closeResultSetAndStatement(rs, null, statement);
 		return (new QuestionHandle("All", questions));
 	}
-	
-	public static StudentHandle getAllStudents(Connection connection)
-			throws SQLException {
+
+	public static StudentHandle getAllStudents(Connection connection) throws SQLException {
 		ArrayList<Student> students = new ArrayList<Student>();
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_Students);
 		ResultSet rs = statement.executeQuery();
 		while (rs.next()) {
-			students.add(new Student (rs.getString(1), rs.getString(2), rs.getString(3)));
+			students.add(new Student(rs.getString(1), rs.getString(2), rs.getString(3)));
 		}
 		closeResultSetAndStatement(rs, null, statement);
 		return (new StudentHandle("Students", students));
+	}
+
+	public static ArrayList<Course> getAllCourses(Connection connection) throws SQLException {
+		ArrayList<Course> courses = new ArrayList<Course>();
+		PreparedStatement statement = connection.prepareStatement(SELECT_All_Courses);
+		ResultSet rs = statement.executeQuery();
+		while (rs.next()) {
+			courses.add(new Course(rs.getString(1), rs.getString(2), rs.getString(3)));
+		}
+		closeResultSetAndStatement(rs, null, statement);
+		return courses;
 	}
 
 	public static QuestionHandle getQuestionsBySubject(Connection connection, String subject) throws SQLException {
@@ -511,33 +522,40 @@ public class SqlUtilities {
 		remove.executeUpdate();
 		closeResultSetAndStatement(null, null, remove);
 	}
-	
+
 	public static void changeGradeByTeacher(CheckedExam checkedExam, Connection connection) throws SQLException {
 		PreparedStatement update = connection.prepareStatement(SqlUtilities.CHANGE_GradeByTeacher);
 		update.setInt(1, checkedExam.getGrade());
 		update.setString(2, checkedExam.getCommentsOfChangeGrade());
-		update.setString(3, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
-		update.setString(4, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getCourseID());
-		update.setString(5, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getExamNum());
+		update.setString(3,
+				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
+		update.setString(4,
+				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getCourseID());
+		update.setString(5,
+				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getExamNum());
 		update.setString(6, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExecutionCode());
 		update.setString(7, checkedExam.getSubmittedExam().getStudentInActiveExam().getStudent().getId());
 		update.executeUpdate();
 		update.close();
 	}
-	
+
 	public static void addCommentsByTeacher(CheckedExam checkedExam, Connection connection) throws SQLException {
 		PreparedStatement update = connection.prepareStatement(SqlUtilities.ADD_CommentsInCheckedExam);
 		update.setString(1, checkedExam.getComments());
-		update.setString(2, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
-		update.setString(3, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getCourseID());
-		update.setString(4, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getExamNum());
+		update.setString(2,
+				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
+		update.setString(3,
+				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getCourseID());
+		update.setString(4,
+				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getExamNum());
 		update.setString(5, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExecutionCode());
 		update.setString(6, checkedExam.getSubmittedExam().getStudentInActiveExam().getStudent().getId());
 		update.executeUpdate();
 		update.close();
 	}
-	
-	public static ReportAboutStudent calculateStudentAverage(ReportHandle reportHandle, Connection connection) throws SQLException {
+
+	public static ReportAboutStudent calculateStudentAverage(ReportHandle reportHandle, Connection connection)
+			throws SQLException {
 		PreparedStatement calculate = connection.prepareStatement(SqlUtilities.CALCULATE_StudentAVG);
 		calculate.setString(1, reportHandle.getStudent().getId());
 		ResultSet rs = calculate.executeQuery();
