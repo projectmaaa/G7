@@ -6,11 +6,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/SPB_Data/git/G7/G7_Prototype_Server/libs/ocsf.jar"/>
-	<classpathentry kind="lib" path="C:/SPB_Data/git/G7/G7_Prototype_Server/libs/apache/curvesapi-1.04.jar"/>
-	<classpathentry kind="lib" path="C:/SPB_Data/git/G7/G7_Prototype_Server/libs/apache/poi-3.17.jar"/>
-	<classpathentry kind="lib" path="C:/SPB_Data/git/G7/G7_Prototype_Server/libs/apache/poi-ooxml-3.17.jar"/>
-	<classpathentry kind="lib" path="C:/SPB_Data/git/G7/G7_Prototype_Server/libs/apache/poi-ooxml-schemas-3.17.jar"/>
-	<classpathentry kind="lib" path="C:/SPB_Data/git/G7/G7_Prototype_Server/libs/apache/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="lib" path="/G7_Server/libs/apache/curvesapi-1.04.jar"/>
+	<classpathentry kind="lib" path="/G7_Server/libs/ocsf.jar"/>
+	<classpathentry kind="lib" path="/G7_Server/libs/apache/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="/G7_Server/libs/apache/poi-ooxml-3.17.jar"/>
+	<classpathentry kind="lib" path="/G7_Server/libs/apache/poi-ooxml-schemas-3.17.jar"/>
+	<classpathentry kind="lib" path="/G7_Server/libs/apache/xmlbeans-2.6.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
