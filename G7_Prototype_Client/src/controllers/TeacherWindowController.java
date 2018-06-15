@@ -448,6 +448,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 			tableViewInCreateExamQuestion.getItems().clear();
 			createExamAnchorPane.setVisible(false);
 		}
+		if (examManagementAnchorPane.isVisible())
+			examManagementAnchorPane.setVisible(false);
+		if (activeExamManagementAnchorPane.isVisible())
+			activeExamManagementAnchorPane.setVisible(false);
+		if (backAnchorPane.isVisible())
+			backAnchorPane.setVisible(false);
+		if (confirmGradesAnchorPane.isVisible())
+			confirmGradesAnchorPane.setVisible(false);
 		welcomeText.setText("Welcome");
 		welcomeAnchorPane.setVisible(true);
 		this.client.handleMessageFromClientUI(Message.logout);
