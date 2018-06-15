@@ -133,7 +133,7 @@ public class SqlUtilities {
 			statement.setString(1, resultSet.getString(1));
 			statement.setString(2, resultSet.getString(2));
 			statement.setString(3, resultSet.getString(3));
-			String type = resultSet.getString(7);
+			String type = resultSet.getString(8);
 			resultSet = statement.executeQuery();
 			if (resultSet.next()) {
 				Exam exam = new Exam(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
