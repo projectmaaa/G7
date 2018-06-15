@@ -234,7 +234,21 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-		} else if (msg instanceof String) {
+		}
+		else if(msg instanceof ReportHandle) {
+			ReportHandle reportHandle = (ReportHandle) msg;
+			if(reportHandle.getCommand().equals("Average")) {
+				try {
+					client.sendToClient(SqlUtilities.calculateStudentAverage(reportHandle, connection));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
 			try {

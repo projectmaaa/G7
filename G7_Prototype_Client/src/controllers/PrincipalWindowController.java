@@ -19,6 +19,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,6 +32,8 @@ import javafx.stage.Stage;
 import resources.Exam;
 import resources.Message;
 import resources.Question;
+import resources.ReportAboutStudent;
+import resources.ReportHandle;
 import resources.Student;
 import resources.Utilities_Client;
 import resources.WaitingActiveExam;
@@ -212,6 +215,18 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	
 	@FXML
 	private TableColumn<Student, String> lastNameColInStudentReport;
+	
+	@FXML
+	private Button createReportButton;
+	
+	@FXML
+	private AnchorPane report3AnchorPane;
+	
+	@FXML
+	private TextField averageTextFieldInStudentReport;
+	
+	@FXML
+	private Label studentNameLabel;
 
 
 	/***********************************************************************************************************/
@@ -242,11 +257,20 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void setName() {
 		name.setText(firstName + " " + lastName);
 	}
+	
+
+	public TextField getAverageTextFieldInStudentReport() {
+		return averageTextFieldInStudentReport;
+	}
+
+	public void setAverageTextFieldInStudentReport(TextField averageTextFieldInStudentReport) {
+		this.averageTextFieldInStudentReport = averageTextFieldInStudentReport;
+	}
 
 	/*
-	 * ---------------------------------- public methods
-	 * ---------------------------------
+	 * ---------------------------------- public methods  --------------------------------- *
 	 */
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -403,12 +427,18 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		setAnchorPanesFalse();
 		studentReportAnchorPane.setVisible(true);
 		setTableInStudentReport();
-		
+	}
+	
+	public void createReportHandler(ActionEvent event) {
+		Student student = studentsTableView.getSelectionModel().getSelectedItem();
+		String fullName = student.getFirstName() + " " + student.getLastName();
+		studentNameLabel.setText(fullName);
+		client.handleMessageFromClientUI(new ReportHandle("Average", student));
+		report3AnchorPane.setVisible(true);
 	}
 
 	/*
-	 * -------------------------------- private methods
-	 * -----------------------------------
+	 * --------------------------------* private methods * -----------------------------------
 	 */
 
 	private void setSubjectComboBox(ComboBox<String> comboBox) {
@@ -514,5 +544,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		questionsPoolAnchorPane.setVisible(false);
 		welcomeAnchorPane.setVisible(false);
 		studentReportAnchorPane.setVisible(false);
+		report3AnchorPane.setVisible(false);
+
 	}
 }
