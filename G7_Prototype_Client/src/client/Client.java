@@ -38,6 +38,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private ObservableList<ActiveExam> activatedUnlockedExams = FXCollections.observableArrayList();
 
+	private ObservableList<Student> studentsFromDB = FXCollections.observableArrayList();
+
 	private ScreensController controller;
 
 	private LoginWindowController loginWindowController;
@@ -227,6 +229,16 @@ public class Client extends AbstractClient implements IScreenController {
 		});
 	}
 
+	public ObservableList<Student> getStudentsFromDB() {
+		return studentsFromDB;
+	}
+
+	public void setStudentsFromDB(ArrayList<Student> studentsFromDB) {
+		Platform.runLater(() -> {
+			this.studentsFromDB.setAll(studentsFromDB);
+		});
+	}
+
 	// end region -> Setters
 
 	// region Public Methods
@@ -325,7 +337,14 @@ public class Client extends AbstractClient implements IScreenController {
 			if (checkedExamHandle.getCommand().equals("AllCheckedExams")) {
 				setCheckedExamsFromDB(checkedExamHandle.getCheckedExams());
 			}
-		} else if (msg instanceof Boolean) {
+		} else if (msg instanceof StudentHandle) {
+			StudentHandle studentHandle = (StudentHandle) msg;
+			if(studentHandle.getCommand().equals("Students")) {
+				setStudentsFromDB(studentHandle.getStudents());
+			}
+		}
+
+		else if (msg instanceof Boolean) {
 			boolean codeExist = (boolean) msg;
 			setExecutionCodeExistFlag(codeExist);
 		} else if (msg instanceof MyFile) {

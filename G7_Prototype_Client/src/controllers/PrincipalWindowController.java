@@ -31,6 +31,7 @@ import javafx.stage.Stage;
 import resources.Exam;
 import resources.Message;
 import resources.Question;
+import resources.Student;
 import resources.Utilities;
 import resources.WaitingActiveExam;
 import resources.WaitingActiveExamHandle;
@@ -201,7 +202,16 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	private AnchorPane studentReportAnchorPane;
 	
 	@FXML
-	private ComboBox<String> selectStudentComboBox;
+	private TableView<Student> studentsTableView;
+	
+	@FXML
+	private TableColumn<Student, String> studentIDColInStudentReport;
+	
+	@FXML
+	private TableColumn<Student, String> firstNameColInStudentReport;
+	
+	@FXML
+	private TableColumn<Student, String> lastNameColInStudentReport;
 
 
 	/***********************************************************************************************************/
@@ -246,6 +256,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		setColumnsInQuestionsPool();
 		setColumnsInExamsPool();
 		setColumnsInHandlingRequests();
+		setColInStudentReport();
 	}
 
 	/**
@@ -391,6 +402,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void openStudentReport(ActionEvent event) {
 		setAnchorPanesFalse();
 		studentReportAnchorPane.setVisible(true);
+		setTableInStudentReport();
+		
 	}
 
 	/*
@@ -481,6 +494,18 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 				cellData -> new SimpleStringProperty(cellData.getValue().getActiveExam().getDurationInString()));
 		newDurationColInHandlingRequests.setCellValueFactory(new PropertyValueFactory<>("newDuration"));
 		reasonColInHandlingRequests.setCellValueFactory(new PropertyValueFactory<>("reason"));
+	}
+	
+	private void setColInStudentReport() {
+		studentIDColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("id"));
+		firstNameColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+		lastNameColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+	}
+	
+	private void setTableInStudentReport() {
+		client.getStudentsFromDB().clear();
+		client.handleMessageFromClientUI(Message.getStudents);
+		studentsTableView.setItems(client.getStudentsFromDB());
 	}
 
 	private void setAnchorPanesFalse() {

@@ -347,6 +347,9 @@ public class Server extends AbstractServer {
 					client.sendToClient(SqlUtilities.getActiveExamsByActivator(strArray[1] + " " + strArray[2],
 							strArray[3], connection));
 					break;
+				case Message.getStudents:
+					client.sendToClient(SqlUtilities.getAllStudents(connection));
+					break;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
