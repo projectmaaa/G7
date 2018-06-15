@@ -445,7 +445,7 @@ public class SqlUtilities {
 		insert.setString(2, waitingActiveExam.getActiveExam().getExam().getCourseID());
 		insert.setString(3, waitingActiveExam.getActiveExam().getExam().getExamNum());
 		insert.setString(4, waitingActiveExam.getActiveExam().getExecutionCode());
-		insert.setInt(5, waitingActiveExam.getActiveExam().getExam().getExamDuration());
+		insert.setInt(5, waitingActiveExam.getActiveExam().getDuration());
 		insert.setInt(6, waitingActiveExam.getNewDuration());
 		insert.setString(7, waitingActiveExam.getReason());
 		insert.executeUpdate();

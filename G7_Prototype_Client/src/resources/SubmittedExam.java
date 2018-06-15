@@ -12,7 +12,6 @@ public class SubmittedExam implements Serializable {
 
 	private ArrayList<StudentAnswerInQuestion> answers;
 
-
 	private int timeToSolve;
 
 	private StudentInActiveExam studentInActiveExam;
@@ -28,7 +27,7 @@ public class SubmittedExam implements Serializable {
 		this.timeToSolve = timeToSolve;
 		this.studentInActiveExam = studentInActiveExam;
 	}
-	
+
 	public SubmittedExam(StudentInActiveExam studentInActiveExam) {
 		this.answers = new ArrayList<StudentAnswerInQuestion>();
 		this.studentInActiveExam = studentInActiveExam;
@@ -41,7 +40,6 @@ public class SubmittedExam implements Serializable {
 	public void addAnswer(StudentAnswerInQuestion answer) {
 		answers.add(answer);
 	}
-
 
 	public int getTimeToSolve() {
 		return timeToSolve;

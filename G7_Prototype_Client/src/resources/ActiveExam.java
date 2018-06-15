@@ -84,6 +84,13 @@ public class ActiveExam implements Serializable {
 		this.locked = locked;
 	}
 
+	public boolean isLocked() {
+		if (locked == 1) {
+			return true;
+		}
+		return false;
+	}
+
 	public String getDurationInString() {
 		Integer dur = duration;
 		return dur.toString();
