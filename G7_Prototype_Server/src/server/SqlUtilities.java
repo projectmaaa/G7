@@ -99,6 +99,7 @@ public class SqlUtilities {
 
 	public final static String Get_Points_of_Question = "select Points from QuestionInExam where subjectID = ? and questionNum = ? and courseID = ? and examNum = ?;";
 
+
 	public final static String INSERT_CheckedExam = "insert into CheckedExam values (?, ?, ?, ?, ?, ?, ?, ?);";
 
 	public final static String CALCULATE_StudentAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE studentID=?";
@@ -107,7 +108,11 @@ public class SqlUtilities {
 
 	public final static String CALCULATE_CourseAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE courseID=?";
 
+
 	public final static String INSERT_SubmittedExam = "insert into SubmittedExam values (?, ?, ?, ?, ?, ?, ?);";
+
+	public final static String DELETE_Exam = "DELETE FROM Exam WHERE subjectID=? AND courseID=? AND examNum=?;";
+
 	// region Public Methods
 
 	// end region -> Constants
@@ -365,7 +370,7 @@ public class SqlUtilities {
 	 * @param connection
 	 * @throws SQLException
 	 */
-	public static void editTable(ArrayList<Question> newQuestions, Connection connection) throws SQLException {
+	public static void editQuestionsTable(ArrayList<Question> newQuestions, Connection connection) throws SQLException {
 		PreparedStatement update = connection.prepareStatement(SqlUtilities.UPDATE_Questions_Table);
 		for (Question question : newQuestions) {
 			update.setString(1, question.getQuestionText());
@@ -685,7 +690,11 @@ public class SqlUtilities {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Inserts a new record to CheckedExam table in database, so first calculate
+=======
+	 * Inserts to a new record to CheckedExam table in database, so first calculate
+>>>>>>> branch 'master' of https://github.com/projectmaaa/G7
 	 * the result and then insert the values
 	 * 
 	 * @param submittedExam
@@ -693,9 +702,7 @@ public class SqlUtilities {
 	 * @throws SQLException
 	 */
 	public static void insertCheckedExam(SubmittedExam submittedExam, Connection connection) throws SQLException {
-
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_CheckedExam);
-
 		insert.setString(1, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
 		insert.setString(2, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getCourseID());
 		insert.setString(3, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getExamNum());
@@ -710,8 +717,10 @@ public class SqlUtilities {
 		insert.setString(8, "");
 		insert.executeUpdate();
 
+
 		closeResultSetAndStatement(null, null, insert);
 	}
+
 	/**
 	 * Inserts a new record to SubmittedExam table in database
 	 * @param submittedExam
@@ -731,6 +740,24 @@ public class SqlUtilities {
 		closeResultSetAndStatement(null, null, insert);
 	}
 	
+
+	/**
+	 * Deletes the selected exam from the data base
+	 * 
+	 * @param exam
+	 * @param connection
+	 * @throws SQLException
+	 */
+	public static void deleteExam(Exam exam, Connection connection) throws SQLException {
+		PreparedStatement delete = connection.prepareStatement(SqlUtilities.DELETE_Exam);
+		delete.setString(1, exam.getSubjectID());
+		delete.setString(2, exam.getCourseID());
+		delete.setString(3, exam.getExamNum());
+		delete.executeUpdate();
+		closeResultSetAndStatement(null, null, delete);
+	}
+
+
 	// end region -> Public Methods
 
 	/**

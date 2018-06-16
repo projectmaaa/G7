@@ -85,7 +85,7 @@ public class Server extends AbstractServer {
 				}
 			} else if (questionsHandle.getCommand().equals("All")) { // if it's from the questions table
 				try {
-					SqlUtilities.editTable(questionsHandle.getQuestionArray(), connection);
+					SqlUtilities.editQuestionsTable(questionsHandle.getQuestionArray(), connection);
 					client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -108,15 +108,22 @@ public class Server extends AbstractServer {
 			}
 		} else if (msg instanceof ExamHandle) {
 			ExamHandle examHandle = (ExamHandle) msg;
-			if (examHandle.getCommand().equals(Message.exam)) {
+			if (examHandle.getCommand().equals(Message.exam))
 				try {
 					SqlUtilities.insertNewExam(examHandle.getExam(), connection);
-					client.sendToClient(Message.tableSaved);
 				} catch (SQLException e) {
 					e.printStackTrace();
-				} catch (IOException e) {
+				}
+			else if (examHandle.getCommand().equals(Message.deleteExam))
+				try {
+					SqlUtilities.deleteExam(examHandle.getExam(), connection);
+				} catch (SQLException e) {
 					e.printStackTrace();
 				}
+			try {
+				client.sendToClient(Message.tableSaved);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		} else if (msg instanceof ActiveExamHandle) {
 			ActiveExamHandle activeExamHandle = (ActiveExamHandle) msg;
