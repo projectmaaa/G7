@@ -139,7 +139,9 @@ public class StudentWindowController implements Initializable, IScreenController
 	public int getSecondTimer() {
 		return secondTimer;
 	}
-
+	/**
+	 * Changes the time of exam.
+	 */
 	public void setSecondTimer() {
 		int time = activeExam.getDuration() * 60;
 		if (time - activeExam.getExam().getExamDuration() * 60 > 0) {
@@ -308,7 +310,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * @param mouseEvent
 	 */
 	public void sumbitExam(MouseEvent mouseEvent) {
-		submittedExam = new SubmittedExam(10, studentInActiveExam);
+		submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer/60, studentInActiveExam);
 		int num = 0;
 		for (QuestionInComputerizeExam questionInComputerizeExam : QuestionInComputerizeExamArray) {
 			if (questionInComputerizeExam.getToggleGroup().getSelectedToggle() != null) {
@@ -322,6 +324,9 @@ public class StudentWindowController implements Initializable, IScreenController
 				break;
 			}
 		}
+		stopWatchTimeline.stop();
+		Utilities_Client.popUpMethod("Exam was submitted succesfully");
+		sumbitExamButton.setDisable(true);
 		client.handleMessageFromClientUI(new SubmittedExamHandle(Message.submittedExam, submittedExam));
 		if (!submittedExam.getAnswers().isEmpty()) {
 			System.out.println(submittedExam);
@@ -349,7 +354,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void setTimer() {
 		secondTimer = activeExam.getDuration() * 60;

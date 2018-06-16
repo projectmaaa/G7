@@ -98,7 +98,12 @@ public class Server extends AbstractServer {
 			if (submittedExamHandle.getCommand().equals(Message.submittedExam)) {
 				try {
 					SqlUtilities.Insert_StudentAnswerInQuestion(submittedExamHandle.getSubmittedExam(), connection);
+					SqlUtilities.insertCheckedExam(submittedExamHandle.getSubmittedExam(), connection);	 
+					
 				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				catch (NullPointerException e) {
 					e.printStackTrace();
 				}
 			}

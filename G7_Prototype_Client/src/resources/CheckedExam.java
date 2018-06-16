@@ -13,20 +13,16 @@ public class CheckedExam implements Serializable {
 	
 	private int grade;
 	
-	private boolean approved;
-	
 	private String comments;
 	
 	private String commentsOfChangeGrade;
 	
 	
 
-	public CheckedExam(SubmittedExam submittedExam, int grade, boolean approved, String comments,
+	public CheckedExam(SubmittedExam submittedExam, int grade, String comments,
 			String commentsOfChangeGrade) {
-		super();
 		this.submittedExam = submittedExam;
 		this.grade = grade;
-		this.approved = approved;
 		this.comments = comments;
 		this.commentsOfChangeGrade = commentsOfChangeGrade;
 	}
@@ -52,13 +48,6 @@ public class CheckedExam implements Serializable {
 		this.grade = grade;
 	}
 
-	public boolean isApproved() {
-		return approved;
-	}
-
-	public void setApproved(boolean approved) {
-		this.approved = approved;
-	}
 
 	public String getComments() {
 		return comments;
