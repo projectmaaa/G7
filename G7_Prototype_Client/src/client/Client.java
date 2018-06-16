@@ -39,9 +39,8 @@ public class Client extends AbstractClient implements IScreenController {
 	private ObservableList<ActiveExam> activatedUnlockedExams = FXCollections.observableArrayList();
 
 	private ObservableList<Student> studentsFromDB = FXCollections.observableArrayList();
-	
-	private ObservableList<Course> allCoursesFromDB = FXCollections.observableArrayList();
 
+	private ObservableList<Course> allCoursesFromDB = FXCollections.observableArrayList();
 
 	private ScreensController controller;
 
@@ -241,7 +240,7 @@ public class Client extends AbstractClient implements IScreenController {
 			this.studentsFromDB.setAll(studentsFromDB);
 		});
 	}
-	
+
 	public ObservableList<Course> getAllCoursesFromDB() {
 		return allCoursesFromDB;
 	}
@@ -255,8 +254,6 @@ public class Client extends AbstractClient implements IScreenController {
 	// end region -> Setters
 
 	// region Public Methods
-
-	
 
 	/**
 	 * This method handles all data that comes in from the server.
@@ -294,13 +291,21 @@ public class Client extends AbstractClient implements IScreenController {
 				studentWindowController.setLastName(lastName);
 				studentWindowController.setName();
 				break;
+			case "#LockExam":
+				if (studentWindowController.getActiveExam() != null) {
+					if (studentWindowController.getActiveExam().getExecutionCode().equals(strArray[1])) {
+						studentWindowController.setSecondTimer(0);
+					}
+				}
+				break;
 			case "#ChangeTime":
-				if (studentWindowController.getActiveExam() != null)
+				if (studentWindowController.getActiveExam() != null) {
 					if (studentWindowController.getActiveExam().getExecutionCode().equals(strArray[1])) {
 						System.out.println(this.firstName + " " + this.lastName);
 						studentWindowController.getActiveExam().setDuration(Integer.parseInt(strArray[2]));
-						studentWindowController.setSecondTimer();
+						studentWindowController.changeSecondTimer();
 					}
+				}
 				break;
 			case "#TableSaved":
 				System.out.println("Data Base Updated successfully");
@@ -354,15 +359,14 @@ public class Client extends AbstractClient implements IScreenController {
 			}
 		} else if (msg instanceof StudentHandle) {
 			StudentHandle studentHandle = (StudentHandle) msg;
-			if(studentHandle.getCommand().equals("Students")) {
+			if (studentHandle.getCommand().equals("Students")) {
 				setStudentsFromDB(studentHandle.getStudents());
 			}
-		} else if(msg instanceof ReportAboutStudent) {
+		} else if (msg instanceof ReportAboutStudent) {
 			ReportAboutStudent studentReport = (ReportAboutStudent) msg;
 			Double avg = studentReport.getAverage();
 			principalWindowController.getAverageTextFieldInStudentReport().setText(avg.toString());
-		}
-		else if(msg instanceof ArrayList<?>) {
+		} else if (msg instanceof ArrayList<?>) {
 			ArrayList<Course> courses = (ArrayList<Course>) msg;
 			setAllCoursesFromDB(courses);
 		}

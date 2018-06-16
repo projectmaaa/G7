@@ -428,14 +428,15 @@ public class SqlUtilities {
 		insert.close();
 	}
 
-	public static void lockActiveExam(ActiveExam activeExam, Connection connection) throws SQLException {
+	public static String lockActiveExam(ActiveExam activeExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.LOCK_Exam);
 		insert.setString(1, activeExam.getExam().getSubjectID());
 		insert.setString(2, activeExam.getExam().getCourseID());
 		insert.setString(3, activeExam.getExam().getExamNum());
 		insert.setString(4, activeExam.getExecutionCode());
 		insert.executeUpdate();
-		insert.close();
+		SqlUtilities.closeResultSetAndStatement(null, null, insert);
+		return activeExam.getExecutionCode();
 	}
 
 	public static void insertWaitingActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)

@@ -127,11 +127,9 @@ public class Server extends AbstractServer {
 				}
 			} else if (activeExamHandle.getCommand().equals("Lock")) {
 				try {
-					SqlUtilities.lockActiveExam(activeExamHandle.getActiveExam(), connection);
-					client.sendToClient(Message.tableSaved);
+					sendToAllClients("#LockExam" + " "
+							+ SqlUtilities.lockActiveExam(activeExamHandle.getActiveExam(), connection));
 				} catch (SQLException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			} else if (activeExamHandle.getCommand().equals("#ManualExam")) {
@@ -234,10 +232,9 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-		}
-		else if(msg instanceof ReportHandle) {
+		} else if (msg instanceof ReportHandle) {
 			ReportHandle reportHandle = (ReportHandle) msg;
-			if(reportHandle.getCommand().equals("Average")) {
+			if (reportHandle.getCommand().equals("Average")) {
 				try {
 					client.sendToClient(SqlUtilities.calculateStudentAverage(reportHandle, connection));
 				} catch (SQLException e) {
@@ -246,9 +243,7 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-		}
-		
-		else if (msg instanceof String) {
+		} else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
 			try {
