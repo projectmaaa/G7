@@ -134,6 +134,7 @@ public class SqlUtilities {
 			statement.setString(1, resultSet.getString(1));
 			statement.setString(2, resultSet.getString(2));
 			statement.setString(3, resultSet.getString(3));
+			int locked = resultSet.getInt(7);
 			String type = resultSet.getString(8);
 			resultSet = statement.executeQuery();
 			if (resultSet.next()) {
@@ -164,6 +165,7 @@ public class SqlUtilities {
 				}
 				closeResultSetAndStatement(resultSet, null, statement);
 				activeExam = new ActiveExam(exam, executionCode);
+				activeExam.setLocked(locked);
 				activeExam.setType(type);
 			}
 		}
