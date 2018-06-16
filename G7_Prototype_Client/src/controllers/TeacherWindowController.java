@@ -937,7 +937,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 			okButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					/* check execution code */
 					WaitingActiveExam waitingActiveExam = new WaitingActiveExam(selectedExam,
 							Integer.parseInt(newDuration.getText()), reason.getText());
 					client.handleMessageFromClientUI(new WaitingActiveExamHandle("ChangeTime", waitingActiveExam));
@@ -960,42 +959,44 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	public void lockButtonHandler(ActionEvent event) {
-		Label text = null;
+		Label text = new Label("Are You Sure?");
 		Stage primaryStage = new Stage();
 		primaryStage.setTitle("AES7");
 		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		primaryStage.setHeight(100);
+		primaryStage.setWidth(250);
+		primaryStage.setResizable(false);
 		Popup popup = new Popup();
 		popup.setX(700);
 		popup.setY(400);
-		HBox layout = new HBox(10);
-		text = new Label("Please enter the execution code of the exam:");
+		GridPane layout = new GridPane();
+		layout.setHgap(3);
+		layout.setVgap(3);
+		layout.setPadding(new Insets(0, 10, 0, 10));
 		popup.getContent().addAll(text);
-		executionCode = new TextField();
-		executionCode.setPrefWidth(50);
-		executionCode.setEditable(true);
-		Button okButton = new Button("OK");
-		okButton.setOnAction(new EventHandler<ActionEvent>() {
+		Button yesButton = new Button("Yes");
+		yesButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				ActiveExam selectedActiveExam = activeExamsTableView.getSelectionModel().getSelectedItem();
-				// check executionCode
-				// ActiveExam activeExam = new ActiveExam(selectedExam,
-				// executionCode.getText());
 				client.handleMessageFromClientUI(new ActiveExamHandle("Lock", selectedActiveExam));
+				setTableInActiveExamManagement();
 				Utilities_Client.popUpMethod("Exam locked successfully!");
 				primaryStage.hide();
+
 			}
 		});
-
-		Button closeButton = new Button("Close");
-		closeButton.setOnAction(new EventHandler<ActionEvent>() {
+		Button noButton = new Button("No");
+		noButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				primaryStage.hide();
 			}
 		});
+		layout.add(text, 8, 0);
+		layout.add(yesButton, 9, 1);
+		layout.add(noButton, 10, 1);
 		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		layout.getChildren().addAll(text, executionCode, okButton, closeButton);
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}

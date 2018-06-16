@@ -259,7 +259,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	public void enterIDKeyHandler(KeyEvent e) {
 		KeyCode code = e.getCode();
 		if (code == KeyCode.ENTER)
-			checkExecutionCode();
+			checkStudentID();
 	}
 
 	/**
