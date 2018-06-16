@@ -49,6 +49,8 @@ public class Message {
 	public final static String getAllCourses = "#AllCourses";
 
 	public final static String deleteExam = "#DeleteExam";
+	
+	public final static String getAllTeachers = "#AllTeachers";
 
 	public final static String requestRejected = "#RequestRejected";
 

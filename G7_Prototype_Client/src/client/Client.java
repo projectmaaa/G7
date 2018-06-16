@@ -42,6 +42,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private ObservableList<Course> allCoursesFromDB = FXCollections.observableArrayList();
 
+	private ObservableList<Teacher> allTeachersFromDB = FXCollections.observableArrayList();
+
 	private ScreensController controller;
 
 	private LoginWindowController loginWindowController;
@@ -251,6 +253,16 @@ public class Client extends AbstractClient implements IScreenController {
 		});
 	}
 
+	public ObservableList<Teacher> getAllTeachersFromDB() {
+		return allTeachersFromDB;
+	}
+
+	public void setAllTeachersFromDB(ArrayList<Teacher> allTeachersFromDB) {
+		Platform.runLater(() -> {
+			this.allTeachersFromDB.setAll(allTeachersFromDB);
+		});
+	}
+
 	// end region -> Setters
 
 	// region Public Methods
@@ -322,7 +334,9 @@ public class Client extends AbstractClient implements IScreenController {
 				if (teacherWindowController != null)
 					if (teacherWindowController.getFirstName() != null) {
 						System.out.println(strArray[1] + " " + strArray[2]);
-						teacherWindowController.rejectMessageCheck(strArray[1] + " " + strArray[2]); // dosen't work need to fix it
+						teacherWindowController.rejectMessageCheck(strArray[1] + " " + strArray[2]); // dosen't work
+																										// need to fix
+																										// it
 					}
 				// if (teacherWindowController.getFirstName().equals(strArray[1])
 				// && teacherWindowController.getLastName().equals(strArray[2]))
@@ -382,8 +396,14 @@ public class Client extends AbstractClient implements IScreenController {
 			Double avg = courseReport.getAverage();
 			principalWindowController.getAverageTextFieldInCourseReport().setText(avg.toString());
 		} else if (msg instanceof ArrayList<?>) {
-			ArrayList<Course> courses = (ArrayList<Course>) msg;
-			setAllCoursesFromDB(courses);
+			Object object = ((ArrayList) msg).get(0);
+			if (object instanceof Course) {
+				ArrayList<Course> courses = (ArrayList<Course>) msg;
+				setAllCoursesFromDB(courses);
+			} else if (object instanceof Teacher) {
+				ArrayList<Teacher> teachers = (ArrayList<Teacher>) msg;
+				setAllTeachersFromDB(teachers);
+			}
 		}
 
 		else if (msg instanceof Boolean) {
