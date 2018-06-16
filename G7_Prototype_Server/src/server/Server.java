@@ -97,6 +97,7 @@ public class Server extends AbstractServer {
 			SubmittedExamHandle submittedExamHandle = (SubmittedExamHandle) msg;
 			if (submittedExamHandle.getCommand().equals(Message.submittedExam)) {
 				try {
+					SqlUtilities.insertSubmittedExam(submittedExamHandle.getSubmittedExam(), connection);
 					SqlUtilities.insertCheckedExam(submittedExamHandle.getSubmittedExam(), connection);
 					SqlUtilities.insert_StudentAnswerInQuestion(submittedExamHandle.getSubmittedExam(), connection);
 				} catch (SQLException e) {

@@ -95,21 +95,19 @@ public class SqlUtilities {
 
 	public final static String SELECT_All_Students = "SELECT idUsers, firstName, lastName FROM Users WHERE type='Student'";
 
-
 	public final static String Check_Question_Answer = "select correctAnswer from Questions where subjectID = ? AND questionNum = ?;";
 
 	public final static String Get_Points_of_Question = "select Points from QuestionInExam where subjectID = ? and questionNum = ? and courseID = ? and examNum = ?;";
 
-	public final static String INSERT_CheckedExam = "INSERT INTO CheckedExam VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+	public final static String INSERT_CheckedExam = "insert into CheckedExam values (?, ?, ?, ?, ?, ?, ?, ?);";
 
 	public final static String CALCULATE_StudentAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE studentID=?";
 
 	public final static String SELECT_All_Courses = "SELECT subjectID, courseID, courseName FROM Course";
-	
+
 	public final static String CALCULATE_CourseAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE courseID=?";
 
-
-
+	public final static String INSERT_SubmittedExam = "insert into SubmittedExam values (?, ?, ?, ?, ?, ?, ?);";
 	// region Public Methods
 
 	// end region -> Constants
@@ -581,7 +579,7 @@ public class SqlUtilities {
 		rs.next();
 		return new ReportAboutStudent(rs.getDouble(1), reportHandle.getStudent());
 	}
-	
+
 	public static ReportAboutCourse calculateCourseAverage(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
 		PreparedStatement calculate = connection.prepareStatement(SqlUtilities.CALCULATE_CourseAVG);
@@ -651,14 +649,13 @@ public class SqlUtilities {
 		checkAnswer.setString(1, subjectID);
 		checkAnswer.setString(2, questionNum);
 		ResultSet rs = checkAnswer.executeQuery();
-		if(rs.next())
+		if (rs.next())
 			return rs.getString(1);
-		else
-		{
+		else {
 			System.out.println("problem in correct answer");
 			return null;
 		}
-		
+
 	}
 
 	/**
@@ -679,37 +676,61 @@ public class SqlUtilities {
 		getPoints.setString(3, courseID);
 		getPoints.setString(4, examNum);
 		ResultSet rs = getPoints.executeQuery();
-		if(rs.next())
+		if (rs.next())
 			return rs.getInt(1);
-		else
-		{
+		else {
 			System.out.println("problem in points");
 			return 0;
 		}
 	}
-/**
- * Inserts to a new record to CheckedExam table in database, so first calculate the result and then insert the values
- * @param submittedExam
- * @param connection
- * @throws SQLException
- */
+
+	/**
+	 * Inserts a new record to CheckedExam table in database, so first calculate
+	 * the result and then insert the values
+	 * 
+	 * @param submittedExam
+	 * @param connection
+	 * @throws SQLException
+	 */
 	public static void insertCheckedExam(SubmittedExam submittedExam, Connection connection) throws SQLException {
-		
+
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_CheckedExam);
-		
-			insert.setString(1, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
-			insert.setString(2, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getCourseID());
-			insert.setString(3, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getExamNum());
-			insert.setString(4, submittedExam.getStudentInActiveExam().getActiveExam().getExecutionCode());
-			insert.setString(5, submittedExam.getStudentInActiveExam().getStudent().getId());
+
+		insert.setString(1, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
+		insert.setString(2, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getCourseID());
+		insert.setString(3, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getExamNum());
+		insert.setString(4, submittedExam.getStudentInActiveExam().getActiveExam().getExecutionCode());
+		insert.setString(5, submittedExam.getStudentInActiveExam().getStudent().getId());
+		if (submittedExam.getStudentInActiveExam().getActiveExam().getType().equals("c")) {
 			insert.setInt(6, Utilities_Server.getCalculateExamGrade(submittedExam, connection));
-			insert.setString(7, "");
-			insert.setString(8, "");
-			insert.executeUpdate();
-		
+		} else {
+			insert.setInt(6, -1);
+		}
+		insert.setString(7, "");
+		insert.setString(8, "");
+		insert.executeUpdate();
+
 		closeResultSetAndStatement(null, null, insert);
 	}
-
+	/**
+	 * Inserts a new record to SubmittedExam table in database
+	 * @param submittedExam
+	 * @param connection
+	 * @throws SQLException
+	 */
+	public static void insertSubmittedExam(SubmittedExam submittedExam, Connection connection) throws SQLException {
+		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_SubmittedExam);
+		insert.setString(1, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
+		insert.setString(2, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getCourseID());
+		insert.setString(3, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getExamNum());
+		insert.setString(4, submittedExam.getStudentInActiveExam().getActiveExam().getExecutionCode());
+		insert.setString(5, submittedExam.getStudentInActiveExam().getStudent().getId());
+		insert.setInt(6, submittedExam.getTimeToSolve());
+		insert.setInt(7, submittedExam.getSubmitted());
+		insert.executeUpdate();
+		closeResultSetAndStatement(null, null, insert);
+	}
+	
 	// end region -> Public Methods
 
 	/**
