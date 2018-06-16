@@ -41,6 +41,8 @@ public class Client extends AbstractClient implements IScreenController {
 	private ObservableList<Student> studentsFromDB = FXCollections.observableArrayList();
 
 	private ObservableList<Course> allCoursesFromDB = FXCollections.observableArrayList();
+	
+	private ObservableList<Teacher> allTeachersFromDB = FXCollections.observableArrayList();
 
 	private ScreensController controller;
 
@@ -250,10 +252,21 @@ public class Client extends AbstractClient implements IScreenController {
 			this.allCoursesFromDB.setAll(allCoursesFromDB);
 		});
 	}
+	
+	public ObservableList<Teacher> getAllTeachersFromDB() {
+		return allTeachersFromDB;
+	}
+
+	public void setAllTeachersFromDB(ArrayList<Teacher> allTeachersFromDB) {
+		Platform.runLater(() -> {
+			this.allTeachersFromDB.setAll(allTeachersFromDB);
+		});
+	}
 
 	// end region -> Setters
 
 	// region Public Methods
+
 
 	/**
 	 * This method handles all data that comes in from the server.
@@ -373,8 +386,15 @@ public class Client extends AbstractClient implements IScreenController {
 			principalWindowController.getAverageTextFieldInCourseReport().setText(avg.toString());
 		}
 		else if(msg instanceof ArrayList<?>) {
-			ArrayList<Course> courses = (ArrayList<Course>) msg;
-			setAllCoursesFromDB(courses);
+			Object object = ((ArrayList) msg).get(0);
+			if(object instanceof Course) {
+				ArrayList<Course> courses = (ArrayList<Course>) msg;
+				setAllCoursesFromDB(courses);
+			}
+			else if(object instanceof Teacher) {
+				ArrayList<Teacher> teachers = (ArrayList<Teacher>) msg;
+				setAllTeachersFromDB(teachers);
+			}
 		}
 
 		else if (msg instanceof Boolean) {

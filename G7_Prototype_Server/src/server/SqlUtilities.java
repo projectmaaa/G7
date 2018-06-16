@@ -106,8 +106,9 @@ public class SqlUtilities {
 
 	public final static String SELECT_All_Courses = "SELECT subjectID, courseID, courseName FROM Course";
 
-	public final static String CALCULATE_CourseAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE courseID=?";
+	public final static String SELECT_All_Teachers = "SELECT idUsers, firstName, lastName FROM Users WHERE type='Teacher'";
 
+	public final static String CALCULATE_CourseAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE courseID=?";
 
 	public final static String INSERT_SubmittedExam = "insert into SubmittedExam values (?, ?, ?, ?, ?, ?, ?);";
 
@@ -291,6 +292,17 @@ public class SqlUtilities {
 		}
 		closeResultSetAndStatement(rs, null, statement);
 		return courses;
+	}
+	
+	public static ArrayList<Teacher> getAllTeachers(Connection connection) throws SQLException {
+		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
+		PreparedStatement statement = connection.prepareStatement(SELECT_All_Teachers);
+		ResultSet rs = statement.executeQuery();
+		while (rs.next()) {
+			teachers.add(new Teacher(rs.getString(1), rs.getString(2), rs.getString(3)));
+		}
+		closeResultSetAndStatement(rs, null, statement);
+		return teachers;
 	}
 
 	public static QuestionHandle getQuestionsBySubject(Connection connection, String subject) throws SQLException {
