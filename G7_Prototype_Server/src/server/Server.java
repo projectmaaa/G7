@@ -196,11 +196,14 @@ public class Server extends AbstractServer {
 				}
 			} else if (waitingActiveExamHandle.getCommand().equals("Remove")) {
 				try {
+					String activator = SqlUtilities.getActivator(
+							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getSubjectID(),
+							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getCourseID(),
+							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getExamNum(),
+							connection);
 					SqlUtilities.removeWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
-					client.sendToClient(Message.tableSaved);
+					sendToAllClients(Message.requestRejected + " " + activator);
 				} catch (SQLException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}

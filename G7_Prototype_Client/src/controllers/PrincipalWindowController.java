@@ -453,7 +453,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			public void handle(ActionEvent event) {
 				WaitingActiveExam waitingActiveExam = handlingRequestsTableView.getSelectionModel().getSelectedItem();
 				client.handleMessageFromClientUI(new WaitingActiveExamHandle("Approve", waitingActiveExam));
-				// handlingRequestsTableView.getItems().clear();
 				client.handleMessageFromClientUI(new WaitingActiveExamHandle("Remove", waitingActiveExam));
 				Utilities_Client.popUpMethod("Exam duration changed successfully!");
 				setTableInHandlingRequests();

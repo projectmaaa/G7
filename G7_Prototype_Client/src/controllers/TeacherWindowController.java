@@ -392,6 +392,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private Exam exam;
 
+	private boolean rejectionFlag;
+
+	private boolean checkingRejectionsInTheBackroundFlag;
+
 	// end region -> Fields
 
 	// region Setters
@@ -400,6 +404,39 @@ public class TeacherWindowController implements Initializable, IScreenController
 	public void setScreenParent(ScreensController screenParent) {
 		screensController = screenParent;
 	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public boolean isRejectionFlag() {
+		return rejectionFlag;
+	}
+
+	public void setRejectionFlag(boolean rejectionFlag) {
+		this.rejectionFlag = rejectionFlag;
+	}
+
+	public boolean isCheckingRejectionsInTheBackroundFlag() {
+		return checkingRejectionsInTheBackroundFlag;
+	}
+
+	public void setCheckingRejectionsInTheBackroundFlag(boolean checkingRejectionsInTheBackroundFlag) {
+		this.checkingRejectionsInTheBackroundFlag = checkingRejectionsInTheBackroundFlag;
+	}
+
 	// end region -> Setters
 
 	/**
@@ -424,6 +461,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 		tableViewInCreateExamAllQuestion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		initAddQuestionOption();
 		client.setTeacherWindowController(this);
+//		setRejectionFlag(false);
+//		setCheckingRejectionsInTheBackroundFlag(true);
+//		Runnable r = new Runnable() {
+//			public void run() {
+//				rejectMessageCheck();
+//			}
+//		};
+//		new Thread(r).start();
 	}
 
 	// region Public Methods
@@ -456,6 +501,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 			backAnchorPane.setVisible(false);
 		if (confirmGradesAnchorPane.isVisible())
 			confirmGradesAnchorPane.setVisible(false);
+		setCheckingRejectionsInTheBackroundFlag(false);
+		setRejectionFlag(false);
 		welcomeText.setText("Welcome");
 		welcomeAnchorPane.setVisible(true);
 		this.client.handleMessageFromClientUI(Message.logout);
@@ -995,11 +1042,19 @@ public class TeacherWindowController implements Initializable, IScreenController
 			okButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					WaitingActiveExam waitingActiveExam = new WaitingActiveExam(selectedExam,
-							Integer.parseInt(newDuration.getText()), reason.getText());
-					client.handleMessageFromClientUI(new WaitingActiveExamHandle("ChangeTime", waitingActiveExam));
-					Utilities_Client.popUpMethod("Request sent to Principal!");
-					primaryStage.hide();
+					String newTypedDuration = newDuration.getText();
+					if (newTypedDuration.isEmpty() || !newTypedDuration.matches("[0-9]*")
+							|| newTypedDuration.charAt(0) == '0')
+						Utilities_Client.popUpMethod("Please enter new time in minutes without leading zeros");
+					else if (reason.getText().isEmpty())
+						Utilities_Client.popUpMethod("Please enter your reason");
+					else {
+						WaitingActiveExam waitingActiveExam = new WaitingActiveExam(selectedExam,
+								Integer.parseInt(newTypedDuration), reason.getText());
+						client.handleMessageFromClientUI(new WaitingActiveExamHandle("ChangeTime", waitingActiveExam));
+						Utilities_Client.popUpMethod("Request sent to Principal!");
+						primaryStage.hide();
+					}
 				}
 			});
 			Button cancelButton = new Button("Cancel");
@@ -1014,6 +1069,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			primaryStage.setScene(new Scene(layout));
 			primaryStage.show();
 		}
+
 	}
 
 	public void lockButtonHandler(ActionEvent event) {
@@ -1270,6 +1326,19 @@ public class TeacherWindowController implements Initializable, IScreenController
 		backAnchorPane.setVisible(true);
 		activeExamManagementAnchorPane.setVisible(true);
 	}
+
+	public void rejectMessageCheck(String activator) {
+		if (activator.equals(getFirstName() + " " + getLastName()))
+			Utilities_Client.popUpMethod("The principal rejected your request");
+	}
+
+	// public void rejectMessageCheck() {
+	// while (checkingRejectionsInTheBackroundFlag)
+	// if (rejectionFlag) {
+	// Utilities_Client.popUpMethod("The principal rejected your request");
+	// setRejectionFlag(false);
+	// }
+	// }
 
 	// end region -> Public Methods
 
