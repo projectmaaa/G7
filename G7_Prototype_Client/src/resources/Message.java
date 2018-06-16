@@ -46,6 +46,8 @@ public class Message {
 	
 	public final static String getStudents = "#Students";
 	
+	public final static String getAllCourses = "#AllCourses";
+	
 
 	// end region -> Constants
 

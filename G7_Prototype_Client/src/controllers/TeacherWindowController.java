@@ -448,6 +448,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 			tableViewInCreateExamQuestion.getItems().clear();
 			createExamAnchorPane.setVisible(false);
 		}
+		if (examManagementAnchorPane.isVisible())
+			examManagementAnchorPane.setVisible(false);
+		if (activeExamManagementAnchorPane.isVisible())
+			activeExamManagementAnchorPane.setVisible(false);
+		if (backAnchorPane.isVisible())
+			backAnchorPane.setVisible(false);
+		if (confirmGradesAnchorPane.isVisible())
+			confirmGradesAnchorPane.setVisible(false);
 		welcomeText.setText("Welcome");
 		welcomeAnchorPane.setVisible(true);
 		this.client.handleMessageFromClientUI(Message.logout);
@@ -873,21 +881,23 @@ public class TeacherWindowController implements Initializable, IScreenController
 			public void handle(ActionEvent event) {
 				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
 				// check execution code
-				if ((executionCode.getText().length() != 4)) {
+				String typedExecutionCode = executionCode.getText();
+				if ((typedExecutionCode.length() != 4) || !typedExecutionCode.matches("[a-zA-Z0-9]*"))
 					Utilities_Client.popUpMethod("Illegal execution code. please try again!");
-					primaryStage.hide();
-				} else if (type.getValue() == null) {
+				else if (!typedExecutionCode.matches(".*\\d+.*"))
+					Utilities_Client.popUpMethod("The execution code must contain at least 1 numeric character");
+				else if (!typedExecutionCode.matches(".*[a-zA-Z]+.*"))
+					Utilities_Client.popUpMethod("The execution code must contain at least 1 alphabetic character");
+				else if (type.getValue() == null)
 					Utilities_Client.popUpMethod("Type was not selected. please try again!");
-					primaryStage.hide();
-				} else if (!executionCodeExist(executionCode.getText())) {
-					ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText(), type.getValue(),
+				else if (!executionCodeExist(typedExecutionCode)) {
+					ActiveExam activeExam = new ActiveExam(selectedExam, typedExecutionCode, type.getValue(),
 							firstName + " " + lastName);
 					client.handleMessageFromClientUI(new ActiveExamHandle("Activate", activeExam));
 					Utilities_Client.popUpMethod("Exam activated successfully!");
-					primaryStage.hide();
-				} else {
+				} else
 					Utilities_Client.popUpMethod("Exam with this execution Code already exist!");
-				}
+				primaryStage.hide();
 			}
 		});
 		Button cancelButton = new Button("Cancel");
@@ -904,50 +914,49 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	public void changeTimeButtonHandler(ActionEvent event) {
-		Label text = null;
-		Stage primaryStage = new Stage();
-		primaryStage.setTitle("AES7");
-		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-		Popup popup = new Popup();
-		popup.setX(700);
-		popup.setY(400);
-		HBox layout = new HBox(10);
-		text = new Label("Please enter an execution code:");
-		executionCode = new TextField();
-		executionCode.setPrefWidth(50);
-		executionCode.setEditable(true);
-		TextField newDuration = new TextField();
-		newDuration.setPromptText("Enter new time here.");
-		TextField reason = new TextField();
-		reason.setPromptText("Enter reason here.");
-		popup.getContent().addAll(text, reason);
-		newDuration.setEditable(true);
-		reason.setEditable(true);
-		Button okButton = new Button("Send");
-		okButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
-				// check executionCode
-				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
-				WaitingActiveExam waitingActiveExam = new WaitingActiveExam(activeExam,
-						Integer.parseInt(newDuration.getText()), reason.getText());
-				client.handleMessageFromClientUI(new WaitingActiveExamHandle("ChangeTime", waitingActiveExam));
-				Utilities_Client.popUpMethod("Request sent to Principal!");
-				primaryStage.hide();
-			}
-		});
-		Button cancelButton = new Button("Cancel");
-		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				primaryStage.hide();
-			}
-		});
-		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		layout.getChildren().addAll(text, executionCode, newDuration, reason, okButton, cancelButton);
-		primaryStage.setScene(new Scene(layout));
-		primaryStage.show();
+		ActiveExam selectedExam = activeExamsTableView.getSelectionModel().getSelectedItem();
+		if (selectedExam == null)
+			Utilities_Client.popUpMethod("Please Select Exam");
+		else {
+			Label text = new Label("Please enter New Time and Reasons:");
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			HBox layout = new HBox(10);
+			TextField newDuration = new TextField();
+			newDuration.setPromptText("Enter new time here");
+			TextField reason = new TextField();
+			reason.setPromptText("Enter reason here");
+			popup.getContent().addAll(text, reason);
+			newDuration.setEditable(true);
+			reason.setEditable(true);
+			Button okButton = new Button("Send");
+			okButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					/* check execution code */
+					WaitingActiveExam waitingActiveExam = new WaitingActiveExam(selectedExam,
+							Integer.parseInt(newDuration.getText()), reason.getText());
+					client.handleMessageFromClientUI(new WaitingActiveExamHandle("ChangeTime", waitingActiveExam));
+					Utilities_Client.popUpMethod("Request sent to Principal!");
+					primaryStage.hide();
+				}
+			});
+			Button cancelButton = new Button("Cancel");
+			cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					primaryStage.hide();
+				}
+			});
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			layout.getChildren().addAll(text, newDuration, reason, okButton, cancelButton);
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
 	}
 
 	public void lockButtonHandler(ActionEvent event) {
@@ -968,10 +977,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
+				ActiveExam selectedActiveExam = activeExamsTableView.getSelectionModel().getSelectedItem();
 				// check executionCode
-				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
-				client.handleMessageFromClientUI(new ActiveExamHandle("Lock", activeExam));
+				// ActiveExam activeExam = new ActiveExam(selectedExam,
+				// executionCode.getText());
+				client.handleMessageFromClientUI(new ActiveExamHandle("Lock", selectedActiveExam));
 				Utilities_Client.popUpMethod("Exam locked successfully!");
 				primaryStage.hide();
 			}

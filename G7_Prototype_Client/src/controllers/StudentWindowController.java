@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -139,10 +140,15 @@ public class StudentWindowController implements Initializable, IScreenController
 	public int getSecondTimer() {
 		return secondTimer;
 	}
+
 	/**
 	 * Changes the time of exam.
 	 */
-	public void setSecondTimer() {
+	public void setSecondTimer(int secondTimer) {
+		this.secondTimer = secondTimer;
+	}
+
+	public void changeSecondTimer() {
 		int time = activeExam.getDuration() * 60;
 		if (time - activeExam.getExam().getExamDuration() * 60 > 0) {
 			this.secondTimer += (time - activeExam.getExam().getExamDuration() * 60);
@@ -187,7 +193,9 @@ public class StudentWindowController implements Initializable, IScreenController
 	 */
 	public void logOutButtonHandler(ActionEvent event) {
 		aesAnchorPane.setVisible(true);
-		stopWatchTimeline.stop();
+		if (stopWatchTimeline != null) {
+			stopWatchTimeline.stop();
+		}
 		if (this.examIDTextField.isVisible()) {
 			examIDTextField.clear();
 			examIDTextField.setDisable(false);
@@ -205,6 +213,8 @@ public class StudentWindowController implements Initializable, IScreenController
 			examSheetVBox.getChildren().clear();
 		}
 		turnOffAllPane();
+		aesAnchorPane.setVisible(true);
+		welcomeAnchorPane.setVisible(true);
 		this.client.handleMessageFromClientUI(Message.logout);
 		screensController.setScreen(MainAppClient.loginScreenID);
 	}
@@ -223,8 +233,12 @@ public class StudentWindowController implements Initializable, IScreenController
 		if (activeExam == null) {
 			Utilities_Client.popUpMethod("Wrong Code");
 		} else {
-			setTimer();
-			checkExamType();
+			if (!activeExam.isLocked()) {
+				setTimer();
+				checkExamType();
+			} else {
+				Utilities_Client.popUpMethod("Exam Locked");
+			}
 		}
 	}
 
@@ -310,7 +324,9 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * @param mouseEvent
 	 */
 	public void sumbitExam(MouseEvent mouseEvent) {
-		submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer/60, studentInActiveExam);
+
+		submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer / 60, studentInActiveExam);
+
 		int num = 0;
 		for (QuestionInComputerizeExam questionInComputerizeExam : QuestionInComputerizeExamArray) {
 			if (questionInComputerizeExam.getToggleGroup().getSelectedToggle() != null) {
@@ -321,12 +337,16 @@ public class StudentWindowController implements Initializable, IScreenController
 			} else {
 				Utilities_Client.popUpMethod("Question : " + Integer.toString(++num) + " No Answer.");
 				submittedExam.getAnswers().clear();
-				break;
+				return;
 			}
 		}
 		stopWatchTimeline.stop();
+
 		Utilities_Client.popUpMethod("Exam was submitted succesfully");
 		sumbitExamButton.setDisable(true);
+
+		submittedExam.setSubmitted(1);
+
 		client.handleMessageFromClientUI(new SubmittedExamHandle(Message.submittedExam, submittedExam));
 		if (!submittedExam.getAnswers().isEmpty()) {
 			System.out.println(submittedExam);
@@ -338,10 +358,13 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * @param mouseEvent
 	 */
 	public void uploadManualExam(MouseEvent mouseEvent) {
+		stopWatchTimeline.stop();
+		submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer / 60, studentInActiveExam);
 		client.handleMessageFromClientUI(new MyFileHandle("UploadExam",
 				Utilities_Client.getWordFile(activeExam.getExecutionCode(), studentInActiveExam.getStudent().getId())));
 		uploadManualExam.setDisable(true);
 		Utilities_Client.popUpMethod("Exam Uploaded Successfully");
+		client.handleMessageFromClientUI(new SubmittedExamHandle(Message.submittedExam, submittedExam));
 	}
 
 	/**
@@ -440,10 +463,62 @@ public class StudentWindowController implements Initializable, IScreenController
 		stopWatchTimeline = new Timeline(new KeyFrame(Duration.seconds(1), (ActionEvent event) -> {
 			if (secondTimer-- > 0) {
 				setTimerDisplay();
+			} else {
+				Utilities_Client.popUpMethod("Time is over exam, will be submited");
+				stopWatchTimeline.stop();
+				if (activeExam.getType().equals("c")) {
+					unWantedComputerizeSubmitExam();
+				} else {
+					unWantedManualSubmitExam();
+				}
+
 			}
 		}));
 		stopWatchTimeline.setCycleCount(Timeline.INDEFINITE);
 		stopWatchTimeline.play();
+	}
+
+	/**
+	 * 
+	 */
+	private void unWantedComputerizeSubmitExam() {
+		this.sumbitExamButton.setDisable(true);
+		submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer / 60, studentInActiveExam);
+		int num = 0;
+		for (QuestionInComputerizeExam questionInComputerizeExam : QuestionInComputerizeExamArray) {
+			String answer;
+			if (questionInComputerizeExam.getToggleGroup().getSelectedToggle() != null) {
+				answer = questionInComputerizeExam.getToggleGroup().getSelectedToggle().getUserData().toString();
+			} else {
+				answer = ("0");
+			}
+			submittedExam.addAnswer(new StudentAnswerInQuestion(activeExam.getExam().getSubjectID(),
+					questionInComputerizeExam.getQuestionInExam().getQuestionNum(), Integer.toString(++num), answer,
+					studentInActiveExam.getStudent()));
+		}
+		submittedExam.setSubmitted(0);
+		client.handleMessageFromClientUI(new SubmittedExamHandle(Message.submittedExam, submittedExam));
+		if (!submittedExam.getAnswers().isEmpty()) {
+			System.out.println(submittedExam);
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private void unWantedManualSubmitExam() {
+		try {
+			submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer / 60, studentInActiveExam);
+			this.uploadManualExam.setDisable(true);
+			Runtime.getRuntime().exec("cmd /c taskkill /f /im winword.exe");
+			client.handleMessageFromClientUI(new SubmittedExamHandle(Message.submittedExam, submittedExam));
+			client.handleMessageFromClientUI(new MyFileHandle("UploadExam", Utilities_Client
+					.getWordFile(activeExam.getExecutionCode(), studentInActiveExam.getStudent().getId())));
+			uploadManualExam.setDisable(true);
+			Utilities_Client.popUpMethod("Exam Uploaded Successfully");
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 
 	/**

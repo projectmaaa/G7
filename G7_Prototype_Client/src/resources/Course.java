@@ -15,7 +15,7 @@ public class Course implements Serializable {
 
 	private String courseName;
 
-	public Course(String courseID, String subjectID, String courseName) {
+	public Course(String subjectID, String courseID, String courseName) {
 		this.courseID = courseID;
 		this.subjectID = subjectID;
 		this.courseName = courseName;

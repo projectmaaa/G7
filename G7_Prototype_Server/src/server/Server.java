@@ -97,13 +97,11 @@ public class Server extends AbstractServer {
 			SubmittedExamHandle submittedExamHandle = (SubmittedExamHandle) msg;
 			if (submittedExamHandle.getCommand().equals(Message.submittedExam)) {
 				try {
-					SqlUtilities.Insert_StudentAnswerInQuestion(submittedExamHandle.getSubmittedExam(), connection);
-					SqlUtilities.insertCheckedExam(submittedExamHandle.getSubmittedExam(), connection);	 
-					
+					SqlUtilities.insertCheckedExam(submittedExamHandle.getSubmittedExam(), connection);
+					SqlUtilities.insert_StudentAnswerInQuestion(submittedExamHandle.getSubmittedExam(), connection);
 				} catch (SQLException e) {
 					e.printStackTrace();
-				}
-				catch (NullPointerException e) {
+				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}
 			}
@@ -132,11 +130,9 @@ public class Server extends AbstractServer {
 				}
 			} else if (activeExamHandle.getCommand().equals("Lock")) {
 				try {
-					SqlUtilities.lockActiveExam(activeExamHandle.getActiveExam(), connection);
-					client.sendToClient(Message.tableSaved);
+					sendToAllClients("#LockExam" + " "
+							+ SqlUtilities.lockActiveExam(activeExamHandle.getActiveExam(), connection));
 				} catch (SQLException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			} else if (activeExamHandle.getCommand().equals("#ManualExam")) {
@@ -169,7 +165,7 @@ public class Server extends AbstractServer {
 			StudentInActiveExamHandle studentInActiveExamHandle = (StudentInActiveExamHandle) msg;
 			if (studentInActiveExamHandle.getCommand().equals(Message.studentInActiveExam)) {
 				try {
-					SqlUtilities.Insert_StudentInActiveExam(studentInActiveExamHandle.getStudentInActiveExam(),
+					SqlUtilities.insert_StudentInActiveExam(studentInActiveExamHandle.getStudentInActiveExam(),
 							connection);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -239,7 +235,28 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-		} else if (msg instanceof String) {
+		} else if (msg instanceof ReportHandle) {
+			ReportHandle reportHandle = (ReportHandle) msg;
+			if (reportHandle.getCommand().equals("StudentAverage")) {
+				try {
+					client.sendToClient(SqlUtilities.calculateStudentAverage(reportHandle, connection));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else if (reportHandle.getCommand().equals("CourseAverage")) {
+				try {
+					client.sendToClient(SqlUtilities.calculateCourseAverage(reportHandle, connection));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
 			try {
@@ -344,6 +361,9 @@ public class Server extends AbstractServer {
 					break;
 				case Message.getStudents:
 					client.sendToClient(SqlUtilities.getAllStudents(connection));
+					break;
+				case Message.getAllCourses:
+					client.sendToClient(SqlUtilities.getAllCourses(connection));
 					break;
 				}
 			} catch (SQLException e) {

@@ -95,11 +95,21 @@ public class SqlUtilities {
 
 	public final static String SELECT_All_Students = "SELECT idUsers, firstName, lastName FROM Users WHERE type='Student'";
 
+
 	public final static String Check_Question_Answer = "select correctAnswer from Questions where subjectID = ? AND questionNum = ?;";
 
 	public final static String Get_Points_of_Question = "select Points from QuestionInExam where subjectID = ? and questionNum = ? and courseID = ? and examNum = ?;";
 
 	public final static String INSERT_CheckedExam = "INSERT INTO CheckedExam VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+
+	public final static String CALCULATE_StudentAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE studentID=?";
+
+	public final static String SELECT_All_Courses = "SELECT subjectID, courseID, courseName FROM Course";
+	
+	public final static String CALCULATE_CourseAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE courseID=?";
+
+
+
 	// region Public Methods
 
 	// end region -> Constants
@@ -135,6 +145,7 @@ public class SqlUtilities {
 			statement.setString(1, resultSet.getString(1));
 			statement.setString(2, resultSet.getString(2));
 			statement.setString(3, resultSet.getString(3));
+			int locked = resultSet.getInt(7);
 			String type = resultSet.getString(8);
 			resultSet = statement.executeQuery();
 			if (resultSet.next()) {
@@ -165,6 +176,7 @@ public class SqlUtilities {
 				}
 				closeResultSetAndStatement(resultSet, null, statement);
 				activeExam = new ActiveExam(exam, executionCode);
+				activeExam.setLocked(locked);
 				activeExam.setType(type);
 			}
 		}
@@ -177,20 +189,25 @@ public class SqlUtilities {
 	 * @param connection
 	 * @throws SQLException
 	 */
-	public static void Insert_StudentAnswerInQuestion(SubmittedExam submittedExam, Connection connection)
+	public static void insert_StudentAnswerInQuestion(SubmittedExam submittedExam, Connection connection)
 			throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(INSERT_StudentAnswerInQuestion);
-		for (StudentAnswerInQuestion studentAnswerInQuestion : submittedExam.getAnswers()) {
-			preparedStatement.setString(1, studentAnswerInQuestion.getStudent().getId());
-			preparedStatement.setString(2, studentAnswerInQuestion.getSubjectID());
-			preparedStatement.setString(3,
-					submittedExam.getStudentInActiveExam().getActiveExam().getExam().getCourseID());
-			preparedStatement.setString(4,
-					submittedExam.getStudentInActiveExam().getActiveExam().getExam().getExamNum());
-			preparedStatement.setString(5, submittedExam.getStudentInActiveExam().getActiveExam().getExecutionCode());
-			preparedStatement.setString(6, studentAnswerInQuestion.getQuestionNum());
-			preparedStatement.setString(7, studentAnswerInQuestion.getQuestionOrderInExam());
-			preparedStatement.setString(8, studentAnswerInQuestion.getStudentAnswer());
+		preparedStatement.setString(1, submittedExam.getStudentInActiveExam().getStudent().getId());
+		preparedStatement.setString(2, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
+		preparedStatement.setString(3, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getCourseID());
+		preparedStatement.setString(4, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getExamNum());
+		preparedStatement.setString(5, submittedExam.getStudentInActiveExam().getActiveExam().getExecutionCode());
+		if (!submittedExam.getAnswers().isEmpty()) {
+			for (StudentAnswerInQuestion studentAnswerInQuestion : submittedExam.getAnswers()) {
+				preparedStatement.setString(6, studentAnswerInQuestion.getQuestionNum());
+				preparedStatement.setString(7, studentAnswerInQuestion.getQuestionOrderInExam());
+				preparedStatement.setString(8, studentAnswerInQuestion.getStudentAnswer());
+				preparedStatement.executeUpdate();
+			}
+		} else {
+			preparedStatement.setString(6, "Man");
+			preparedStatement.setString(7, "0");
+			preparedStatement.setString(8, "0");
 			preparedStatement.executeUpdate();
 		}
 		closeResultSetAndStatement(null, null, preparedStatement);
@@ -202,7 +219,7 @@ public class SqlUtilities {
 	 * @param connection
 	 * @throws SQLException
 	 */
-	public static void Insert_StudentInActiveExam(StudentInActiveExam studentInActiveExam, Connection connection)
+	public static void insert_StudentInActiveExam(StudentInActiveExam studentInActiveExam, Connection connection)
 			throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(INSERT_StudentInActiveExam);
 		preparedStatement.setString(1, studentInActiveExam.getStudent().getId());
@@ -260,6 +277,17 @@ public class SqlUtilities {
 		}
 		closeResultSetAndStatement(rs, null, statement);
 		return (new StudentHandle("Students", students));
+	}
+
+	public static ArrayList<Course> getAllCourses(Connection connection) throws SQLException {
+		ArrayList<Course> courses = new ArrayList<Course>();
+		PreparedStatement statement = connection.prepareStatement(SELECT_All_Courses);
+		ResultSet rs = statement.executeQuery();
+		while (rs.next()) {
+			courses.add(new Course(rs.getString(1), rs.getString(2), rs.getString(3)));
+		}
+		closeResultSetAndStatement(rs, null, statement);
+		return courses;
 	}
 
 	public static QuestionHandle getQuestionsBySubject(Connection connection, String subject) throws SQLException {
@@ -418,14 +446,15 @@ public class SqlUtilities {
 		insert.close();
 	}
 
-	public static void lockActiveExam(ActiveExam activeExam, Connection connection) throws SQLException {
+	public static String lockActiveExam(ActiveExam activeExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.LOCK_Exam);
 		insert.setString(1, activeExam.getExam().getSubjectID());
 		insert.setString(2, activeExam.getExam().getCourseID());
 		insert.setString(3, activeExam.getExam().getExamNum());
 		insert.setString(4, activeExam.getExecutionCode());
 		insert.executeUpdate();
-		insert.close();
+		SqlUtilities.closeResultSetAndStatement(null, null, insert);
+		return activeExam.getExecutionCode();
 	}
 
 	public static void insertWaitingActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
@@ -435,7 +464,7 @@ public class SqlUtilities {
 		insert.setString(2, waitingActiveExam.getActiveExam().getExam().getCourseID());
 		insert.setString(3, waitingActiveExam.getActiveExam().getExam().getExamNum());
 		insert.setString(4, waitingActiveExam.getActiveExam().getExecutionCode());
-		insert.setInt(5, waitingActiveExam.getActiveExam().getExam().getExamDuration());
+		insert.setInt(5, waitingActiveExam.getActiveExam().getDuration());
 		insert.setInt(6, waitingActiveExam.getNewDuration());
 		insert.setString(7, waitingActiveExam.getReason());
 		insert.executeUpdate();
@@ -542,6 +571,24 @@ public class SqlUtilities {
 		update.setString(6, checkedExam.getSubmittedExam().getStudentInActiveExam().getStudent().getId());
 		update.executeUpdate();
 		update.close();
+	}
+
+	public static ReportAboutStudent calculateStudentAverage(ReportHandle reportHandle, Connection connection)
+			throws SQLException {
+		PreparedStatement calculate = connection.prepareStatement(SqlUtilities.CALCULATE_StudentAVG);
+		calculate.setString(1, reportHandle.getStudent().getId());
+		ResultSet rs = calculate.executeQuery();
+		rs.next();
+		return new ReportAboutStudent(rs.getDouble(1), reportHandle.getStudent());
+	}
+	
+	public static ReportAboutCourse calculateCourseAverage(ReportHandle reportHandle, Connection connection)
+			throws SQLException {
+		PreparedStatement calculate = connection.prepareStatement(SqlUtilities.CALCULATE_CourseAVG);
+		calculate.setString(1, reportHandle.getCourse().getCourseID());
+		ResultSet rs = calculate.executeQuery();
+		rs.next();
+		return new ReportAboutCourse(rs.getDouble(1), reportHandle.getCourse());
 	}
 
 	/**
