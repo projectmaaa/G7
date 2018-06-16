@@ -39,15 +39,16 @@ public class Message {
 	public final static String getWaitingActiveExams = "#WaitingActiveExams";
 
 	public final static String studentInActiveExam = "#StudentInActiveExam";
-	
+
 	public final static String getCheckedExams = "#CheckedExams";
-	
+
 	public final static String getActiveExamsByActivator = "#ActiveExamsByActivator";
-	
+
 	public final static String getStudents = "#Students";
-	
+
 	public final static String getAllCourses = "#AllCourses";
-	
+
+	public final static String deleteExam = "#DeleteExam";
 
 	// end region -> Constants
 

@@ -858,59 +858,117 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	public void activateButtonHandler(ActionEvent event) {
-		Label text = null;
-		Stage primaryStage = new Stage();
-		primaryStage.setTitle("AES7");
-		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-		Popup popup = new Popup();
-		popup.setX(700);
-		popup.setY(400);
-		HBox layout = new HBox(10);
-		text = new Label("Please enter an execution code:");
-		popup.getContent().addAll(text);
-		executionCode = new TextField();
-		executionCode.setPrefWidth(55);
-		executionCode.setEditable(true);
-		ComboBox<String> type = new ComboBox<String>();
-		type.getSelectionModel().clearSelection();
-		type.setPromptText("Select Type");
-		type.getItems().addAll("Computerized", "Manual");
-		Button okButton = new Button("OK");
-		okButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
-				// check execution code
-				String typedExecutionCode = executionCode.getText();
-				if ((typedExecutionCode.length() != 4) || !typedExecutionCode.matches("[a-zA-Z0-9]*"))
-					Utilities_Client.popUpMethod("Illegal execution code. please try again!");
-				else if (!typedExecutionCode.matches(".*\\d+.*"))
-					Utilities_Client.popUpMethod("The execution code must contain at least 1 numeric character");
-				else if (!typedExecutionCode.matches(".*[a-zA-Z]+.*"))
-					Utilities_Client.popUpMethod("The execution code must contain at least 1 alphabetic character");
-				else if (type.getValue() == null)
-					Utilities_Client.popUpMethod("Type was not selected. please try again!");
-				else if (!executionCodeExist(typedExecutionCode)) {
-					ActiveExam activeExam = new ActiveExam(selectedExam, typedExecutionCode, type.getValue(),
-							firstName + " " + lastName);
-					client.handleMessageFromClientUI(new ActiveExamHandle("Activate", activeExam));
-					Utilities_Client.popUpMethod("Exam activated successfully!");
-				} else
-					Utilities_Client.popUpMethod("Exam with this execution Code already exist!");
-				primaryStage.hide();
-			}
-		});
-		Button cancelButton = new Button("Cancel");
-		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				primaryStage.hide();
-			}
-		});
-		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		layout.getChildren().addAll(text, executionCode, type, okButton, cancelButton);
-		primaryStage.setScene(new Scene(layout));
-		primaryStage.show();
+		Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
+		if (selectedExam == null)
+			Utilities_Client.popUpMethod("Please Select Exam");
+		else {
+			Label text = null;
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			HBox layout = new HBox(10);
+			text = new Label("Please enter an execution code:");
+			popup.getContent().addAll(text);
+			executionCode = new TextField();
+			executionCode.setPrefWidth(55);
+			executionCode.setEditable(true);
+			ComboBox<String> type = new ComboBox<String>();
+			type.getSelectionModel().clearSelection();
+			type.setPromptText("Select Type");
+			type.getItems().addAll("Computerized", "Manual");
+			Button okButton = new Button("OK");
+			okButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					// check execution code
+					String typedExecutionCode = executionCode.getText();
+					if ((typedExecutionCode.length() != 4) || !typedExecutionCode.matches("[a-zA-Z0-9]*"))
+						Utilities_Client.popUpMethod("Illegal execution code. please try again!");
+					else if (!typedExecutionCode.matches(".*\\d+.*"))
+						Utilities_Client.popUpMethod("The execution code must contain at least 1 numeric character");
+					else if (!typedExecutionCode.matches(".*[a-zA-Z]+.*"))
+						Utilities_Client.popUpMethod("The execution code must contain at least 1 alphabetic character");
+					else if (type.getValue() == null)
+						Utilities_Client.popUpMethod("Type was not selected. please try again!");
+					else if (!executionCodeExist(typedExecutionCode)) {
+						ActiveExam activeExam = new ActiveExam(selectedExam, typedExecutionCode, type.getValue(),
+								firstName + " " + lastName);
+						client.handleMessageFromClientUI(new ActiveExamHandle("Activate", activeExam));
+						Utilities_Client.popUpMethod("Exam activated successfully!");
+					} else
+						Utilities_Client.popUpMethod("Exam with this execution Code already exist!");
+					primaryStage.hide();
+				}
+			});
+			Button cancelButton = new Button("Cancel");
+			cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					primaryStage.hide();
+				}
+			});
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			layout.getChildren().addAll(text, executionCode, type, okButton, cancelButton);
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
+	}
+
+	/**
+	 * When teacher press 'Delete' in the exam management window
+	 * 
+	 * @param event
+	 */
+	public void deleteExamButtonHandler(MouseEvent event) {
+		Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
+		if (selectedExam == null)
+			Utilities_Client.popUpMethod("Please Select Exam");
+		else if (!selectedExam.getTeacherName().equals(firstName + " " + lastName))
+			Utilities_Client.popUpMethod("You Can Delete Only Your Own Exams");
+		else {
+			Label text = new Label("Are You Sure?");
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			primaryStage.setHeight(100);
+			primaryStage.setWidth(250);
+			primaryStage.setResizable(false);
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			GridPane layout = new GridPane();
+			layout.setHgap(3);
+			layout.setVgap(3);
+			layout.setPadding(new Insets(0, 10, 0, 10));
+			popup.getContent().addAll(text);
+			Button yesButton = new Button("Yes");
+			yesButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					client.handleMessageFromClientUI(new ExamHandle(Message.deleteExam, selectedExam));
+					setTableInExamsManagement();
+					Utilities_Client.popUpMethod("Exam deleted successfully!");
+					primaryStage.hide();
+
+				}
+			});
+			Button noButton = new Button("No");
+			noButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					primaryStage.hide();
+				}
+			});
+			layout.add(text, 8, 0);
+			layout.add(yesButton, 9, 1);
+			layout.add(noButton, 10, 1);
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
 	}
 
 	public void changeTimeButtonHandler(ActionEvent event) {
@@ -959,46 +1017,50 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	public void lockButtonHandler(ActionEvent event) {
-		Label text = new Label("Are You Sure?");
-		Stage primaryStage = new Stage();
-		primaryStage.setTitle("AES7");
-		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-		primaryStage.setHeight(100);
-		primaryStage.setWidth(250);
-		primaryStage.setResizable(false);
-		Popup popup = new Popup();
-		popup.setX(700);
-		popup.setY(400);
-		GridPane layout = new GridPane();
-		layout.setHgap(3);
-		layout.setVgap(3);
-		layout.setPadding(new Insets(0, 10, 0, 10));
-		popup.getContent().addAll(text);
-		Button yesButton = new Button("Yes");
-		yesButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				ActiveExam selectedActiveExam = activeExamsTableView.getSelectionModel().getSelectedItem();
-				client.handleMessageFromClientUI(new ActiveExamHandle("Lock", selectedActiveExam));
-				setTableInActiveExamManagement();
-				Utilities_Client.popUpMethod("Exam locked successfully!");
-				primaryStage.hide();
+		ActiveExam selectedActiveExam = activeExamsTableView.getSelectionModel().getSelectedItem();
+		if (selectedActiveExam == null)
+			Utilities_Client.popUpMethod("Please Select Exam");
+		else {
+			Label text = new Label("Are You Sure?");
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			primaryStage.setHeight(100);
+			primaryStage.setWidth(250);
+			primaryStage.setResizable(false);
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			GridPane layout = new GridPane();
+			layout.setHgap(3);
+			layout.setVgap(3);
+			layout.setPadding(new Insets(0, 10, 0, 10));
+			popup.getContent().addAll(text);
+			Button yesButton = new Button("Yes");
+			yesButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					client.handleMessageFromClientUI(new ActiveExamHandle("Lock", selectedActiveExam));
+					setTableInActiveExamManagement();
+					Utilities_Client.popUpMethod("Exam locked successfully!");
+					primaryStage.hide();
 
-			}
-		});
-		Button noButton = new Button("No");
-		noButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				primaryStage.hide();
-			}
-		});
-		layout.add(text, 8, 0);
-		layout.add(yesButton, 9, 1);
-		layout.add(noButton, 10, 1);
-		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		primaryStage.setScene(new Scene(layout));
-		primaryStage.show();
+				}
+			});
+			Button noButton = new Button("No");
+			noButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					primaryStage.hide();
+				}
+			});
+			layout.add(text, 8, 0);
+			layout.add(yesButton, 9, 1);
+			layout.add(noButton, 10, 1);
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
 	}
 
 	public void clearButtonPressed(ActionEvent event) {
