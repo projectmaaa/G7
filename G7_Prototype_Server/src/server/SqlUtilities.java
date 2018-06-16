@@ -176,7 +176,7 @@ public class SqlUtilities {
 	 * @param connection
 	 * @throws SQLException
 	 */
-	public static void Insert_StudentAnswerInQuestion(SubmittedExam submittedExam, Connection connection)
+	public static void insert_StudentAnswerInQuestion(SubmittedExam submittedExam, Connection connection)
 			throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(INSERT_StudentAnswerInQuestion);
 		for (StudentAnswerInQuestion studentAnswerInQuestion : submittedExam.getAnswers()) {
@@ -201,7 +201,7 @@ public class SqlUtilities {
 	 * @param connection
 	 * @throws SQLException
 	 */
-	public static void Insert_StudentInActiveExam(StudentInActiveExam studentInActiveExam, Connection connection)
+	public static void insert_StudentInActiveExam(StudentInActiveExam studentInActiveExam, Connection connection)
 			throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(INSERT_StudentInActiveExam);
 		preparedStatement.setString(1, studentInActiveExam.getStudent().getId());

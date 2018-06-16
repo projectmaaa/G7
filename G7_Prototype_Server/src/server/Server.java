@@ -97,7 +97,7 @@ public class Server extends AbstractServer {
 			SubmittedExamHandle submittedExamHandle = (SubmittedExamHandle) msg;
 			if (submittedExamHandle.getCommand().equals(Message.submittedExam)) {
 				try {
-					SqlUtilities.Insert_StudentAnswerInQuestion(submittedExamHandle.getSubmittedExam(), connection);
+					SqlUtilities.insert_StudentAnswerInQuestion(submittedExamHandle.getSubmittedExam(), connection);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -164,7 +164,7 @@ public class Server extends AbstractServer {
 			StudentInActiveExamHandle studentInActiveExamHandle = (StudentInActiveExamHandle) msg;
 			if (studentInActiveExamHandle.getCommand().equals(Message.studentInActiveExam)) {
 				try {
-					SqlUtilities.Insert_StudentInActiveExam(studentInActiveExamHandle.getStudentInActiveExam(),
+					SqlUtilities.insert_StudentInActiveExam(studentInActiveExamHandle.getStudentInActiveExam(),
 							connection);
 				} catch (SQLException e) {
 					e.printStackTrace();
