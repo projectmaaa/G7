@@ -11,9 +11,11 @@ public class ReportAboutCourse extends Report implements Serializable {
 
 	private String courseName;
 
-	public ReportAboutCourse(int average, int median, String course) {
-		super(average,median);
-		this.courseName=course;
+	private Course course;
+
+	public ReportAboutCourse(double average, Course course) {
+		setAverage(average);
+		this.course=course;;
 	}
 
 	public String getCourseName() {
@@ -22,6 +24,14 @@ public class ReportAboutCourse extends Report implements Serializable {
 
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 	
 	

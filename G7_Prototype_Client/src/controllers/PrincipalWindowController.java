@@ -313,6 +313,14 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		this.lastName = lastName;
 		welcomeText.setText(welcomeText.getText() + " " + this.firstName + " " + this.lastName);
 	}
+	
+	public TextField getAverageTextFieldInCourseReport() {
+		return averageTextFieldInCourseReport;
+	}
+
+	public void setAverageTextFieldInCourseReport(TextField averageTextFieldInCourseReport) {
+		this.averageTextFieldInCourseReport = averageTextFieldInCourseReport;
+	}
 
 
 	/*
@@ -320,6 +328,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 */
 
 	// initialize method
+
+	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -485,7 +495,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		else {
 			String fullName = student.getFirstName() + " " + student.getLastName();
 			studentNameLabel.setText(fullName);
-			client.handleMessageFromClientUI(new ReportHandle("Average", student));
+			client.handleMessageFromClientUI(new ReportHandle("StudentAverage", student));
+			averageTextFieldInStudentReport.setEditable(false);
 			report3AnchorPane.setVisible(true);
 		}
 	}
@@ -500,7 +511,17 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		}
 	
 	public void createReportInCourseReportHandler(ActionEvent event) {
-		report2AnchorPane.setVisible(true);
+		Course course = courseTableView.getSelectionModel().getSelectedItem();
+		if(course==null) {
+			Utilities_Client.popUpMethod("Please choose course first!");
+		}
+		else {
+			String fullName = course.getCourseName();
+			CourseNameLabel.setText(fullName);
+			client.handleMessageFromClientUI(new ReportHandle("CourseAverage", course));
+			averageTextFieldInCourseReport.setEditable(false);
+			report2AnchorPane.setVisible(true);
+		}
 	}
 
 	/*
@@ -624,6 +645,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		studentReportAnchorPane.setVisible(false);
 		report3AnchorPane.setVisible(false);
 		courseReportAnchorPane.setVisible(false);
-
+		report2AnchorPane.setVisible(false);
 	}
 }

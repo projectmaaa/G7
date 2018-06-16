@@ -13,13 +13,18 @@ public class ReportHandle implements Serializable{
 	
 	private Student student;
 	
-	private String courseID;
+	private Course course;
 	
 	private Teacher teacher;
 
 	public ReportHandle(String command, Student student) {
 		this.command = command;
 		this.student = student;
+	}
+	
+	public ReportHandle(String command, Course course) {
+		this.command = command;
+		this.course = course;
 	}
 
 	public String getCommand() {
@@ -38,12 +43,13 @@ public class ReportHandle implements Serializable{
 		this.student = student;
 	}
 
-	public String getCourseID() {
-		return courseID;
+
+	public Course getCourse() {
+		return course;
 	}
 
-	public void setCourseID(String courseID) {
-		this.courseID = courseID;
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
 	public Teacher getTeacher() {
