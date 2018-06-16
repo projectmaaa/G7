@@ -190,7 +190,9 @@ public class StudentWindowController implements Initializable, IScreenController
 	 */
 	public void logOutButtonHandler(ActionEvent event) {
 		aesAnchorPane.setVisible(true);
-		stopWatchTimeline.stop();
+		if (stopWatchTimeline != null) {
+			stopWatchTimeline.stop();
+		}
 		if (this.examIDTextField.isVisible()) {
 			examIDTextField.clear();
 			examIDTextField.setDisable(false);
@@ -208,6 +210,8 @@ public class StudentWindowController implements Initializable, IScreenController
 			examSheetVBox.getChildren().clear();
 		}
 		turnOffAllPane();
+		aesAnchorPane.setVisible(true);
+		welcomeAnchorPane.setVisible(true);
 		this.client.handleMessageFromClientUI(Message.logout);
 		screensController.setScreen(MainAppClient.loginScreenID);
 	}
