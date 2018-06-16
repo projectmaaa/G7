@@ -16,6 +16,8 @@ public class SubmittedExam implements Serializable {
 
 	private StudentInActiveExam studentInActiveExam;
 
+	private int submitted;
+
 	/**
 	 * 
 	 * @param answers
@@ -28,6 +30,10 @@ public class SubmittedExam implements Serializable {
 		this.studentInActiveExam = studentInActiveExam;
 	}
 
+	/**
+	 * 
+	 * @param studentInActiveExam
+	 */
 	public SubmittedExam(StudentInActiveExam studentInActiveExam) {
 		this.answers = new ArrayList<StudentAnswerInQuestion>();
 		this.studentInActiveExam = studentInActiveExam;
@@ -55,6 +61,14 @@ public class SubmittedExam implements Serializable {
 
 	public void setStudentInActiveExam(StudentInActiveExam studentInActiveExam) {
 		this.studentInActiveExam = studentInActiveExam;
+	}
+
+	public int getSubmitted() {
+		return submitted;
+	}
+
+	public void setSubmitted(int submitted) {
+		this.submitted = submitted;
 	}
 
 	@Override

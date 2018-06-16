@@ -328,9 +328,11 @@ public class StudentWindowController implements Initializable, IScreenController
 			} else {
 				Utilities_Client.popUpMethod("Question : " + Integer.toString(++num) + " No Answer.");
 				submittedExam.getAnswers().clear();
-				break;
+				return;
 			}
 		}
+		stopWatchTimeline.stop();
+		submittedExam.setSubmitted(1);
 		client.handleMessageFromClientUI(new SubmittedExamHandle(Message.submittedExam, submittedExam));
 		if (!submittedExam.getAnswers().isEmpty()) {
 			System.out.println(submittedExam);
@@ -342,10 +344,13 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * @param mouseEvent
 	 */
 	public void uploadManualExam(MouseEvent mouseEvent) {
+		stopWatchTimeline.stop();
+		submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer / 60, studentInActiveExam);
 		client.handleMessageFromClientUI(new MyFileHandle("UploadExam",
 				Utilities_Client.getWordFile(activeExam.getExecutionCode(), studentInActiveExam.getStudent().getId())));
 		uploadManualExam.setDisable(true);
 		Utilities_Client.popUpMethod("Exam Uploaded Successfully");
+		client.handleMessageFromClientUI(new SubmittedExamHandle(Message.submittedExam, submittedExam));
 	}
 
 	/**
@@ -446,12 +451,13 @@ public class StudentWindowController implements Initializable, IScreenController
 				setTimerDisplay();
 			} else {
 				Utilities_Client.popUpMethod("Time is over exam, will be submited");
+				stopWatchTimeline.stop();
 				if (activeExam.getType().equals("c")) {
 					unWantedComputerizeSubmitExam();
 				} else {
 					unWantedManualSubmitExam();
 				}
-				stopWatchTimeline.stop();
+
 			}
 		}));
 		stopWatchTimeline.setCycleCount(Timeline.INDEFINITE);
@@ -476,6 +482,7 @@ public class StudentWindowController implements Initializable, IScreenController
 					questionInComputerizeExam.getQuestionInExam().getQuestionNum(), Integer.toString(++num), answer,
 					studentInActiveExam.getStudent()));
 		}
+		submittedExam.setSubmitted(0);
 		client.handleMessageFromClientUI(new SubmittedExamHandle(Message.submittedExam, submittedExam));
 		if (!submittedExam.getAnswers().isEmpty()) {
 			System.out.println(submittedExam);
@@ -487,8 +494,10 @@ public class StudentWindowController implements Initializable, IScreenController
 	 */
 	private void unWantedManualSubmitExam() {
 		try {
+			submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer / 60, studentInActiveExam);
 			this.uploadManualExam.setDisable(true);
 			Runtime.getRuntime().exec("cmd /c taskkill /f /im winword.exe");
+			client.handleMessageFromClientUI(new SubmittedExamHandle(Message.submittedExam, submittedExam));
 			client.handleMessageFromClientUI(new MyFileHandle("UploadExam", Utilities_Client
 					.getWordFile(activeExam.getExecutionCode(), studentInActiveExam.getStudent().getId())));
 			uploadManualExam.setDisable(true);

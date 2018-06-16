@@ -181,17 +181,22 @@ public class SqlUtilities {
 	public static void insert_StudentAnswerInQuestion(SubmittedExam submittedExam, Connection connection)
 			throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(INSERT_StudentAnswerInQuestion);
-		for (StudentAnswerInQuestion studentAnswerInQuestion : submittedExam.getAnswers()) {
-			preparedStatement.setString(1, studentAnswerInQuestion.getStudent().getId());
-			preparedStatement.setString(2, studentAnswerInQuestion.getSubjectID());
-			preparedStatement.setString(3,
-					submittedExam.getStudentInActiveExam().getActiveExam().getExam().getCourseID());
-			preparedStatement.setString(4,
-					submittedExam.getStudentInActiveExam().getActiveExam().getExam().getExamNum());
-			preparedStatement.setString(5, submittedExam.getStudentInActiveExam().getActiveExam().getExecutionCode());
-			preparedStatement.setString(6, studentAnswerInQuestion.getQuestionNum());
-			preparedStatement.setString(7, studentAnswerInQuestion.getQuestionOrderInExam());
-			preparedStatement.setString(8, studentAnswerInQuestion.getStudentAnswer());
+		preparedStatement.setString(1, submittedExam.getStudentInActiveExam().getStudent().getId());
+		preparedStatement.setString(2, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
+		preparedStatement.setString(3, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getCourseID());
+		preparedStatement.setString(4, submittedExam.getStudentInActiveExam().getActiveExam().getExam().getExamNum());
+		preparedStatement.setString(5, submittedExam.getStudentInActiveExam().getActiveExam().getExecutionCode());
+		if (!submittedExam.getAnswers().isEmpty()) {
+			for (StudentAnswerInQuestion studentAnswerInQuestion : submittedExam.getAnswers()) {
+				preparedStatement.setString(6, studentAnswerInQuestion.getQuestionNum());
+				preparedStatement.setString(7, studentAnswerInQuestion.getQuestionOrderInExam());
+				preparedStatement.setString(8, studentAnswerInQuestion.getStudentAnswer());
+				preparedStatement.executeUpdate();
+			}
+		} else {
+			preparedStatement.setString(6, "Man");
+			preparedStatement.setString(7, "0");
+			preparedStatement.setString(8, "0");
 			preparedStatement.executeUpdate();
 		}
 		closeResultSetAndStatement(null, null, preparedStatement);
