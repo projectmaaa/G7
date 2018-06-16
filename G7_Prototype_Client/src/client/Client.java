@@ -377,24 +377,27 @@ public class Client extends AbstractClient implements IScreenController {
 			}
 		} else if (msg instanceof ReportAboutStudent) {
 			ReportAboutStudent studentReport = (ReportAboutStudent) msg;
+			if(studentReport.getCommand().equals("StudentAverage")) {
 			Double avg = studentReport.getAverage();
 			principalWindowController.getAverageTextFieldInStudentReport().setText(avg.toString());
+			}
 			
 		}else if(msg instanceof ReportAboutCourse) {
 			ReportAboutCourse courseReport = (ReportAboutCourse) msg;
+			if(courseReport.getCommand().equals("CourseAverage")) {
 			Double avg = courseReport.getAverage();
 			principalWindowController.getAverageTextFieldInCourseReport().setText(avg.toString());
-		}
-		else if(msg instanceof ArrayList<?>) {
-			Object object = ((ArrayList) msg).get(0);
-			if(object instanceof Course) {
-				ArrayList<Course> courses = (ArrayList<Course>) msg;
-				setAllCoursesFromDB(courses);
 			}
-			else if(object instanceof Teacher) {
-				ArrayList<Teacher> teachers = (ArrayList<Teacher>) msg;
-				setAllTeachersFromDB(teachers);
+			else if(courseReport.getCommand().equals("AllCourses")) {
+				setAllCoursesFromDB(courseReport.getCourses());
 			}
+		} else if (msg instanceof ReportAboutTeacher) {
+			ReportAboutTeacher teacherReport = (ReportAboutTeacher) msg;
+			if(((ReportAboutTeacher) msg).getCommand().equals("AllTeachers")) {
+				setAllTeachersFromDB(teacherReport.getTeachers());
+			}
+			
+		
 		}
 
 		else if (msg instanceof Boolean) {

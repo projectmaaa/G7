@@ -283,7 +283,7 @@ public class SqlUtilities {
 		return (new StudentHandle("Students", students));
 	}
 
-	public static ArrayList<Course> getAllCourses(Connection connection) throws SQLException {
+	public static ReportAboutCourse getAllCourses(Connection connection) throws SQLException {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_Courses);
 		ResultSet rs = statement.executeQuery();
@@ -291,10 +291,10 @@ public class SqlUtilities {
 			courses.add(new Course(rs.getString(1), rs.getString(2), rs.getString(3)));
 		}
 		closeResultSetAndStatement(rs, null, statement);
-		return courses;
+		return  new ReportAboutCourse("AllCourses", courses);
 	}
 	
-	public static ArrayList<Teacher> getAllTeachers(Connection connection) throws SQLException {
+	public static ReportAboutTeacher getAllTeachers(Connection connection) throws SQLException {
 		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_Teachers);
 		ResultSet rs = statement.executeQuery();
@@ -302,7 +302,7 @@ public class SqlUtilities {
 			teachers.add(new Teacher(rs.getString(1), rs.getString(2), rs.getString(3)));
 		}
 		closeResultSetAndStatement(rs, null, statement);
-		return teachers;
+		return new ReportAboutTeacher(teachers, "AllTeachers");
 	}
 
 	public static QuestionHandle getQuestionsBySubject(Connection connection, String subject) throws SQLException {
@@ -594,7 +594,7 @@ public class SqlUtilities {
 		calculate.setString(1, reportHandle.getStudent().getId());
 		ResultSet rs = calculate.executeQuery();
 		rs.next();
-		return new ReportAboutStudent(rs.getDouble(1), reportHandle.getStudent());
+		return new ReportAboutStudent("StudentAverage",rs.getDouble(1), reportHandle.getStudent());
 	}
 
 	public static ReportAboutCourse calculateCourseAverage(ReportHandle reportHandle, Connection connection)
@@ -603,7 +603,7 @@ public class SqlUtilities {
 		calculate.setString(1, reportHandle.getCourse().getCourseID());
 		ResultSet rs = calculate.executeQuery();
 		rs.next();
-		return new ReportAboutCourse(rs.getDouble(1), reportHandle.getCourse());
+		return new ReportAboutCourse("CourseAverage",rs.getDouble(1), reportHandle.getCourse());
 	}
 
 	/**

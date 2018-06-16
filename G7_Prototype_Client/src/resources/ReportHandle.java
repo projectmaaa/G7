@@ -2,6 +2,7 @@ package resources;
 
 import java.io.Serializable;
 
+
 public class ReportHandle implements Serializable{
 
 	/**
@@ -15,6 +16,7 @@ public class ReportHandle implements Serializable{
 	
 	private Course course;
 	
+
 	private Teacher teacher;
 
 	public ReportHandle(String command, Student student) {

@@ -305,7 +305,7 @@
                         </LinearGradient>
                      </fill>
                   </Text>
-                  <TextField fx:id="averageTextFieldInStudentReport" layoutX="125.0" layoutY="129.0" prefHeight="25.0" prefWidth="62.0" />
+                  <TextField fx:id="averageTextFieldInStudentReport" layoutX="125.0" layoutY="129.0" prefHeight="25.0" prefWidth="76.0" />
                   <Label layoutX="159.0" layoutY="84.0" text="Student:">
                      <font>
                         <Font name="Narkisim" size="24.0" />
@@ -316,13 +316,13 @@
                         <Font name="Narkisim" size="24.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="medianTextFieldInStudentReport" layoutX="125.0" layoutY="163.0" prefHeight="25.0" prefWidth="62.0" />
-                  <BarChart fx:id="studentBarChart" layoutX="160.0" layoutY="139.0" prefHeight="292.0" prefWidth="463.0" title="Grades in student's exams">
+                  <TextField fx:id="medianTextFieldInStudentReport" layoutX="125.0" layoutY="163.0" prefHeight="25.0" prefWidth="76.0" />
+                  <BarChart fx:id="studentBarChart" layoutX="200.0" layoutY="139.0" prefHeight="289.0" prefWidth="423.0" title="Grades in student's exams">
                      <xAxis>
                         <CategoryAxis label="Exam" prefHeight="44.0" prefWidth="385.0" side="BOTTOM" fx:id="xInStudentReportBarChart" />
                      </xAxis>
                      <yAxis>
-                        <NumberAxis fx:id="yInStudentReportBarChart" label="Grade" side="LEFT" upperBound="90.0" />
+                        <NumberAxis fx:id="yInStudentReportBarChart" label="Grade" prefHeight="191.0" prefWidth="42.0" side="LEFT" upperBound="90.0" />
                      </yAxis>
                   </BarChart>
                </children>
