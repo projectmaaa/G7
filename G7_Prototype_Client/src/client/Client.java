@@ -318,6 +318,16 @@ public class Client extends AbstractClient implements IScreenController {
 				break;
 			case Message.getQuestionBySubject:
 				break;
+			case Message.requestRejected:
+				if (teacherWindowController != null)
+					if (teacherWindowController.getFirstName() != null) {
+						System.out.println(strArray[1] + " " + strArray[2]);
+						teacherWindowController.rejectMessageCheck(strArray[1] + " " + strArray[2]); // dosen't work need to fix it
+					}
+				// if (teacherWindowController.getFirstName().equals(strArray[1])
+				// && teacherWindowController.getLastName().equals(strArray[2]))
+				// teacherWindowController.setRejectionFlag(true);
+				break;
 			default:
 				break;
 			}
@@ -366,13 +376,12 @@ public class Client extends AbstractClient implements IScreenController {
 			ReportAboutStudent studentReport = (ReportAboutStudent) msg;
 			Double avg = studentReport.getAverage();
 			principalWindowController.getAverageTextFieldInStudentReport().setText(avg.toString());
-			
-		}else if(msg instanceof ReportAboutCourse) {
+
+		} else if (msg instanceof ReportAboutCourse) {
 			ReportAboutCourse courseReport = (ReportAboutCourse) msg;
 			Double avg = courseReport.getAverage();
 			principalWindowController.getAverageTextFieldInCourseReport().setText(avg.toString());
-		}
-		else if(msg instanceof ArrayList<?>) {
+		} else if (msg instanceof ArrayList<?>) {
 			ArrayList<Course> courses = (ArrayList<Course>) msg;
 			setAllCoursesFromDB(courses);
 		}

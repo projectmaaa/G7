@@ -3,9 +3,6 @@ package controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import com.sun.webkit.Utilities;
-
 import client.Client;
 import client.MainAppClient;
 import javafx.beans.property.SimpleStringProperty;
@@ -36,7 +33,6 @@ import resources.Course;
 import resources.Exam;
 import resources.Message;
 import resources.Question;
-import resources.ReportAboutStudent;
 import resources.ReportHandle;
 import resources.Student;
 import resources.Utilities_Client;
@@ -413,7 +409,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			public void handle(ActionEvent event) {
 				WaitingActiveExam waitingActiveExam = handlingRequestsTableView.getSelectionModel().getSelectedItem();
 				client.handleMessageFromClientUI(new WaitingActiveExamHandle("Approve", waitingActiveExam));
-				// handlingRequestsTableView.getItems().clear();
 				client.handleMessageFromClientUI(new WaitingActiveExamHandle("Remove", waitingActiveExam));
 				Utilities_Client.popUpMethod("Exam duration changed successfully!");
 				setTableInHandlingRequests();

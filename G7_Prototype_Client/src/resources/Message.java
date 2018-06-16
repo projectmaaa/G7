@@ -50,6 +50,8 @@ public class Message {
 
 	public final static String deleteExam = "#DeleteExam";
 
+	public final static String requestRejected = "#RequestRejected";
+
 	// end region -> Constants
 
 }

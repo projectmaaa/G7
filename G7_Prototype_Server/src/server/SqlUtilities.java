@@ -99,7 +99,6 @@ public class SqlUtilities {
 
 	public final static String Get_Points_of_Question = "select Points from QuestionInExam where subjectID = ? and questionNum = ? and courseID = ? and examNum = ?;";
 
-
 	public final static String INSERT_CheckedExam = "insert into CheckedExam values (?, ?, ?, ?, ?, ?, ?, ?);";
 
 	public final static String CALCULATE_StudentAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE studentID=?";
@@ -108,10 +107,11 @@ public class SqlUtilities {
 
 	public final static String CALCULATE_CourseAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE courseID=?";
 
-
 	public final static String INSERT_SubmittedExam = "insert into SubmittedExam values (?, ?, ?, ?, ?, ?, ?);";
 
 	public final static String DELETE_Exam = "DELETE FROM Exam WHERE subjectID=? AND courseID=? AND examNum=?;";
+
+	public final static String getActivator = "SELECT activator FROM ActiveExam WHERE subjectID=? AND courseID=? AND examNum=?;";
 
 	// region Public Methods
 
@@ -663,6 +663,19 @@ public class SqlUtilities {
 
 	}
 
+	public static String getActivator(String subjectID, String courseID, String examNumber, Connection connection)
+			throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.getActivator);
+		statement.setString(1, subjectID);
+		statement.setString(2, courseID);
+		statement.setString(3, examNumber);
+		ResultSet rs = statement.executeQuery();
+		rs.next();
+		String activator = rs.getString(1);
+		closeResultSetAndStatement(rs, null, statement);
+		return activator;
+	}
+
 	/**
 	 * 
 	 * @param subjectID
@@ -690,12 +703,8 @@ public class SqlUtilities {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * Inserts a new record to CheckedExam table in database, so first calculate
-=======
 	 * Inserts to a new record to CheckedExam table in database, so first calculate
->>>>>>> branch 'master' of https://github.com/projectmaaa/G7
-	 * the result and then insert the values
 	 * 
 	 * @param submittedExam
 	 * @param connection
@@ -717,12 +726,12 @@ public class SqlUtilities {
 		insert.setString(8, "");
 		insert.executeUpdate();
 
-
 		closeResultSetAndStatement(null, null, insert);
 	}
 
 	/**
 	 * Inserts a new record to SubmittedExam table in database
+	 * 
 	 * @param submittedExam
 	 * @param connection
 	 * @throws SQLException
@@ -739,7 +748,6 @@ public class SqlUtilities {
 		insert.executeUpdate();
 		closeResultSetAndStatement(null, null, insert);
 	}
-	
 
 	/**
 	 * Deletes the selected exam from the data base
@@ -756,7 +764,6 @@ public class SqlUtilities {
 		delete.executeUpdate();
 		closeResultSetAndStatement(null, null, delete);
 	}
-
 
 	// end region -> Public Methods
 
