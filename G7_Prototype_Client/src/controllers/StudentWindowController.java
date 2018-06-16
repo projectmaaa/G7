@@ -141,7 +141,11 @@ public class StudentWindowController implements Initializable, IScreenController
 		return secondTimer;
 	}
 
-	public void setSecondTimer() {
+	public void setSecondTimer(int secondTimer) {
+		this.secondTimer = secondTimer;
+	}
+
+	public void changeSecondTimer() {
 		int time = activeExam.getDuration() * 60;
 		if (time - activeExam.getExam().getExamDuration() * 60 > 0) {
 			this.secondTimer += (time - activeExam.getExam().getExamDuration() * 60);

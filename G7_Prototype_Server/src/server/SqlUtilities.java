@@ -137,6 +137,7 @@ public class SqlUtilities {
 			statement.setString(1, resultSet.getString(1));
 			statement.setString(2, resultSet.getString(2));
 			statement.setString(3, resultSet.getString(3));
+			int locked = resultSet.getInt(7);
 			String type = resultSet.getString(8);
 			resultSet = statement.executeQuery();
 			if (resultSet.next()) {
@@ -167,6 +168,7 @@ public class SqlUtilities {
 				}
 				closeResultSetAndStatement(resultSet, null, statement);
 				activeExam = new ActiveExam(exam, executionCode);
+				activeExam.setLocked(locked);
 				activeExam.setType(type);
 			}
 		}
@@ -179,7 +181,7 @@ public class SqlUtilities {
 	 * @param connection
 	 * @throws SQLException
 	 */
-	public static void Insert_StudentAnswerInQuestion(SubmittedExam submittedExam, Connection connection)
+	public static void insert_StudentAnswerInQuestion(SubmittedExam submittedExam, Connection connection)
 			throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(INSERT_StudentAnswerInQuestion);
 		for (StudentAnswerInQuestion studentAnswerInQuestion : submittedExam.getAnswers()) {
@@ -204,7 +206,7 @@ public class SqlUtilities {
 	 * @param connection
 	 * @throws SQLException
 	 */
-	public static void Insert_StudentInActiveExam(StudentInActiveExam studentInActiveExam, Connection connection)
+	public static void insert_StudentInActiveExam(StudentInActiveExam studentInActiveExam, Connection connection)
 			throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(INSERT_StudentInActiveExam);
 		preparedStatement.setString(1, studentInActiveExam.getStudent().getId());
@@ -431,14 +433,15 @@ public class SqlUtilities {
 		insert.close();
 	}
 
-	public static void lockActiveExam(ActiveExam activeExam, Connection connection) throws SQLException {
+	public static String lockActiveExam(ActiveExam activeExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.LOCK_Exam);
 		insert.setString(1, activeExam.getExam().getSubjectID());
 		insert.setString(2, activeExam.getExam().getCourseID());
 		insert.setString(3, activeExam.getExam().getExamNum());
 		insert.setString(4, activeExam.getExecutionCode());
 		insert.executeUpdate();
-		insert.close();
+		SqlUtilities.closeResultSetAndStatement(null, null, insert);
+		return activeExam.getExecutionCode();
 	}
 
 	public static void insertWaitingActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)

@@ -977,10 +977,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 		okButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
+				ActiveExam selectedActiveExam = activeExamsTableView.getSelectionModel().getSelectedItem();
 				// check executionCode
-				ActiveExam activeExam = new ActiveExam(selectedExam, executionCode.getText());
-				client.handleMessageFromClientUI(new ActiveExamHandle("Lock", activeExam));
+				// ActiveExam activeExam = new ActiveExam(selectedExam,
+				// executionCode.getText());
+				client.handleMessageFromClientUI(new ActiveExamHandle("Lock", selectedActiveExam));
 				Utilities_Client.popUpMethod("Exam locked successfully!");
 				primaryStage.hide();
 			}
