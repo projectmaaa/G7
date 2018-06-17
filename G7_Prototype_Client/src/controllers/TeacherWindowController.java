@@ -394,11 +394,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private boolean rejectionFlag;
 
-	private boolean checkingRejectionsInTheBackroundFlag;
+	private boolean acceptionFlag;
 
 	// end region -> Fields
-
-	// region Setters
 
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
@@ -429,15 +427,13 @@ public class TeacherWindowController implements Initializable, IScreenController
 		this.rejectionFlag = rejectionFlag;
 	}
 
-	public boolean isCheckingRejectionsInTheBackroundFlag() {
-		return checkingRejectionsInTheBackroundFlag;
+	public boolean isAcceptionFlag() {
+		return acceptionFlag;
 	}
 
-	public void setCheckingRejectionsInTheBackroundFlag(boolean checkingRejectionsInTheBackroundFlag) {
-		this.checkingRejectionsInTheBackroundFlag = checkingRejectionsInTheBackroundFlag;
+	public void setAcceptionFlag(boolean acceptionFlag) {
+		this.acceptionFlag = acceptionFlag;
 	}
-
-	// end region -> Setters
 
 	/**
 	 * 
@@ -461,14 +457,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		tableViewInCreateExamAllQuestion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		initAddQuestionOption();
 		client.setTeacherWindowController(this);
-//		setRejectionFlag(false);
-//		setCheckingRejectionsInTheBackroundFlag(true);
-//		Runnable r = new Runnable() {
-//			public void run() {
-//				rejectMessageCheck();
-//			}
-//		};
-//		new Thread(r).start();
 	}
 
 	// region Public Methods
@@ -501,8 +489,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 			backAnchorPane.setVisible(false);
 		if (confirmGradesAnchorPane.isVisible())
 			confirmGradesAnchorPane.setVisible(false);
-		setCheckingRejectionsInTheBackroundFlag(false);
 		setRejectionFlag(false);
+		setAcceptionFlag(false);
 		welcomeText.setText("Welcome");
 		welcomeAnchorPane.setVisible(true);
 		this.client.handleMessageFromClientUI(Message.logout);
@@ -1328,18 +1316,21 @@ public class TeacherWindowController implements Initializable, IScreenController
 		activeExamManagementAnchorPane.setVisible(true);
 	}
 
-	public void rejectMessageCheck(String activator) {
-		if (activator.equals(getFirstName() + " " + getLastName()))
+	/**
+	 * Showing the pop up for the teacher if his\hers request is denied\accepted
+	 * 
+	 * @param event
+	 */
+	public void checkRequest(MouseEvent event) {
+		if (rejectionFlag) {
 			Utilities_Client.popUpMethod("The principal rejected your request");
+			setRejectionFlag(false);
+		}
+		if (acceptionFlag) {
+			Utilities_Client.popUpMethod("The principal approved your request");
+			setAcceptionFlag(false);
+		}
 	}
-
-	// public void rejectMessageCheck() {
-	// while (checkingRejectionsInTheBackroundFlag)
-	// if (rejectionFlag) {
-	// Utilities_Client.popUpMethod("The principal rejected your request");
-	// setRejectionFlag(false);
-	// }
-	// }
 
 	// end region -> Public Methods
 
