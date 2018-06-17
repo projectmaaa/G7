@@ -394,8 +394,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private boolean rejectionFlag;
 
-	private boolean checkingRejectionsInTheBackroundFlag;
-
 	// end region -> Fields
 
 	// region Setters
@@ -429,14 +427,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		this.rejectionFlag = rejectionFlag;
 	}
 
-	public boolean isCheckingRejectionsInTheBackroundFlag() {
-		return checkingRejectionsInTheBackroundFlag;
-	}
-
-	public void setCheckingRejectionsInTheBackroundFlag(boolean checkingRejectionsInTheBackroundFlag) {
-		this.checkingRejectionsInTheBackroundFlag = checkingRejectionsInTheBackroundFlag;
-	}
-
 	// end region -> Setters
 
 	/**
@@ -461,14 +451,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		tableViewInCreateExamAllQuestion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		initAddQuestionOption();
 		client.setTeacherWindowController(this);
-//		setRejectionFlag(false);
-//		setCheckingRejectionsInTheBackroundFlag(true);
-//		Runnable r = new Runnable() {
-//			public void run() {
-//				rejectMessageCheck();
-//			}
-//		};
-//		new Thread(r).start();
 	}
 
 	// region Public Methods
@@ -501,7 +483,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 			backAnchorPane.setVisible(false);
 		if (confirmGradesAnchorPane.isVisible())
 			confirmGradesAnchorPane.setVisible(false);
-		setCheckingRejectionsInTheBackroundFlag(false);
 		setRejectionFlag(false);
 		welcomeText.setText("Welcome");
 		welcomeAnchorPane.setVisible(true);
@@ -1327,18 +1308,12 @@ public class TeacherWindowController implements Initializable, IScreenController
 		activeExamManagementAnchorPane.setVisible(true);
 	}
 
-	public void rejectMessageCheck(String activator) {
-		if (activator.equals(getFirstName() + " " + getLastName()))
+	public void rejectMessageCheck(MouseEvent event) {
+		if (rejectionFlag) {
 			Utilities_Client.popUpMethod("The principal rejected your request");
+			setRejectionFlag(false);
+		}
 	}
-
-	// public void rejectMessageCheck() {
-	// while (checkingRejectionsInTheBackroundFlag)
-	// if (rejectionFlag) {
-	// Utilities_Client.popUpMethod("The principal rejected your request");
-	// setRejectionFlag(false);
-	// }
-	// }
 
 	// end region -> Public Methods
 
