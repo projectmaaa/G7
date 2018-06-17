@@ -6,11 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.TimeUnit;
-
 import com.mysql.jdbc.Statement;
-
-
 import java.sql.PreparedStatement;
 import resources.*;
 
@@ -64,9 +60,11 @@ public class SqlUtilities {
 
 	public final static String SELECT_ActiveExam = "SELECT * FROM ActiveExam WHERE executionCode=?;";
 
-	public final static String INSERT_ActiveExam = "INSERT INTO ActiveExam VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+	public final static String INSERT_ActiveExam = "INSERT INTO ActiveExam VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 	public final static String SELECT_Subjects = "SELECT subjectName FROM Subject";
+
+	public final static String SELECT_Subjects_By_Teacher_ID = "SELECT subjectName FROM TeacherSubjects WHERE userID=?;";
 
 	public final static String SELECT_Courses_BY_SubjectID = "SELECT courseName FROM Course WHERE subjectID=?;";
 
@@ -96,7 +94,7 @@ public class SqlUtilities {
 
 	public final static String ADD_CommentsInCheckedExam = "UPDATE CheckedExam SET comment=? WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
 
-	public final static String SELECT_Unlocked_Activated_Exams_By_Activator = "SELECT subjectID, courseID, examNum, executionCode, duration, type FROM ActiveExam WHERE activator=? AND subjectID=? AND locked=0;";
+	public final static String SELECT_Unlocked_Activated_Exams_By_ActivatorsID = "SELECT subjectID, courseID, examNum, executionCode, duration, type FROM ActiveExam WHERE activatorsID=? AND subjectID=? AND locked=0;";
 
 	public final static String SELECT_All_Students = "SELECT idUsers, firstName, lastName FROM Users WHERE type='Student'";
 
@@ -118,7 +116,7 @@ public class SqlUtilities {
 
 	public final static String DELETE_Exam = "DELETE FROM Exam WHERE subjectID=? AND courseID=? AND examNum=?;";
 
-	public final static String getActivator = "SELECT activator FROM ActiveExam WHERE subjectID=? AND courseID=? AND examNum=?;";
+	public final static String getActivatorsID = "SELECT activatorsID FROM ActiveExam WHERE subjectID=? AND courseID=? AND examNum=?;";
 
 	public final static String CALCULATE_TeacherAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE idUsers=?";
 
@@ -467,6 +465,7 @@ public class SqlUtilities {
 			insert.setString(8, "c");
 		else
 			insert.setString(8, "m");
+		insert.setString(9, activeExam.getActivatorsID());
 		insert.executeUpdate();
 		insert.close();
 	}
@@ -607,11 +606,6 @@ public class SqlUtilities {
 		ResultSet rs1 = calculate1.executeQuery();
 		rs1.next();
 		int med;
-//		try {
-//			TimeUnit.SECONDS.sleep(3);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
 		PreparedStatement calculate2 = connection.prepareStatement(SqlUtilities.ALL_Grades_of_Student);
 		ArrayList<Integer> grades = new ArrayList<Integer>();
 		calculate2.setString(1, reportHandle.getStudent().getId());
@@ -653,14 +647,18 @@ public class SqlUtilities {
 	 * @param insertIntoQuery
 	 * @param type
 	 * @param connection
-	 * @return
+	 * @return the list of subjects filtered by user
 	 * @throws SQLException
 	 */
 	public static TypeHandle getTypeFromDB(String query, String insertIntoQuery, String type, Connection connection)
 			throws SQLException {
 		PreparedStatement typeOfSet = connection.prepareStatement(query);
-		if (insertIntoQuery != null) // if the method need to return the subjects
-			typeOfSet.setString(1, getSubjectID(insertIntoQuery, connection));
+		if (insertIntoQuery != null) { // if the method need to return the courses\subjects by user
+			if (insertIntoQuery.matches("[0-9]*"))
+				typeOfSet.setString(1, insertIntoQuery);
+			else
+				typeOfSet.setString(1, getSubjectID(insertIntoQuery, connection));
+		}
 		ArrayList<String> typeOfSetFromDB = new ArrayList<>();
 		ResultSet rs = typeOfSet.executeQuery();
 		while (rs.next())
@@ -676,12 +674,12 @@ public class SqlUtilities {
 		return rs.next();
 	}
 
-	public static ActiveExamHandle getActiveExamsByActivator(String activator, String subject, Connection connection)
+	public static ActiveExamHandle getActiveExamsByActivatorsID(String activatorsID, String subject, Connection connection)
 			throws SQLException {
 		String subjectNumber = getSubjectID(subject, connection);
 		PreparedStatement statement = connection
-				.prepareStatement(SqlUtilities.SELECT_Unlocked_Activated_Exams_By_Activator);
-		statement.setString(1, activator);
+				.prepareStatement(SqlUtilities.SELECT_Unlocked_Activated_Exams_By_ActivatorsID);
+		statement.setString(1, activatorsID);
 		statement.setString(2, subjectNumber);
 		ArrayList<ActiveExam> activeExams = new ArrayList<>();
 		ResultSet rs = statement.executeQuery();
@@ -715,17 +713,27 @@ public class SqlUtilities {
 
 	}
 
-	public static String getActivator(String subjectID, String courseID, String examNumber, Connection connection)
+	/**
+	 * Returns the teacher who activated the exam by execution code
+	 * 
+	 * @param subjectID
+	 * @param courseID
+	 * @param examNumber
+	 * @param connection
+	 * @return activator
+	 * @throws SQLException
+	 */
+	public static String getActivatorsID(String subjectID, String courseID, String examNumber, Connection connection)
 			throws SQLException {
-		PreparedStatement statement = connection.prepareStatement(SqlUtilities.getActivator);
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.getActivatorsID);
 		statement.setString(1, subjectID);
 		statement.setString(2, courseID);
 		statement.setString(3, examNumber);
 		ResultSet rs = statement.executeQuery();
 		rs.next();
-		String activator = rs.getString(1);
+		String activatorsID = rs.getString(1);
 		closeResultSetAndStatement(rs, null, statement);
-		return activator;
+		return activatorsID;
 	}
 
 	/**

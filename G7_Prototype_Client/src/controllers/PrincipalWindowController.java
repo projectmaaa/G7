@@ -368,8 +368,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
 		this.averageTextFieldInTeacherReport = averageTextFieldInTeacherReport;
 	}
-	
-	
 
 	/*
 	 * ---------------------------------- public methods
@@ -377,7 +375,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 */
 
 	// initialize method
-
 
 	public TextField getMedianTextFieldInStudentReport() {
 		return medianTextFieldInStudentReport;
@@ -402,7 +399,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
 		this.medianTextFieldInTeacherReport = medianTextFieldInTeacherReport;
 	}
-
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -527,7 +523,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			Utilities_Client.popUpMethod("Please choose the request");
 		else {
 			Label text = new Label("Are you sure?");
-			;
 			Stage primaryStage = new Stage();
 			primaryStage.setTitle("AES7");
 			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
@@ -625,7 +620,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		studentBarChart.setCategoryGap(3);
 		studentBarChart.setBarGap(2);
 		series1.getData().add(new XYChart.Data("010101", 90));
-		series1.getData().add(new XYChart.Data("010102", 20)); 
+		series1.getData().add(new XYChart.Data("010102", 20));
 		studentBarChart.getData().add(series1);
 		// studentBarChart.getData().addAll(series1);
 	}

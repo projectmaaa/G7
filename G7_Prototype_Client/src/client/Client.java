@@ -331,19 +331,12 @@ public class Client extends AbstractClient implements IScreenController {
 			case Message.getQuestionBySubject:
 				break;
 			case Message.requestRejected:
-				if (teacherWindowController != null)
-					if (teacherWindowController.getFirstName() != null)
-						if (teacherWindowController.getFirstName().equals(strArray[1])
-								&& teacherWindowController.getLastName().equals(strArray[2]))
-							teacherWindowController.setRejectionFlag(true);
-
+				if (this.getId().equals(strArray[1]))
+					teacherWindowController.setRejectionFlag(true);
 				break;
 			case Message.requestApproved:
-				if (teacherWindowController != null)
-					if (teacherWindowController.getFirstName() != null)
-						if (teacherWindowController.getFirstName().equals(strArray[1])
-								&& teacherWindowController.getLastName().equals(strArray[2]))
-							teacherWindowController.setAcceptionFlag(true);
+				if (this.getId().equals(strArray[1]))
+					teacherWindowController.setAcceptionFlag(true);
 				break;
 			default:
 				break;
@@ -370,10 +363,13 @@ public class Client extends AbstractClient implements IScreenController {
 			}
 		} else if (msg instanceof TypeHandle) {
 			TypeHandle typeHandle = (TypeHandle) msg;
-			if (typeHandle.getCommand().equals("Subjects"))
+			switch (typeHandle.getCommand()) {
+			case "Subjects":
 				setSubjectsFromDB(typeHandle.getTypes());
-			else if (typeHandle.getCommand().equals("Courses")) {
+				break;
+			case "Courses":
 				setCoursesFromDB(typeHandle.getTypes());
+				break;
 			}
 		} else if (msg instanceof WaitingActiveExamHandle) {
 			WaitingActiveExamHandle waitingActiveExamHandle = (WaitingActiveExamHandle) msg;

@@ -830,7 +830,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private void setTableInActiveExamManagement() {
 		client.getActivatedUnlockedExams().clear();
-		client.handleMessageFromClientUI(Message.getActiveExamsByActivator + " " + firstName + " " + lastName + " "
+		client.handleMessageFromClientUI(Message.getActiveExamsByActivator + " " + client.getId() + " "
 				+ subjectsActiveExamManagement.getValue());
 		activeExamsTableView.setItems(client.getActivatedUnlockedExams());
 	}
@@ -918,7 +918,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			okButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					// check execution code
+					/* check execution code */
 					String typedExecutionCode = executionCode.getText();
 					if ((typedExecutionCode.length() != 4) || !typedExecutionCode.matches("[a-zA-Z0-9]*"))
 						Utilities_Client.popUpMethod("Illegal execution code. please try again!");
@@ -930,7 +930,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 						Utilities_Client.popUpMethod("Type was not selected. please try again!");
 					else if (!executionCodeExist(typedExecutionCode)) {
 						ActiveExam activeExam = new ActiveExam(selectedExam, typedExecutionCode, type.getValue(),
-								firstName + " " + lastName);
+								firstName + " " + lastName, client.getId());
 						client.handleMessageFromClientUI(new ActiveExamHandle("Activate", activeExam));
 						Utilities_Client.popUpMethod("Exam activated successfully!");
 					} else
@@ -1327,6 +1327,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			setRejectionFlag(false);
 		}
 		if (acceptionFlag) {
+			setTableInActiveExamManagement();
 			Utilities_Client.popUpMethod("The principal approved your request");
 			setAcceptionFlag(false);
 		}
@@ -1620,7 +1621,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 				}
 			}
 		});
-		client.handleMessageFromClientUI(Message.getSubjects);
+		String ID = client.getId();
+		if (ID.isEmpty())
+			client.handleMessageFromClientUI(Message.getSubjects);
+		else
+			client.handleMessageFromClientUI(Message.getSubjectsByTeacherID + " " + ID);
 		comboBox.setItems(client.getSubjectsFromDB());
 	}
 
