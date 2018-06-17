@@ -2,6 +2,7 @@ package controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 import client.Client;
 import client.MainAppClient;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,6 +15,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -359,6 +361,14 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void setAverageTextFieldInCourseReport(TextField averageTextFieldInCourseReport) {
 		this.averageTextFieldInCourseReport = averageTextFieldInCourseReport;
 	}
+	
+	public TextField getAverageTextFieldInTeacherReport() {
+		return averageTextFieldInTeacherReport;
+	}
+
+	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
+		this.averageTextFieldInTeacherReport = averageTextFieldInTeacherReport;
+	}
 
 	/*
 	 * ---------------------------------- public methods
@@ -366,6 +376,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 */
 
 	// initialize method
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -523,7 +534,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	// create report button was pressed
 
-	public void createReportInStudentReportHandler(ActionEvent event) {
+	public void createReportInStudentReportHandler(ActionEvent event) throws InterruptedException {
 		Student student = studentsTableView.getSelectionModel().getSelectedItem();
 		if (student == null) {
 			Utilities_Client.popUpMethod("Please choose student first!");
@@ -533,6 +544,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			client.handleMessageFromClientUI(new ReportHandle("StudentAverage", student));
 			averageTextFieldInStudentReport.setEditable(false);
 			createStudentHistogram();
+			TimeUnit.SECONDS.sleep(2);
 			report3AnchorPane.setVisible(true);
 		}
 	}
@@ -559,14 +571,14 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	public void createStudentHistogram() {
-		XYChart.Series series1 = new XYChart.Series();
-		series1.getData().removeAll();
+		XYChart.Series<String, Number> series1 = new XYChart.Series<String, Number>();
 		series1.setName("AES7-Histogram");  
 		studentBarChart.setCategoryGap(3);
 		studentBarChart.setBarGap(2);
-		series1.getData().add(new XYChart.Data("010101", 90));
-		series1.getData().add(new XYChart.Data("010102", 20));    
-        studentBarChart.getData().addAll(series1);
+		series1.getData().add(new Data<String, Number>("010101", 90));
+		series1.getData().add(new Data<String, Number>("010102", 20)); 
+		studentBarChart.getData().add(series1);
+//        studentBarChart.getData().addAll(series1);
 	}
 	
 	public void openTeacherReport(ActionEvent event) {
@@ -574,10 +586,22 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		teacherReportAnchorPane.setVisible(true);
 		setTableInTeacherReport();
 	}
+	
+	public void createReportInTeacherReportHandler(ActionEvent event) {
+		Teacher teacher = teacherTableView.getSelectionModel().getSelectedItem();
+		if (teacher == null) {
+			Utilities_Client.popUpMethod("Please choose teacher first!");
+		} else {
+			String fullName = teacher.getFirstName() + " " + teacher.getLastName();
+			teacherNameLabel.setText(fullName);
+			client.handleMessageFromClientUI(new ReportHandle("TeacherAverage", teacher));
+			averageTextFieldInTeacherReport.setEditable(false);
+			report1AnchorPane.setVisible(true);
+		}
+	}
 
 	/*
-	 * --------------------------------* private methods *
-	 * -----------------------------------
+	 * --------------------------------* private methods * * -----------------------------------
 	 */
 
 	private void setSubjectComboBox(ComboBox<String> comboBox) {

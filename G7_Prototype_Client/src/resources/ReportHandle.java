@@ -2,6 +2,7 @@ package resources;
 
 import java.io.Serializable;
 
+
 public class ReportHandle implements Serializable{
 
 	/**
@@ -25,6 +26,11 @@ public class ReportHandle implements Serializable{
 	public ReportHandle(String command, Course course) {
 		this.command = command;
 		this.course = course;
+	}
+
+	public ReportHandle(String command, Teacher teacher) {
+		this.command = command;
+		this.teacher = teacher;
 	}
 
 	public String getCommand() {

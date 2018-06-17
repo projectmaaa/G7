@@ -83,7 +83,7 @@ public class SqlUtilities {
 
 	public final static String SELECT_All_CheckedExams = "SELECT * FROM CheckedExam";
 
-	public final static String INSERT_ApprovedExamForStudent = "INSERT INTO ApprovedExamForStudent VALUES (?, ?, ?, ?, ?, ?, ?);";
+	public final static String INSERT_ApprovedExamForStudent = "INSERT INTO ApprovedExamForStudent VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
 	public final static String REMOVE_checkedExam = "DELETE FROM CheckedExam WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
 
@@ -114,6 +114,9 @@ public class SqlUtilities {
 	public final static String DELETE_Exam = "DELETE FROM Exam WHERE subjectID=? AND courseID=? AND examNum=?;";
 
 	public final static String getActivator = "SELECT activator FROM ActiveExam WHERE subjectID=? AND courseID=? AND examNum=?;";
+	
+	public final static String CALCULATE_TeacherAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE idUsers=?";
+
 
 	// region Public Methods
 
@@ -284,7 +287,7 @@ public class SqlUtilities {
 		return (new StudentHandle("Students", students));
 	}
 
-	public static ArrayList<Course> getAllCourses(Connection connection) throws SQLException {
+	public static ReportAboutCourse getAllCourses(Connection connection) throws SQLException {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_Courses);
 		ResultSet rs = statement.executeQuery();
@@ -292,10 +295,10 @@ public class SqlUtilities {
 			courses.add(new Course(rs.getString(1), rs.getString(2), rs.getString(3)));
 		}
 		closeResultSetAndStatement(rs, null, statement);
-		return courses;
+		return  new ReportAboutCourse("AllCourses", courses);
 	}
 	
-	public static ArrayList<Teacher> getAllTeachers(Connection connection) throws SQLException {
+	public static ReportAboutTeacher getAllTeachers(Connection connection) throws SQLException {
 		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_Teachers);
 		ResultSet rs = statement.executeQuery();
@@ -303,7 +306,7 @@ public class SqlUtilities {
 			teachers.add(new Teacher(rs.getString(1), rs.getString(2), rs.getString(3)));
 		}
 		closeResultSetAndStatement(rs, null, statement);
-		return teachers;
+		return new ReportAboutTeacher(teachers, "AllTeachers");
 	}
 
 	public static QuestionHandle getQuestionsBySubject(Connection connection, String subject) throws SQLException {
@@ -540,6 +543,8 @@ public class SqlUtilities {
 		insert.setString(5, checkedExam.getSubmittedExam().getStudentInActiveExam().getStudent().getId());
 		insert.setInt(6, checkedExam.getGrade());
 		insert.setString(7, checkedExam.getComments() + checkedExam.getCommentsOfChangeGrade());
+		insert.setString(8, checkedExam.getIdApprover());
+
 		insert.executeUpdate();
 		insert.close();
 	}
@@ -595,7 +600,7 @@ public class SqlUtilities {
 		calculate.setString(1, reportHandle.getStudent().getId());
 		ResultSet rs = calculate.executeQuery();
 		rs.next();
-		return new ReportAboutStudent(rs.getDouble(1), reportHandle.getStudent());
+		return new ReportAboutStudent("StudentAverage",rs.getDouble(1), reportHandle.getStudent());
 	}
 
 	public static ReportAboutCourse calculateCourseAverage(ReportHandle reportHandle, Connection connection)
@@ -604,7 +609,16 @@ public class SqlUtilities {
 		calculate.setString(1, reportHandle.getCourse().getCourseID());
 		ResultSet rs = calculate.executeQuery();
 		rs.next();
-		return new ReportAboutCourse(rs.getDouble(1), reportHandle.getCourse());
+		return new ReportAboutCourse("CourseAverage",rs.getDouble(1), reportHandle.getCourse());
+	}
+	
+	public static ReportAboutTeacher calculateTeacherAverage(ReportHandle reportHandle, Connection connection)
+			throws SQLException {
+		PreparedStatement calculate = connection.prepareStatement(SqlUtilities.CALCULATE_TeacherAVG);
+		calculate.setString(1, reportHandle.getTeacher().getId());
+		ResultSet rs = calculate.executeQuery();
+		rs.next();
+		return new ReportAboutTeacher("TeacherAverage",rs.getDouble(1), reportHandle.getTeacher());
 	}
 
 	/**

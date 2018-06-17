@@ -265,6 +265,15 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
+			else if (reportHandle.getCommand().equals("TeacherAverage")) {
+				try {
+					client.sendToClient(SqlUtilities.calculateTeacherAverage(reportHandle, connection));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 		else if (msg instanceof String) {

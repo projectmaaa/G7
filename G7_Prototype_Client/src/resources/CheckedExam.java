@@ -17,7 +17,7 @@ public class CheckedExam implements Serializable {
 	
 	private String commentsOfChangeGrade;
 	
-	
+	private String idApprover;
 
 	public CheckedExam(SubmittedExam submittedExam, int grade, String comments,
 			String commentsOfChangeGrade) {
@@ -64,5 +64,15 @@ public class CheckedExam implements Serializable {
 	public void setCommentsOfChangeGrade(String commentsOfChangeGrade) {
 		this.commentsOfChangeGrade = commentsOfChangeGrade;
 	}
+
+	public String getIdApprover() {
+		return idApprover;
+	}
+
+	public void setIdApprover(String idApprover) {
+		this.idApprover = idApprover;
+	}
+	
+	
 
 }
