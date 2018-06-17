@@ -83,7 +83,7 @@ public class SqlUtilities {
 
 	public final static String SELECT_All_CheckedExams = "SELECT * FROM CheckedExam";
 
-	public final static String INSERT_ApprovedExamForStudent = "INSERT INTO ApprovedExamForStudent VALUES (?, ?, ?, ?, ?, ?, ?);";
+	public final static String INSERT_ApprovedExamForStudent = "INSERT INTO ApprovedExamForStudent VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
 	public final static String REMOVE_checkedExam = "DELETE FROM CheckedExam WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
 
@@ -114,6 +114,9 @@ public class SqlUtilities {
 	public final static String DELETE_Exam = "DELETE FROM Exam WHERE subjectID=? AND courseID=? AND examNum=?;";
 
 	public final static String getActivator = "SELECT activator FROM ActiveExam WHERE subjectID=? AND courseID=? AND examNum=?;";
+	
+	public final static String CALCULATE_TeacherAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE idUsers=?";
+
 
 	// region Public Methods
 
@@ -540,6 +543,8 @@ public class SqlUtilities {
 		insert.setString(5, checkedExam.getSubmittedExam().getStudentInActiveExam().getStudent().getId());
 		insert.setInt(6, checkedExam.getGrade());
 		insert.setString(7, checkedExam.getComments() + checkedExam.getCommentsOfChangeGrade());
+		insert.setString(8, checkedExam.getIdApprover());
+
 		insert.executeUpdate();
 		insert.close();
 	}
@@ -605,6 +610,15 @@ public class SqlUtilities {
 		ResultSet rs = calculate.executeQuery();
 		rs.next();
 		return new ReportAboutCourse("CourseAverage",rs.getDouble(1), reportHandle.getCourse());
+	}
+	
+	public static ReportAboutTeacher calculateTeacherAverage(ReportHandle reportHandle, Connection connection)
+			throws SQLException {
+		PreparedStatement calculate = connection.prepareStatement(SqlUtilities.CALCULATE_TeacherAVG);
+		calculate.setString(1, reportHandle.getTeacher().getId());
+		ResultSet rs = calculate.executeQuery();
+		rs.next();
+		return new ReportAboutTeacher("TeacherAverage",rs.getDouble(1), reportHandle.getTeacher());
 	}
 
 	/**

@@ -420,7 +420,7 @@
                   <Bloom />
                </effect>
             </Label>
-            <Button fx:id="createReportButtonInTeacherReport" layoutX="104.0" layoutY="278.0" mnemonicParsing="false" text="Create Report">
+            <Button fx:id="createReportButtonInTeacherReport" layoutX="104.0" layoutY="278.0" mnemonicParsing="false" onAction="#createReportInTeacherReportHandler" text="Create Report">
                <effect>
                   <InnerShadow />
                </effect>
@@ -476,7 +476,7 @@
                      </fill>
                   </Text>
                   <TextField fx:id="averageTextFieldInTeacherReport" layoutX="125.0" layoutY="129.0" prefHeight="25.0" prefWidth="62.0" />
-                  <Label layoutX="159.0" layoutY="84.0" text="Course:">
+                  <Label layoutX="159.0" layoutY="84.0" text="Teacher:">
                      <font>
                         <Font name="Narkisim" size="24.0" />
                      </font>

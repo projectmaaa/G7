@@ -361,6 +361,14 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void setAverageTextFieldInCourseReport(TextField averageTextFieldInCourseReport) {
 		this.averageTextFieldInCourseReport = averageTextFieldInCourseReport;
 	}
+	
+	public TextField getAverageTextFieldInTeacherReport() {
+		return averageTextFieldInTeacherReport;
+	}
+
+	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
+		this.averageTextFieldInTeacherReport = averageTextFieldInTeacherReport;
+	}
 
 	/*
 	 * ---------------------------------- public methods
@@ -368,6 +376,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 */
 
 	// initialize method
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -577,10 +586,22 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		teacherReportAnchorPane.setVisible(true);
 		setTableInTeacherReport();
 	}
+	
+	public void createReportInTeacherReportHandler(ActionEvent event) {
+		Teacher teacher = teacherTableView.getSelectionModel().getSelectedItem();
+		if (teacher == null) {
+			Utilities_Client.popUpMethod("Please choose teacher first!");
+		} else {
+			String fullName = teacher.getFirstName() + " " + teacher.getLastName();
+			teacherNameLabel.setText(fullName);
+			client.handleMessageFromClientUI(new ReportHandle("TeacherAverage", teacher));
+			averageTextFieldInTeacherReport.setEditable(false);
+			report1AnchorPane.setVisible(true);
+		}
+	}
 
 	/*
-	 * --------------------------------* private methods *
-	 * -----------------------------------
+	 * --------------------------------* private methods * * -----------------------------------
 	 */
 
 	private void setSubjectComboBox(ComboBox<String> comboBox) {

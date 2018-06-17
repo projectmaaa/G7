@@ -16,7 +16,6 @@ public class ReportHandle implements Serializable{
 	
 	private Course course;
 	
-
 	private Teacher teacher;
 
 	public ReportHandle(String command, Student student) {
@@ -27,6 +26,11 @@ public class ReportHandle implements Serializable{
 	public ReportHandle(String command, Course course) {
 		this.command = command;
 		this.course = course;
+	}
+
+	public ReportHandle(String command, Teacher teacher) {
+		this.command = command;
+		this.teacher = teacher;
 	}
 
 	public String getCommand() {

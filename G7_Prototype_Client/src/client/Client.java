@@ -396,8 +396,11 @@ public class Client extends AbstractClient implements IScreenController {
 			if(((ReportAboutTeacher) msg).getCommand().equals("AllTeachers")) {
 				setAllTeachersFromDB(teacherReport.getTeachers());
 			}
+			if(((ReportAboutTeacher) msg).getCommand().equals("TeacherAverage")) {
+				Double avg = teacherReport.getAverage();
+				principalWindowController.getAverageTextFieldInTeacherReport().setText(avg.toString());
+			}
 			
-		
 		}
 
 		else if (msg instanceof Boolean) {
