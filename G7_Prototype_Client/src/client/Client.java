@@ -41,7 +41,7 @@ public class Client extends AbstractClient implements IScreenController {
 	private ObservableList<Student> studentsFromDB = FXCollections.observableArrayList();
 
 	private ObservableList<Course> allCoursesFromDB = FXCollections.observableArrayList();
-	
+
 	private ObservableList<Teacher> allTeachersFromDB = FXCollections.observableArrayList();
 
 	private ScreensController controller;
@@ -252,7 +252,7 @@ public class Client extends AbstractClient implements IScreenController {
 			this.allCoursesFromDB.setAll(allCoursesFromDB);
 		});
 	}
-	
+
 	public ObservableList<Teacher> getAllTeachersFromDB() {
 		return allTeachersFromDB;
 	}
@@ -266,7 +266,6 @@ public class Client extends AbstractClient implements IScreenController {
 	// end region -> Setters
 
 	// region Public Methods
-
 
 	/**
 	 * This method handles all data that comes in from the server.
@@ -377,30 +376,30 @@ public class Client extends AbstractClient implements IScreenController {
 			}
 		} else if (msg instanceof ReportAboutStudent) {
 			ReportAboutStudent studentReport = (ReportAboutStudent) msg;
-			if(studentReport.getCommand().equals("StudentAverage")) {
-			Double avg = studentReport.getAverage();
-			principalWindowController.getAverageTextFieldInStudentReport().setText(avg.toString());
+			if (studentReport.getCommand().equals("StudentStatistic")) {
+				Double avg = studentReport.getAverage();
+				Integer med = studentReport.getMedian();
+				principalWindowController.getAverageTextFieldInStudentReport().setText(avg.toString());
+				principalWindowController.getMedianTextFieldInStudentReport().setText(med.toString());
 			}
-			
-		}else if(msg instanceof ReportAboutCourse) {
+		} else if (msg instanceof ReportAboutCourse) {
 			ReportAboutCourse courseReport = (ReportAboutCourse) msg;
-			if(courseReport.getCommand().equals("CourseAverage")) {
-			Double avg = courseReport.getAverage();
-			principalWindowController.getAverageTextFieldInCourseReport().setText(avg.toString());
-			}
-			else if(courseReport.getCommand().equals("AllCourses")) {
+			if (courseReport.getCommand().equals("CourseAverage")) {
+				Double avg = courseReport.getAverage();
+				principalWindowController.getAverageTextFieldInCourseReport().setText(avg.toString());
+			} else if (courseReport.getCommand().equals("AllCourses")) {
 				setAllCoursesFromDB(courseReport.getCourses());
 			}
 		} else if (msg instanceof ReportAboutTeacher) {
 			ReportAboutTeacher teacherReport = (ReportAboutTeacher) msg;
-			if(((ReportAboutTeacher) msg).getCommand().equals("AllTeachers")) {
+			if (((ReportAboutTeacher) msg).getCommand().equals("AllTeachers")) {
 				setAllTeachersFromDB(teacherReport.getTeachers());
 			}
-			if(((ReportAboutTeacher) msg).getCommand().equals("TeacherAverage")) {
+			if (((ReportAboutTeacher) msg).getCommand().equals("TeacherAverage")) {
 				Double avg = teacherReport.getAverage();
 				principalWindowController.getAverageTextFieldInTeacherReport().setText(avg.toString());
 			}
-			
+
 		}
 
 		else if (msg instanceof Boolean) {

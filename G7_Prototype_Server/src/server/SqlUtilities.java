@@ -5,7 +5,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+
 import com.mysql.jdbc.Statement;
+
+
 import java.sql.PreparedStatement;
 import resources.*;
 
@@ -114,9 +119,10 @@ public class SqlUtilities {
 	public final static String DELETE_Exam = "DELETE FROM Exam WHERE subjectID=? AND courseID=? AND examNum=?;";
 
 	public final static String getActivator = "SELECT activator FROM ActiveExam WHERE subjectID=? AND courseID=? AND examNum=?;";
-	
+
 	public final static String CALCULATE_TeacherAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE idUsers=?";
 
+	public final static String ALL_Grades_of_Student = "SELECT grade FROM ApprovedExamForStudent WHERE studentID=?";
 
 	// region Public Methods
 
@@ -295,9 +301,9 @@ public class SqlUtilities {
 			courses.add(new Course(rs.getString(1), rs.getString(2), rs.getString(3)));
 		}
 		closeResultSetAndStatement(rs, null, statement);
-		return  new ReportAboutCourse("AllCourses", courses);
+		return new ReportAboutCourse("AllCourses", courses);
 	}
-	
+
 	public static ReportAboutTeacher getAllTeachers(Connection connection) throws SQLException {
 		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_Teachers);
@@ -594,13 +600,32 @@ public class SqlUtilities {
 		update.close();
 	}
 
-	public static ReportAboutStudent calculateStudentAverage(ReportHandle reportHandle, Connection connection)
+	public static ReportAboutStudent calculateStudentStatistic(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
-		PreparedStatement calculate = connection.prepareStatement(SqlUtilities.CALCULATE_StudentAVG);
-		calculate.setString(1, reportHandle.getStudent().getId());
-		ResultSet rs = calculate.executeQuery();
-		rs.next();
-		return new ReportAboutStudent("StudentAverage",rs.getDouble(1), reportHandle.getStudent());
+		PreparedStatement calculate1 = connection.prepareStatement(SqlUtilities.CALCULATE_StudentAVG);
+		calculate1.setString(1, reportHandle.getStudent().getId());
+		ResultSet rs1 = calculate1.executeQuery();
+		rs1.next();
+		int med;
+//		try {
+//			TimeUnit.SECONDS.sleep(3);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+		PreparedStatement calculate2 = connection.prepareStatement(SqlUtilities.ALL_Grades_of_Student);
+		ArrayList<Integer> grades = new ArrayList<Integer>();
+		calculate2.setString(1, reportHandle.getStudent().getId());
+		ResultSet rs2 = calculate2.executeQuery();
+		while (rs2.next()) {
+			grades.add(rs2.getInt(1));
+		}
+		Collections.sort(grades);
+		int mid = grades.size() / 2;
+		if (!grades.isEmpty()) {
+			med = grades.get(mid);
+		} else
+			med = 0;
+		return new ReportAboutStudent("StudentStatistic", rs1.getDouble(1), med, reportHandle.getStudent());
 	}
 
 	public static ReportAboutCourse calculateCourseAverage(ReportHandle reportHandle, Connection connection)
@@ -609,16 +634,16 @@ public class SqlUtilities {
 		calculate.setString(1, reportHandle.getCourse().getCourseID());
 		ResultSet rs = calculate.executeQuery();
 		rs.next();
-		return new ReportAboutCourse("CourseAverage",rs.getDouble(1), reportHandle.getCourse());
+		return new ReportAboutCourse("CourseAverage", rs.getDouble(1), reportHandle.getCourse());
 	}
-	
+
 	public static ReportAboutTeacher calculateTeacherAverage(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
 		PreparedStatement calculate = connection.prepareStatement(SqlUtilities.CALCULATE_TeacherAVG);
 		calculate.setString(1, reportHandle.getTeacher().getId());
 		ResultSet rs = calculate.executeQuery();
 		rs.next();
-		return new ReportAboutTeacher("TeacherAverage",rs.getDouble(1), reportHandle.getTeacher());
+		return new ReportAboutTeacher("TeacherAverage", rs.getDouble(1), reportHandle.getTeacher());
 	}
 
 	/**

@@ -369,6 +369,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
 		this.averageTextFieldInTeacherReport = averageTextFieldInTeacherReport;
 	}
+	
+	
 
 	/*
 	 * ---------------------------------- public methods
@@ -377,6 +379,30 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	// initialize method
 
+
+	public TextField getMedianTextFieldInStudentReport() {
+		return medianTextFieldInStudentReport;
+	}
+
+	public void setMedianTextFieldInStudentReport(TextField medianTextFieldInStudentReport) {
+		this.medianTextFieldInStudentReport = medianTextFieldInStudentReport;
+	}
+
+	public TextField getMedianTextFieldInCourseReport() {
+		return medianTextFieldInCourseReport;
+	}
+
+	public void setMedianTextFieldInCourseReport(TextField medianTextFieldInCourseReport) {
+		this.medianTextFieldInCourseReport = medianTextFieldInCourseReport;
+	}
+
+	public TextField getMedianTextFieldInTeacherReport() {
+		return medianTextFieldInTeacherReport;
+	}
+
+	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
+		this.medianTextFieldInTeacherReport = medianTextFieldInTeacherReport;
+	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -541,10 +567,11 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		} else {
 			String fullName = student.getFirstName() + " " + student.getLastName();
 			studentNameLabel.setText(fullName);
-			client.handleMessageFromClientUI(new ReportHandle("StudentAverage", student));
+			client.handleMessageFromClientUI(new ReportHandle("StudentStatistic", student));
 			averageTextFieldInStudentReport.setEditable(false);
+			medianTextFieldInStudentReport.setEditable(false);
 			createStudentHistogram();
-			TimeUnit.SECONDS.sleep(2);
+			TimeUnit.SECONDS.sleep(6);
 			report3AnchorPane.setVisible(true);
 		}
 	}
@@ -571,12 +598,13 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	public void createStudentHistogram() {
+		studentBarChart.getData().clear();
 		XYChart.Series<String, Number> series1 = new XYChart.Series<String, Number>();
 		series1.setName("AES7-Histogram");  
 		studentBarChart.setCategoryGap(3);
 		studentBarChart.setBarGap(2);
-		series1.getData().add(new Data<String, Number>("010101", 90));
-		series1.getData().add(new Data<String, Number>("010102", 20)); 
+		series1.getData().add(new XYChart.Data("010101", 90));
+		series1.getData().add(new XYChart.Data("010102", 20)); 
 		studentBarChart.getData().add(series1);
 //        studentBarChart.getData().addAll(series1);
 	}
