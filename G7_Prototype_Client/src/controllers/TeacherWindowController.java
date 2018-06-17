@@ -394,9 +394,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private boolean rejectionFlag;
 
-	// end region -> Fields
+	private boolean acceptionFlag;
 
-	// region Setters
+	// end region -> Fields
 
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
@@ -427,7 +427,13 @@ public class TeacherWindowController implements Initializable, IScreenController
 		this.rejectionFlag = rejectionFlag;
 	}
 
-	// end region -> Setters
+	public boolean isAcceptionFlag() {
+		return acceptionFlag;
+	}
+
+	public void setAcceptionFlag(boolean acceptionFlag) {
+		this.acceptionFlag = acceptionFlag;
+	}
 
 	/**
 	 * 
@@ -484,6 +490,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		if (confirmGradesAnchorPane.isVisible())
 			confirmGradesAnchorPane.setVisible(false);
 		setRejectionFlag(false);
+		setAcceptionFlag(false);
 		welcomeText.setText("Welcome");
 		welcomeAnchorPane.setVisible(true);
 		this.client.handleMessageFromClientUI(Message.logout);
@@ -1309,10 +1316,19 @@ public class TeacherWindowController implements Initializable, IScreenController
 		activeExamManagementAnchorPane.setVisible(true);
 	}
 
-	public void rejectMessageCheck(MouseEvent event) {
+	/**
+	 * Showing the pop up for the teacher if his\hers request is denied\accepted
+	 * 
+	 * @param event
+	 */
+	public void checkRequest(MouseEvent event) {
 		if (rejectionFlag) {
 			Utilities_Client.popUpMethod("The principal rejected your request");
 			setRejectionFlag(false);
+		}
+		if (acceptionFlag) {
+			Utilities_Client.popUpMethod("The principal approved your request");
+			setAcceptionFlag(false);
 		}
 	}
 

@@ -196,13 +196,33 @@ public class Server extends AbstractServer {
 				}
 			} else if (waitingActiveExamHandle.getCommand().equals("Remove")) {
 				try {
+					SqlUtilities.removeWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else if (waitingActiveExamHandle.getCommand().equals(Message.requestRejected)) { // Show the pop up for
+																								// the teacher
+				try {
 					String activator = SqlUtilities.getActivator(
 							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getSubjectID(),
 							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getCourseID(),
 							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getExamNum(),
 							connection);
-					SqlUtilities.removeWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
 					sendToAllClients(Message.requestRejected + " " + activator);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} else if (waitingActiveExamHandle.getCommand().equals(Message.requestApproved)) {
+				try {
+					String activator = SqlUtilities.getActivator(
+							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getSubjectID(),
+							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getCourseID(),
+							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getExamNum(),
+							connection);
+					sendToAllClients(Message.requestApproved + " " + activator);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -264,8 +284,7 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			else if (reportHandle.getCommand().equals("TeacherAverage")) {
+			} else if (reportHandle.getCommand().equals("TeacherAverage")) {
 				try {
 					client.sendToClient(SqlUtilities.calculateTeacherAverage(reportHandle, connection));
 				} catch (SQLException e) {
