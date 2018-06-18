@@ -119,7 +119,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private Label subject;
 
 	@FXML
-	private ComboBox<String> subjectComboBox;
+	private ComboBox<String> subjectComboBoxInAddQuestion;
 
 	@FXML
 	private Label questionText;
@@ -684,6 +684,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 */
 	public void openAddQuestion(ActionEvent event) {
 		try {
+			setSubjectComboBox(subjectComboBoxInAddQuestion);
 			addQuestionAnchorPane.setVisible(true);
 			backAnchorPane.setVisible(true);
 			questionsTableAnchorPaneInEditOrRemove.setVisible(false);
@@ -706,7 +707,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 */
 	public void addNewQuestion(ActionEvent event) {
 		// if the user didn't select a subject
-		if (subjectComboBox.getValue() == null) {
+		if (subjectComboBoxInAddQuestion.getValue() == null) {
 			Utilities_Client.popUpMethod("Please Select Subject");
 			return;
 		}
@@ -722,7 +723,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			Utilities_Client.popUpMethod("Please Select Answer");
 			return;
 		}
-		Question question = new Question(subjectComboBox.getValue(), firstName + " " + lastName,
+		Question question = new Question(subjectComboBoxInAddQuestion.getValue(), firstName + " " + lastName,
 				questionTextField.getText(), firstAnswerField.getText(), secondAnswerField.getText(),
 				thirdAnswerField.getText(), fourthAnswerField.getText(), correctAnswerComboBox.getValue());
 		client.setQuestion(question);
@@ -1499,7 +1500,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * init's the fields of the 'Add Question' option
 	 */
 	private void initAddQuestionOption() {
-		setSubjectComboBox(subjectComboBox);
+		setSubjectComboBox(subjectComboBoxInAddQuestion);
 		setSelectComboBox(correctAnswerComboBox);
 	}
 
@@ -1508,10 +1509,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * pressed
 	 */
 	private void clearAddQuestionFields() {
-		if (subjectComboBox.getValue() != null) {
-			subjectComboBox.getSelectionModel().clearSelection();
-			subjectComboBox.setPromptText("Select Subject");
-			subjectComboBox.setButtonCell(new ListCell<String>() {
+		if (subjectComboBoxInAddQuestion.getValue() != null) {
+			subjectComboBoxInAddQuestion.getSelectionModel().clearSelection();
+			subjectComboBoxInAddQuestion.setPromptText("Select Subject");
+			subjectComboBoxInAddQuestion.setButtonCell(new ListCell<String>() {
 				@Override
 				protected void updateItem(String item, boolean empty) {
 					super.updateItem(item, empty);
