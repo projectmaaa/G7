@@ -3,7 +3,6 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.Client;
 import client.MainAppClient;
 import javafx.event.ActionEvent;
@@ -168,6 +167,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 				anchorPaneSetting.setVisible(false);
 			}
 			client.handleMessageFromClientUI(Message.login + " " + un.getText() + " " + pw.getText());
+			client.setId(un.getText());
 			clearFields();
 			return;
 		}

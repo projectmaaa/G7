@@ -24,9 +24,10 @@ public class ReportAboutCourse extends Report implements Serializable {
 		this.courses = courses;
 	}
 
-	public ReportAboutCourse(String command, double average, Course course) {
+	public ReportAboutCourse(String command, double average, int med, Course course) {
 		this.command=command;
 		setAverage(average);
+		setMedian(med);
 		this.course=course;;
 	}
 

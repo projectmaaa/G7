@@ -331,19 +331,12 @@ public class Client extends AbstractClient implements IScreenController {
 			case Message.getQuestionBySubject:
 				break;
 			case Message.requestRejected:
-				if (teacherWindowController != null)
-					if (teacherWindowController.getFirstName() != null)
-						if (teacherWindowController.getFirstName().equals(strArray[1])
-								&& teacherWindowController.getLastName().equals(strArray[2]))
-							teacherWindowController.setRejectionFlag(true);
-
+				if (this.getId().equals(strArray[1]))
+					teacherWindowController.setRejectionFlag(true);
 				break;
 			case Message.requestApproved:
-				if (teacherWindowController != null)
-					if (teacherWindowController.getFirstName() != null)
-						if (teacherWindowController.getFirstName().equals(strArray[1])
-								&& teacherWindowController.getLastName().equals(strArray[2]))
-							teacherWindowController.setAcceptionFlag(true);
+				if (this.getId().equals(strArray[1]))
+					teacherWindowController.setAcceptionFlag(true);
 				break;
 			default:
 				break;
@@ -370,10 +363,13 @@ public class Client extends AbstractClient implements IScreenController {
 			}
 		} else if (msg instanceof TypeHandle) {
 			TypeHandle typeHandle = (TypeHandle) msg;
-			if (typeHandle.getCommand().equals("Subjects"))
+			switch (typeHandle.getCommand()) {
+			case "Subjects":
 				setSubjectsFromDB(typeHandle.getTypes());
-			else if (typeHandle.getCommand().equals("Courses")) {
+				break;
+			case "Courses":
 				setCoursesFromDB(typeHandle.getTypes());
+				break;
 			}
 		} else if (msg instanceof WaitingActiveExamHandle) {
 			WaitingActiveExamHandle waitingActiveExamHandle = (WaitingActiveExamHandle) msg;
@@ -397,34 +393,40 @@ public class Client extends AbstractClient implements IScreenController {
 				Integer med = studentReport.getMedian();
 				principalWindowController.getAverageTextFieldInStudentReport().setText(avg.toString());
 				principalWindowController.getMedianTextFieldInStudentReport().setText(med.toString());
-			} else if (msg instanceof ReportAboutCourse) {
-				ReportAboutCourse courseReport = (ReportAboutCourse) msg;
-				if (courseReport.getCommand().equals("CourseAverage")) {
-					Double avg = courseReport.getAverage();
-					principalWindowController.getAverageTextFieldInCourseReport().setText(avg.toString());
-				} else if (courseReport.getCommand().equals("AllCourses")) {
-					setAllCoursesFromDB(courseReport.getCourses());
-				}
-			} else if (msg instanceof ReportAboutTeacher) {
-				ReportAboutTeacher teacherReport = (ReportAboutTeacher) msg;
-				if (((ReportAboutTeacher) msg).getCommand().equals("AllTeachers")) {
-					setAllTeachersFromDB(teacherReport.getTeachers());
-				}
-				if (((ReportAboutTeacher) msg).getCommand().equals("TeacherAverage")) {
-					Double avg = teacherReport.getAverage();
-					principalWindowController.getAverageTextFieldInTeacherReport().setText(avg.toString());
-				}
-			} else if (msg instanceof Boolean) {
-				boolean codeExist = (boolean) msg;
-				setExecutionCodeExistFlag(codeExist);
-			} else if (msg instanceof MyFileHandle) {
-				MyFileHandle fileHandle = (MyFileHandle) msg;
-				if (fileHandle.getCommand().equals("StudnetExam")) {
-					Utilities_Client.writeWordFile(fileHandle.getFile(), true);
-				}
+			}
+		} else if (msg instanceof ReportAboutCourse) {
+			ReportAboutCourse courseReport = (ReportAboutCourse) msg;
+			if (courseReport.getCommand().equals("CourseStatistic")) {
+				Double avg = courseReport.getAverage();
+				Integer med = courseReport.getMedian();
+				principalWindowController.getAverageTextFieldInCourseReport().setText(avg.toString());
+				principalWindowController.getMedianTextFieldInCourseReport().setText(med.toString());
+			} else if (courseReport.getCommand().equals("AllCourses")) {
+				setAllCoursesFromDB(courseReport.getCourses());
+			}
+		} else if (msg instanceof ReportAboutTeacher) {
+			ReportAboutTeacher teacherReport = (ReportAboutTeacher) msg;
+			if (((ReportAboutTeacher) msg).getCommand().equals("AllTeachers")) {
+				setAllTeachersFromDB(teacherReport.getTeachers());
+			}
+			if (((ReportAboutTeacher) msg).getCommand().equals("TeacherStatistic")) {
+				Double avg = teacherReport.getAverage();
+				Integer med = teacherReport.getMedian();
+				principalWindowController.getAverageTextFieldInTeacherReport().setText(avg.toString());
+				principalWindowController.getMedianTextFieldInTeacherReport().setText(med.toString());
+
+			}
+		} else if (msg instanceof Boolean) {
+			boolean codeExist = (boolean) msg;
+			setExecutionCodeExistFlag(codeExist);
+		} else if (msg instanceof MyFileHandle) {
+			MyFileHandle fileHandle = (MyFileHandle) msg;
+			if (fileHandle.getCommand().equals("StudnetExam")) {
+				Utilities_Client.writeWordFile(fileHandle.getFile(), true);
 			}
 		}
 	}
+
 
 	/**
 	 * This method handles all data coming from the UI

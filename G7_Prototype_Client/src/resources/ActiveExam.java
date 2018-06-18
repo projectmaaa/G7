@@ -21,6 +21,8 @@ public class ActiveExam implements Serializable {
 
 	private String activator;
 
+	private String activatorsID;
+
 	public ActiveExam(Exam exam, String executionCode) {
 		this.exam = exam;
 		this.executionCode = executionCode;
@@ -28,12 +30,13 @@ public class ActiveExam implements Serializable {
 		locked = 0;
 	}
 
-	public ActiveExam(Exam exam, String executionCode, String type, String activator) {
+	public ActiveExam(Exam exam, String executionCode, String type, String activator, String activatorsID) {
 		this.exam = exam;
 		this.executionCode = executionCode;
 		this.duration = exam.getExamDuration();
 		this.type = type;
 		this.activator = activator;
+		this.activatorsID = activatorsID;
 		locked = 0;
 	}
 
@@ -114,6 +117,14 @@ public class ActiveExam implements Serializable {
 
 	public void setActivator(String activator) {
 		this.activator = activator;
+	}
+
+	public String getActivatorsID() {
+		return activatorsID;
+	}
+
+	public void setActivatorsID(String activatorsID) {
+		this.activatorsID = activatorsID;
 	}
 
 	@Override

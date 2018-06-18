@@ -57,6 +57,8 @@ public class Message {
 	public final static String requestRejected = "#RequestRejected";
 
 	public final static String requestApproved = "#RequestApproved";
+	
+	public final static String getSubjectsByTeacherID ="#SubjectsByTeacherID";
 
 	// end region -> Constants
 
