@@ -15,6 +15,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -380,6 +384,35 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private Button addCommentsButtonInConfirmGrades;
 
+	// exams statistic
+
+	@FXML
+	private AnchorPane examStatisticAnchorPane;
+
+	@FXML
+	private ComboBox<String> subjectComboBoxInExamStatistic;
+
+	@FXML
+	private ComboBox<String> courseComboBoxInExamStatistic;
+	
+	@FXML
+	private ComboBox<String> examNumComboBoxInExamStatistic;
+	
+	@FXML
+	private Button createReportButton;
+	
+	@FXML
+    private BarChart<?, ?> examStatisticBarChart;
+
+    @FXML
+    private CategoryAxis xAxis;
+
+    @FXML
+    private NumberAxis yAxis;
+    
+    @FXML
+    private AnchorPane examReportAnchorPane;
+
 	//
 
 	private ScreensController screensController;
@@ -489,6 +522,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 			backAnchorPane.setVisible(false);
 		if (confirmGradesAnchorPane.isVisible())
 			confirmGradesAnchorPane.setVisible(false);
+		if(examStatisticAnchorPane.isVisible()) {
+			examStatisticAnchorPane.setVisible(false);
+		}
 		setRejectionFlag(false);
 		setAcceptionFlag(false);
 		welcomeText.setText("Welcome");
@@ -519,6 +555,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 			welcomeAnchorPane.setVisible(false);
 			confirmGradesAnchorPane.setVisible(false);
 			activeExamManagementAnchorPane.setVisible(false);
+			examStatisticAnchorPane.setVisible(false);
+			examReportAnchorPane.setVisible(false);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -693,6 +731,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 			examManagementAnchorPane.setVisible(false);
 			confirmGradesAnchorPane.setVisible(false);
 			activeExamManagementAnchorPane.setVisible(false);
+			examStatisticAnchorPane.setVisible(false);
+			examReportAnchorPane.setVisible(false);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -746,6 +786,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 			examManagementAnchorPane.setVisible(false);
 			confirmGradesAnchorPane.setVisible(false);
 			activeExamManagementAnchorPane.setVisible(false);
+			examStatisticAnchorPane.setVisible(false);
+			examReportAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -790,28 +832,36 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * @param event
 	 */
 	public void selectCourseComboBoxHandler(MouseEvent event) {
-		String selectedSubject = subjectInCreateExamComboBox.getValue();
-		if (selectedSubject == null) {
+		String selectedSubject = null;
+		if (createExamAnchorPane.isVisible())
+			selectedSubject = subjectInCreateExamComboBox.getValue();
+		else if (examStatisticAnchorPane.isVisible())
+			selectedSubject = subjectComboBoxInExamStatistic.getValue();
+		if (selectedSubject == null)
 			Utilities_Client.popUpMethod("You must select the subject first");
-			return;
-		} else {
-			client.handleMessageFromClientUI(Message.getCourses + " " + selectedSubject);
-			courseInCreateExamComboBox.getItems().clear();
-			courseInCreateExamComboBox.setItems(client.getCoursesFromDB()); // sets the courses that is under specific
-																			// subject
-			courseInCreateExamComboBox.setPromptText("Select Course");
-			courseInCreateExamComboBox.setButtonCell(new ListCell<String>() {
-				@Override
-				protected void updateItem(String item, boolean empty) {
-					super.updateItem(item, empty);
-					if (empty || item == null) {
-						setText("Select Course");
-					} else {
-						setText(item);
-					}
+		else if (createExamAnchorPane.isVisible())
+			selectCourseComboBox(courseInCreateExamComboBox, selectedSubject);
+		else if (examStatisticAnchorPane.isVisible())
+			selectCourseComboBox(courseComboBoxInExamStatistic, selectedSubject);
+	}
+
+	public void selectCourseComboBox(ComboBox<String> combobox, String selectedSubject) {
+		client.handleMessageFromClientUI(Message.getCourses + " " + selectedSubject);
+		combobox.getItems().clear();
+		combobox.setItems(client.getCoursesFromDB()); // sets the courses that is under specific
+														// subject
+		combobox.setPromptText("Select Course");
+		combobox.setButtonCell(new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("Select Course");
+				} else {
+					setText(item);
 				}
-			});
-		}
+			}
+		});
 	}
 
 	public void showExamsHandler(ActionEvent event) {
@@ -888,6 +938,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 			clearAddQuestionFields();
 			setSubjectComboBox(subjectExamManagement);
 			activeExamManagementAnchorPane.setVisible(false);
+			examStatisticAnchorPane.setVisible(false);
+			examReportAnchorPane.setVisible(false);
+
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -1121,6 +1174,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 		createExamAnchorPane.setVisible(false);
 		examManagementAnchorPane.setVisible(false);
 		activeExamManagementAnchorPane.setVisible(false);
+		examStatisticAnchorPane.setVisible(false);
+		examReportAnchorPane.setVisible(false);
 		setTableInConfirmGrades();
 	}
 
@@ -1250,6 +1305,64 @@ public class TeacherWindowController implements Initializable, IScreenController
 		primaryStage.show();
 	}
 
+	public void openExamStatistic(ActionEvent event) {
+		examStatisticAnchorPane.setVisible(true);
+		confirmGradesAnchorPane.setVisible(false);
+		welcomeAnchorPane.setVisible(false);
+		backAnchorPane.setVisible(false);
+		addQuestionAnchorPane.setVisible(false);
+		questionsTableAnchorPaneInEditOrRemove.setVisible(false);
+		createExamAnchorPane.setVisible(false);
+		examManagementAnchorPane.setVisible(false);
+		activeExamManagementAnchorPane.setVisible(false);
+		examReportAnchorPane.setVisible(false);
+		setSubjectComboBox(subjectComboBoxInExamStatistic);
+		createFirstExamHistogram();
+		}
+	
+	public void createReportHandler(ActionEvent event) {
+		examReportAnchorPane.setVisible(true);
+		createExamHistogram();
+		
+	}
+	
+	public void createExamHistogram() {
+		examStatisticBarChart.getData().clear();
+		examStatisticBarChart.setCategoryGap(2);
+        examStatisticBarChart.setBarGap(0);
+         
+//        xAxis.setLabel("Grade");       
+        yAxis.setLabel("Student Amount");
+         
+        XYChart.Series series1 = new XYChart.Series();       
+        series1.getData().add(new XYChart.Data("0-54.9", 90));
+        series1.getData().add(new XYChart.Data("55-64", 80));
+        series1.getData().add(new XYChart.Data("65-74", 60));
+        series1.getData().add(new XYChart.Data("75-84", 60));
+        series1.getData().add(new XYChart.Data("85-94", 60));
+        series1.getData().add(new XYChart.Data("95-100", 60));
+        examStatisticBarChart.getData().addAll(series1);
+        
+	}
+	
+	public void createFirstExamHistogram() {
+		examStatisticBarChart.getData().clear();
+		examStatisticBarChart.setCategoryGap(2);
+        examStatisticBarChart.setBarGap(0);
+         
+//        xAxis.setLabel("Grade");       
+        yAxis.setLabel("Student Amount");
+         
+        XYChart.Series series1 = new XYChart.Series();       
+        series1.getData().add(new XYChart.Data("0-54.9", 0));
+        series1.getData().add(new XYChart.Data("55-64", 0));
+        series1.getData().add(new XYChart.Data("65-74", 0));
+        series1.getData().add(new XYChart.Data("75-84", 0));
+        series1.getData().add(new XYChart.Data("85-94", 0));
+        series1.getData().add(new XYChart.Data("95-100", 0));
+        examStatisticBarChart.getData().addAll(series1);
+	}
+
 	/**
 	 * With this method you can jump between the fields in add question screen
 	 * 
@@ -1343,6 +1456,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		client.handleMessageFromClientUI(Message.getCheckedExams);
 		confirmGradeTableView.setItems(client.getCheckedExamsFromDB());
 	}
+
 
 	/**
 	 * Define the columns
