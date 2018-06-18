@@ -53,6 +53,10 @@ public class ActiveExam implements Serializable {
 		this.type = type;
 	}
 
+	public ActiveExam(String executionCode) {
+		this.executionCode = executionCode;
+	}
+
 	// setters, getters
 
 	public Exam getExam() {

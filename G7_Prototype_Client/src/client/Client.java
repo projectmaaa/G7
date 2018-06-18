@@ -377,7 +377,8 @@ public class Client extends AbstractClient implements IScreenController {
 				setWaitingActiveExamsFromDB(waitingActiveExamHandle.getWaitingActiveExams());
 		} else if (msg instanceof CheckedExamHandle) {
 			CheckedExamHandle checkedExamHandle = (CheckedExamHandle) msg;
-			if (checkedExamHandle.getCommand().equals("AllCheckedExams")) {
+			if (checkedExamHandle.getCommand().equals("AllCheckedExams")
+					|| (checkedExamHandle.getCommand().equals("CheckExamsByStudent"))) {
 				setCheckedExamsFromDB(checkedExamHandle.getCheckedExams());
 			}
 		} else if (msg instanceof StudentHandle) {

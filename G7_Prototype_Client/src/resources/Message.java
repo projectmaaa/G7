@@ -42,6 +42,8 @@ public class Message {
 
 	public final static String getCheckedExams = "#CheckedExams";
 
+	public final static String getCheckedExamsByStudent = "#CheckedExamsByStudent";
+
 	public final static String getActiveExamsByActivator = "#ActiveExamsByActivator";
 
 	public final static String getStudents = "#Students";

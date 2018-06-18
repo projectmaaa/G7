@@ -35,11 +35,11 @@ public class Exam implements Serializable {
 		this.teacherName = teacherName;
 		questions = new ArrayList<>();
 	}
-	
+
 	public Exam(String subjectID, String courseID, String examNum) {
 		this.subjectID = subjectID;
 		this.courseID = courseID;
-		this.examNum=examNum;
+		this.examNum = examNum;
 		questions = new ArrayList<>();
 	}
 
@@ -65,6 +65,10 @@ public class Exam implements Serializable {
 		this.freeTextForExaminees = freeTextForExaminees;
 		this.freeTextForTeacherOnly = freeTextForTeacherOnly;
 		this.questions = questions;
+	}
+
+	public Exam(String examNum) {
+		this.examNum = examNum;
 	}
 
 	// setters, getters
@@ -132,9 +136,9 @@ public class Exam implements Serializable {
 	public void setExamNum(String examNum) {
 		this.examNum = examNum;
 	}
-	
+
 	public String getDurationInString() {
-		//Integer dur = examDuration;
+		// Integer dur = examDuration;
 		return String.valueOf(examDuration);
 	}
 

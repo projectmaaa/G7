@@ -203,7 +203,7 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} else if (waitingActiveExamHandle.getCommand().equals(Message.requestRejected)) { // Show the pop up for 
+			} else if (waitingActiveExamHandle.getCommand().equals(Message.requestRejected)) { // Show the pop up for
 																								// the teacher
 				try {
 					String activatorsID = SqlUtilities.getActivatorsID(
@@ -276,9 +276,7 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-
-			else if (reportHandle.getCommand().equals("CourseStatistic")) {
+			} else if (reportHandle.getCommand().equals("CourseStatistic")) {
 				try {
 					client.sendToClient(SqlUtilities.calculateCourseStatistic(reportHandle, connection));
 				} catch (SQLException e) {
@@ -397,6 +395,10 @@ public class Server extends AbstractServer {
 					break;
 				case Message.getCheckedExams:
 					client.sendToClient(SqlUtilities.getCheckedExam(connection));
+					break;
+				case Message.getCheckedExamsByStudent:
+					client.sendToClient(
+							SqlUtilities.getCheckedExamByStudent(strArray[1], strArray[2], strArray[3], connection));
 					break;
 				case Message.getActiveExamsByActivator:
 					client.sendToClient(
