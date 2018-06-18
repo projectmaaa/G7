@@ -1125,129 +1125,142 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	public void approveButtonHandler(ActionEvent event) {
-		Label text = null;
-		Stage primaryStage = new Stage();
-		primaryStage.setTitle("AES7");
-		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-		Popup popup = new Popup();
-		popup.setX(700);
-		popup.setY(400);
-		HBox layout = new HBox(10);
-		text = new Label("Are you sure?");
-		popup.getContent().addAll(text);
-		Button yesButton = new Button("Yes");
-		yesButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
-				selectedExam.setIdApprover(client.getId());
-				client.handleMessageFromClientUI(new CheckedExamHandle("Approve", selectedExam));
-				client.handleMessageFromClientUI(new CheckedExamHandle("Remove", selectedExam));
-				setTableInConfirmGrades();
-				Utilities_Client.popUpMethod("Exam sent to Student!");
-				primaryStage.hide();
-			}
-		});
-		Button noButton = new Button("No");
-		noButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				primaryStage.hide();
-			}
-		});
-		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		layout.getChildren().addAll(text, yesButton, noButton);
-		primaryStage.setScene(new Scene(layout));
-		primaryStage.show();
+		CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
+		if (selectedExam == null)
+			Utilities_Client.popUpMethod("Please Select Exam");
+		else {
+			Label text = new Label("Are you sure?");
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			HBox layout = new HBox(10);
+			popup.getContent().addAll(text);
+			Button yesButton = new Button("Yes");
+			yesButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					selectedExam.setIdApprover(client.getId());
+					client.handleMessageFromClientUI(new CheckedExamHandle("Approve", selectedExam));
+					client.handleMessageFromClientUI(new CheckedExamHandle("Remove", selectedExam));
+					setTableInConfirmGrades();
+					Utilities_Client.popUpMethod("Exam sent to Student!");
+					primaryStage.hide();
+				}
+			});
+			Button noButton = new Button("No");
+			noButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					primaryStage.hide();
+				}
+			});
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			layout.getChildren().addAll(text, yesButton, noButton);
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
 	}
 
 	public void changeGradeButtonHandler(ActionEvent event) {
-		Label text = null;
-		Stage primaryStage = new Stage();
-		primaryStage.setTitle("AES7");
-		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-		Popup popup = new Popup();
-		popup.setX(700);
-		popup.setY(400);
-		HBox layout = new HBox(10);
-		text = new Label("Please enter new grade:");
-		popup.getContent().addAll(text);
-		TextField newGrade = new TextField();
-		TextField reasons = new TextField();
-		newGrade.setPrefWidth(50);
-		newGrade.setEditable(true);
-		reasons.setPromptText("Enter reason here");
-		reasons.setEditable(true);
-		Button saveButton = new Button("Save");
-		saveButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
-				if (reasons.getText().equals("") || newGrade.getText().equals("")) {
-					Utilities_Client.popUpMethod("Some fields are missing. Try again!");
-					primaryStage.hide();
-				} else {
-					selectedExam.setGrade(Integer.parseInt(newGrade.getText()));
-					selectedExam.setCommentsOfChangeGrade(reasons.getText());
-					client.handleMessageFromClientUI(new CheckedExamHandle("ChangeGrade", selectedExam));
-					setTableInConfirmGrades();
-					Utilities_Client.popUpMethod("Grade changed successfully!");
+		CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
+		if (selectedExam == null)
+			Utilities_Client.popUpMethod("Please Select Exam");
+		else {
+			Label text = new Label("Please enter new grade:");
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			HBox layout = new HBox(10);
+			popup.getContent().addAll(text);
+			TextField newGrade = new TextField();
+			TextField reasons = new TextField();
+			newGrade.setPrefWidth(50);
+			newGrade.setEditable(true);
+			reasons.setPromptText("Enter reason here");
+			reasons.setEditable(true);
+			Button saveButton = new Button("Save");
+			saveButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					String newTypedGrade = newGrade.getText();
+					if (reasons.getText().isEmpty() || newTypedGrade.isEmpty()) {
+						Utilities_Client.popUpMethod("Some fields are missing. Try again!");
+					} else if (!newTypedGrade.matches("[0-9]*") || newTypedGrade.charAt(0) == '0')
+						Utilities_Client.popUpMethod("Please enter new grade without leading zeros");
+					else if (Integer.parseInt(newTypedGrade) > 100)
+						Utilities_Client.popUpMethod("You can't give more than 100 points");
+					else {
+						selectedExam.setGrade(Integer.parseInt(newTypedGrade));
+						selectedExam.setCommentsOfChangeGrade(reasons.getText());
+						client.handleMessageFromClientUI(new CheckedExamHandle("ChangeGrade", selectedExam));
+						setTableInConfirmGrades();
+						Utilities_Client.popUpMethod("Grade changed successfully!");
+					}
 					primaryStage.hide();
 				}
-			}
-		});
-		Button cancelButton = new Button("Cancel");
-		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				primaryStage.hide();
-			}
-		});
-		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		layout.getChildren().addAll(text, newGrade, reasons, saveButton, cancelButton);
-		primaryStage.setScene(new Scene(layout));
-		primaryStage.show();
+			});
+			Button cancelButton = new Button("Cancel");
+			cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					primaryStage.hide();
+				}
+			});
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			layout.getChildren().addAll(text, newGrade, reasons, saveButton, cancelButton);
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
 	}
 
 	public void addcommentsButtonHandler(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		primaryStage.setTitle("AES7");
-		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-		Popup popup = new Popup();
-		popup.setX(700);
-		popup.setY(400);
-		HBox layout = new HBox(10);
-		TextField comments = new TextField();
-		comments.setPromptText("Enter comment here");
-		comments.setEditable(true);
-		Button saveButton = new Button("Save");
-		saveButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
-				if (comments.getText().equals("")) {
-					Utilities_Client.popUpMethod("Some fields are missing. Try again!");
-					primaryStage.hide();
-				} else {
-					selectedExam.setGeneralComments(comments.getText());
-					client.handleMessageFromClientUI(new CheckedExamHandle("AddComments", selectedExam));
-					setTableInConfirmGrades();
-					Utilities_Client.popUpMethod("Comment added successfully!");
+		CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
+		if (selectedExam == null)
+			Utilities_Client.popUpMethod("Please Select Exam");
+		else {
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			HBox layout = new HBox(10);
+			TextField comments = new TextField();
+			comments.setPromptText("Enter comment here");
+			comments.setEditable(true);
+			Button saveButton = new Button("Save");
+			saveButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					if (comments.getText().equals("")) {
+						Utilities_Client.popUpMethod("Some fields are missing. Try again!");
+						primaryStage.hide();
+					} else {
+						selectedExam.setGeneralComments(comments.getText());
+						client.handleMessageFromClientUI(new CheckedExamHandle("AddComments", selectedExam));
+						Utilities_Client.popUpMethod("Comment added successfully!");
+						primaryStage.hide();
+					}
+				}
+			});
+			Button cancelButton = new Button("Cancel");
+			cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
 					primaryStage.hide();
 				}
-			}
-		});
-		Button cancelButton = new Button("Cancel");
-		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				primaryStage.hide();
-			}
-		});
-		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		layout.getChildren().addAll(comments, saveButton, cancelButton);
-		primaryStage.setScene(new Scene(layout));
-		primaryStage.show();
+			});
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			layout.getChildren().addAll(comments, saveButton, cancelButton);
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
 	}
 
 	/**
@@ -1340,7 +1353,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private void setTableInConfirmGrades() {
 		client.getCheckedExamsFromDB().clear();
-		client.handleMessageFromClientUI(Message.getCheckedExams);
+		client.handleMessageFromClientUI(Message.getCheckedExams + " " + client.getId());
 		confirmGradeTableView.setItems(client.getCheckedExamsFromDB());
 	}
 

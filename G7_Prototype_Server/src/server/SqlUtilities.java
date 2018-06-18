@@ -84,7 +84,7 @@ public class SqlUtilities {
 
 	public final static String CHECK_ExecutionCodeExist = "SELECT * FROM ActiveExam WHERE executionCode=?;";
 
-	public final static String SELECT_All_CheckedExams = "SELECT * FROM CheckedExam";
+	public final static String SELECT_CheckedExams_By_Activator = "SELECT * FROM CheckedExam, ActiveExam WHERE CheckedExam.executionCode=ActiveExam.executionCode AND ActiveExam.activatorsID=?;";
 
 	public final static String SELECT_User_checkedExams = "SELECT examNum, executionCode, grade, generalComments FROM CheckedExam WHERE subjectID=? AND courseID=? AND studentID=?;";
 
@@ -94,7 +94,7 @@ public class SqlUtilities {
 
 	public final static String CHANGE_GradeByTeacher = "UPDATE CheckedExam SET grade=?, commentsOfChangeGrade=? WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
 
-	public final static String ADD_CommentsInCheckedExam = "UPDATE CheckedExam SET comment=? WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
+	public final static String ADD_CommentsInCheckedExam = "UPDATE CheckedExam SET generalComments=? WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
 
 	public final static String SELECT_Unlocked_Activated_Exams_By_ActivatorsID = "SELECT subjectID, courseID, examNum, executionCode, duration, type FROM ActiveExam WHERE activatorsID=? AND subjectID=? AND locked=0;";
 
@@ -127,6 +127,8 @@ public class SqlUtilities {
 	public final static String ALL_Grades_of_Course = "SELECT grade FROM ApprovedExamForStudent WHERE courseID=?";
 
 	public final static String ALL_Grades_of_TeacherAsActivator = "SELECT grade FROM ApprovedExamForStudent WHERE idUsers=?";
+
+	public final static String SELECT_Comments_from_Checked_Exams = "SELECT generalComments, commentsOfChangeGrade FROM CheckedExam WHERE executionCode=? AND studentID=?;";
 
 	// region Public Methods
 
@@ -373,9 +375,10 @@ public class SqlUtilities {
 		return (new WaitingActiveExamHandle("AllWaiting", waitingActiveExams));
 	}
 
-	public static CheckedExamHandle getCheckedExam(Connection connection) throws SQLException {
+	public static CheckedExamHandle getCheckedExam(String activatorsID, Connection connection) throws SQLException {
 		ArrayList<CheckedExam> checkedExams = new ArrayList<CheckedExam>();
-		PreparedStatement statement = connection.prepareStatement(SELECT_All_CheckedExams);
+		PreparedStatement statement = connection.prepareStatement(SELECT_CheckedExams_By_Activator);
+		statement.setString(1, activatorsID);
 		ResultSet rs = statement.executeQuery();
 		while (rs.next()) {
 			Exam exam = new Exam(rs.getString(1), rs.getString(2), rs.getString(3));
@@ -563,6 +566,13 @@ public class SqlUtilities {
 
 	public static void approveCheckedExam(CheckedExam checkedExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_ApprovedExamForStudent);
+		PreparedStatement getComments = connection.prepareStatement(SqlUtilities.SELECT_Comments_from_Checked_Exams);
+		getComments.setString(1, checkedExam.getExecutionCode());
+		getComments.setString(2, checkedExam.getSubmittedExam().getStudentInActiveExam().getStudent().getId());
+		ResultSet rs = getComments.executeQuery();
+		rs.next();
+		String comments = rs.getString(1) + " " + rs.getString(2);
+		closeResultSetAndStatement(rs, null, getComments);
 		insert.setString(1,
 				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
 		insert.setString(2,
@@ -572,9 +582,8 @@ public class SqlUtilities {
 		insert.setString(4, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExecutionCode());
 		insert.setString(5, checkedExam.getSubmittedExam().getStudentInActiveExam().getStudent().getId());
 		insert.setInt(6, checkedExam.getGrade());
-		insert.setString(7, checkedExam.getGeneralComments() + checkedExam.getCommentsOfChangeGrade());
+		insert.setString(7, comments);
 		insert.setString(8, checkedExam.getIdApprover());
-
 		insert.executeUpdate();
 		insert.close();
 	}
