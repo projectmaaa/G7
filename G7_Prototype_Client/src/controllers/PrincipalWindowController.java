@@ -607,8 +607,13 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		} else {
 			String fullName = course.getCourseName();
 			CourseNameLabel.setText(fullName);
-			client.handleMessageFromClientUI(new ReportHandle("CourseAverage", course));
+			client.handleMessageFromClientUI(new ReportHandle("CourseStatistic", course));
 			averageTextFieldInCourseReport.setEditable(false);
+			try {
+				TimeUnit.SECONDS.sleep(3);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			report2AnchorPane.setVisible(true);
 		}
 	}
@@ -638,8 +643,13 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		} else {
 			String fullName = teacher.getFirstName() + " " + teacher.getLastName();
 			teacherNameLabel.setText(fullName);
-			client.handleMessageFromClientUI(new ReportHandle("TeacherAverage", teacher));
+			client.handleMessageFromClientUI(new ReportHandle("TeacherStatistic", teacher));
 			averageTextFieldInTeacherReport.setEditable(false);
+			try {
+				TimeUnit.SECONDS.sleep(3);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			report1AnchorPane.setVisible(true);
 		}
 	}

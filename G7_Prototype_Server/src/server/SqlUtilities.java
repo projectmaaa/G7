@@ -122,6 +122,10 @@ public class SqlUtilities {
 
 	public final static String ALL_Grades_of_Student = "SELECT grade FROM ApprovedExamForStudent WHERE studentID=?";
 
+	public final static String ALL_Grades_of_Course = "SELECT grade FROM ApprovedExamForStudent WHERE courseID=?";
+
+	public final static String ALL_Grades_of_TeacherAsActivator = "SELECT grade FROM ApprovedExamForStudent WHERE idUsers=?";
+
 	// region Public Methods
 
 	// end region -> Constants
@@ -622,22 +626,50 @@ public class SqlUtilities {
 		return new ReportAboutStudent("StudentStatistic", rs1.getDouble(1), med, reportHandle.getStudent());
 	}
 
-	public static ReportAboutCourse calculateCourseAverage(ReportHandle reportHandle, Connection connection)
+	public static ReportAboutCourse calculateCourseStatistic(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
 		PreparedStatement calculate = connection.prepareStatement(SqlUtilities.CALCULATE_CourseAVG);
 		calculate.setString(1, reportHandle.getCourse().getCourseID());
-		ResultSet rs = calculate.executeQuery();
-		rs.next();
-		return new ReportAboutCourse("CourseAverage", rs.getDouble(1), reportHandle.getCourse());
+		ResultSet rs1 = calculate.executeQuery();
+		rs1.next();
+		int med;
+		PreparedStatement calculate2 = connection.prepareStatement(SqlUtilities.ALL_Grades_of_Course);
+		ArrayList<Integer> grades = new ArrayList<Integer>();
+		calculate2.setString(1, reportHandle.getCourse().getCourseID());
+		ResultSet rs2 = calculate2.executeQuery();
+		while (rs2.next()) {
+			grades.add(rs2.getInt(1));
+		}
+		Collections.sort(grades);
+		int mid = grades.size() / 2;
+		if (!grades.isEmpty()) {
+			med = grades.get(mid);
+		} else
+			med = 0;
+		return new ReportAboutCourse("CourseStatistic", rs1.getDouble(1), med, reportHandle.getCourse());
 	}
 
-	public static ReportAboutTeacher calculateTeacherAverage(ReportHandle reportHandle, Connection connection)
+	public static ReportAboutTeacher calculateTeacherStatistic(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
 		PreparedStatement calculate = connection.prepareStatement(SqlUtilities.CALCULATE_TeacherAVG);
 		calculate.setString(1, reportHandle.getTeacher().getId());
-		ResultSet rs = calculate.executeQuery();
-		rs.next();
-		return new ReportAboutTeacher("TeacherAverage", rs.getDouble(1), reportHandle.getTeacher());
+		ResultSet rs1 = calculate.executeQuery();
+		rs1.next();
+		int med;
+		PreparedStatement calculate2 = connection.prepareStatement(SqlUtilities.ALL_Grades_of_TeacherAsActivator);
+		ArrayList<Integer> grades = new ArrayList<Integer>();
+		calculate2.setString(1, reportHandle.getTeacher().getId());
+		ResultSet rs2 = calculate2.executeQuery();
+		while (rs2.next()) {
+			grades.add(rs2.getInt(1));
+		}
+		Collections.sort(grades);
+		int mid = grades.size() / 2;
+		if (!grades.isEmpty()) {
+			med = grades.get(mid);
+		} else
+			med = 0;
+		return new ReportAboutTeacher("TeacherStatistic", rs1.getDouble(1), med, reportHandle.getTeacher());
 	}
 
 	/**

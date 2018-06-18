@@ -278,17 +278,17 @@ public class Server extends AbstractServer {
 				}
 			}
 
-			else if (reportHandle.getCommand().equals("CourseAverage")) {
+			else if (reportHandle.getCommand().equals("CourseStatistic")) {
 				try {
-					client.sendToClient(SqlUtilities.calculateCourseAverage(reportHandle, connection));
+					client.sendToClient(SqlUtilities.calculateCourseStatistic(reportHandle, connection));
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} else if (reportHandle.getCommand().equals("TeacherAverage")) {
+			} else if (reportHandle.getCommand().equals("TeacherStatistic")) {
 				try {
-					client.sendToClient(SqlUtilities.calculateTeacherAverage(reportHandle, connection));
+					client.sendToClient(SqlUtilities.calculateTeacherStatistic(reportHandle, connection));
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {

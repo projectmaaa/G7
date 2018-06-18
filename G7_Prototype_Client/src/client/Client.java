@@ -395,9 +395,11 @@ public class Client extends AbstractClient implements IScreenController {
 			}
 		} else if (msg instanceof ReportAboutCourse) {
 			ReportAboutCourse courseReport = (ReportAboutCourse) msg;
-			if (courseReport.getCommand().equals("CourseAverage")) {
+			if (courseReport.getCommand().equals("CourseStatistic")) {
 				Double avg = courseReport.getAverage();
+				Integer med = courseReport.getMedian();
 				principalWindowController.getAverageTextFieldInCourseReport().setText(avg.toString());
+				principalWindowController.getMedianTextFieldInCourseReport().setText(med.toString());
 			} else if (courseReport.getCommand().equals("AllCourses")) {
 				setAllCoursesFromDB(courseReport.getCourses());
 			}
@@ -406,9 +408,12 @@ public class Client extends AbstractClient implements IScreenController {
 			if (((ReportAboutTeacher) msg).getCommand().equals("AllTeachers")) {
 				setAllTeachersFromDB(teacherReport.getTeachers());
 			}
-			if (((ReportAboutTeacher) msg).getCommand().equals("TeacherAverage")) {
+			if (((ReportAboutTeacher) msg).getCommand().equals("TeacherStatistic")) {
 				Double avg = teacherReport.getAverage();
+				Integer med = teacherReport.getMedian();
 				principalWindowController.getAverageTextFieldInTeacherReport().setText(avg.toString());
+				principalWindowController.getMedianTextFieldInTeacherReport().setText(med.toString());
+
 			}
 		} else if (msg instanceof Boolean) {
 			boolean codeExist = (boolean) msg;
