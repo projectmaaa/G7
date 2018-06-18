@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.SubScene?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -20,6 +24,10 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -71,7 +79,7 @@
                </items></Menu>
 				<Menu mnemonicParsing="false" text="Order Reports">
 					<items>
-                  <MenuItem mnemonicParsing="false" text="Course Report   " />
+                  <MenuItem mnemonicParsing="false" onAction="#openExamStatistic" text="Exams Statistics" />
 					</items>
 				</Menu>
 			</menus>
@@ -105,6 +113,7 @@
                   <Bloom />
                </effect>
             </Label>
+            <AnchorPane layoutX="-40.0" layoutY="-11.0" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="addQuestionAnchorPane" layoutX="6.0" layoutY="94.0" prefHeight="432.0" prefWidth="846.0" visible="false">
@@ -448,6 +457,95 @@
                   <Bloom />
                </effect>
             </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="examStatisticAnchorPane" layoutX="22.0" layoutY="105.0" prefHeight="466.0" prefWidth="928.0" visible="false">
+         <children>
+            <Label layoutX="1.0" layoutY="4.0" prefWidth="253.0" text="Exams Statistics" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="24.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+            <ComboBox fx:id="subjectComboBoxInExamStatistic" layoutX="33.0" layoutY="43.0" prefWidth="150.0" />
+            <ComboBox fx:id="courseComboBoxInExamStatistic" layoutX="33.0" layoutY="90.0" onMouseClicked="#selectCourseComboBoxHandler" prefWidth="150.0" promptText="Select Course" />
+            <ComboBox fx:id="examNumComboBoxInExamStatistic" layoutX="33.0" layoutY="139.0" prefWidth="150.0" />
+            <AnchorPane fx:id="examReportAnchorPane" layoutX="244.0" layoutY="14.0" prefHeight="459.0" prefWidth="636.0">
+               <children>
+                  <SubScene height="454.0" layoutX="14.0" width="622.0">
+                     <root>
+                        <Region />
+                     </root>
+                     <fill>
+                        <RadialGradient centerX="0.5055555555555555" centerY="0.5285714285714286" radius="0.5">
+                           <stops>
+                              <Stop color="BLACK" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </RadialGradient>
+                     </fill>
+                  </SubScene>
+                  <ImageView fitHeight="86.0" fitWidth="73.0" layoutX="221.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../Pictures/Statistics-Button.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="32.0" layoutY="89.0" text="Average:">
+                     <font>
+                        <Font name="Narkisim" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="35.0" layoutY="126.0" text="Median:">
+                     <font>
+                        <Font name="Narkisim" size="20.0" />
+                     </font>
+                  </Label>
+                  <Text layoutX="294.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AES7" wrappingWidth="341.375">
+                     <font>
+                        <Font name="Narkisim" size="52.0" />
+                     </font>
+                     <fill>
+                        <LinearGradient endX="0.47619047619047605" endY="1.0" startY="1.0">
+                           <stops>
+                              <Stop color="#2d77cc" />
+                              <Stop color="BLACK" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </fill>
+                  </Text>
+                  <TextField fx:id="averageTextFieldInTeacherReport" layoutX="106.0" layoutY="93.0" prefHeight="25.0" prefWidth="62.0" />
+                  <TextField fx:id="medianTextFieldInTeacherReport" layoutX="106.0" layoutY="128.0" prefHeight="25.0" prefWidth="62.0" />
+                  <Label layoutX="254.0" layoutY="89.0" text="No. of students who started:">
+                     <font>
+                        <Font name="Narkisim" size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="477.0" layoutY="92.0" prefHeight="25.0" prefWidth="59.0" />
+                  <TextField layoutX="326.0" layoutY="125.0" prefHeight="25.0" prefWidth="59.0" />
+                  <Label layoutX="255.0" layoutY="123.0" text="Finished:">
+                     <font>
+                        <Font name="Narkisim" size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="477.0" layoutY="125.0" prefHeight="25.0" prefWidth="59.0" />
+                  <Label layoutX="411.0" layoutY="124.0" text="Forced:">
+                     <font>
+                        <Font name="Narkisim" size="20.0" />
+                     </font>
+                  </Label>
+                  <BarChart fx:id="examStatisticBarChart" layoutX="78.0" layoutY="157.0" prefHeight="257.0" prefWidth="492.0">
+                    <xAxis>
+                      <CategoryAxis label="Grade" prefHeight="28.0" prefWidth="409.0" side="BOTTOM" fx:id="xAxis" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis fx:id="yAxis" side="LEFT" />
+                    </yAxis>
+                  </BarChart>
+               </children>
+            </AnchorPane>
+            <Button fx:id="createReportButton" layoutX="69.0" layoutY="212.0" mnemonicParsing="false" onAction="#createReportHandler" text="Create Report" />
          </children>
       </AnchorPane>
 	</children>

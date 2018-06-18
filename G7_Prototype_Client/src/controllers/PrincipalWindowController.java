@@ -577,6 +577,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	// create report button was pressed
 
 	public void createReportInStudentReportHandler(ActionEvent event) throws InterruptedException {
+		averageTextFieldInStudentReport.setEditable(false);
+		medianTextFieldInStudentReport.setEditable(false);
 		Student student = studentsTableView.getSelectionModel().getSelectedItem();
 		if (student == null) {
 			Utilities_Client.popUpMethod("Please choose student first!");
@@ -584,10 +586,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			String fullName = student.getFirstName() + " " + student.getLastName();
 			studentNameLabel.setText(fullName);
 			client.handleMessageFromClientUI(new ReportHandle("StudentStatistic", student));
-			averageTextFieldInStudentReport.setEditable(false);
-			medianTextFieldInStudentReport.setEditable(false);
 			createStudentHistogram();
-			TimeUnit.SECONDS.sleep(6);
+//			TimeUnit.SECONDS.sleep(6);
 			report3AnchorPane.setVisible(true);
 		}
 	}
@@ -620,14 +620,18 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	public void createStudentHistogram() {
 		studentBarChart.getData().clear();
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		XYChart.Series<String, Number> series1 = new XYChart.Series<String, Number>();
 		series1.setName("AES7-Histogram");
 		studentBarChart.setCategoryGap(3);
 		studentBarChart.setBarGap(2);
 		series1.getData().add(new XYChart.Data("010101", 90));
 		series1.getData().add(new XYChart.Data("010102", 20));
-		studentBarChart.getData().add(series1);
-		// studentBarChart.getData().addAll(series1);
+		studentBarChart.getData().addAll(series1);
 	}
 
 	public void openTeacherReport(ActionEvent event) {
@@ -653,6 +657,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			report1AnchorPane.setVisible(true);
 		}
 	}
+	
 
 	/*
 	 * --------------------------------* private methods * *
