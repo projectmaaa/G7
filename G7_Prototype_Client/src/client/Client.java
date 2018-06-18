@@ -392,34 +392,35 @@ public class Client extends AbstractClient implements IScreenController {
 				Integer med = studentReport.getMedian();
 				principalWindowController.getAverageTextFieldInStudentReport().setText(avg.toString());
 				principalWindowController.getMedianTextFieldInStudentReport().setText(med.toString());
-			} else if (msg instanceof ReportAboutCourse) {
-				ReportAboutCourse courseReport = (ReportAboutCourse) msg;
-				if (courseReport.getCommand().equals("CourseAverage")) {
-					Double avg = courseReport.getAverage();
-					principalWindowController.getAverageTextFieldInCourseReport().setText(avg.toString());
-				} else if (courseReport.getCommand().equals("AllCourses")) {
-					setAllCoursesFromDB(courseReport.getCourses());
-				}
-			} else if (msg instanceof ReportAboutTeacher) {
-				ReportAboutTeacher teacherReport = (ReportAboutTeacher) msg;
-				if (((ReportAboutTeacher) msg).getCommand().equals("AllTeachers")) {
-					setAllTeachersFromDB(teacherReport.getTeachers());
-				}
-				if (((ReportAboutTeacher) msg).getCommand().equals("TeacherAverage")) {
-					Double avg = teacherReport.getAverage();
-					principalWindowController.getAverageTextFieldInTeacherReport().setText(avg.toString());
-				}
-			} else if (msg instanceof Boolean) {
-				boolean codeExist = (boolean) msg;
-				setExecutionCodeExistFlag(codeExist);
-			} else if (msg instanceof MyFileHandle) {
-				MyFileHandle fileHandle = (MyFileHandle) msg;
-				if (fileHandle.getCommand().equals("StudnetExam")) {
-					Utilities_Client.writeWordFile(fileHandle.getFile(), true);
-				}
+			}
+		} else if (msg instanceof ReportAboutCourse) {
+			ReportAboutCourse courseReport = (ReportAboutCourse) msg;
+			if (courseReport.getCommand().equals("CourseAverage")) {
+				Double avg = courseReport.getAverage();
+				principalWindowController.getAverageTextFieldInCourseReport().setText(avg.toString());
+			} else if (courseReport.getCommand().equals("AllCourses")) {
+				setAllCoursesFromDB(courseReport.getCourses());
+			}
+		} else if (msg instanceof ReportAboutTeacher) {
+			ReportAboutTeacher teacherReport = (ReportAboutTeacher) msg;
+			if (((ReportAboutTeacher) msg).getCommand().equals("AllTeachers")) {
+				setAllTeachersFromDB(teacherReport.getTeachers());
+			}
+			if (((ReportAboutTeacher) msg).getCommand().equals("TeacherAverage")) {
+				Double avg = teacherReport.getAverage();
+				principalWindowController.getAverageTextFieldInTeacherReport().setText(avg.toString());
+			}
+		} else if (msg instanceof Boolean) {
+			boolean codeExist = (boolean) msg;
+			setExecutionCodeExistFlag(codeExist);
+		} else if (msg instanceof MyFileHandle) {
+			MyFileHandle fileHandle = (MyFileHandle) msg;
+			if (fileHandle.getCommand().equals("StudnetExam")) {
+				Utilities_Client.writeWordFile(fileHandle.getFile(), true);
 			}
 		}
 	}
+
 
 	/**
 	 * This method handles all data coming from the UI
