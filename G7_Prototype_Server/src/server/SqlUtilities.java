@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.mysql.jdbc.Statement;
 
-
 import java.sql.PreparedStatement;
 import resources.*;
 
@@ -87,6 +86,8 @@ public class SqlUtilities {
 	public final static String CHECK_ExecutionCodeExist = "SELECT * FROM ActiveExam WHERE executionCode=?;";
 
 	public final static String SELECT_All_CheckedExams = "SELECT * FROM CheckedExam";
+
+	public final static String SELECT_User_checkedExams = "SELECT examNum, executionCode, grade, generalComments FROM CheckedExam WHERE subjectID=? AND courseID=? AND studentID=?;";
 
 	public final static String INSERT_ApprovedExamForStudent = "INSERT INTO ApprovedExamForStudent VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
@@ -381,8 +382,27 @@ public class SqlUtilities {
 			SubmittedExam submittedExam = new SubmittedExam(studentInActiveExam);
 			checkedExams.add(new CheckedExam(submittedExam, rs.getInt(6)));
 		}
-		closeResultSetAndStatement(rs, null, statement);
 		return (new CheckedExamHandle("AllCheckedExams", checkedExams));
+	}
+
+	public static CheckedExamHandle getCheckedExamByStudent(String studentID, String subject, String course,
+			Connection connection) throws SQLException {
+		ArrayList<CheckedExam> checkedExams = new ArrayList<CheckedExam>();
+		PreparedStatement preparedStatement = connection.prepareStatement(SqlUtilities.SELECT_User_checkedExams);
+		preparedStatement.setString(1, getSubjectID(subject, connection));
+		preparedStatement.setString(2, getCourseID(course, connection));
+		preparedStatement.setString(3, studentID);
+		ResultSet rs = preparedStatement.executeQuery();
+		while (rs.next()) {
+			Exam exam = new Exam(rs.getString(1));
+			ActiveExam activeExam = new ActiveExam(exam, rs.getString(2));
+			StudentInActiveExam studentInActiveExam = new StudentInActiveExam(activeExam);
+			SubmittedExam submittedExam = new SubmittedExam(studentInActiveExam);
+			CheckedExam checkedExam = new CheckedExam(submittedExam, rs.getInt(3), rs.getString(4));
+			checkedExams.add(checkedExam);
+		}
+		closeResultSetAndStatement(null, null, preparedStatement);
+		return (new CheckedExamHandle("CheckExamsByStudent", checkedExams));
 	}
 
 	/**
@@ -548,7 +568,7 @@ public class SqlUtilities {
 		insert.setString(4, checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExecutionCode());
 		insert.setString(5, checkedExam.getSubmittedExam().getStudentInActiveExam().getStudent().getId());
 		insert.setInt(6, checkedExam.getGrade());
-		insert.setString(7, checkedExam.getComments() + checkedExam.getCommentsOfChangeGrade());
+		insert.setString(7, checkedExam.getGeneralComments() + checkedExam.getCommentsOfChangeGrade());
 		insert.setString(8, checkedExam.getIdApprover());
 
 		insert.executeUpdate();
@@ -587,7 +607,7 @@ public class SqlUtilities {
 
 	public static void addCommentsByTeacher(CheckedExam checkedExam, Connection connection) throws SQLException {
 		PreparedStatement update = connection.prepareStatement(SqlUtilities.ADD_CommentsInCheckedExam);
-		update.setString(1, checkedExam.getComments());
+		update.setString(1, checkedExam.getGeneralComments());
 		update.setString(2,
 				checkedExam.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID());
 		update.setString(3,
@@ -607,11 +627,11 @@ public class SqlUtilities {
 		ResultSet rs1 = calculate1.executeQuery();
 		rs1.next();
 		int med;
-//		try {
-//			TimeUnit.SECONDS.sleep(3);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		// try {
+		// TimeUnit.SECONDS.sleep(3);
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
 		PreparedStatement calculate2 = connection.prepareStatement(SqlUtilities.ALL_Grades_of_Student);
 		ArrayList<Integer> grades = new ArrayList<Integer>();
 		calculate2.setString(1, reportHandle.getStudent().getId());

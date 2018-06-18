@@ -277,7 +277,7 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-			
+
 			else if (reportHandle.getCommand().equals("CourseAverage")) {
 				try {
 					client.sendToClient(SqlUtilities.calculateCourseAverage(reportHandle, connection));
@@ -395,6 +395,10 @@ public class Server extends AbstractServer {
 					break;
 				case Message.getCheckedExams:
 					client.sendToClient(SqlUtilities.getCheckedExam(connection));
+					break;
+				case Message.getCheckedExamsByStudent:
+					client.sendToClient(
+							SqlUtilities.getCheckedExamByStudent(strArray[1], strArray[2], strArray[3], connection));
 					break;
 				case Message.getActiveExamsByActivator:
 					client.sendToClient(SqlUtilities.getActiveExamsByActivator(strArray[1] + " " + strArray[2],

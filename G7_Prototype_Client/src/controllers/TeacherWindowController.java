@@ -1228,7 +1228,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 					Utilities_Client.popUpMethod("Some fields are missing. Try again!");
 					primaryStage.hide();
 				} else {
-					selectedExam.setComments(comments.getText());
+					selectedExam.setGeneralComments(comments.getText());
 					client.handleMessageFromClientUI(new CheckedExamHandle("AddComments", selectedExam));
 					setTableInConfirmGrades();
 					Utilities_Client.popUpMethod("Comment added successfully!");
