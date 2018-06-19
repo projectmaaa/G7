@@ -3,7 +3,6 @@ package client;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 import controllers.IScreenController;
 import controllers.LoginWindowController;
 import controllers.PrincipalWindowController;
@@ -142,9 +141,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	public void setQuestionsFromDB(ArrayList<Question> questions) {
-//		Platform.runLater(() -> {
-			questionsFromDB.setAll(questions);
-//		});
+		questionsFromDB.setAll(questions);
 	}
 
 	public Question getQuestion() {
@@ -224,9 +221,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	public void setStudnetAnswerInQuestionDB(ArrayList<StudentAnswerInQuestion> studnetAnswerInQuestionDB) {
-//		Platform.runLater(() -> {
-			this.studnetAnswerInQuestionDB.setAll(studnetAnswerInQuestionDB);
-		//		});
+		this.studnetAnswerInQuestionDB.setAll(studnetAnswerInQuestionDB);
 	}
 
 	public String getId() {
@@ -413,8 +408,10 @@ public class Client extends AbstractClient implements IScreenController {
 				setActiveExamsBySubject(activeExamsHandle.getActiveExams());
 		} else if (msg instanceof ExamHandle) {
 			ExamHandle examsHandle = (ExamHandle) msg;
-			if (examsHandle.getCommand().equals("Subject")) {
+			switch (examsHandle.getCommand()) {
+			case "Courses":
 				setExamsFromDB(examsHandle.getExams());
+				break;
 			}
 		} else if (msg instanceof TypeHandle) {
 			TypeHandle typeHandle = (TypeHandle) msg;
@@ -472,6 +469,19 @@ public class Client extends AbstractClient implements IScreenController {
 				principalWindowController.getAverageTextFieldInTeacherReport().setText(avg.toString());
 				principalWindowController.getMedianTextFieldInTeacherReport().setText(med.toString());
 			}
+		} else if (msg instanceof ReportAboutExam) {
+			ReportAboutExam reportAboutExam = (ReportAboutExam) msg;
+			Double avg = reportAboutExam.getAverage();
+			Integer med = reportAboutExam.getMedian();
+			Integer started = reportAboutExam.getStudentStarted();
+			Integer finished = reportAboutExam.getStudentFinished();
+			Integer forced = reportAboutExam.getStudentForced();
+			teacherWindowController.getAverageTextFieldInTeacherReport().setText(avg.toString());
+			teacherWindowController.getMedianTextFieldInTeacherReport().setText(med.toString());
+			teacherWindowController.getStartedTextFieldInTeacherReport().setText(started.toString());
+			teacherWindowController.getFinishedTextFieldInTeacherReport().setText(finished.toString());
+			teacherWindowController.getForcedTextFieldInTeacherReport().setText(forced.toString());
+			teacherWindowController.setGrades(reportAboutExam.getGrades());
 		} else if (msg instanceof Boolean) {
 			boolean codeExist = (boolean) msg;
 			setExecutionCodeExistFlag(codeExist);

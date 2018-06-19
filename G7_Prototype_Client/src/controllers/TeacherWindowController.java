@@ -273,6 +273,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private ComboBox<String> subjectExamManagement;
 
 	@FXML
+	private ComboBox<String> courseExamManagement;
+
+	@FXML
 	private Button examManagementUpdateButton;
 
 	@FXML
@@ -344,6 +347,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private ComboBox<String> subjectsActiveExamManagement;
 
 	@FXML
+	private ComboBox<String> coursesActiveExamManagement;
+
+	@FXML
 	private Button LockButton;
 
 	@FXML
@@ -413,6 +419,23 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private AnchorPane examReportAnchorPane;
 
+	@FXML
+	private TextField averageTextFieldInTeacherReport;
+
+	@FXML
+	private TextField medianTextFieldInTeacherReport;
+
+	@FXML
+	private TextField startedTextFieldInTeacherReport;
+
+	@FXML
+	private TextField finishedTextFieldInTeacherReport;
+
+	@FXML
+	private TextField forcedTextFieldInTeacherReport;
+
+	private ArrayList<Integer> grades;
+
 	//
 
 	private ScreensController screensController;
@@ -466,6 +489,54 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	public void setAcceptionFlag(boolean acceptionFlag) {
 		this.acceptionFlag = acceptionFlag;
+	}
+
+	public ArrayList<Integer> getGrades() {
+		return grades;
+	}
+
+	public void setGrades(ArrayList<Integer> grades) {
+		this.grades = grades;
+	}
+
+	public TextField getAverageTextFieldInTeacherReport() {
+		return averageTextFieldInTeacherReport;
+	}
+
+	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
+		this.averageTextFieldInTeacherReport = averageTextFieldInTeacherReport;
+	}
+
+	public TextField getMedianTextFieldInTeacherReport() {
+		return medianTextFieldInTeacherReport;
+	}
+
+	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
+		this.medianTextFieldInTeacherReport = medianTextFieldInTeacherReport;
+	}
+
+	public TextField getStartedTextFieldInTeacherReport() {
+		return startedTextFieldInTeacherReport;
+	}
+
+	public void setStartedTextFieldInTeacherReport(TextField startedTextFieldInTeacherReport) {
+		this.startedTextFieldInTeacherReport = startedTextFieldInTeacherReport;
+	}
+
+	public TextField getFinishedTextFieldInTeacherReport() {
+		return finishedTextFieldInTeacherReport;
+	}
+
+	public void setFinishedTextFieldInTeacherReport(TextField finishedTextFieldInTeacherReport) {
+		this.finishedTextFieldInTeacherReport = finishedTextFieldInTeacherReport;
+	}
+
+	public TextField getForcedTextFieldInTeacherReport() {
+		return forcedTextFieldInTeacherReport;
+	}
+
+	public void setForcedTextFieldInTeacherReport(TextField forcedTextFieldInTeacherReport) {
+		this.forcedTextFieldInTeacherReport = forcedTextFieldInTeacherReport;
 	}
 
 	/**
@@ -837,12 +908,20 @@ public class TeacherWindowController implements Initializable, IScreenController
 			selectedSubject = subjectInCreateExamComboBox.getValue();
 		else if (examStatisticAnchorPane.isVisible())
 			selectedSubject = subjectComboBoxInExamStatistic.getValue();
+		else if (examManagementAnchorPane.isVisible())
+			selectedSubject = subjectExamManagement.getValue();
+		else if (activeExamManagementAnchorPane.isVisible())
+			selectedSubject = subjectsActiveExamManagement.getValue();
 		if (selectedSubject == null)
 			Utilities_Client.popUpMethod("You must select the subject first");
 		else if (createExamAnchorPane.isVisible())
 			selectCourseComboBox(courseInCreateExamComboBox, selectedSubject);
 		else if (examStatisticAnchorPane.isVisible())
 			selectCourseComboBox(courseComboBoxInExamStatistic, selectedSubject);
+		else if (examManagementAnchorPane.isVisible())
+			selectCourseComboBox(courseExamManagement, selectedSubject);
+		else if (activeExamManagementAnchorPane.isVisible())
+			selectCourseComboBox(coursesActiveExamManagement, selectedSubject);
 	}
 
 	private void selectCourseComboBox(ComboBox<String> combobox, String selectedSubject) {
@@ -865,24 +944,24 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	public void showExamsHandler(ActionEvent event) {
-		if (examManagementAnchorPane.isVisible() && subjectExamManagement.getValue() != null)
+		if (examManagementAnchorPane.isVisible() && courseExamManagement.getValue() != null)
 			setTableInExamsManagement();
-		else if (activeExamManagementAnchorPane.isVisible() && subjectsActiveExamManagement.getValue() != null)
+		else if (activeExamManagementAnchorPane.isVisible() && coursesActiveExamManagement.getValue() != null)
 			setTableInActiveExamManagement();
 		else
-			Utilities_Client.popUpMethod("Please Select the Subject");
+			Utilities_Client.popUpMethod("Please Select the Course");
 	}
 
 	private void setTableInExamsManagement() {
 		client.getExamsFromDB().clear();
-		client.handleMessageFromClientUI(Message.getExamBySubject + " " + subjectExamManagement.getValue());
+		client.handleMessageFromClientUI(Message.getExamByCourse + " " + courseExamManagement.getValue());
 		tableViewInExamsManagement.setItems(client.getExamsFromDB());
 	}
 
 	private void setTableInActiveExamManagement() {
 		client.getActivatedUnlockedExams().clear();
 		client.handleMessageFromClientUI(Message.getActiveExamsByActivator + " " + client.getId() + " "
-				+ subjectsActiveExamManagement.getValue());
+				+ coursesActiveExamManagement.getValue());
 		activeExamsTableView.setItems(client.getActivatedUnlockedExams());
 	}
 
@@ -937,10 +1016,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			confirmGradesAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 			setSubjectComboBox(subjectExamManagement);
+			setCourseComboBox(courseExamManagement);
 			activeExamManagementAnchorPane.setVisible(false);
 			examStatisticAnchorPane.setVisible(false);
 			examReportAnchorPane.setVisible(false);
-
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -1336,26 +1415,57 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	public void createReportHandler(ActionEvent event) {
-		examReportAnchorPane.setVisible(true);
-		createExamHistogram();
-
+		if (examNumComboBoxInExamStatistic.getValue() == null)
+			Utilities_Client.popUpMethod("Please select exam number");
+		else {
+			examReportAnchorPane.setVisible(true);
+			createExamHistogram(subjectComboBoxInExamStatistic.getValue(), courseComboBoxInExamStatistic.getValue(),
+					examNumComboBoxInExamStatistic.getValue());
+			averageTextFieldInTeacherReport.setEditable(false);
+			medianTextFieldInTeacherReport.setEditable(false);
+			startedTextFieldInTeacherReport.setEditable(false);
+			finishedTextFieldInTeacherReport.setEditable(false);
+			forcedTextFieldInTeacherReport.setEditable(false);
+		}
 	}
 
-	public void createExamHistogram() {
+	public void createExamHistogram(String subject, String course, String examNum) {
 		examStatisticBarChart.getData().clear();
 		examStatisticBarChart.setCategoryGap(2);
 		examStatisticBarChart.setBarGap(0);
-
+		int group[] = new int[6];
+		client.handleMessageFromClientUI(new ExamReportHandle(subject, course, examNum, "ExamStatistic"));
 		// xAxis.setLabel("Grade");
 		yAxis.setLabel("Student Amount");
 
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		for (int i = 0; i < grades.size(); i++) {
+			int grade = grades.get(i);
+			if (grade <= 55) {
+				group[0]++;
+			} else if (grade <= 64) {
+				group[1]++;
+			} else if (grade <= 74) {
+				group[2]++;
+			} else if (grade <= 84) {
+				group[3]++;
+			} else if (grade <= 94) {
+				group[4]++;
+			} else if (grade <= 100) {
+				group[5]++;
+			}
+		}
 		XYChart.Series series1 = new XYChart.Series();
-		series1.getData().add(new XYChart.Data("0-54.9", 90));
-		series1.getData().add(new XYChart.Data("55-64", 80));
-		series1.getData().add(new XYChart.Data("65-74", 60));
-		series1.getData().add(new XYChart.Data("75-84", 60));
-		series1.getData().add(new XYChart.Data("85-94", 60));
-		series1.getData().add(new XYChart.Data("95-100", 60));
+		series1.getData().add(new XYChart.Data("0-54.9", group[0]));
+		series1.getData().add(new XYChart.Data("55-64", group[1]));
+		series1.getData().add(new XYChart.Data("65-74", group[2]));
+		series1.getData().add(new XYChart.Data("75-84", group[3]));
+		series1.getData().add(new XYChart.Data("85-94", group[4]));
+		series1.getData().add(new XYChart.Data("95-100", group[5]));
 		examStatisticBarChart.getData().addAll(series1);
 
 	}
@@ -1440,6 +1550,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		examManagementAnchorPane.setVisible(false);
 		confirmGradesAnchorPane.setVisible(false);
 		setSubjectComboBox(subjectsActiveExamManagement);
+		setCourseComboBox(coursesActiveExamManagement);
 		activeExamsTableView.getItems().clear();
 		backAnchorPane.setVisible(true);
 		activeExamManagementAnchorPane.setVisible(true);

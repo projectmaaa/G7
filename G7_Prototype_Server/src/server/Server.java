@@ -293,6 +293,18 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
+
+		} else if (msg instanceof ExamReportHandle) {
+			ExamReportHandle examReportHandle = (ExamReportHandle) msg;
+			if (examReportHandle.getCommand().equals("ExamStatistic")) {
+				try {
+					client.sendToClient(SqlUtilities.calculateExamStatistic(examReportHandle, connection));
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		} else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
@@ -372,8 +384,8 @@ public class Server extends AbstractServer {
 				case Message.getQuestionBySubject:
 					client.sendToClient(SqlUtilities.getQuestionsBySubject(connection, strArray[1]));
 					break;
-				case Message.getExamBySubject:
-					client.sendToClient(SqlUtilities.getExamsBySubject(connection, strArray[1]));
+				case Message.getExamByCourse:
+					client.sendToClient(SqlUtilities.getExamsByCourse(connection, strArray[1]));
 					break;
 				case Message.getExecutionCode:
 					client.sendToClient(SqlUtilities.getActiveExam(strArray[1], connection));

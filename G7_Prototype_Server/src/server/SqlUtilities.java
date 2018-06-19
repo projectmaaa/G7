@@ -57,7 +57,7 @@ public class SqlUtilities {
 
 	public final static String SELECT_courseID_FROM_Course = "SELECT courseID FROM Course WHERE courseName=?;";
 
-	public final static String SELECT_Exam_BY_SubjectID = "SELECT * FROM Exam WHERE subjectID=?;";
+	public final static String SELECT_Exam_BY_CourseID = "SELECT * FROM Exam WHERE courseID=?;";
 
 	public final static String SELECT_Exam_BY_Subject_CourseID_ExamID = "SELECT * FROM Exam WHERE subjectID=? AND courseID=? AND examNum=?;";
 
@@ -87,7 +87,7 @@ public class SqlUtilities {
 
 	public final static String CHECK_ExecutionCodeExist = "SELECT * FROM ActiveExam WHERE executionCode=?;";
 
-	public final static String SELECT_CheckedExams_By_Activator = "SELECT * FROM CheckedExam, ActiveExam WHERE CheckedExam.executionCode=ActiveExam.executionCode AND ActiveExam.activatorsID=?;";
+	public final static String SELECT_CheckedExams_By_Activator = "SELECT * FROM CheckedExam, ActiveExam WHERE CheckedExam.executionCode=ActiveExam.executionCode AND ActiveExam.activatorsID=? AND grade>-1;";
 
 	public final static String SELECT_User_ApprovedExamForStudent = "SELECT examNum, executionCode, grade, comments FROM ApprovedExamForStudent WHERE subjectID=? AND courseID=? AND studentID=?;";
 
@@ -99,7 +99,7 @@ public class SqlUtilities {
 
 	public final static String ADD_CommentsInCheckedExam = "UPDATE CheckedExam SET generalComments=? WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
 
-	public final static String SELECT_Unlocked_Activated_Exams_By_ActivatorsID = "SELECT subjectID, courseID, examNum, executionCode, duration, type FROM ActiveExam WHERE activatorsID=? AND subjectID=? AND locked=0;";
+	public final static String SELECT_Unlocked_Activated_Exams_By_ActivatorsID = "SELECT subjectID, courseID, examNum, executionCode, duration, type FROM ActiveExam WHERE activatorsID=? AND courseID=? AND locked=0;";
 
 	public final static String SELECT_All_Students = "SELECT idUsers, firstName, lastName FROM Users WHERE type='Student'";
 
@@ -140,6 +140,14 @@ public class SqlUtilities {
 	public final static String getStudentAnswers = "SELECT questionNum, questionOrderInExam, answer FROM StudentAnswerInQuestion WHERE studentID=? AND subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
 
 	public final static String GET_QUESTIONS_OF_EXAM = "SELECT questionText, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer, correctAnswer FROM StudentAnswerInQuestion, Questions where executionCode = ? and StudentAnswerInQuestion.subjectID=Questions.subjectID and StudentAnswerInQuestion.questionNum = Questions.questionNum;";
+
+	public final static String CALCULATE_ExamAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE subjectID=? AND courseID=? AND examNum=?;";
+
+	public final static String ALL_Grades_of_Exam = "SELECT grade FROM ApprovedExamForStudent WHERE subjectID=? AND courseID=? AND examNum=?;";
+
+	public final static String COUNT_StudentWhoStarted = "SELECT COUNT(studentID) FROM SubmittedExam WHERE subjectID=? AND courseID=? AND examNum=?;";
+
+	public final static String COUNT_StudentWhoFinished = "SELECT COUNT(studentID) FROM SubmittedExam WHERE subjectID=? AND courseID=? AND examNum=? AND submitted=1;";
 
 	// region Public Methods
 
@@ -387,21 +395,21 @@ public class SqlUtilities {
 		return (new QuestionHandle("Subject", questionsBySubject));
 	}
 
-	public static ExamHandle getExamsBySubject(Connection connection, String subject) throws SQLException {
-		ArrayList<Exam> examsBySubject = new ArrayList<Exam>();
-		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_Exam_BY_SubjectID);
+	public static ExamHandle getExamsByCourse(Connection connection, String course) throws SQLException {
+		ArrayList<Exam> examsByCourse = new ArrayList<Exam>();
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_Exam_BY_CourseID);
 		try {
-			statement.setString(1, getSubjectID(subject, connection));
+			statement.setString(1, getCourseID(course, connection));
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
 		ResultSet rs = statement.executeQuery();
 		while (rs.next()) {
-			examsBySubject.add(new Exam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-					rs.getInt(5), rs.getString(6), rs.getString(7)));
+			examsByCourse.add(new Exam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5),
+					rs.getString(6), rs.getString(7)));
 		}
 		closeResultSetAndStatement(rs, null, statement);
-		return (new ExamHandle("Subject", examsBySubject));
+		return (new ExamHandle("Courses", examsByCourse));
 	}
 
 	public static WaitingActiveExamHandle getWaitingActiveExam(Connection connection) throws SQLException {
@@ -678,6 +686,51 @@ public class SqlUtilities {
 		update.close();
 	}
 
+	public static ReportAboutExam calculateExamStatistic(ExamReportHandle examReportHandle, Connection connection)
+			throws SQLException {
+		/* AVG */
+		PreparedStatement calculate1 = connection.prepareStatement(SqlUtilities.CALCULATE_ExamAVG);
+		calculate1.setString(1, getSubjectID(examReportHandle.getSubject(), connection));
+		calculate1.setString(2, getCourseID(examReportHandle.getCourse(), connection));
+		calculate1.setString(3, examReportHandle.getExamNum());
+		ResultSet rs1 = calculate1.executeQuery();
+		rs1.next();
+		/* MEDIAN */
+		int med;
+		PreparedStatement calculate2 = connection.prepareStatement(SqlUtilities.ALL_Grades_of_Exam);
+		ArrayList<Integer> grades = new ArrayList<Integer>();
+		calculate2.setString(1, getSubjectID(examReportHandle.getSubject(), connection));
+		calculate2.setString(2, getCourseID(examReportHandle.getCourse(), connection));
+		calculate2.setString(3, examReportHandle.getExamNum());
+		ResultSet rs2 = calculate2.executeQuery();
+		while (rs2.next()) {
+			grades.add(rs2.getInt(1));
+		}
+		Collections.sort(grades);
+		int mid = grades.size() / 2;
+		if (!grades.isEmpty()) {
+			med = grades.get(mid);
+		} else
+			med = 0;
+		/* Total students who started exam */
+		PreparedStatement calculate3 = connection.prepareStatement(SqlUtilities.COUNT_StudentWhoStarted);
+		calculate3.setString(1, getSubjectID(examReportHandle.getSubject(), connection));
+		calculate3.setString(2, getCourseID(examReportHandle.getCourse(), connection));
+		calculate3.setString(3, examReportHandle.getExamNum());
+		ResultSet rs3 = calculate3.executeQuery();
+		rs3.next();
+		/* Total students who finished exam */
+		PreparedStatement calculate4 = connection.prepareStatement(SqlUtilities.COUNT_StudentWhoFinished);
+		calculate4.setString(1, getSubjectID(examReportHandle.getSubject(), connection));
+		calculate4.setString(2, getCourseID(examReportHandle.getCourse(), connection));
+		calculate4.setString(3, examReportHandle.getExamNum());
+		ResultSet rs4 = calculate4.executeQuery();
+		rs4.next();
+		/* Total students who forced to finish exam */
+		int forced = rs3.getInt(1) - rs4.getInt(1);
+		return new ReportAboutExam(rs1.getDouble(1), med, rs3.getInt(1), rs4.getInt(1), forced, grades);
+	}
+
 	public static ReportAboutStudent calculateStudentStatistic(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
 		PreparedStatement calculate1 = connection.prepareStatement(SqlUtilities.CALCULATE_StudentAVG);
@@ -787,13 +840,13 @@ public class SqlUtilities {
 		return rs.next();
 	}
 
-	public static ActiveExamHandle getActiveExamsByActivatorsID(String activatorsID, String subject,
+	public static ActiveExamHandle getActiveExamsByActivatorsID(String activatorsID, String course,
 			Connection connection) throws SQLException {
-		String subjectNumber = getSubjectID(subject, connection);
+		String courseNumber = getCourseID(course, connection);
 		PreparedStatement statement = connection
 				.prepareStatement(SqlUtilities.SELECT_Unlocked_Activated_Exams_By_ActivatorsID);
 		statement.setString(1, activatorsID);
-		statement.setString(2, subjectNumber);
+		statement.setString(2, courseNumber);
 		ArrayList<ActiveExam> activeExams = new ArrayList<>();
 		ResultSet rs = statement.executeQuery();
 		while (rs.next())
