@@ -48,6 +48,7 @@
             <Menu mnemonicParsing="false" text="Exams  ">
                <items>
                   <MenuItem fx:id="examPool" mnemonicParsing="false" onAction="#openExamPool" text="Exams pool" />
+                  <MenuItem mnemonicParsing="false" onAction="#openActiveExams" text="Active Exams" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Handling Requests">
@@ -489,6 +490,37 @@
                   <TextField fx:id="medianTextFieldInTeacherReport" layoutX="125.0" layoutY="163.0" prefHeight="25.0" prefWidth="62.0" />
                </children>
             </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="activeExamAnchorPane" layoutX="21.0" layoutY="116.0" prefHeight="450.0" prefWidth="829.0" visible="false">
+         <children>
+            <Label layoutX="5.0" text="Active Exams" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="24.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+            <Label layoutX="14.0" layoutY="44.0" text="Subject" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="subjectComboBoxInActiveExams" layoutX="68.0" layoutY="41.0" prefWidth="150.0" />
+            <TableView fx:id="activeExamTableView" layoutX="14.0" layoutY="96.0" prefHeight="289.0" prefWidth="792.0" stylesheets="@table%20view.css">
+              <columns>
+                <TableColumn fx:id="subjectColInActiveExams" prefWidth="89.0" text="Subject" />
+                <TableColumn fx:id="courseColInActiveExams" prefWidth="78.0" text="Course" />
+                  <TableColumn fx:id="examNumColInActiveExams" prefWidth="107.0" text="Exam Number" />
+                  <TableColumn fx:id="executionCodeColInActiveExams" prefWidth="119.0" text="Execution Code" />
+                  <TableColumn fx:id="activatorColInActiveExams" prefWidth="95.0" text="Activator" />
+                  <TableColumn fx:id="durationColInActiveExams" prefWidth="77.0" text="Duration" />
+                  <TableColumn fx:id="lockedColInActiveExams" prefWidth="83.0" text="Locked" />
+                  <TableColumn fx:id="typeColInActiveExams" prefWidth="142.0" text="Type" />
+              </columns>
+            </TableView>
+            <Button fx:id="showActiveExamButton" layoutX="241.0" layoutY="41.0" mnemonicParsing="false" onAction="#showActiveExamButtonHandler" text="Show Active Exams" />
          </children>
       </AnchorPane>
    </children>

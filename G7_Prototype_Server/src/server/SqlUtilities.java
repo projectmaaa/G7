@@ -130,6 +130,8 @@ public class SqlUtilities {
 
 	public final static String SELECT_Comments_from_Checked_Exams = "SELECT generalComments, commentsOfChangeGrade FROM CheckedExam WHERE executionCode=? AND studentID=?;";
 
+	public final static String SELECT_ActiveExamsBySubject = "SELECT subjectID, courseID, examNum, executionCode, activator, duration, locked, type FROM ActiveExam WHERE subjectID=?;";
+
 	// region Public Methods
 
 	// end region -> Constants
@@ -750,6 +752,20 @@ public class SqlUtilities {
 					rs.getString(4), rs.getString(6).equals("c") ? "Computerized" : "Manual"));
 		closeResultSetAndStatement(rs, null, statement);
 		return new ActiveExamHandle("All", activeExams);
+	}
+
+	public static ActiveExamHandle getActiveExamsBySubject(String subjectID, Connection connection)
+			throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_ActiveExamsBySubject);
+		statement.setString(1, getSubjectID(subjectID, connection));
+		ArrayList<ActiveExam> activeExams = new ArrayList<>();
+		ResultSet rs = statement.executeQuery();
+		while (rs.next())
+			activeExams.add(new ActiveExam(new Exam(rs.getString(1), rs.getString(2), rs.getString(3)), rs.getString(4),
+					rs.getString(5), rs.getInt(6), rs.getInt(7),
+					rs.getString(8).equals("c") ? "Computerized" : "Manual"));
+		closeResultSetAndStatement(rs, null, statement);
+		return new ActiveExamHandle("ActiveExamsBySubject", activeExams);
 	}
 
 	/**

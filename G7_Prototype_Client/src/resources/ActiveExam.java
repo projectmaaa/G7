@@ -45,6 +45,15 @@ public class ActiveExam implements Serializable {
 		this.executionCode = executionCode;
 		this.duration = duration;
 	}
+	
+	public ActiveExam(Exam exam, String executionCode, String activator, int duration, int locked, String type) {
+		this.exam = exam;
+		this.executionCode = executionCode;
+		this.activator = activator;
+		this.duration = duration;
+		this.locked=locked;
+		this.type=type;
+	}
 
 	public ActiveExam(Exam exam, int duration, String executionCode, String type) {
 		this.exam = exam;

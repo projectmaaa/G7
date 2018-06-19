@@ -34,6 +34,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import resources.ActiveExam;
 import resources.Course;
 import resources.Exam;
 import resources.Message;
@@ -166,6 +167,44 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	@FXML
 	private TableView<Exam> tableViewInExamsPool;
+
+	// active exams
+
+	@FXML
+	private AnchorPane activeExamAnchorPane;
+
+	@FXML
+	private ComboBox<String> subjectComboBoxInActiveExams;
+
+	@FXML
+	private Button showActiveExamButton;
+
+	@FXML
+	private TableView<ActiveExam> activeExamTableView;
+
+	@FXML
+	private TableColumn<ActiveExam, String> subjectColInActiveExams;
+
+	@FXML
+	private TableColumn<ActiveExam, String> courseColInActiveExams;
+
+	@FXML
+	private TableColumn<ActiveExam, String> examNumColInActiveExams;
+
+	@FXML
+	private TableColumn<ActiveExam, String> executionCodeColInActiveExams;
+
+	@FXML
+	private TableColumn<ActiveExam, String> activatorColInActiveExams;
+
+	@FXML
+	private TableColumn<ActiveExam, Integer> durationColInActiveExams;
+
+	@FXML
+	private TableColumn<ActiveExam, Integer> lockedColInActiveExams;
+
+	@FXML
+	private TableColumn<ActiveExam, String> typeColInActiveExams;
 
 	// handling requests
 
@@ -411,7 +450,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		setColInStudentReport();
 		setColInCourseReport();
 		setColInTeacherReport();
-
+		setColumnsInActiveExams();
 	}
 
 	/**
@@ -430,6 +469,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	// question tab was pressed
 
 	public void openQuestionPool(ActionEvent event) {
+		tableViewInQuestionsPool.getItems().clear();
 		setAnchorPanesFalse();
 		questionsPoolAnchorPane.setVisible(true);
 		setSubjectComboBox(subjectComboBoxInQuestionsPool);
@@ -444,6 +484,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	// exam pool tab was pressed
 
 	public void openExamPool(ActionEvent event) {
+		tableViewInExamsPool.getItems().clear();
 		setAnchorPanesFalse();
 		examsPoolAnchorPane.setVisible(true);
 		setSubjectComboBox(subjectComboBoxInExamPool);
@@ -453,6 +494,19 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	public void showExamsHandler(ActionEvent event) {
 		setTableInExamsPool();
+	}
+
+	// active exams was pressed
+
+	public void openActiveExams(ActionEvent event) {
+		activeExamTableView.getItems().clear();
+		setAnchorPanesFalse();
+		activeExamAnchorPane.setVisible(true);
+		setSubjectComboBox(subjectComboBoxInActiveExams);
+	}
+
+	public void showActiveExamButtonHandler(ActionEvent event) {
+		setTableInActiveExams();
 	}
 
 	// handling requests tab was pressed
@@ -587,7 +641,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			studentNameLabel.setText(fullName);
 			client.handleMessageFromClientUI(new ReportHandle("StudentStatistic", student));
 			createStudentHistogram();
-//			TimeUnit.SECONDS.sleep(6);
+			// TimeUnit.SECONDS.sleep(6);
 			report3AnchorPane.setVisible(true);
 		}
 	}
@@ -657,7 +711,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			report1AnchorPane.setVisible(true);
 		}
 	}
-	
 
 	/*
 	 * --------------------------------* private methods * *
@@ -703,6 +756,17 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		}
 	}
 
+	private void setTableInActiveExams() {
+		client.getActiveExamsBySubject().clear();
+		if (subjectComboBoxInActiveExams.getValue() != null) {
+			client.handleMessageFromClientUI(
+					Message.getActiveExamBySubject + " " + subjectComboBoxInActiveExams.getValue());
+			activeExamTableView.setItems(client.getActiveExamsBySubject());
+		} else {
+			Utilities_Client.popUpMethod("Select Subject");
+		}
+	}
+
 	private void setTableInHandlingRequests() {
 		client.getWaitingActiveExamsFromDB().clear();
 		client.handleMessageFromClientUI(Message.getWaitingActiveExams);
@@ -731,6 +795,20 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		durationColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("examDuration"));
 		textExamineesColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("freeTextForExaminees"));
 		textTeachersColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("freeTextForTeacherOnly"));
+	}
+
+	private void setColumnsInActiveExams() {
+		subjectColInActiveExams.setCellValueFactory(
+				cellData -> new SimpleStringProperty(cellData.getValue().getExam().getSubjectID()));
+		courseColInActiveExams
+				.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExam().getCourseID()));
+		examNumColInActiveExams
+				.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExam().getExamNum()));
+		executionCodeColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("executionCode"));
+		activatorColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("activator"));
+		durationColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("duration"));
+		lockedColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("locked"));
+		typeColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("type"));
 	}
 
 	private void setColumnsInHandlingRequests() {
@@ -796,5 +874,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		report2AnchorPane.setVisible(false);
 		report1AnchorPane.setVisible(false);
 		teacherReportAnchorPane.setVisible(false);
+		activeExamAnchorPane.setVisible(false);
 	}
 }
