@@ -394,24 +394,24 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private ComboBox<String> courseComboBoxInExamStatistic;
-	
+
 	@FXML
 	private ComboBox<String> examNumComboBoxInExamStatistic;
-	
+
 	@FXML
 	private Button createReportButton;
-	
+
 	@FXML
-    private BarChart<?, ?> examStatisticBarChart;
+	private BarChart<?, ?> examStatisticBarChart;
 
-    @FXML
-    private CategoryAxis xAxis;
+	@FXML
+	private CategoryAxis xAxis;
 
-    @FXML
-    private NumberAxis yAxis;
-    
-    @FXML
-    private AnchorPane examReportAnchorPane;
+	@FXML
+	private NumberAxis yAxis;
+
+	@FXML
+	private AnchorPane examReportAnchorPane;
 
 	//
 
@@ -522,7 +522,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			backAnchorPane.setVisible(false);
 		if (confirmGradesAnchorPane.isVisible())
 			confirmGradesAnchorPane.setVisible(false);
-		if(examStatisticAnchorPane.isVisible()) {
+		if (examStatisticAnchorPane.isVisible()) {
 			examStatisticAnchorPane.setVisible(false);
 		}
 		setRejectionFlag(false);
@@ -845,7 +845,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			selectCourseComboBox(courseComboBoxInExamStatistic, selectedSubject);
 	}
 
-	public void selectCourseComboBox(ComboBox<String> combobox, String selectedSubject) {
+	private void selectCourseComboBox(ComboBox<String> combobox, String selectedSubject) {
 		client.handleMessageFromClientUI(Message.getCourses + " " + selectedSubject);
 		combobox.getItems().clear();
 		combobox.setItems(client.getCoursesFromDB()); // sets the courses that is under specific
@@ -1330,50 +1330,52 @@ public class TeacherWindowController implements Initializable, IScreenController
 		activeExamManagementAnchorPane.setVisible(false);
 		examReportAnchorPane.setVisible(false);
 		setSubjectComboBox(subjectComboBoxInExamStatistic);
+		setCourseComboBox(courseComboBoxInExamStatistic);
+		setExamNumberComboBox(examNumComboBoxInExamStatistic);
 		createFirstExamHistogram();
-		}
-	
+	}
+
 	public void createReportHandler(ActionEvent event) {
 		examReportAnchorPane.setVisible(true);
 		createExamHistogram();
-		
+
 	}
-	
+
 	public void createExamHistogram() {
 		examStatisticBarChart.getData().clear();
 		examStatisticBarChart.setCategoryGap(2);
-        examStatisticBarChart.setBarGap(0);
-         
-//        xAxis.setLabel("Grade");       
-        yAxis.setLabel("Student Amount");
-         
-        XYChart.Series series1 = new XYChart.Series();       
-        series1.getData().add(new XYChart.Data("0-54.9", 90));
-        series1.getData().add(new XYChart.Data("55-64", 80));
-        series1.getData().add(new XYChart.Data("65-74", 60));
-        series1.getData().add(new XYChart.Data("75-84", 60));
-        series1.getData().add(new XYChart.Data("85-94", 60));
-        series1.getData().add(new XYChart.Data("95-100", 60));
-        examStatisticBarChart.getData().addAll(series1);
-        
+		examStatisticBarChart.setBarGap(0);
+
+		// xAxis.setLabel("Grade");
+		yAxis.setLabel("Student Amount");
+
+		XYChart.Series series1 = new XYChart.Series();
+		series1.getData().add(new XYChart.Data("0-54.9", 90));
+		series1.getData().add(new XYChart.Data("55-64", 80));
+		series1.getData().add(new XYChart.Data("65-74", 60));
+		series1.getData().add(new XYChart.Data("75-84", 60));
+		series1.getData().add(new XYChart.Data("85-94", 60));
+		series1.getData().add(new XYChart.Data("95-100", 60));
+		examStatisticBarChart.getData().addAll(series1);
+
 	}
-	
+
 	public void createFirstExamHistogram() {
 		examStatisticBarChart.getData().clear();
 		examStatisticBarChart.setCategoryGap(2);
-        examStatisticBarChart.setBarGap(0);
-         
-//        xAxis.setLabel("Grade");       
-        yAxis.setLabel("Student Amount");
-         
-        XYChart.Series series1 = new XYChart.Series();       
-        series1.getData().add(new XYChart.Data("0-54.9", 0));
-        series1.getData().add(new XYChart.Data("55-64", 0));
-        series1.getData().add(new XYChart.Data("65-74", 0));
-        series1.getData().add(new XYChart.Data("75-84", 0));
-        series1.getData().add(new XYChart.Data("85-94", 0));
-        series1.getData().add(new XYChart.Data("95-100", 0));
-        examStatisticBarChart.getData().addAll(series1);
+		examStatisticBarChart.setBarGap(0);
+
+		// xAxis.setLabel("Grade");
+		yAxis.setLabel("Student Amount");
+
+		XYChart.Series series1 = new XYChart.Series();
+		series1.getData().add(new XYChart.Data("0-54.9", 0));
+		series1.getData().add(new XYChart.Data("55-64", 0));
+		series1.getData().add(new XYChart.Data("65-74", 0));
+		series1.getData().add(new XYChart.Data("75-84", 0));
+		series1.getData().add(new XYChart.Data("85-94", 0));
+		series1.getData().add(new XYChart.Data("95-100", 0));
+		examStatisticBarChart.getData().addAll(series1);
 	}
 
 	/**
@@ -1460,16 +1462,51 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 	}
 
-	// end region -> Public Methods
+	/**
+	 * The handler when the teacher want to see his written exams
+	 * 
+	 * @param event
+	 */
+	public void selectExamNumberHandler(MouseEvent event) {
+		String selectedCourse = null;
+		if (examStatisticAnchorPane.isVisible())
+			selectedCourse = courseComboBoxInExamStatistic.getValue();
+		if (selectedCourse == null)
+			Utilities_Client.popUpMethod("You must select the course first");
+		else if (examStatisticAnchorPane.isVisible())
+			selectExamNumber(examNumComboBoxInExamStatistic, selectedCourse);
+	}
 
-	// region Private Methods
+	/**
+	 * Sets the exam number combo box that is filtered by author
+	 * 
+	 * @param combobox
+	 * @param course
+	 */
+	private void selectExamNumber(ComboBox<String> combobox, String course) {
+		client.handleMessageFromClientUI(Message.getExamsByAuthor + " " + course + " " + firstName + " " + lastName);
+		combobox.getItems().clear();
+		combobox.setItems(client.getExamsByAuthorFromDB()); // sets the exams that is under specific course & written by
+															// specific teacher
+		combobox.setPromptText("Select Exam Number");
+		combobox.setButtonCell(new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("Select Exam Number");
+				} else {
+					setText(item);
+				}
+			}
+		});
+	}
 
 	private void setTableInConfirmGrades() {
 		client.getCheckedExamsFromDB().clear();
 		client.handleMessageFromClientUI(Message.getCheckedExams + " " + client.getId());
 		confirmGradeTableView.setItems(client.getCheckedExamsFromDB());
 	}
-
 
 	/**
 	 * Define the columns
@@ -1665,6 +1702,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 						setText(item);
 					}
 				}
+
 			});
 		}
 		if (!questionTextField.getText().isEmpty()) {
@@ -1782,6 +1820,16 @@ public class TeacherWindowController implements Initializable, IScreenController
 		comboBox.getSelectionModel().clearSelection();
 		comboBox.setPromptText("Select");
 		comboBox.getItems().addAll("1", "2", "3", "4");
+	}
+
+	/**
+	 * Sets the exam number combo box to default
+	 * 
+	 * @param comboBox
+	 */
+	private void setExamNumberComboBox(ComboBox<String> comboBox) {
+		comboBox.getSelectionModel().clearSelection();
+		comboBox.setPromptText("Select Exam Number");
 	}
 
 	// end region -> Private Methods

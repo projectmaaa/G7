@@ -130,6 +130,8 @@ public class SqlUtilities {
 
 	public final static String SELECT_Comments_from_Checked_Exams = "SELECT generalComments, commentsOfChangeGrade FROM CheckedExam WHERE executionCode=? AND studentID=?;";
 
+	public final static String SELECT_Exams_By_Author_and_Course = "SELECT examNum FROM Exam WHERE courseID=? AND author=?;";
+
 	// region Public Methods
 
 	// end region -> Constants
@@ -715,11 +717,17 @@ public class SqlUtilities {
 	public static TypeHandle getTypeFromDB(String query, String insertIntoQuery, String type, Connection connection)
 			throws SQLException {
 		PreparedStatement typeOfSet = connection.prepareStatement(query);
-		if (insertIntoQuery != null) { // if the method need to return the courses\subjects by user
-			if (insertIntoQuery.matches("[0-9]*"))
-				typeOfSet.setString(1, insertIntoQuery);
-			else
-				typeOfSet.setString(1, getSubjectID(insertIntoQuery, connection));
+		if (insertIntoQuery != null) { // if the method need to return the courses\subjects by user\exam numbers
+			String[] attributes = insertIntoQuery.split(" ");
+			if (attributes.length > 1) { // exam numbers
+				typeOfSet.setString(1, getCourseID(attributes[0], connection));
+				typeOfSet.setString(2, attributes[1] + " " + attributes[2]);
+			} else {
+				if (insertIntoQuery.matches("[0-9]*")) // subjects by user
+					typeOfSet.setString(1, insertIntoQuery);
+				else // courses
+					typeOfSet.setString(1, getSubjectID(insertIntoQuery, connection));
+			}
 		}
 		ArrayList<String> typeOfSetFromDB = new ArrayList<>();
 		ResultSet rs = typeOfSet.executeQuery();

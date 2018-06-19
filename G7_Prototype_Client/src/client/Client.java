@@ -32,6 +32,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private ObservableList<String> coursesFromDB = FXCollections.observableArrayList();
 
+	private ObservableList<String> examsByAuthorFromDB = FXCollections.observableArrayList();
+
 	private ObservableList<WaitingActiveExam> WaitingActiveExamsFromDB = FXCollections.observableArrayList();
 
 	private ObservableList<CheckedExam> checkedExamsFromDB = FXCollections.observableArrayList();
@@ -187,6 +189,16 @@ public class Client extends AbstractClient implements IScreenController {
 		});
 	}
 
+	public ObservableList<String> getExamsByAuthorFromDB() {
+		return examsByAuthorFromDB;
+	}
+
+	public void setExamsByAuthorFromDB(ArrayList<String> examsByAuthorFromDB) {
+		Platform.runLater(() -> {
+			this.examsByAuthorFromDB.setAll(examsByAuthorFromDB);
+		});
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -276,7 +288,6 @@ public class Client extends AbstractClient implements IScreenController {
 	@Override
 	public void handleMessageFromServer(Object msg) {
 		if (msg == null) {
-			// add something
 			return;
 		} else if (msg instanceof String) {
 			String str = (String) msg;
@@ -370,6 +381,9 @@ public class Client extends AbstractClient implements IScreenController {
 			case "Courses":
 				setCoursesFromDB(typeHandle.getTypes());
 				break;
+			case "ExamNumbers":
+				setExamsByAuthorFromDB(typeHandle.getTypes());
+				break;
 			}
 		} else if (msg instanceof WaitingActiveExamHandle) {
 			WaitingActiveExamHandle waitingActiveExamHandle = (WaitingActiveExamHandle) msg;
@@ -426,7 +440,6 @@ public class Client extends AbstractClient implements IScreenController {
 			}
 		}
 	}
-
 
 	/**
 	 * This method handles all data coming from the UI
