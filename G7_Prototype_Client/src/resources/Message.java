@@ -38,6 +38,8 @@ public class Message {
 
 	public final static String getCourses = "#Courses";
 
+	public final static String getExamsByAuthor = "#ExamsByAuthor";
+
 	public final static String getWaitingActiveExams = "#WaitingActiveExams";
 
 	public final static String studentInActiveExam = "#StudentInActiveExam";
@@ -59,8 +61,8 @@ public class Message {
 	public final static String requestRejected = "#RequestRejected";
 
 	public final static String requestApproved = "#RequestApproved";
-	
-	public final static String getSubjectsByTeacherID ="#SubjectsByTeacherID";
+
+	public final static String getSubjectsByTeacherID = "#SubjectsByTeacherID";
 
 	// end region -> Constants
 

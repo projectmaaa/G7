@@ -390,6 +390,10 @@ public class Server extends AbstractServer {
 					client.sendToClient(SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Subjects_By_Teacher_ID,
 							strArray[1], "Subjects", connection));
 					break;
+				case Message.getExamsByAuthor:
+					client.sendToClient(SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Exams_By_Author_and_Course,
+							strArray[1] + " " + strArray[2] + " " + strArray[3], "ExamNumbers", connection));
+					break;
 				case Message.getWaitingActiveExams:
 					client.sendToClient(SqlUtilities.getWaitingActiveExam(connection));
 					break;
