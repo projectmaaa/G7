@@ -394,7 +394,7 @@ public class Server extends AbstractServer {
 					client.sendToClient(SqlUtilities.getWaitingActiveExam(connection));
 					break;
 				case Message.getCheckedExams:
-					client.sendToClient(SqlUtilities.getCheckedExam(connection));
+					client.sendToClient(SqlUtilities.getCheckedExam(strArray[1], connection));
 					break;
 				case Message.getCheckedExamsByStudent:
 					client.sendToClient(
