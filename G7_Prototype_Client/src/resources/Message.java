@@ -28,7 +28,7 @@ public class Message {
 
 	public final static String logout = "#Logout";
 
-	public final static String getExamBySubject = "#ExamBySubject";
+	public final static String getExamByCourse = "#ExamByCourse";
 	
 	public final static String getActiveExamBySubject = "#ActiveExamBySubject";
 

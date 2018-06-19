@@ -372,8 +372,8 @@ public class Server extends AbstractServer {
 				case Message.getQuestionBySubject:
 					client.sendToClient(SqlUtilities.getQuestionsBySubject(connection, strArray[1]));
 					break;
-				case Message.getExamBySubject:
-					client.sendToClient(SqlUtilities.getExamsBySubject(connection, strArray[1]));
+				case Message.getExamByCourse:
+					client.sendToClient(SqlUtilities.getExamsByCourse(connection, strArray[1]));
 					break;
 				case Message.getExecutionCode:
 					client.sendToClient(SqlUtilities.getActiveExam(strArray[1], connection));

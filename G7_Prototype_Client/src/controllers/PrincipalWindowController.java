@@ -749,7 +749,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	private void setTableInExamsPool() {
 		client.getExamsFromDB().clear();
 		if (subjectComboBoxInExamPool.getValue() != null) {
-			client.handleMessageFromClientUI(Message.getExamBySubject + " " + subjectComboBoxInExamPool.getValue());
+			client.handleMessageFromClientUI(Message.getExamByCourse + " " + subjectComboBoxInExamPool.getValue());
 			tableViewInExamsPool.setItems(client.getExamsFromDB());
 		} else {
 			Utilities_Client.popUpMethod("Select Subject");

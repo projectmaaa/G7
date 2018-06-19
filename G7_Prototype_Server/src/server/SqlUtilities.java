@@ -54,7 +54,7 @@ public class SqlUtilities {
 
 	public final static String SELECT_courseID_FROM_Course = "SELECT courseID FROM Course WHERE courseName=?;";
 
-	public final static String SELECT_Exam_BY_SubjectID = "SELECT * FROM Exam WHERE subjectID=?;";
+	public final static String SELECT_Exam_BY_CourseID = "SELECT * FROM Exam WHERE courseID=?;";
 
 	public final static String SELECT_Exam_BY_Subject_CourseID_ExamID = "SELECT * FROM Exam WHERE subjectID=? AND courseID=? AND examNum=?;";
 
@@ -96,7 +96,7 @@ public class SqlUtilities {
 
 	public final static String ADD_CommentsInCheckedExam = "UPDATE CheckedExam SET generalComments=? WHERE subjectID=? AND courseID=? AND examNum=? AND executionCode=? AND studentID=?;";
 
-	public final static String SELECT_Unlocked_Activated_Exams_By_ActivatorsID = "SELECT subjectID, courseID, examNum, executionCode, duration, type FROM ActiveExam WHERE activatorsID=? AND subjectID=? AND locked=0;";
+	public final static String SELECT_Unlocked_Activated_Exams_By_ActivatorsID = "SELECT subjectID, courseID, examNum, executionCode, duration, type FROM ActiveExam WHERE activatorsID=? AND courseID=? AND locked=0;";
 
 	public final static String SELECT_All_Students = "SELECT idUsers, firstName, lastName FROM Users WHERE type='Student'";
 
@@ -133,7 +133,6 @@ public class SqlUtilities {
 	public final static String SELECT_ActiveExamsBySubject = "SELECT subjectID, courseID, examNum, executionCode, activator, duration, locked, type FROM ActiveExam WHERE subjectID=?;";
 
 	public final static String SELECT_Exams_By_Author_and_Course = "SELECT examNum FROM Exam WHERE courseID=? AND author=?;";
-
 
 	// region Public Methods
 
@@ -350,21 +349,21 @@ public class SqlUtilities {
 		return (new QuestionHandle("Subject", questionsBySubject));
 	}
 
-	public static ExamHandle getExamsBySubject(Connection connection, String subject) throws SQLException {
-		ArrayList<Exam> examsBySubject = new ArrayList<Exam>();
-		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_Exam_BY_SubjectID);
+	public static ExamHandle getExamsByCourse(Connection connection, String course) throws SQLException {
+		ArrayList<Exam> examsByCourse = new ArrayList<Exam>();
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_Exam_BY_CourseID);
 		try {
-			statement.setString(1, getSubjectID(subject, connection));
+			statement.setString(1, getCourseID(course, connection));
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
 		ResultSet rs = statement.executeQuery();
 		while (rs.next()) {
-			examsBySubject.add(new Exam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+			examsByCourse.add(new Exam(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
 					rs.getInt(5), rs.getString(6), rs.getString(7)));
 		}
 		closeResultSetAndStatement(rs, null, statement);
-		return (new ExamHandle("Subject", examsBySubject));
+		return (new ExamHandle("Courses", examsByCourse));
 	}
 
 	public static WaitingActiveExamHandle getWaitingActiveExam(Connection connection) throws SQLException {
@@ -747,13 +746,13 @@ public class SqlUtilities {
 		return rs.next();
 	}
 
-	public static ActiveExamHandle getActiveExamsByActivatorsID(String activatorsID, String subject,
+	public static ActiveExamHandle getActiveExamsByActivatorsID(String activatorsID, String course,
 			Connection connection) throws SQLException {
-		String subjectNumber = getSubjectID(subject, connection);
+		String courseNumber = getCourseID(course, connection);
 		PreparedStatement statement = connection
 				.prepareStatement(SqlUtilities.SELECT_Unlocked_Activated_Exams_By_ActivatorsID);
 		statement.setString(1, activatorsID);
-		statement.setString(2, subjectNumber);
+		statement.setString(2, courseNumber);
 		ArrayList<ActiveExam> activeExams = new ArrayList<>();
 		ResultSet rs = statement.executeQuery();
 		while (rs.next())

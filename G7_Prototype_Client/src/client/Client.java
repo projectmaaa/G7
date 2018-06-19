@@ -39,7 +39,7 @@ public class Client extends AbstractClient implements IScreenController {
 	private ObservableList<CheckedExam> checkedExamsFromDB = FXCollections.observableArrayList();
 
 	private ObservableList<ActiveExam> activatedUnlockedExams = FXCollections.observableArrayList();
-	
+
 	private ObservableList<ActiveExam> ActiveExamsBySubject = FXCollections.observableArrayList();
 
 	private ObservableList<Student> studentsFromDB = FXCollections.observableArrayList();
@@ -276,7 +276,7 @@ public class Client extends AbstractClient implements IScreenController {
 			this.allTeachersFromDB.setAll(allTeachersFromDB);
 		});
 	}
-	
+
 	public ObservableList<ActiveExam> getActiveExamsBySubject() {
 		return ActiveExamsBySubject;
 	}
@@ -290,7 +290,6 @@ public class Client extends AbstractClient implements IScreenController {
 	// end region -> Setters
 
 	// region Public Methods
-
 
 	/**
 	 * This method handles all data that comes in from the server.
@@ -380,12 +379,14 @@ public class Client extends AbstractClient implements IScreenController {
 				studentWindowController.setActiveExam(activeExamsHandle.getActiveExam());
 			else if (activeExamsHandle.getCommand().equals("All"))
 				setActivatedUnlockedExams(activeExamsHandle.getActiveExams());
-			else if(activeExamsHandle.getCommand().equals("ActiveExamsBySubject"))
+			else if (activeExamsHandle.getCommand().equals("ActiveExamsBySubject"))
 				setActiveExamsBySubject(activeExamsHandle.getActiveExams());
 		} else if (msg instanceof ExamHandle) {
 			ExamHandle examsHandle = (ExamHandle) msg;
-			if (examsHandle.getCommand().equals("Subject")) {
+			switch (examsHandle.getCommand()) {
+			case "Courses":
 				setExamsFromDB(examsHandle.getExams());
+				break;
 			}
 		} else if (msg instanceof TypeHandle) {
 			TypeHandle typeHandle = (TypeHandle) msg;
