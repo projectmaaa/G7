@@ -3,6 +3,8 @@ package server;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import resources.ActiveExam;
 
@@ -40,6 +42,7 @@ public class Utilities_Server {
 				grade += SqlUtilities.getPointsOfQuestion(question.getSubjectID(), question.getQuestionNum(), exam.getStudentInActiveExam().getActiveExam().getExam().getCourseID(), exam.getStudentInActiveExam().getActiveExam().getExam().getExamNum(), connection); 
 		}
 		return grade;
-		
 	}
+	
+
 }

@@ -375,6 +375,11 @@ public class Client extends AbstractClient implements IScreenController {
 			if (studentHandle.getCommand().equals("Students")) {
 				setStudentsFromDB(studentHandle.getStudents());
 			}
+			// The teacher gets all the students that had copied in the exam
+			else if(studentHandle.getCommand().equals("Copiers")) {
+				System.out.println("Copiers");
+				//teacherWindowController
+			}
 		} else if (msg instanceof ReportAboutStudent) {
 			ReportAboutStudent studentReport = (ReportAboutStudent) msg;
 			if(studentReport.getCommand().equals("StudentAverage")) {

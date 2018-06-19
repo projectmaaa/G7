@@ -395,6 +395,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private boolean rejectionFlag;
 
 	private boolean checkingRejectionsInTheBackroundFlag;
+	 
 
 	// end region -> Fields
 
