@@ -84,7 +84,7 @@ public class SqlUtilities {
 
 	public final static String CHECK_ExecutionCodeExist = "SELECT * FROM ActiveExam WHERE executionCode=?;";
 
-	public final static String SELECT_CheckedExams_By_Activator = "SELECT * FROM CheckedExam, ActiveExam WHERE CheckedExam.executionCode=ActiveExam.executionCode AND ActiveExam.activatorsID=?;";
+	public final static String SELECT_CheckedExams_By_Activator = "SELECT * FROM CheckedExam, ActiveExam WHERE CheckedExam.executionCode=ActiveExam.executionCode AND ActiveExam.activatorsID=? AND grade>-1;";
 
 	public final static String SELECT_User_checkedExams = "SELECT examNum, executionCode, grade, generalComments FROM CheckedExam WHERE subjectID=? AND courseID=? AND studentID=?;";
 
