@@ -2,6 +2,8 @@ package client;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+
 import controllers.IScreenController;
 import controllers.LoginWindowController;
 import controllers.PrincipalWindowController;
@@ -39,7 +41,7 @@ public class Client extends AbstractClient implements IScreenController {
 	private ObservableList<CheckedExam> checkedExamsFromDB = FXCollections.observableArrayList();
 
 	private ObservableList<ActiveExam> activatedUnlockedExams = FXCollections.observableArrayList();
-	
+
 	private ObservableList<ActiveExam> ActiveExamsBySubject = FXCollections.observableArrayList();
 
 	private ObservableList<Student> studentsFromDB = FXCollections.observableArrayList();
@@ -47,6 +49,10 @@ public class Client extends AbstractClient implements IScreenController {
 	private ObservableList<Course> allCoursesFromDB = FXCollections.observableArrayList();
 
 	private ObservableList<Teacher> allTeachersFromDB = FXCollections.observableArrayList();
+
+	private ObservableList<StudentAnswerInQuestion> studnetAnswerInQuestionDB = FXCollections.observableArrayList();
+
+	private ObservableList<ApprovedExamForStudent> approvedExamForStudentsDB = FXCollections.observableArrayList();
 
 	private ScreensController controller;
 
@@ -136,7 +142,9 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	public void setQuestionsFromDB(ArrayList<Question> questions) {
-		questionsFromDB.setAll(questions);
+//		Platform.runLater(() -> {
+			questionsFromDB.setAll(questions);
+//		});
 	}
 
 	public Question getQuestion() {
@@ -181,6 +189,16 @@ public class Client extends AbstractClient implements IScreenController {
 		});
 	}
 
+	public ObservableList<ApprovedExamForStudent> getApprovedExamForStudentsDB() {
+		return approvedExamForStudentsDB;
+	}
+
+	public void setApprovedExamForStudentsDB(ArrayList<ApprovedExamForStudent> approvedExamForStudentsDB) {
+		Platform.runLater(() -> {
+			this.approvedExamForStudentsDB.setAll(approvedExamForStudentsDB);
+		});
+	}
+
 	public ObservableList<String> getCoursesFromDB() {
 		return coursesFromDB;
 	}
@@ -199,6 +217,16 @@ public class Client extends AbstractClient implements IScreenController {
 		Platform.runLater(() -> {
 			this.examsByAuthorFromDB.setAll(examsByAuthorFromDB);
 		});
+	}
+
+	public ObservableList<StudentAnswerInQuestion> getStudnetAnswerInQuestionDB() {
+		return studnetAnswerInQuestionDB;
+	}
+
+	public void setStudnetAnswerInQuestionDB(ArrayList<StudentAnswerInQuestion> studnetAnswerInQuestionDB) {
+//		Platform.runLater(() -> {
+			this.studnetAnswerInQuestionDB.setAll(studnetAnswerInQuestionDB);
+		//		});
 	}
 
 	public String getId() {
@@ -276,7 +304,7 @@ public class Client extends AbstractClient implements IScreenController {
 			this.allTeachersFromDB.setAll(allTeachersFromDB);
 		});
 	}
-	
+
 	public ObservableList<ActiveExam> getActiveExamsBySubject() {
 		return ActiveExamsBySubject;
 	}
@@ -290,7 +318,6 @@ public class Client extends AbstractClient implements IScreenController {
 	// end region -> Setters
 
 	// region Public Methods
-
 
 	/**
 	 * This method handles all data that comes in from the server.
@@ -373,6 +400,8 @@ public class Client extends AbstractClient implements IScreenController {
 				setQuestionsFromDB(questionsHandle.getQuestionArray());
 			else if (questionsHandle.getCommand().equals("Subject")) {
 				setQuestionsFromDB(questionsHandle.getQuestionArray());
+			} else if (questionsHandle.getCommand().equals("QuestionsInExam")) {
+				setQuestionsFromDB(questionsHandle.getQuestionArray());
 			}
 		} else if (msg instanceof ActiveExamHandle) {
 			ActiveExamHandle activeExamsHandle = (ActiveExamHandle) msg;
@@ -380,7 +409,7 @@ public class Client extends AbstractClient implements IScreenController {
 				studentWindowController.setActiveExam(activeExamsHandle.getActiveExam());
 			else if (activeExamsHandle.getCommand().equals("All"))
 				setActivatedUnlockedExams(activeExamsHandle.getActiveExams());
-			else if(activeExamsHandle.getCommand().equals("ActiveExamsBySubject"))
+			else if (activeExamsHandle.getCommand().equals("ActiveExamsBySubject"))
 				setActiveExamsBySubject(activeExamsHandle.getActiveExams());
 		} else if (msg instanceof ExamHandle) {
 			ExamHandle examsHandle = (ExamHandle) msg;
@@ -406,8 +435,7 @@ public class Client extends AbstractClient implements IScreenController {
 				setWaitingActiveExamsFromDB(waitingActiveExamHandle.getWaitingActiveExams());
 		} else if (msg instanceof CheckedExamHandle) {
 			CheckedExamHandle checkedExamHandle = (CheckedExamHandle) msg;
-			if (checkedExamHandle.getCommand().equals("AllCheckedExams")
-					|| (checkedExamHandle.getCommand().equals("CheckExamsByStudent"))) {
+			if (checkedExamHandle.getCommand().equals("AllCheckedExams")) {
 				setCheckedExamsFromDB(checkedExamHandle.getCheckedExams());
 			}
 		} else if (msg instanceof StudentHandle) {
@@ -443,7 +471,6 @@ public class Client extends AbstractClient implements IScreenController {
 				Integer med = teacherReport.getMedian();
 				principalWindowController.getAverageTextFieldInTeacherReport().setText(avg.toString());
 				principalWindowController.getMedianTextFieldInTeacherReport().setText(med.toString());
-
 			}
 		} else if (msg instanceof Boolean) {
 			boolean codeExist = (boolean) msg;
@@ -452,6 +479,16 @@ public class Client extends AbstractClient implements IScreenController {
 			MyFileHandle fileHandle = (MyFileHandle) msg;
 			if (fileHandle.getCommand().equals("StudnetExam")) {
 				Utilities_Client.writeWordFile(fileHandle.getFile(), true);
+			}
+		} else if (msg instanceof StudentAnswerInQuestionHandle) {
+			StudentAnswerInQuestionHandle studentAnswerInQuestionHandle = (StudentAnswerInQuestionHandle) msg;
+			if (studentAnswerInQuestionHandle.getCommand().equals("Answers")) {
+				setStudnetAnswerInQuestionDB(studentAnswerInQuestionHandle.getStudentAnswers());
+			}
+		} else if (msg instanceof ApprovedExamForStudentHandle) {
+			ApprovedExamForStudentHandle approvedExamForStudentHandle = (ApprovedExamForStudentHandle) msg;
+			if (approvedExamForStudentHandle.getCommand().equals("ApprovedExamForStudent")) {
+				setApprovedExamForStudentsDB(approvedExamForStudentHandle.getApprovedExamForStudentsArray());
 			}
 		}
 	}

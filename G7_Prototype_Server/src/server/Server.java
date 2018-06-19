@@ -400,9 +400,9 @@ public class Server extends AbstractServer {
 				case Message.getCheckedExams:
 					client.sendToClient(SqlUtilities.getCheckedExam(strArray[1], connection));
 					break;
-				case Message.getCheckedExamsByStudent:
+				case Message.getApprovedExamForStudent:
 					client.sendToClient(
-							SqlUtilities.getCheckedExamByStudent(strArray[1], strArray[2], strArray[3], connection));
+							SqlUtilities.getApprovedExamForStudent(strArray[1], strArray[2], strArray[3], connection));
 					break;
 				case Message.getActiveExamsByActivator:
 					client.sendToClient(
@@ -416,6 +416,13 @@ public class Server extends AbstractServer {
 					break;
 				case Message.getAllTeachers:
 					client.sendToClient(SqlUtilities.getAllTeachers(connection));
+					break;
+				case Message.getAnswers:
+					client.sendToClient(SqlUtilities.getAnswers(strArray[1], strArray[2], strArray[3], strArray[4],
+							strArray[5], connection));
+					break;
+				case Message.getQuestionInExam:
+					client.sendToClient(SqlUtilities.getQuestionInExam(strArray[1], connection));
 					break;
 				case Message.getActiveExamBySubject:
 					client.sendToClient(SqlUtilities.getActiveExamsBySubject(strArray[1], connection));

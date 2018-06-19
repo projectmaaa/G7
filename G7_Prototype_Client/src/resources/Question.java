@@ -68,6 +68,26 @@ public class Question implements Serializable {
 		this.correctAnswer = correctAnswer;
 	}
 
+	/**
+	 * 
+	 * @param questionText
+	 * @param firstPossibleAnswer
+	 * @param secondPossibleAnswer
+	 * @param thirdPossibleAnswer
+	 * @param fourthPossibleAnswer
+	 * @param correctAnswer
+	 */
+	public Question(String questionText, String firstPossibleAnswer, String secondPossibleAnswer,
+			String thirdPossibleAnswer, String fourthPossibleAnswer, String correctAnswer) {
+		super();
+		this.questionText = questionText;
+		this.firstPossibleAnswer = firstPossibleAnswer;
+		this.secondPossibleAnswer = secondPossibleAnswer;
+		this.thirdPossibleAnswer = thirdPossibleAnswer;
+		this.fourthPossibleAnswer = fourthPossibleAnswer;
+		this.correctAnswer = correctAnswer;
+	}
+
 	// end region -> Constructors
 
 	// region Getters & Setters

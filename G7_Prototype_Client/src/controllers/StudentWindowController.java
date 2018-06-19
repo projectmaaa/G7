@@ -11,6 +11,7 @@ import client.Client;
 import client.MainAppClient;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -125,19 +126,19 @@ public class StudentWindowController implements Initializable, IScreenController
 	private AnchorPane checkedExamAnchorPane;
 
 	@FXML
-	private TableView<CheckedExam> tableViewCheckedExam;
+	private TableView<ApprovedExamForStudent> tableViewCheckedExam;
 
 	@FXML
-	private TableColumn<CheckedExam, String> examNumberColInCheckedExam;
+	private TableColumn<ApprovedExamForStudent, String> examNumberColInCheckedExam;
 
 	@FXML
-	private TableColumn<CheckedExam, String> executionCodeColInCheckedExam;
+	private TableColumn<ApprovedExamForStudent, String> executionCodeColInCheckedExam;
 
 	@FXML
-	private TableColumn<CheckedExam, Integer> gradeColInCheckedExam;
+	private TableColumn<ApprovedExamForStudent, Integer> gradeColInCheckedExam;
 
 	@FXML
-	private TableColumn<CheckedExam, String> generalCommentsColInCheckedExam;
+	private TableColumn<ApprovedExamForStudent, String> generalCommentsColInCheckedExam;
 
 	@FXML
 	private ComboBox<String> subjectComboBoxCheckedExam;
@@ -257,11 +258,15 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * @param event
 	 */
 	public void openExamHandler(ActionEvent event) {
+		clearOrderExam();
 		turnOffAllPane();
 		examAnchorPane.setVisible(true);
 		welcomeAnchorPane.setVisible(true);
 	}
 
+	/**
+	 * 
+	 */
 	public void checkExecutionCodeForNull() {
 		if (activeExam == null) {
 			Utilities_Client.popUpMethod("Wrong Code");
@@ -272,6 +277,29 @@ public class StudentWindowController implements Initializable, IScreenController
 			} else {
 				Utilities_Client.popUpMethod("Exam Locked");
 			}
+		}
+	}
+
+	/**
+	 * ************
+	 * 
+	 * @param mouseEvent
+	 */
+	public void orderExam(MouseEvent mouseEvent) {
+		if (tableViewCheckedExam.getSelectionModel().getSelectedItem() != null) {
+			ApprovedExamForStudent selectedExam = tableViewCheckedExam.getSelectionModel().getSelectedItem();
+			client.handleMessageFromClientUI(Message.getAnswers + " " + client.getId() + " "
+					+ subjectComboBoxCheckedExam.getValue() + " " + courseComboBoxCheckedBox.getValue() + " "
+					+ selectedExam.getExamNum() + " " + selectedExam.getExecutionCode());
+			client.handleMessageFromClientUI(Message.getQuestionInExam + " " + selectedExam.getExecutionCode());
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		} else {
+			Utilities_Client.popUpMethod("Please select exam");
 		}
 	}
 
@@ -404,17 +432,15 @@ public class StudentWindowController implements Initializable, IScreenController
 		if (!client.getCheckedExamsFromDB().isEmpty()) {
 			client.getCheckedExamsFromDB().clear();
 		}
-		client.handleMessageFromClientUI(
-				Message.getCheckedExamsByStudent + " " + client.getId() + " " + selectedSubject + " " + selectedCourse);
-		// if (client.getCheckedExamsFromDB().isEmpty()) {
-		tableViewCheckedExam.setItems(client.getCheckedExamsFromDB());
-		// }
+		client.handleMessageFromClientUI(Message.getApprovedExamForStudent + " " + client.getId() + " "
+				+ selectedSubject + " " + selectedCourse);
+		tableViewCheckedExam.setItems(client.getApprovedExamForStudentsDB());
 	}
 
 	public void turnCheckExamAnchorPane(ActionEvent actionEvent) {
-		if (!checkedExamAnchorPane.isVisible()) {
-			checkedExamAnchorPane.setVisible(true);
-		}
+		turnOffAllPane();
+		welcomeAnchorPane.setVisible(true);
+		checkedExamAnchorPane.setVisible(true);
 	}
 
 	/**
@@ -593,7 +619,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	private void setColumnsInCheckedExams() {
 		examNumberColInCheckedExam.setCellValueFactory(new PropertyValueFactory<>("examNum"));
 		executionCodeColInCheckedExam.setCellValueFactory(new PropertyValueFactory<>("executionCode"));
-		gradeColInCheckedExam.setCellValueFactory(new PropertyValueFactory<>("grade"));
+		gradeColInCheckedExam.setCellValueFactory(new PropertyValueFactory<>("finalGrade"));
 		generalCommentsColInCheckedExam.setCellValueFactory(new PropertyValueFactory<>("generalComments"));
 	}
 
@@ -640,10 +666,22 @@ public class StudentWindowController implements Initializable, IScreenController
 		}
 	}
 
+	private void clearOrderExam() {
+		if (subjectComboBoxCheckedExam.getValue() != null) {
+			setSubjectComboBox(subjectComboBoxCheckedExam);
+		}
+		if (courseComboBoxCheckedBox.getValue() != null) {
+			courseComboBoxCheckedBox.getSelectionModel().clearSelection();
+		}
+
+	}
+
 	/**
 	 * 
 	 */
 	private void turnOffAllPane() {
+		clearOrderExam();
+		tableViewCheckedExam.getItems().clear();
 		aesAnchorPane.setVisible(false);
 		welcomeAnchorPane.setVisible(false);
 		examAnchorPane.setVisible(false);

@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import com.mysql.jdbc.Statement;
+
+import jdk.nashorn.internal.runtime.QuotedStringTokenizer;
+
 import java.sql.PreparedStatement;
 import resources.*;
 
@@ -86,7 +89,7 @@ public class SqlUtilities {
 
 	public final static String SELECT_CheckedExams_By_Activator = "SELECT * FROM CheckedExam, ActiveExam WHERE CheckedExam.executionCode=ActiveExam.executionCode AND ActiveExam.activatorsID=?;";
 
-	public final static String SELECT_User_checkedExams = "SELECT examNum, executionCode, grade, generalComments FROM CheckedExam WHERE subjectID=? AND courseID=? AND studentID=?;";
+	public final static String SELECT_User_ApprovedExamForStudent = "SELECT examNum, executionCode, grade, comments FROM ApprovedExamForStudent WHERE subjectID=? AND courseID=? AND studentID=?;";
 
 	public final static String INSERT_ApprovedExamForStudent = "INSERT INTO ApprovedExamForStudent VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
@@ -134,6 +137,9 @@ public class SqlUtilities {
 
 	public final static String SELECT_Exams_By_Author_and_Course = "SELECT examNum FROM Exam WHERE courseID=? AND author=?;";
 
+	public final static String getStudentAnswers = "SELECT questionNum, questionOrderInExam, answer FROM StudentAnswerInQuestion WHERE studentID=? AND subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
+
+	public final static String GET_QUESTIONS_OF_EXAM = "SELECT questionText, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer, correctAnswer FROM StudentAnswerInQuestion, Questions where executionCode = ? and StudentAnswerInQuestion.subjectID=Questions.subjectID and StudentAnswerInQuestion.questionNum = Questions.questionNum;";
 
 	// region Public Methods
 
@@ -238,6 +244,19 @@ public class SqlUtilities {
 		closeResultSetAndStatement(null, null, preparedStatement);
 	}
 
+	public static QuestionHandle getQuestionInExam(String executionCode, Connection connection) throws SQLException {
+		PreparedStatement preparedStatement = connection.prepareStatement(GET_QUESTIONS_OF_EXAM);
+		ArrayList<Question> questionArray = new ArrayList<Question>();
+		preparedStatement.setString(1, executionCode);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		while (resultSet.next()) {
+			questionArray.add(new Question(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
+					resultSet.getString(4), resultSet.getString(5), resultSet.getString(6)));
+		}
+		closeResultSetAndStatement(null, null, preparedStatement);
+		return (new QuestionHandle("QuestionsInExam", questionArray));
+	}
+
 	/**
 	 * 
 	 * @param studentInActiveExam
@@ -256,6 +275,24 @@ public class SqlUtilities {
 		preparedStatement.setString(7, studentInActiveExam.getStartedTime());
 		preparedStatement.executeUpdate();
 		closeResultSetAndStatement(null, null, preparedStatement);
+	}
+
+	public static StudentAnswerInQuestionHandle getAnswers(String studentID, String subjectID, String courseID,
+			String examNum, String executionCode, Connection connection) throws SQLException {
+		PreparedStatement preparedStatement = connection.prepareStatement(getStudentAnswers);
+		ArrayList<StudentAnswerInQuestion> studentAnswersArray = new ArrayList<StudentAnswerInQuestion>();
+		preparedStatement.setString(1, studentID);
+		preparedStatement.setString(2, getSubjectID(subjectID, connection));
+		preparedStatement.setString(3, getCourseID(courseID, connection));
+		preparedStatement.setString(4, examNum);
+		preparedStatement.setString(5, executionCode);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		while (resultSet.next()) {
+			studentAnswersArray.add(new StudentAnswerInQuestion(subjectID, resultSet.getString(1),
+					resultSet.getString(2), resultSet.getString(3)));
+		}
+		closeResultSetAndStatement(null, null, preparedStatement);
+		return (new StudentAnswerInQuestionHandle("Answers", studentAnswersArray));
 	}
 
 	/**
@@ -396,10 +433,12 @@ public class SqlUtilities {
 		return (new CheckedExamHandle("AllCheckedExams", checkedExams));
 	}
 
-	public static CheckedExamHandle getCheckedExamByStudent(String studentID, String subject, String course,
-			Connection connection) throws SQLException {
-		ArrayList<CheckedExam> checkedExams = new ArrayList<CheckedExam>();
-		PreparedStatement preparedStatement = connection.prepareStatement(SqlUtilities.SELECT_User_checkedExams);
+	public static ApprovedExamForStudentHandle getApprovedExamForStudent(String studentID, String subject,
+			String course, Connection connection) throws SQLException {
+		// ArrayList<CheckedExam> checkedExams = new ArrayList<CheckedExam>();
+		ArrayList<ApprovedExamForStudent> approvedExamForStudents = new ArrayList<ApprovedExamForStudent>();
+		PreparedStatement preparedStatement = connection
+				.prepareStatement(SqlUtilities.SELECT_User_ApprovedExamForStudent);
 		preparedStatement.setString(1, getSubjectID(subject, connection));
 		preparedStatement.setString(2, getCourseID(course, connection));
 		preparedStatement.setString(3, studentID);
@@ -409,11 +448,12 @@ public class SqlUtilities {
 			ActiveExam activeExam = new ActiveExam(exam, rs.getString(2));
 			StudentInActiveExam studentInActiveExam = new StudentInActiveExam(activeExam);
 			SubmittedExam submittedExam = new SubmittedExam(studentInActiveExam);
-			CheckedExam checkedExam = new CheckedExam(submittedExam, rs.getInt(3), rs.getString(4));
-			checkedExams.add(checkedExam);
+			CheckedExam checkedExam = new CheckedExam(submittedExam, rs.getString(4));
+			approvedExamForStudents.add(new ApprovedExamForStudent(checkedExam, Integer.parseInt(rs.getString(3))));
 		}
 		closeResultSetAndStatement(null, null, preparedStatement);
-		return (new CheckedExamHandle("CheckExamsByStudent", checkedExams));
+		return (new ApprovedExamForStudentHandle("ApprovedExamForStudent", approvedExamForStudents));
+		// CheckExamsByStudent
 	}
 
 	/**
