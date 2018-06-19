@@ -130,7 +130,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="checkedExamAnchorPane" layoutX="30.0" layoutY="86.0" prefHeight="420.0" prefWidth="551.0">
+      <AnchorPane fx:id="checkedExamAnchorPane" layoutX="30.0" layoutY="86.0" prefHeight="420.0" prefWidth="551.0" visible="false">
          <children>
             <TableView fx:id="tableViewCheckedExam" layoutX="20.0" layoutY="90.0" prefHeight="295.0" prefWidth="500.0" stylesheets="@table%20view.css">
               <columns>
@@ -140,8 +140,8 @@
                   <TableColumn fx:id="generalCommentsColInCheckedExam" prefWidth="230.94351196289062" text="Comment" />
               </columns>
             </TableView>
-            <ComboBox fx:id="subjectComboBoxCheckedExam" layoutX="20.0" layoutY="14.0" prefWidth="150.0" promptText="Subject" />
-            <ComboBox fx:id="courseComboBoxCheckedBox" layoutX="20.0" layoutY="55.0" onMouseClicked="#selectCourseComboBoxHandler" prefWidth="150.0" promptText="Course" />
+            <ComboBox fx:id="subjectComboBoxCheckedExam" layoutX="20.0" layoutY="14.0" prefWidth="150.0" promptText="Select Subject" />
+            <ComboBox fx:id="courseComboBoxCheckedBox" layoutX="20.0" layoutY="55.0" onMouseClicked="#selectCourseComboBoxHandler" prefWidth="150.0" promptText="Select Course" />
             <Button layoutX="220.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#updateCheckExams" text="Update" />
             <Button layoutX="469.0" layoutY="393.0" mnemonicParsing="false" onMouseClicked="#orderExam" text="Order" />
          </children>
