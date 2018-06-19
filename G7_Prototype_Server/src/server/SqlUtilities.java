@@ -134,6 +134,13 @@ public class SqlUtilities {
 
 	public final static String SELECT_Exams_By_Author_and_Course = "SELECT examNum FROM Exam WHERE courseID=? AND author=?;";
 
+	public final static String CALCULATE_ExamAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE subjectID=? AND courseID=? AND examNum=?;";
+
+	public final static String ALL_Grades_of_Exam = "SELECT grade FROM ApprovedExamForStudent WHERE subjectID=? AND courseID=? AND examNum=?;";
+
+	public final static String COUNT_StudentWhoStarted = "SELECT COUNT(studentID) FROM SubmittedExam WHERE subjectID=? AND courseID=? AND examNum=?;";
+
+	public final static String COUNT_StudentWhoFinished = "SELECT COUNT(studentID) FROM SubmittedExam WHERE subjectID=? AND courseID=? AND examNum=? AND submitted=1;";
 
 	// region Public Methods
 
@@ -636,6 +643,51 @@ public class SqlUtilities {
 		update.setString(6, checkedExam.getSubmittedExam().getStudentInActiveExam().getStudent().getId());
 		update.executeUpdate();
 		update.close();
+	}
+	
+	public static ReportAboutExam calculateExamStatistic(ExamReportHandle examReportHandle, Connection connection)
+			throws SQLException {
+		/* AVG */
+		PreparedStatement calculate1 = connection.prepareStatement(SqlUtilities.CALCULATE_ExamAVG);
+		calculate1.setString(1, getSubjectID(examReportHandle.getSubject(), connection));
+		calculate1.setString(2, getCourseID(examReportHandle.getCourse(), connection));
+		calculate1.setString(3, examReportHandle.getExamNum());
+		ResultSet rs1 = calculate1.executeQuery();
+		rs1.next();
+		/* MEDIAN */
+		int med;
+		PreparedStatement calculate2 = connection.prepareStatement(SqlUtilities.ALL_Grades_of_Exam);
+		ArrayList<Integer> grades = new ArrayList<Integer>();
+		calculate2.setString(1, getSubjectID(examReportHandle.getSubject(), connection));
+		calculate2.setString(2, getCourseID(examReportHandle.getCourse(), connection));
+		calculate2.setString(3, examReportHandle.getExamNum());
+		ResultSet rs2 = calculate2.executeQuery();
+		while (rs2.next()) {
+			grades.add(rs2.getInt(1));
+		}
+		Collections.sort(grades);
+		int mid = grades.size() / 2;
+		if (!grades.isEmpty()) {
+			med = grades.get(mid);
+		} else
+			med = 0;
+		/* Total students who started exam */
+		PreparedStatement calculate3 = connection.prepareStatement(SqlUtilities.COUNT_StudentWhoStarted);
+		calculate3.setString(1, getSubjectID(examReportHandle.getSubject(), connection));
+		calculate3.setString(2, getCourseID(examReportHandle.getCourse(), connection));
+		calculate3.setString(3, examReportHandle.getExamNum());
+		ResultSet rs3 = calculate3.executeQuery();
+		rs3.next();
+		/* Total students who finished exam */
+		PreparedStatement calculate4 = connection.prepareStatement(SqlUtilities.COUNT_StudentWhoFinished);
+		calculate4.setString(1, getSubjectID(examReportHandle.getSubject(), connection));
+		calculate4.setString(2, getCourseID(examReportHandle.getCourse(), connection));
+		calculate4.setString(3, examReportHandle.getExamNum());
+		ResultSet rs4 = calculate4.executeQuery();
+		rs4.next();
+		/* Total students who forced to finish exam */
+		int forced = rs3.getInt(1)- rs4.getInt(1);
+		return new ReportAboutExam(rs1.getDouble(1), med, rs3.getInt(1), rs4.getInt(1), forced, grades);
 	}
 
 	public static ReportAboutStudent calculateStudentStatistic(ReportHandle reportHandle, Connection connection)
