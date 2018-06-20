@@ -146,6 +146,8 @@ public class SqlUtilities {
 
 	public final static String COUNT_StudentWhoFinished = "SELECT COUNT(studentID) FROM SubmittedExam WHERE subjectID=? AND courseID=? AND examNum=? AND submitted=1;";
 
+	public final static String getQuestionsFromSpecificExam = "SELECT Questions.subjectID, Questions.questionNum, Questions.author, Questions.questionText, Questions.firstAnswer, Questions.secondAnswer, Questions.thirdAnswer, Questions.fourthAnswer, Questions.correctAnswer FROM Questions, QuestionInExam, Exam WHERE Exam.subjectID=? AND Exam.courseID=? AND Exam.examNum=? AND Exam.subjectID=QuestionInExam.subjectID AND Exam.courseID=QuestionInExam.courseID AND Exam.examNum=QuestionInExam.examNum AND QuestionInExam.questionNum=Questions.questionNum AND Exam.subjectID=Questions.subjectID;";
+
 	// region Public Methods
 
 	// end region -> Constants
@@ -260,6 +262,29 @@ public class SqlUtilities {
 		}
 		closeResultSetAndStatement(null, null, preparedStatement);
 		return (new QuestionHandle("QuestionsInExam", questionArray));
+	}
+
+	public static QuestionHandle getQuestionsInGeneralExam(String subjectID, String courseID, String examNumber,
+			Connection connection) throws SQLException {
+		PreparedStatement preparedStatement = connection.prepareStatement(getQuestionsFromSpecificExam);
+		ArrayList<Question> questions = new ArrayList<>();
+		ArrayList<String> possibleAnswers = new ArrayList<>();
+		preparedStatement.setString(1, subjectID);
+		preparedStatement.setString(2, courseID);
+		preparedStatement.setString(3, examNumber);
+		ResultSet rs = preparedStatement.executeQuery();
+		int index = 0;
+		while (rs.next()) {
+			while (index < 4) { // add the possible answers to the array list
+				possibleAnswers.add(index, rs.getString(index + 5));
+				index++;
+			}
+			questions.add(new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+					possibleAnswers, rs.getString(9)));
+			index = 0;
+		}
+		closeResultSetAndStatement(rs, null, preparedStatement);
+		return (new QuestionHandle("All", questions));
 	}
 
 	/**

@@ -68,6 +68,8 @@ public class Message {
 
 	public final static String getQuestionInExam = "#GetQuestionsInExam";
 
+	public final static String getQuestionsFromSpecificExam = "#GetQuestionsFromSpecificExam";
+
 	// end region -> Constants
 
 }

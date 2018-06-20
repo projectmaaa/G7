@@ -439,6 +439,10 @@ public class Server extends AbstractServer {
 				case Message.getActiveExamBySubject:
 					client.sendToClient(SqlUtilities.getActiveExamsBySubject(strArray[1], connection));
 					break;
+				case Message.getQuestionsFromSpecificExam:
+					client.sendToClient(
+							SqlUtilities.getQuestionsInGeneralExam(strArray[1], strArray[2], strArray[3], connection));
+					break;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
