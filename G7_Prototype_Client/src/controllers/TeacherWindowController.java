@@ -2,6 +2,7 @@ package controllers;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import client.Client;
@@ -14,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -24,6 +26,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -38,11 +41,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.converter.IntegerStringConverter;
 import resources.*;
 
@@ -386,6 +392,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private Button changeTimeButton;
 
+	@FXML
+	private ScrollPane copiersStudents;
+
 	// confirm grades
 
 	@FXML
@@ -479,13 +488,24 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private Exam exam;
 
+	private StudentHandle studentHandle;
+
 	private boolean rejectionFlag;
 
 	private boolean acceptionFlag;
 
+	private boolean hadCopied;
+
 	// end region -> Fields
 
-	@Override
+	public StudentHandle getStudentHandle() {
+		return studentHandle;
+	}
+
+	public void setStudentHandle(StudentHandle studentHandle) {
+		this.studentHandle = studentHandle;
+	}
+
 	public void setScreenParent(ScreensController screenParent) {
 		screensController = screenParent;
 	}
@@ -512,6 +532,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	public void setRejectionFlag(boolean rejectionFlag) {
 		this.rejectionFlag = rejectionFlag;
+	}
+
+	public boolean isHadCopied() {
+		return hadCopied;
+	}
+
+	public void setHadCopied(boolean hadCopied) {
+		this.hadCopied = hadCopied;
 	}
 
 	public boolean isAcceptionFlag() {
@@ -1626,6 +1654,65 @@ public class TeacherWindowController implements Initializable, IScreenController
 			Utilities_Client.popUpMethod("The principal approved your request");
 			setAcceptionFlag(false);
 		}
+		if (hadCopied) {
+			handleCopiers();
+			setHadCopied(false);
+		}
+	}
+
+	/**
+	 * Shows pop-up with students that copied.
+	 * 
+	 * @param studentHandle
+	 */
+	public void handleCopiers() {
+		HashMap<Student, ArrayList<Student>> copeied = studentHandle.getCopeied();
+		String str = "";
+		for (Student studend : copeied.keySet()) {
+			str += studend.getFirstName() + " " + studend.getLastName() + " copied with:\n";
+			for (Student copier : copeied.get(studend)) {
+				str += copier.getFirstName() + " " + copier.getLastName() + "\n";
+			}
+			str += "####################\n";
+		}
+		VBox vBox = new VBox();
+		Label text = null;
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("AES7");
+		primaryStage.setResizable(false);
+		primaryStage.setHeight(600);
+		primaryStage.setWidth(400);
+		primaryStage.initStyle(StageStyle.UNDECORATED);
+		vBox.setPrefHeight(300);
+		ScrollPane scrollPane = new ScrollPane();
+		scrollPane.setLayoutX(25);
+		scrollPane.setContent(vBox);
+		Popup popup = new Popup();
+		popup.setX(700);
+		popup.setY(400);
+		popup.getContent().add(scrollPane);
+		BorderPane border = new BorderPane();
+		Button okButton = new Button("OK");
+		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		okButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+			}
+		});
+		border.setStyle(
+				"-fx-background-color: cornsilk; -fx-padding: 10; -fx-border-color: black;-fx-border-width: 1;");
+		try {
+			text = new Label(str);
+		} catch (NullPointerException e) {
+			text = new Label("No Message Sent");
+		}
+		border.setCenter(scrollPane);
+		vBox.getChildren().add(text);
+		popup.getContent().addAll(vBox);
+		border.setBottom(okButton);
+		primaryStage.setScene(new Scene(border));
+		primaryStage.show();
 	}
 
 	/**

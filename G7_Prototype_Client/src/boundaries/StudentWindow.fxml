@@ -9,6 +9,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.Bloom?>
@@ -157,6 +158,11 @@
             <Button fx:id="okButtonShowExam" layoutX="603.0" layoutY="520.0" mnemonicParsing="false" onMouseClicked="#returnToTableView" text="Ok" />
          </children>
       </AnchorPane>
+      <TextArea fx:id="commentsTextArea" editable="false" layoutX="651.0" layoutY="315.0" prefHeight="200.0" prefWidth="335.0" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextArea>
       <ImageView blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="431.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/logo.jpg" />

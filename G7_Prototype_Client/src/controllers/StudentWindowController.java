@@ -26,6 +26,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -110,6 +111,9 @@ public class StudentWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button uploadManualExam;
+
+	@FXML
+	private TextArea commentsTextArea;
 
 	/*********************************************************/
 
@@ -623,6 +627,8 @@ public class StudentWindowController implements Initializable, IScreenController
 	private void computerizeExam() {
 		sumbitExamButton.setVisible(true);
 		computrizedScrollPane.setVisible(true);
+		commentsTextArea.setText(activeExam.getExam().getFreeTextForExaminees());
+		commentsTextArea.setVisible(true);
 		int index = 0;
 		for (QuestionInExam questionInExam : activeExam.getExam().getQuestions()) {
 			QuestionInComputerizeExam questionInComputerizeExam = new QuestionInComputerizeExam(
