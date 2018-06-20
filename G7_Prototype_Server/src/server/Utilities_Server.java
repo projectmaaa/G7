@@ -45,11 +45,6 @@ public class Utilities_Server {
 						exam.getStudentInActiveExam().getActiveExam().getExam().getExamNum(), connection);
 		}
 		return grade;
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of https://github.com/projectmaaa/G7
 	}
-	
 
 }

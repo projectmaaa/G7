@@ -152,7 +152,7 @@ public class SqlUtilities {
 	public final static String GetStudentAnswerInQuestionByExecutionCode = "select * from StudentAnswerInQuestion where executionCode = ?;";
 
 	public final static String GetNumberOfExamineesByExecutionCode = "select count(distinct ?) from StudentAnswerInQuestion where executionCode = ?;";
-	
+
 	public final static String GetNumberOfExamineesThatSubmitOrNot = "select count(*) from SubmittedExam where executionCode = ? and submitted = ?;";
 	// region Public Methods
 
@@ -732,13 +732,8 @@ public class SqlUtilities {
 		ResultSet rs4 = calculate4.executeQuery();
 		rs4.next();
 		/* Total students who forced to finish exam */
-<<<<<<< HEAD
-		int forced = rs3.getInt(1)- rs4.getInt(1);
-		return new ReportAboutExam(rs1.getDouble(1), med, rs3.getInt(1), rs4.getInt(1), forced, grades);
-=======
 		int forced = rs3.getInt(1) - rs4.getInt(1);
 		return new ReportAboutExam(rs1.getDouble(1), med, rs3.getInt(1), rs4.getInt(1), forced, grades);
->>>>>>> branch 'master' of https://github.com/projectmaaa/G7
 	}
 
 	public static ReportAboutStudent calculateStudentStatistic(ReportHandle reportHandle, Connection connection)
