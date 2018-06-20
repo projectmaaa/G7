@@ -79,6 +79,20 @@ public class DocxGenerator {
 		fileOutputStream.close();
 	}
 
+	public void addInstruction(String instruction) throws IOException {
+		fileOutputStream = new FileOutputStream(docxFile);
+		XWPFParagraph paragraph = document.createParagraph();
+		paragraph.setAlignment(ParagraphAlignment.LEFT);
+		XWPFRun run = paragraph.createRun();
+		run.setBold(true);
+		run.setText(instruction);
+		run.addBreak();
+		run.addBreak();
+		run.addBreak();
+		document.write(fileOutputStream);
+		fileOutputStream.close();
+	}
+
 	private void tabAndBreak(XWPFRun run) {
 		run.addBreak();
 		run.addTab();
