@@ -78,7 +78,7 @@ public class Question implements Serializable {
 	 * @param correctAnswer
 	 */
 	public Question(String questionText, String firstPossibleAnswer, String secondPossibleAnswer,
-			String thirdPossibleAnswer, String fourthPossibleAnswer, String correctAnswer) {
+			String thirdPossibleAnswer, String fourthPossibleAnswer, String correctAnswer, String questionNum) {
 		super();
 		this.questionText = questionText;
 		this.firstPossibleAnswer = firstPossibleAnswer;
@@ -86,6 +86,7 @@ public class Question implements Serializable {
 		this.thirdPossibleAnswer = thirdPossibleAnswer;
 		this.fourthPossibleAnswer = fourthPossibleAnswer;
 		this.correctAnswer = correctAnswer;
+		this.questionNum = questionNum;
 	}
 
 	// end region -> Constructors

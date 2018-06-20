@@ -13,10 +13,14 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
@@ -24,12 +28,17 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import resources.*;
 
@@ -145,6 +154,23 @@ public class StudentWindowController implements Initializable, IScreenController
 
 	@FXML
 	private ComboBox<String> courseComboBoxCheckedBox;
+
+	/*********************************************************/
+
+	@FXML
+	private AnchorPane anchorPaneShowExam;
+
+	@FXML
+	private ScrollPane scrollPaneShowExam;
+
+	@FXML
+	private VBox vBoxShowExam;
+
+	@FXML
+	private TextField gradeTextField;
+
+	@FXML
+	private Button okButtonShowExam;
 
 	/*********************************************************/
 
@@ -297,7 +323,9 @@ public class StudentWindowController implements Initializable, IScreenController
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
+			gradeTextField.setEditable(false);
+			gradeTextField.setText(Integer.toString(selectedExam.getFinalGrade()));
+			showExam();
 		} else {
 			Utilities_Client.popUpMethod("Please select exam");
 		}
@@ -310,6 +338,14 @@ public class StudentWindowController implements Initializable, IScreenController
 	 */
 	public void enterIsClickedInEnterID(MouseEvent e) {
 		checkStudentID();
+	}
+
+	public void returnToTableView(MouseEvent mouseEvent) {
+		vBoxShowExam.getChildren().clear();
+		gradeTextField.clear();
+		vBoxShowExam.setVisible(false);
+		anchorPaneShowExam.setVisible(false);
+		checkedExamAnchorPane.setVisible(true);
 	}
 
 	/**
@@ -340,6 +376,34 @@ public class StudentWindowController implements Initializable, IScreenController
 			Utilities_Client.popUpMethod("Please Enter Execution Code");
 		}
 		executionCodeTextField.clear();
+	}
+
+	private void showExam() {
+		int index = 0;
+		turnOffAllPane();
+		QuestionInComputerizeExam questionInComputerizeExam;
+		vBoxShowExam.getChildren().add(new Text("\n"));
+		for (Question questionsFromDB : client.getQuestionsFromDB()) {
+			for (StudentAnswerInQuestion studnetAnswerInQuestionDB : client.getStudnetAnswerInQuestionDB()) {
+				if (questionsFromDB.getQuestionNum().equals(studnetAnswerInQuestionDB.getQuestionNum())) {
+					questionInComputerizeExam = new QuestionInComputerizeExam(
+							Integer.toString(++index) + ". " + questionsFromDB.getQuestionText(),
+							"\t" + questionsFromDB.getFirstPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getSecondPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getThirdPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getFourthPossibleAnswer() + "\t");
+					questionInComputerizeExam.setTextOnGreen(questionsFromDB.getCorrectAnswer());
+					if (!studnetAnswerInQuestionDB.getStudentAnswer().equals(questionsFromDB.getCorrectAnswer())) {
+						questionInComputerizeExam.setTextOnRed(studnetAnswerInQuestionDB.getStudentAnswer());
+					}
+					QuestionInComputerizeExamArray.add(questionInComputerizeExam);
+					vBoxShowExam.getChildren().addAll(questionInComputerizeExam.getList());
+					vBoxShowExam.getChildren().add(new Text(""));
+				}
+			}
+		}
+		anchorPaneShowExam.setVisible(true);
+		vBoxShowExam.setVisible(true);
 	}
 
 	/**
@@ -505,24 +569,6 @@ public class StudentWindowController implements Initializable, IScreenController
 		timerPane.setVisible(true);
 	}
 
-	private void setSubjectComboBox(ComboBox<String> comboBox) {
-		comboBox.getSelectionModel().clearSelection();
-		comboBox.setPromptText("Select Subject");
-		comboBox.setButtonCell(new ListCell<String>() {
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				super.updateItem(item, empty);
-				if (empty || item == null) {
-					setText("Select Subject");
-				} else {
-					setText(item);
-				}
-			}
-		});
-		client.handleMessageFromClientUI(Message.getSubjects);
-		comboBox.setItems(client.getSubjectsFromDB());
-	}
-
 	/**
 	 * Prevents from the user to select course if he\she didn't select a subject
 	 * 
@@ -551,6 +597,24 @@ public class StudentWindowController implements Initializable, IScreenController
 				}
 			});
 		}
+	}
+
+	private void setSubjectComboBox(ComboBox<String> comboBox) {
+		comboBox.getSelectionModel().clearSelection();
+		comboBox.setPromptText("Select Subject");
+		comboBox.setButtonCell(new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("Select Subject");
+				} else {
+					setText(item);
+				}
+			}
+		});
+		client.handleMessageFromClientUI(Message.getSubjects);
+		comboBox.setItems(client.getSubjectsFromDB());
 	}
 
 	/**
@@ -682,6 +746,8 @@ public class StudentWindowController implements Initializable, IScreenController
 	private void turnOffAllPane() {
 		clearOrderExam();
 		tableViewCheckedExam.getItems().clear();
+		anchorPaneShowExam.setVisible(false);
+		vBoxShowExam.setVisible(false);
 		aesAnchorPane.setVisible(false);
 		welcomeAnchorPane.setVisible(false);
 		examAnchorPane.setVisible(false);

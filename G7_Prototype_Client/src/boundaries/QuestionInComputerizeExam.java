@@ -6,22 +6,25 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import resources.QuestionInExam;
 
 public class QuestionInComputerizeExam {
 
-	Label labelfirst;
+	private Label labelfirst;
 
-	RadioButton radio1, radio2, radio3, radio4;
+	private Label ans1, ans2, ans3, ans4;
 
-	Button button;
+	private RadioButton radio1, radio2, radio3, radio4;
 
-	QuestionInExam questionInExam;
+	private Button button;
 
-	ToggleGroup toggleGroup;
+	private QuestionInExam questionInExam;
 
-	ObservableList<Node> list = FXCollections.observableArrayList();
+	private ToggleGroup toggleGroup;
+
+	private ObservableList<Node> list = FXCollections.observableArrayList();
 
 	/**
 	 * 
@@ -60,6 +63,23 @@ public class QuestionInComputerizeExam {
 		button.setDisable(true);
 		this.questionInExam = questionInExam;
 		list.addAll(labelfirst, radio1, radio2, radio3, radio4);
+	}
+
+	/**
+	 * 
+	 * @param questionText
+	 * @param ans1
+	 * @param ans2
+	 * @param ans3
+	 * @param ans4
+	 */
+	public QuestionInComputerizeExam(String questionText, String ans1, String ans2, String ans3, String ans4) {
+		this.labelfirst = new Label(questionText);
+		this.ans1 = new Label(ans1);
+		this.ans2 = new Label(ans2);
+		this.ans3 = new Label(ans3);
+		this.ans4 = new Label(ans4);
+		list.addAll(labelfirst, this.ans1, this.ans2, this.ans3, this.ans4);
 	}
 
 	public ToggleGroup getToggleGroup() {
@@ -132,6 +152,40 @@ public class QuestionInComputerizeExam {
 
 	public void setQuestionInExam(QuestionInExam questionInExam) {
 		this.questionInExam = questionInExam;
+	}
+
+	public void setTextOnRed(String ans) {
+		switch (ans) {
+		case "1":
+			ans1.setStyle("-fx-background-color : red");
+			break;
+		case "2":
+			ans2.setStyle("-fx-background-color : red");
+			break;
+		case "3":
+			ans3.setStyle("-fx-background-color : red");
+			break;
+		case "4":
+			ans4.setStyle("-fx-background-color : red");
+			break;
+		}
+	}
+
+	public void setTextOnGreen(String ans) {
+		switch (ans) {
+		case "1":
+			ans1.setStyle("-fx-background-color : green");
+			break;
+		case "2":
+			ans2.setStyle("-fx-background-color : green");
+			break;
+		case "3":
+			ans3.setStyle("-fx-background-color : green");
+			break;
+		case "4":
+			ans4.setStyle("-fx-background-color : green");
+			break;
+		}
 	}
 
 }
