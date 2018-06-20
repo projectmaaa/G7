@@ -7,9 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import com.mysql.jdbc.Statement;
-
-import jdk.nashorn.internal.runtime.QuotedStringTokenizer;
-
 import java.sql.PreparedStatement;
 import resources.*;
 
