@@ -37,6 +37,12 @@ public class CheckedExam implements Serializable {
 		this.generalComments = generalComments;
 	}
 
+	public CheckedExam(SubmittedExam submittedExam, String generalComments) {
+		super();
+		this.submittedExam = submittedExam;
+		this.generalComments = generalComments;
+	}
+
 	public SubmittedExam getSubmittedExam() {
 		return submittedExam;
 	}

@@ -36,6 +36,21 @@ public class StudentAnswerInQuestion implements Serializable {
 		this.student = student;
 	}
 
+	/**
+	 * 
+	 * @param subjectID
+	 * @param questionNum
+	 * @param questionOrderInExam
+	 * @param studentAnswer
+	 */
+	public StudentAnswerInQuestion(String subjectID, String questionNum, String questionOrderInExam,
+			String studentAnswer) {
+		this.subjectID = subjectID;
+		this.questionNum = questionNum;
+		this.questionOrderInExam = questionOrderInExam;
+		this.studentAnswer = studentAnswer;
+	}
+
 	public String getSubjectID() {
 		return subjectID;
 	}

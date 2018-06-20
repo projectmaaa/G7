@@ -279,6 +279,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private ComboBox<String> subjectExamManagement;
 
 	@FXML
+	private ComboBox<String> courseExamManagement;
+
+	@FXML
 	private Button examManagementUpdateButton;
 
 	@FXML
@@ -348,6 +351,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private ComboBox<String> subjectsActiveExamManagement;
+
+	@FXML
+	private ComboBox<String> coursesActiveExamManagement;
 
 	@FXML
 	private Button LockButton;
@@ -930,12 +936,20 @@ public class TeacherWindowController implements Initializable, IScreenController
 			selectedSubject = subjectInCreateExamComboBox.getValue();
 		else if (examStatisticAnchorPane.isVisible())
 			selectedSubject = subjectComboBoxInExamStatistic.getValue();
+		else if (examManagementAnchorPane.isVisible())
+			selectedSubject = subjectExamManagement.getValue();
+		else if (activeExamManagementAnchorPane.isVisible())
+			selectedSubject = subjectsActiveExamManagement.getValue();
 		if (selectedSubject == null)
 			Utilities_Client.popUpMethod("You must select the subject first");
 		else if (createExamAnchorPane.isVisible())
 			selectCourseComboBox(courseInCreateExamComboBox, selectedSubject);
 		else if (examStatisticAnchorPane.isVisible())
 			selectCourseComboBox(courseComboBoxInExamStatistic, selectedSubject);
+		else if (examManagementAnchorPane.isVisible())
+			selectCourseComboBox(courseExamManagement, selectedSubject);
+		else if (activeExamManagementAnchorPane.isVisible())
+			selectCourseComboBox(coursesActiveExamManagement, selectedSubject);
 	}
 
 	private void selectCourseComboBox(ComboBox<String> combobox, String selectedSubject) {
@@ -958,24 +972,24 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	public void showExamsHandler(ActionEvent event) {
-		if (examManagementAnchorPane.isVisible() && subjectExamManagement.getValue() != null)
+		if (examManagementAnchorPane.isVisible() && courseExamManagement.getValue() != null)
 			setTableInExamsManagement();
-		else if (activeExamManagementAnchorPane.isVisible() && subjectsActiveExamManagement.getValue() != null)
+		else if (activeExamManagementAnchorPane.isVisible() && coursesActiveExamManagement.getValue() != null)
 			setTableInActiveExamManagement();
 		else
-			Utilities_Client.popUpMethod("Please Select the Subject");
+			Utilities_Client.popUpMethod("Please Select the Course");
 	}
 
 	private void setTableInExamsManagement() {
 		client.getExamsFromDB().clear();
-		client.handleMessageFromClientUI(Message.getExamBySubject + " " + subjectExamManagement.getValue());
+		client.handleMessageFromClientUI(Message.getExamByCourse + " " + courseExamManagement.getValue());
 		tableViewInExamsManagement.setItems(client.getExamsFromDB());
 	}
 
 	private void setTableInActiveExamManagement() {
 		client.getActivatedUnlockedExams().clear();
 		client.handleMessageFromClientUI(Message.getActiveExamsByActivator + " " + client.getId() + " "
-				+ subjectsActiveExamManagement.getValue());
+				+ coursesActiveExamManagement.getValue());
 		activeExamsTableView.setItems(client.getActivatedUnlockedExams());
 	}
 
@@ -1030,10 +1044,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			confirmGradesAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 			setSubjectComboBox(subjectExamManagement);
+			setCourseComboBox(courseExamManagement);
 			activeExamManagementAnchorPane.setVisible(false);
 			examStatisticAnchorPane.setVisible(false);
 			examReportAnchorPane.setVisible(false);
-
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -1564,6 +1578,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		examManagementAnchorPane.setVisible(false);
 		confirmGradesAnchorPane.setVisible(false);
 		setSubjectComboBox(subjectsActiveExamManagement);
+		setCourseComboBox(coursesActiveExamManagement);
 		activeExamsTableView.getItems().clear();
 		backAnchorPane.setVisible(true);
 		activeExamManagementAnchorPane.setVisible(true);
