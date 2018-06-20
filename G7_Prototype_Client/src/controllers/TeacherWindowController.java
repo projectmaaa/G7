@@ -2,6 +2,7 @@ package controllers;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import client.Client;
@@ -14,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -24,6 +26,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -38,11 +41,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.converter.IntegerStringConverter;
 import resources.*;
 
@@ -262,9 +268,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private Button createExamButton;
 
-	/***************************************************/
-
-	// exam management
+	/* Exam Management */
 
 	@FXML
 	private AnchorPane examManagementAnchorPane;
@@ -283,6 +287,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button deleteExamButton;
+
+	@FXML
+	private Button showQuestionsButton;
 
 	@FXML
 	private Button showExamsButtonInExamManagement;
@@ -313,6 +320,36 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private TextField executionCode;
+
+	@FXML
+	private TableView<Question> questionsOfSpecifcExamTable;
+
+	@FXML
+	private TableColumn<Question, String> subjectIDColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> questionNumColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> authorColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> questionTextColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> firstPossibleAnswerColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> secondPossibleAnswerColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> thirdPossibleAnswerColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> fourthPossibleAnswerColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> correctAnswerColumnInExamManagement;
 
 	/* Active Exam Management */
 
@@ -354,6 +391,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button changeTimeButton;
+
+	@FXML
+	private ScrollPane copiersStudents;
 
 	// confirm grades
 
@@ -448,13 +488,24 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private Exam exam;
 
+	private StudentHandle studentHandle;
+
 	private boolean rejectionFlag;
 
 	private boolean acceptionFlag;
 
+	private boolean hadCopied;
+
 	// end region -> Fields
 
-	@Override
+	public StudentHandle getStudentHandle() {
+		return studentHandle;
+	}
+
+	public void setStudentHandle(StudentHandle studentHandle) {
+		this.studentHandle = studentHandle;
+	}
+
 	public void setScreenParent(ScreensController screenParent) {
 		screensController = screenParent;
 	}
@@ -481,6 +532,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	public void setRejectionFlag(boolean rejectionFlag) {
 		this.rejectionFlag = rejectionFlag;
+	}
+
+	public boolean isHadCopied() {
+		return hadCopied;
+	}
+
+	public void setHadCopied(boolean hadCopied) {
+		this.hadCopied = hadCopied;
 	}
 
 	public boolean isAcceptionFlag() {
@@ -553,6 +612,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setColumnsInExamsManagement();
 		setColumnInConfirmGrades();
 		setColumnsOfActiveExams();
+		setColumnsInExamManagement();
 		initAnchorPaneInCreateExamFirstWindow();
 		tableViewInCreateExamQuestion.setEditable(true);
 		tableViewInCreateExamQuestion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -1030,7 +1090,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		if (selectedExam == null)
 			Utilities_Client.popUpMethod("Please Select Exam");
 		else {
-			Label text = null;
+			Label text = new Label("Please enter an execution code:");
 			Stage primaryStage = new Stage();
 			primaryStage.setTitle("AES7");
 			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
@@ -1038,7 +1098,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 			popup.setX(700);
 			popup.setY(400);
 			HBox layout = new HBox(10);
-			text = new Label("Please enter an execution code:");
 			popup.getContent().addAll(text);
 			executionCode = new TextField();
 			executionCode.setPrefWidth(55);
@@ -1080,6 +1139,30 @@ public class TeacherWindowController implements Initializable, IScreenController
 			});
 			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
 			layout.getChildren().addAll(text, executionCode, type, okButton, cancelButton);
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
+	}
+
+	public void showQuestionsButtonHandler(MouseEvent event) {
+		Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
+		if (selectedExam == null)
+			Utilities_Client.popUpMethod("Please Select Exam");
+		else {
+			client.handleMessageFromClientUI(Message.getQuestionsFromSpecificExam + " " + selectedExam.getSubjectID()
+					+ " " + selectedExam.getCourseID() + " " + selectedExam.getExamNum());
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			HBox layout = new HBox(10);
+			primaryStage.setResizable(false);
+			questionsOfSpecifcExamTable.setItems(client.getQuestionsFromDB());
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			layout.getChildren().addAll(questionsOfSpecifcExamTable);
+			questionsOfSpecifcExamTable.setVisible(true);
 			primaryStage.setScene(new Scene(layout));
 			primaryStage.show();
 		}
@@ -1571,6 +1654,65 @@ public class TeacherWindowController implements Initializable, IScreenController
 			Utilities_Client.popUpMethod("The principal approved your request");
 			setAcceptionFlag(false);
 		}
+		if (hadCopied) {
+			handleCopiers();
+			setHadCopied(false);
+		}
+	}
+
+	/**
+	 * Shows pop-up with students that copied.
+	 * 
+	 * @param studentHandle
+	 */
+	public void handleCopiers() {
+		HashMap<Student, ArrayList<Student>> copeied = studentHandle.getCopeied();
+		String str = "";
+		for (Student studend : copeied.keySet()) {
+			str += studend.getFirstName() + " " + studend.getLastName() + " copied with:\n";
+			for (Student copier : copeied.get(studend)) {
+				str += copier.getFirstName() + " " + copier.getLastName() + "\n";
+			}
+			str += "####################\n";
+		}
+		VBox vBox = new VBox();
+		Label text = null;
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("AES7");
+		primaryStage.setResizable(false);
+		primaryStage.setHeight(600);
+		primaryStage.setWidth(400);
+		primaryStage.initStyle(StageStyle.UNDECORATED);
+		vBox.setPrefHeight(300);
+		ScrollPane scrollPane = new ScrollPane();
+		scrollPane.setLayoutX(25);
+		scrollPane.setContent(vBox);
+		Popup popup = new Popup();
+		popup.setX(700);
+		popup.setY(400);
+		popup.getContent().add(scrollPane);
+		BorderPane border = new BorderPane();
+		Button okButton = new Button("OK");
+		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		okButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+			}
+		});
+		border.setStyle(
+				"-fx-background-color: cornsilk; -fx-padding: 10; -fx-border-color: black;-fx-border-width: 1;");
+		try {
+			text = new Label(str);
+		} catch (NullPointerException e) {
+			text = new Label("No Message Sent");
+		}
+		border.setCenter(scrollPane);
+		vBox.getChildren().add(text);
+		popup.getContent().addAll(vBox);
+		border.setBottom(okButton);
+		primaryStage.setScene(new Scene(border));
+		primaryStage.show();
 	}
 
 	/**
@@ -1620,7 +1762,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * Define the columns
+	 * Define the columns in Edit\Remove screen
 	 */
 	private void setColumnsInEditOrRemove() {
 		subjectIDColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
@@ -1685,6 +1827,26 @@ public class TeacherWindowController implements Initializable, IScreenController
 						.setCorrectAnswer(t.getNewValue());
 			}
 		});
+	}
+
+	/**
+	 * Define the columns for the table of the 'Show Questions' pop up in the exam
+	 * management screen
+	 */
+	private void setColumnsInExamManagement() {
+		subjectIDColumnInExamManagement.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
+		questionNumColumnInExamManagement.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
+		authorColumnInExamManagement.setCellValueFactory(new PropertyValueFactory<>("author"));
+		questionTextColumnInExamManagement.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+		firstPossibleAnswerColumnInExamManagement
+				.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
+		secondPossibleAnswerColumnInExamManagement
+				.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
+		thirdPossibleAnswerColumnInExamManagement
+				.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
+		fourthPossibleAnswerColumnInExamManagement
+				.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
+		correctAnswerColumnInExamManagement.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 	}
 
 	/**
@@ -1816,7 +1978,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 			});
 		}
-		if (!questionTextField.getText().isEmpty()) {
+		if (!questionTextField.getText().isEmpty())
+
+		{
 			questionTextField.clear();
 		}
 		if (!firstAnswerField.getText().isEmpty()) {

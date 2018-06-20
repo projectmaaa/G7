@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Vector;
+
 import java.util.Collections;
 import com.mysql.jdbc.Statement;
 import java.sql.PreparedStatement;
@@ -146,7 +149,15 @@ public class SqlUtilities {
 
 	public final static String COUNT_StudentWhoFinished = "SELECT COUNT(studentID) FROM SubmittedExam WHERE subjectID=? AND courseID=? AND examNum=? AND submitted=1;";
 
+	public final static String getQuestionsFromSpecificExam = "SELECT Questions.subjectID, Questions.questionNum, Questions.author, Questions.questionText, Questions.firstAnswer, Questions.secondAnswer, Questions.thirdAnswer, Questions.fourthAnswer, Questions.correctAnswer FROM Questions, QuestionInExam, Exam WHERE Exam.subjectID=? AND Exam.courseID=? AND Exam.examNum=? AND Exam.subjectID=QuestionInExam.subjectID AND Exam.courseID=QuestionInExam.courseID AND Exam.examNum=QuestionInExam.examNum AND QuestionInExam.questionNum=Questions.questionNum AND Exam.subjectID=Questions.subjectID;";
+
+	public final static String GetStudentAnswerInQuestionByExecutionCode = "select * from StudentAnswerInQuestion where executionCode = ?;";
+
 	public final static String SELECT_ApprovedExamByStudent = "SELECT subjectID, courseID, examNum, executionCode, grade, comments FROM ApprovedExamForStudent WHERE studentID=?;";
+
+	public final static String GetNumberOfExamineesByExecutionCode = "select count(distinct ?) from StudentAnswerInQuestion where executionCode = ?;";
+
+	public final static String GetNumberOfExamineesThatSubmitOrNot = "select count(*) from SubmittedExam where executionCode = ? and submitted = ?;";
 
 	// region Public Methods
 
@@ -262,6 +273,29 @@ public class SqlUtilities {
 		}
 		closeResultSetAndStatement(null, null, preparedStatement);
 		return (new QuestionHandle("QuestionsInExam", questionArray));
+	}
+
+	public static QuestionHandle getQuestionsInGeneralExam(String subjectID, String courseID, String examNumber,
+			Connection connection) throws SQLException {
+		PreparedStatement preparedStatement = connection.prepareStatement(getQuestionsFromSpecificExam);
+		ArrayList<Question> questions = new ArrayList<>();
+		ArrayList<String> possibleAnswers = new ArrayList<>();
+		preparedStatement.setString(1, subjectID);
+		preparedStatement.setString(2, courseID);
+		preparedStatement.setString(3, examNumber);
+		ResultSet rs = preparedStatement.executeQuery();
+		int index = 0;
+		while (rs.next()) {
+			while (index < 4) { // add the possible answers to the array list
+				possibleAnswers.add(index, rs.getString(index + 5));
+				index++;
+			}
+			questions.add(new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+					possibleAnswers, rs.getString(9)));
+			index = 0;
+		}
+		closeResultSetAndStatement(rs, null, preparedStatement);
+		return (new QuestionHandle("All", questions));
 	}
 
 	/**
@@ -774,6 +808,8 @@ public class SqlUtilities {
 			throws SQLException {
 		PreparedStatement calculate = connection.prepareStatement(SqlUtilities.CALCULATE_CourseAVG);
 		calculate.setString(1, reportHandle.getCourse().getCourseID());
+		ResultSet rs = calculate.executeQuery();
+		rs.next();
 		ResultSet rs1 = calculate.executeQuery();
 		rs1.next();
 		int med;
@@ -964,7 +1000,6 @@ public class SqlUtilities {
 
 	/**
 	 * Inserts a new record to CheckedExam table in database, so first calculate
-	 * Inserts to a new record to CheckedExam table in database, so first calculate
 	 * 
 	 * @param submittedExam
 	 * @param connection
@@ -1023,6 +1058,91 @@ public class SqlUtilities {
 		delete.setString(3, exam.getExamNum());
 		delete.executeUpdate();
 		closeResultSetAndStatement(null, null, delete);
+	}
+
+	/**
+	 * Returns a HashMap a of students that had copied in the specified exam.
+	 * 
+	 * @param examH
+	 * @param connection
+	 * @return HashMap<Student, ArrayList<Student>> copied
+	 * @throws SQLException
+	 */
+	public static StudentHandle findExamHaveExamineesThatCopy(ActiveExamHandle examH, Connection connection)
+			throws SQLException {
+		HashMap<Student, ArrayList<Student>> copied = new HashMap<>();
+		HashMap<String, ArrayList<String>> idOfCopied = new HashMap<String, ArrayList<String>>();
+		HashMap<String, Vector<Integer>> exams = new HashMap<String, Vector<Integer>>();
+		PreparedStatement examQuestionsByStudent = connection
+				.prepareStatement(GetStudentAnswerInQuestionByExecutionCode);
+		examQuestionsByStudent.setString(1, examH.getActiveExam().getExecutionCode());
+		ResultSet rs1 = examQuestionsByStudent.executeQuery();
+		// while loop that puts by associating the specified studentID with the
+		// specified answers in this map.
+		while (rs1.next()) {
+			if (!exams.containsKey(rs1.getString(1))) {
+				exams.put(rs1.getString(1), new Vector<>());
+				if (!SqlUtilities.getCorrectAnswer(rs1.getString(2), rs1.getString(6), connection)
+						.equals(Integer.toString(rs1.getInt(8))))
+					exams.get(rs1.getString(1)).add(new Integer(rs1.getInt(8)));
+				else
+					exams.get(rs1.getString(1)).add(new Integer(0));
+			} else {
+				if (!SqlUtilities.getCorrectAnswer(rs1.getString(2), rs1.getString(6), connection)
+						.equals(Integer.toString(rs1.getInt(8))))
+					exams.get(rs1.getString(1)).add(new Integer(rs1.getInt(8)));
+				else
+					exams.get(rs1.getString(1)).add(new Integer(0));
+			}
+		}
+		// for loop that checks for every student if he had copied from another student
+		// by reviewing their common mistakes.
+		for (String studentIDi : exams.keySet()) {
+			for (String studentIDj : exams.keySet()) {
+				if (!studentIDi.equals(studentIDj) && !idOfCopied.containsKey(studentIDj)) {
+					int count = 0;
+					for (int i = 0; i < exams.get(studentIDi).size(); i++) {
+						if (exams.get(studentIDi).elementAt(i).compareTo(new Integer(0)) != 0
+								&& exams.get(studentIDj).elementAt(i).compareTo(new Integer(0)) != 0
+								&& exams.get(studentIDi).elementAt(i)
+										.compareTo(exams.get(studentIDj).elementAt(i)) == 0) {
+							count++;
+						}
+					}
+					if (count == 3) {
+						if (!idOfCopied.containsKey(studentIDi)) {
+							idOfCopied.put(studentIDi, new ArrayList<>());
+							idOfCopied.get(studentIDi).add(studentIDj);
+
+						} else {
+							idOfCopied.get(studentIDi).add(studentIDj);
+						}
+						count = 0;
+					}
+				}
+			}
+		}
+		// for loop that puts by associating the specified Student with the specified
+		// Students that copied in this map.
+		for (String studentID : idOfCopied.keySet()) {
+			PreparedStatement userNameAndLastNameOfCopier = connection.prepareStatement(GetTypeAndUserNameAndLastName);
+			userNameAndLastNameOfCopier.setString(1, studentID);
+			ResultSet rsCopier = userNameAndLastNameOfCopier.executeQuery();
+			if (rsCopier.next()) {
+				ArrayList<Student> list = new ArrayList<>();
+				for (String studentThatCopiedID : idOfCopied.get(studentID)) {
+					PreparedStatement userNameAndLastNameOfCopiers = connection
+							.prepareStatement(GetTypeAndUserNameAndLastName);
+					userNameAndLastNameOfCopiers.setString(1, studentThatCopiedID);
+					ResultSet rsCopiers = userNameAndLastNameOfCopiers.executeQuery();
+					if (rsCopiers.next()) {
+						list.add(new Student(studentThatCopiedID, rsCopiers.getString(2), rsCopiers.getString(3)));
+					}
+				}
+				copied.put(new Student(studentID, rsCopier.getString(2), rsCopier.getString(3)), list);
+			}
+		}
+		return new StudentHandle("Copiers", copied);
 	}
 
 	// end region -> Public Methods

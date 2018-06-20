@@ -10,7 +10,6 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -54,8 +53,6 @@ public class Utilities_Client {
 	 * This method will show pop up screen
 	 * 
 	 * @param str
-	 *            add/save/incorrent answer/Select Subject/Enter Text/Select
-	 *            Answer/Select Course/Duration/Points/TotalPoints
 	 */
 	public static void popUpMethod(String str) {
 		Label text = null;
@@ -144,7 +141,6 @@ public class Utilities_Client {
 		}
 		return myFile;
 	}
-
 
 	// end region -> Public Methods
 

@@ -2,6 +2,7 @@ package resources;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class StudentHandle implements Serializable {
 
@@ -15,6 +16,8 @@ public class StudentHandle implements Serializable {
 	private Student student;
 	
 	private ArrayList<Student> students;
+	
+	private HashMap<Student, ArrayList<Student>> copeied;
 
 	public StudentHandle(String command, Student student) {
 		this.command = command;
@@ -24,6 +27,11 @@ public class StudentHandle implements Serializable {
 	public StudentHandle(String command, ArrayList<Student> students) {
 		this.command = command;
 		this.students = students;
+	}
+	
+	public StudentHandle(String command, HashMap<Student, ArrayList<Student>> copeied) {
+		this.command = command;
+		this.copeied = copeied;
 	}
 
 	public Student getStudent() {
@@ -36,6 +44,14 @@ public class StudentHandle implements Serializable {
 
 	public String getCommand() {
 		return command;
+	}
+
+	public HashMap<Student, ArrayList<Student>> getCopeied() {
+		return copeied;
+	}
+
+	public void setCopeied(HashMap<Student, ArrayList<Student>> copeied) {
+		this.copeied = copeied;
 	}
 
 	public void setCommand(String command) {

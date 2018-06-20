@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import resources.*;
@@ -140,7 +142,8 @@ public class Server extends AbstractServer {
 				try {
 					sendToAllClients("#LockExam" + " "
 							+ SqlUtilities.lockActiveExam(activeExamHandle.getActiveExam(), connection));
-				} catch (SQLException e) {
+					client.sendToClient(SqlUtilities.findExamHaveExamineesThatCopy(activeExamHandle, connection));	// send to the teacher all the students that copied in the exam. 
+				} catch (SQLException | IOException e) {
 					e.printStackTrace();
 				}
 			} else if (activeExamHandle.getCommand().equals("#ManualExam")) {
@@ -453,6 +456,10 @@ public class Server extends AbstractServer {
 					break;
 				case Message.getActiveExamBySubject:
 					client.sendToClient(SqlUtilities.getActiveExamsBySubject(strArray[1], connection));
+					break;
+				case Message.getQuestionsFromSpecificExam:
+					client.sendToClient(
+							SqlUtilities.getQuestionsInGeneralExam(strArray[1], strArray[2], strArray[3], connection));
 					break;
 				}
 			} catch (SQLException e) {

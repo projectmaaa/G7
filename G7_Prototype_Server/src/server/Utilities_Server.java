@@ -3,6 +3,8 @@ package server;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import resources.ActiveExam;
 
@@ -14,6 +16,7 @@ public class Utilities_Server {
 
 	public static void getManualExam(ActiveExam activeExam, String executionCode, String userID) throws IOException {
 		DocxGenerator docxGenerator = new DocxGenerator(executionCode, userID);
+		docxGenerator.addInstruction(activeExam.getExam().getFreeTextForExaminees());
 		for (QuestionInExam questionInExam : activeExam.getExam().getQuestions()) {
 			docxGenerator.addQuestionToWord(questionInExam.getQuestionText(),
 					questionInExam.getQuestion().getFirstPossibleAnswer(),
@@ -23,10 +26,10 @@ public class Utilities_Server {
 		}
 		docxGenerator.getDocument().close();
 	}
-	
 
 	/**
 	 * Returns a calculated grade of exam
+	 * 
 	 * @param exam
 	 * @param connection
 	 * @return the grade
@@ -34,12 +37,14 @@ public class Utilities_Server {
 	 */
 	public static int getCalculateExamGrade(SubmittedExam exam, Connection connection) throws SQLException {
 		int grade = 0;
-		for (StudentAnswerInQuestion question : exam.getAnswers())
-		{
-			if(SqlUtilities.getCorrectAnswer(question.getSubjectID(),question.getQuestionNum(), connection).equals(question.getStudentAnswer()))
-				grade += SqlUtilities.getPointsOfQuestion(question.getSubjectID(), question.getQuestionNum(), exam.getStudentInActiveExam().getActiveExam().getExam().getCourseID(), exam.getStudentInActiveExam().getActiveExam().getExam().getExamNum(), connection); 
+		for (StudentAnswerInQuestion question : exam.getAnswers()) {
+			if (SqlUtilities.getCorrectAnswer(question.getSubjectID(), question.getQuestionNum(), connection)
+					.equals(question.getStudentAnswer()))
+				grade += SqlUtilities.getPointsOfQuestion(question.getSubjectID(), question.getQuestionNum(),
+						exam.getStudentInActiveExam().getActiveExam().getExam().getCourseID(),
+						exam.getStudentInActiveExam().getActiveExam().getExam().getExamNum(), connection);
 		}
 		return grade;
-		
 	}
+
 }
