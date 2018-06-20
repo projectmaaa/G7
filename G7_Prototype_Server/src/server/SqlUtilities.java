@@ -146,6 +146,8 @@ public class SqlUtilities {
 
 	public final static String COUNT_StudentWhoFinished = "SELECT COUNT(studentID) FROM SubmittedExam WHERE subjectID=? AND courseID=? AND examNum=? AND submitted=1;";
 
+	public final static String SELECT_ApprovedExamByStudent = "SELECT subjectID, courseID, examNum, executionCode, grade, comments FROM ApprovedExamForStudent WHERE studentID=?;";
+
 	// region Public Methods
 
 	// end region -> Constants
@@ -436,6 +438,23 @@ public class SqlUtilities {
 			checkedExams.add(new CheckedExam(submittedExam, rs.getInt(6)));
 		}
 		return (new CheckedExamHandle("AllCheckedExams", checkedExams));
+	}
+	
+	public static ApprovedExamForStudentHandle getSolvedExamsByStudent(StudentHandle studentHandle, Connection connection) throws SQLException {
+		ArrayList<ApprovedExamForStudent> approved = new ArrayList<ApprovedExamForStudent>();
+		PreparedStatement statement = connection.prepareStatement(SELECT_ApprovedExamByStudent);
+		statement.setString(1, studentHandle.getStudent().getId());
+		ResultSet rs = statement.executeQuery();
+		while (rs.next()) {
+			Exam exam = new Exam(rs.getString(1), rs.getString(2), rs.getString(3));
+			ActiveExam activeExam = new ActiveExam(exam, rs.getString(4));
+			StudentInActiveExam studentInActiveExam = new StudentInActiveExam(
+					studentHandle.getStudent(), activeExam);
+			SubmittedExam submittedExam = new SubmittedExam(studentInActiveExam);
+			CheckedExam checkedExam = new CheckedExam(submittedExam);
+			approved.add(new ApprovedExamForStudent(checkedExam, rs.getInt(5), rs.getString(6)));
+		}
+		return (new ApprovedExamForStudentHandle("SolvedExamsByStudent", approved));
 	}
 
 	public static ApprovedExamForStudentHandle getApprovedExamForStudent(String studentID, String subject,
@@ -824,8 +843,12 @@ public class SqlUtilities {
 		}
 		ArrayList<String> typeOfSetFromDB = new ArrayList<>();
 		ResultSet rs = typeOfSet.executeQuery();
-		while (rs.next())
-			typeOfSetFromDB.add(rs.getString(1));
+		if (type.equals("Students"))
+			while (rs.next())
+				typeOfSetFromDB.add(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3));
+		else
+			while (rs.next())
+				typeOfSetFromDB.add(rs.getString(1));
 		closeResultSetAndStatement(rs, null, typeOfSet);
 		return new TypeHandle(type, typeOfSetFromDB);
 	}

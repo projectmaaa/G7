@@ -15,7 +15,6 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -35,12 +34,14 @@ import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import resources.ActiveExam;
+import resources.ApprovedExamForStudent;
 import resources.Course;
 import resources.Exam;
 import resources.Message;
 import resources.Question;
 import resources.ReportHandle;
 import resources.Student;
+import resources.StudentHandle;
 import resources.Teacher;
 import resources.Utilities_Client;
 import resources.WaitingActiveExam;
@@ -205,6 +206,41 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	@FXML
 	private TableColumn<ActiveExam, String> typeColInActiveExams;
+
+	// solved exams
+
+	@FXML
+	private AnchorPane solvedExamsAnchorPane;
+
+	@FXML
+	private ComboBox<String> studentComboBoxInSolvedExams;
+
+	@FXML
+	private TableView<ApprovedExamForStudent> solvedExamsTableView;
+
+	@FXML
+	private TableColumn<ApprovedExamForStudent, String> subjectColInSolvedExams;
+
+	@FXML
+	private TableColumn<ApprovedExamForStudent, String> courseColInSolvedExams;
+
+	@FXML
+	private TableColumn<ApprovedExamForStudent, String> examNumColInSolvedExams;
+
+	@FXML
+	private TableColumn<ApprovedExamForStudent, String> executionCodeColInSolvedExams;
+
+	@FXML
+	private TableColumn<ApprovedExamForStudent, Integer> gradeColInSolvedExams;
+
+	@FXML
+	private TableColumn<ApprovedExamForStudent, String> commentsColInSolvedExams;
+
+	@FXML
+	private Button showSolvedExamButton;
+
+	@FXML
+	private Button showButtonInSolvedExams;
 
 	// handling requests
 
@@ -451,6 +487,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		setColInCourseReport();
 		setColInTeacherReport();
 		setColumnsInActiveExams();
+		setColumnsInSolvedExams();
 	}
 
 	/**
@@ -507,6 +544,21 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	public void showActiveExamButtonHandler(ActionEvent event) {
 		setTableInActiveExams();
+	}
+
+	public void openSolvedExams(ActionEvent event) {
+		solvedExamsTableView.getItems().clear();
+		setAnchorPanesFalse();
+		solvedExamsAnchorPane.setVisible(true);
+		setStudentComboBox(studentComboBoxInSolvedExams);
+	}
+
+	public void showButtonHandler(ActionEvent event) {
+		setTableInSolvedExams();
+	}
+
+	public void showSolvedExamButtonHandler(ActionEvent event) {
+		// alex
 	}
 
 	// handling requests tab was pressed
@@ -735,6 +787,24 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		comboBox.setItems(client.getSubjectsFromDB());
 	}
 
+	private void setStudentComboBox(ComboBox<String> comboBox) {
+		comboBox.getSelectionModel().clearSelection();
+		comboBox.setPromptText("Select Student");
+		comboBox.setButtonCell(new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("Select Student");
+				} else {
+					setText(item);
+				}
+			}
+		});
+		client.handleMessageFromClientUI(Message.getAllStudents);
+		comboBox.setItems(client.getAllStudentsFromDB());
+	}
+
 	private void setTableInQuestionPool() {
 		client.getQuestionsFromDB().clear();
 		if (subjectComboBoxInQuestionsPool.getValue() != null) {
@@ -764,6 +834,18 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			activeExamTableView.setItems(client.getActiveExamsBySubject());
 		} else {
 			Utilities_Client.popUpMethod("Select Subject");
+		}
+	}
+
+	private void setTableInSolvedExams() {
+		if (studentComboBoxInSolvedExams.getValue() != null) {
+			client.getSolvedExamOfStudentsDB().clear();
+			String[] strStudent = studentComboBoxInSolvedExams.getValue().split(" ");
+			Student student = new Student(strStudent[0], strStudent[1], strStudent[2]);
+			client.handleMessageFromClientUI(new StudentHandle("SolvedExamsOfStudent", student));
+			solvedExamsTableView.setItems(client.getSolvedExamOfStudentsDB());
+		} else {
+			Utilities_Client.popUpMethod("Select Student");
 		}
 	}
 
@@ -809,6 +891,21 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		durationColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("duration"));
 		lockedColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("locked"));
 		typeColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("type"));
+	}
+
+	private void setColumnsInSolvedExams() {
+		subjectColInSolvedExams
+				.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCheckedExam()
+						.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID()));
+		courseColInSolvedExams.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()
+				.getCheckedExam().getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getCourseID()));
+		examNumColInSolvedExams.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()
+				.getCheckedExam().getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getExamNum()));
+		executionCodeColInSolvedExams.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()
+				.getCheckedExam().getSubmittedExam().getStudentInActiveExam().getActiveExam().getExecutionCode()));
+		gradeColInSolvedExams.setCellValueFactory(new PropertyValueFactory<>("finalGrade"));
+		commentsColInSolvedExams.setCellValueFactory(new PropertyValueFactory<>("comments"));
+
 	}
 
 	private void setColumnsInHandlingRequests() {

@@ -13,10 +13,17 @@ public class ApprovedExamForStudent implements Serializable {
 
 	private int finalGrade;
 
+	private String comments;
+
 	public ApprovedExamForStudent(CheckedExam checkedExam, int finalGrade) {
-		super();
 		this.checkedExam = checkedExam;
 		this.finalGrade = finalGrade;
+	}
+
+	public ApprovedExamForStudent(CheckedExam checkedExam, int finalGrade, String comments) {
+		this.checkedExam = checkedExam;
+		this.finalGrade = finalGrade;
+		this.comments = comments;
 	}
 
 	public CheckedExam getCheckedExam() {
@@ -33,6 +40,14 @@ public class ApprovedExamForStudent implements Serializable {
 
 	public void setFinalGrade(int finalGrade) {
 		this.finalGrade = finalGrade;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 
 	public String getExamNum() {
