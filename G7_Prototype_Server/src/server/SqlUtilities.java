@@ -136,7 +136,7 @@ public class SqlUtilities {
 
 	public final static String getStudentAnswers = "SELECT questionNum, questionOrderInExam, answer FROM StudentAnswerInQuestion WHERE studentID=? AND subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
 
-	public final static String GET_QUESTIONS_OF_EXAM = "SELECT questionText, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer, correctAnswer FROM StudentAnswerInQuestion, Questions where executionCode = ? and StudentAnswerInQuestion.subjectID=Questions.subjectID and StudentAnswerInQuestion.questionNum = Questions.questionNum;";
+	public final static String GET_QUESTIONS_OF_EXAM = "SELECT questionText, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer, correctAnswer, Questions.questionNum FROM StudentAnswerInQuestion, Questions where executionCode = ? and StudentAnswerInQuestion.subjectID=Questions.subjectID and StudentAnswerInQuestion.questionNum = Questions.questionNum;";
 
 	public final static String CALCULATE_ExamAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE subjectID=? AND courseID=? AND examNum=?;";
 
@@ -256,7 +256,7 @@ public class SqlUtilities {
 		ResultSet resultSet = preparedStatement.executeQuery();
 		while (resultSet.next()) {
 			questionArray.add(new Question(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),
-					resultSet.getString(4), resultSet.getString(5), resultSet.getString(6)));
+					resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7)));
 		}
 		closeResultSetAndStatement(null, null, preparedStatement);
 		return (new QuestionHandle("QuestionsInExam", questionArray));
