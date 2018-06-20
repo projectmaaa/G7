@@ -32,16 +32,20 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private ObservableList<String> coursesFromDB = FXCollections.observableArrayList();
 
+	private ObservableList<String> examsByAuthorFromDB = FXCollections.observableArrayList();
+
 	private ObservableList<WaitingActiveExam> WaitingActiveExamsFromDB = FXCollections.observableArrayList();
 
 	private ObservableList<CheckedExam> checkedExamsFromDB = FXCollections.observableArrayList();
 
 	private ObservableList<ActiveExam> activatedUnlockedExams = FXCollections.observableArrayList();
 
+	private ObservableList<ActiveExam> ActiveExamsBySubject = FXCollections.observableArrayList();
+
 	private ObservableList<Student> studentsFromDB = FXCollections.observableArrayList();
 
 	private ObservableList<Course> allCoursesFromDB = FXCollections.observableArrayList();
-	
+
 	private ObservableList<Teacher> allTeachersFromDB = FXCollections.observableArrayList();
 
 	private ScreensController controller;
@@ -187,6 +191,16 @@ public class Client extends AbstractClient implements IScreenController {
 		});
 	}
 
+	public ObservableList<String> getExamsByAuthorFromDB() {
+		return examsByAuthorFromDB;
+	}
+
+	public void setExamsByAuthorFromDB(ArrayList<String> examsByAuthorFromDB) {
+		Platform.runLater(() -> {
+			this.examsByAuthorFromDB.setAll(examsByAuthorFromDB);
+		});
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -252,7 +266,7 @@ public class Client extends AbstractClient implements IScreenController {
 			this.allCoursesFromDB.setAll(allCoursesFromDB);
 		});
 	}
-	
+
 	public ObservableList<Teacher> getAllTeachersFromDB() {
 		return allTeachersFromDB;
 	}
@@ -263,10 +277,19 @@ public class Client extends AbstractClient implements IScreenController {
 		});
 	}
 
+	public ObservableList<ActiveExam> getActiveExamsBySubject() {
+		return ActiveExamsBySubject;
+	}
+
+	public void setActiveExamsBySubject(ArrayList<ActiveExam> activeExamsBySubject) {
+		Platform.runLater(() -> {
+			this.ActiveExamsBySubject.setAll(activeExamsBySubject);
+		});
+	}
+
 	// end region -> Setters
 
 	// region Public Methods
-
 
 	/**
 	 * This method handles all data that comes in from the server.
@@ -277,7 +300,6 @@ public class Client extends AbstractClient implements IScreenController {
 	@Override
 	public void handleMessageFromServer(Object msg) {
 		if (msg == null) {
-			// add something
 			return;
 		} else if (msg instanceof String) {
 			String str = (String) msg;
@@ -331,6 +353,14 @@ public class Client extends AbstractClient implements IScreenController {
 				break;
 			case Message.getQuestionBySubject:
 				break;
+			case Message.requestRejected:
+				if (this.getId().equals(strArray[1]))
+					teacherWindowController.setRejectionFlag(true);
+				break;
+			case Message.requestApproved:
+				if (this.getId().equals(strArray[1]))
+					teacherWindowController.setAcceptionFlag(true);
+				break;
 			default:
 				break;
 			}
@@ -349,6 +379,8 @@ public class Client extends AbstractClient implements IScreenController {
 				studentWindowController.setActiveExam(activeExamsHandle.getActiveExam());
 			else if (activeExamsHandle.getCommand().equals("All"))
 				setActivatedUnlockedExams(activeExamsHandle.getActiveExams());
+			else if (activeExamsHandle.getCommand().equals("ActiveExamsBySubject"))
+				setActiveExamsBySubject(activeExamsHandle.getActiveExams());
 		} else if (msg instanceof ExamHandle) {
 			ExamHandle examsHandle = (ExamHandle) msg;
 			if (examsHandle.getCommand().equals("Subject")) {
@@ -356,10 +388,16 @@ public class Client extends AbstractClient implements IScreenController {
 			}
 		} else if (msg instanceof TypeHandle) {
 			TypeHandle typeHandle = (TypeHandle) msg;
-			if (typeHandle.getCommand().equals("Subjects"))
+			switch (typeHandle.getCommand()) {
+			case "Subjects":
 				setSubjectsFromDB(typeHandle.getTypes());
-			else if (typeHandle.getCommand().equals("Courses")) {
+				break;
+			case "Courses":
 				setCoursesFromDB(typeHandle.getTypes());
+				break;
+			case "ExamNumbers":
+				setExamsByAuthorFromDB(typeHandle.getTypes());
+				break;
 			}
 		} else if (msg instanceof WaitingActiveExamHandle) {
 			WaitingActiveExamHandle waitingActiveExamHandle = (WaitingActiveExamHandle) msg;
@@ -367,7 +405,8 @@ public class Client extends AbstractClient implements IScreenController {
 				setWaitingActiveExamsFromDB(waitingActiveExamHandle.getWaitingActiveExams());
 		} else if (msg instanceof CheckedExamHandle) {
 			CheckedExamHandle checkedExamHandle = (CheckedExamHandle) msg;
-			if (checkedExamHandle.getCommand().equals("AllCheckedExams")) {
+			if (checkedExamHandle.getCommand().equals("AllCheckedExams")
+					|| (checkedExamHandle.getCommand().equals("CheckExamsByStudent"))) {
 				setCheckedExamsFromDB(checkedExamHandle.getCheckedExams());
 			}
 		} else if (msg instanceof StudentHandle) {
@@ -378,34 +417,53 @@ public class Client extends AbstractClient implements IScreenController {
 			// The teacher gets all the students that had copied in the exam
 			else if(studentHandle.getCommand().equals("Copiers")) {
 				System.out.println("Copiers");
-				//teacherWindowController
+				teacherWindowController.setStudentHandle(studentHandle);
+				teacherWindowController.setHadCopied(true);
 			}
 		} else if (msg instanceof ReportAboutStudent) {
 			ReportAboutStudent studentReport = (ReportAboutStudent) msg;
-			if(studentReport.getCommand().equals("StudentAverage")) {
-			Double avg = studentReport.getAverage();
-			principalWindowController.getAverageTextFieldInStudentReport().setText(avg.toString());
+			if (studentReport.getCommand().equals("StudentStatistic")) {
+				Double avg = studentReport.getAverage();
+				Integer med = studentReport.getMedian();
+				principalWindowController.getAverageTextFieldInStudentReport().setText(avg.toString());
+				principalWindowController.getMedianTextFieldInStudentReport().setText(med.toString());
 			}
-			
-		}else if(msg instanceof ReportAboutCourse) {
+		} else if (msg instanceof ReportAboutCourse) {
 			ReportAboutCourse courseReport = (ReportAboutCourse) msg;
-			if(courseReport.getCommand().equals("CourseAverage")) {
-			Double avg = courseReport.getAverage();
-			principalWindowController.getAverageTextFieldInCourseReport().setText(avg.toString());
-			}
-			else if(courseReport.getCommand().equals("AllCourses")) {
+			if (courseReport.getCommand().equals("CourseStatistic")) {
+				Double avg = courseReport.getAverage();
+				Integer med = courseReport.getMedian();
+				principalWindowController.getAverageTextFieldInCourseReport().setText(avg.toString());
+				principalWindowController.getMedianTextFieldInCourseReport().setText(med.toString());
+			} else if (courseReport.getCommand().equals("AllCourses")) {
 				setAllCoursesFromDB(courseReport.getCourses());
 			}
 		} else if (msg instanceof ReportAboutTeacher) {
 			ReportAboutTeacher teacherReport = (ReportAboutTeacher) msg;
-			if(((ReportAboutTeacher) msg).getCommand().equals("AllTeachers")) {
+			if (((ReportAboutTeacher) msg).getCommand().equals("AllTeachers")) {
 				setAllTeachersFromDB(teacherReport.getTeachers());
 			}
-			
-		
-		}
+			if (((ReportAboutTeacher) msg).getCommand().equals("TeacherStatistic")) {
+				Double avg = teacherReport.getAverage();
+				Integer med = teacherReport.getMedian();
+				principalWindowController.getAverageTextFieldInTeacherReport().setText(avg.toString());
+				principalWindowController.getMedianTextFieldInTeacherReport().setText(med.toString());
 
-		else if (msg instanceof Boolean) {
+			}
+		} else if (msg instanceof ReportAboutExam) {
+			ReportAboutExam reportAboutExam = (ReportAboutExam) msg;
+			Double avg = reportAboutExam.getAverage();
+			Integer med = reportAboutExam.getMedian();
+			Integer started = reportAboutExam.getStudentStarted();
+			Integer finished = reportAboutExam.getStudentFinished();
+			Integer forced = reportAboutExam.getStudentForced();
+			teacherWindowController.getAverageTextFieldInTeacherReport().setText(avg.toString());
+			teacherWindowController.getMedianTextFieldInTeacherReport().setText(med.toString());
+			teacherWindowController.getStartedTextFieldInTeacherReport().setText(started.toString());
+			teacherWindowController.getFinishedTextFieldInTeacherReport().setText(finished.toString());
+			teacherWindowController.getForcedTextFieldInTeacherReport().setText(forced.toString());
+			teacherWindowController.setGrades(reportAboutExam.getGrades());
+		} else if (msg instanceof Boolean) {
 			boolean codeExist = (boolean) msg;
 			setExecutionCodeExistFlag(codeExist);
 		} else if (msg instanceof MyFileHandle) {
@@ -426,7 +484,6 @@ public class Client extends AbstractClient implements IScreenController {
 		try {
 			sendToServer(message);
 		} catch (IOException e) {
-			// clientUI.display("Could not send message to server. Terminating client.");
 			quit();
 		}
 	}

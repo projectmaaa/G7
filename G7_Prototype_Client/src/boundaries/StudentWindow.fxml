@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.Bloom?>
@@ -53,7 +56,10 @@
                   <MenuItem mnemonicParsing="false" onAction="#openExamHandler" text="Start Exam" />
                </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Order Checked Exam" />
+            <Menu mnemonicParsing="false" text="Order Checked Exam">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#turnCheckExamAnchorPane" text="Order Exam" />
+               </items></Menu>
          </menus>
       </MenuBar>
       <AnchorPane fx:id="aesAnchorPane" layoutX="14.0" layoutY="159.0" prefHeight="200.0" prefWidth="200.0">
@@ -122,6 +128,21 @@
                   </Text>
                </children>
             </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="checkedExamAnchorPane" layoutX="29.0" layoutY="159.0" prefHeight="399.0" prefWidth="550.0" visible="false">
+         <children>
+            <TableView fx:id="tableViewCheckedExam" layoutX="20.0" layoutY="90.0" prefHeight="295.0" prefWidth="500.0" stylesheets="@table%20view.css">
+              <columns>
+                <TableColumn fx:id="examNumberColInCheckedExam" prefWidth="95.09433364868164" text="Exam Number" />
+                <TableColumn fx:id="executionCodeColInCheckedExam" prefWidth="96.90570068359375" text="Execution Code" />
+                  <TableColumn fx:id="gradeColInCheckedExam" prefWidth="75.0" text="Grade" />
+                  <TableColumn fx:id="generalCommentsColInCheckedExam" prefWidth="230.94351196289062" text="Comment" />
+              </columns>
+            </TableView>
+            <ComboBox fx:id="subjectComboBoxCheckedExam" layoutX="20.0" layoutY="14.0" prefWidth="150.0" promptText="Subject" />
+            <ComboBox fx:id="courseComboBoxCheckedBox" layoutX="20.0" layoutY="55.0" onMouseClicked="#selectCourseComboBoxHandler" prefWidth="150.0" promptText="Course" />
+            <Button layoutX="220.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#updateCheckExams" text="Update" />
          </children>
       </AnchorPane>
       <ImageView blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="431.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true">

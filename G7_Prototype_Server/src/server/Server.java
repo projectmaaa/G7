@@ -199,13 +199,33 @@ public class Server extends AbstractServer {
 				}
 			} else if (waitingActiveExamHandle.getCommand().equals("Remove")) {
 				try {
-					String activator = SqlUtilities.getActivator(
+					SqlUtilities.removeWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
+					client.sendToClient(Message.tableSaved);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else if (waitingActiveExamHandle.getCommand().equals(Message.requestRejected)) { // Show the pop up for
+																								// the teacher
+				try {
+					String activatorsID = SqlUtilities.getActivatorsID(
 							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getSubjectID(),
 							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getCourseID(),
 							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getExamNum(),
 							connection);
-					SqlUtilities.removeWaitingActiveExam(waitingActiveExamHandle.getWaitingActiveExam(), connection);
-					sendToAllClients(Message.requestRejected + " " + activator);
+					sendToAllClients(Message.requestRejected + " " + activatorsID);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} else if (waitingActiveExamHandle.getCommand().equals(Message.requestApproved)) {
+				try {
+					String activatorsID = SqlUtilities.getActivatorsID(
+							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getSubjectID(),
+							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getCourseID(),
+							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getExamNum(),
+							connection);
+					sendToAllClients(Message.requestApproved + " " + activatorsID);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -251,26 +271,44 @@ public class Server extends AbstractServer {
 			}
 		} else if (msg instanceof ReportHandle) {
 			ReportHandle reportHandle = (ReportHandle) msg;
-			if (reportHandle.getCommand().equals("StudentAverage")) {
+			if (reportHandle.getCommand().equals("StudentStatistic")) {
 				try {
-					client.sendToClient(SqlUtilities.calculateStudentAverage(reportHandle, connection));
+					client.sendToClient(SqlUtilities.calculateStudentStatistic(reportHandle, connection));
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} else if (reportHandle.getCommand().equals("CourseAverage")) {
+			} else if (reportHandle.getCommand().equals("CourseStatistic")) {
 				try {
-					client.sendToClient(SqlUtilities.calculateCourseAverage(reportHandle, connection));
+					client.sendToClient(SqlUtilities.calculateCourseStatistic(reportHandle, connection));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else if (reportHandle.getCommand().equals("TeacherStatistic")) {
+				try {
+					client.sendToClient(SqlUtilities.calculateTeacherStatistic(reportHandle, connection));
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-		}
 
-		else if (msg instanceof String) {
+		} else if (msg instanceof ExamReportHandle) {
+			ExamReportHandle examReportHandle = (ExamReportHandle) msg;
+			if (examReportHandle.getCommand().equals("ExamStatistic")) {
+				try {
+					client.sendToClient(SqlUtilities.calculateExamStatistic(examReportHandle, connection));
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		} else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
 			try {
@@ -363,15 +401,27 @@ public class Server extends AbstractServer {
 					client.sendToClient(SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Courses_BY_SubjectID,
 							strArray[1], "Courses", connection));
 					break;
+				case Message.getSubjectsByTeacherID:
+					client.sendToClient(SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Subjects_By_Teacher_ID,
+							strArray[1], "Subjects", connection));
+					break;
+				case Message.getExamsByAuthor:
+					client.sendToClient(SqlUtilities.getTypeFromDB(SqlUtilities.SELECT_Exams_By_Author_and_Course,
+							strArray[1] + " " + strArray[2] + " " + strArray[3], "ExamNumbers", connection));
+					break;
 				case Message.getWaitingActiveExams:
 					client.sendToClient(SqlUtilities.getWaitingActiveExam(connection));
 					break;
 				case Message.getCheckedExams:
-					client.sendToClient(SqlUtilities.getCheckedExam(connection));
+					client.sendToClient(SqlUtilities.getCheckedExam(strArray[1], connection));
+					break;
+				case Message.getCheckedExamsByStudent:
+					client.sendToClient(
+							SqlUtilities.getCheckedExamByStudent(strArray[1], strArray[2], strArray[3], connection));
 					break;
 				case Message.getActiveExamsByActivator:
-					client.sendToClient(SqlUtilities.getActiveExamsByActivator(strArray[1] + " " + strArray[2],
-							strArray[3], connection));
+					client.sendToClient(
+							SqlUtilities.getActiveExamsByActivatorsID(strArray[1], strArray[2], connection));
 					break;
 				case Message.getStudents:
 					client.sendToClient(SqlUtilities.getAllStudents(connection));
@@ -381,6 +431,9 @@ public class Server extends AbstractServer {
 					break;
 				case Message.getAllTeachers:
 					client.sendToClient(SqlUtilities.getAllTeachers(connection));
+					break;
+				case Message.getActiveExamBySubject:
+					client.sendToClient(SqlUtilities.getActiveExamsBySubject(strArray[1], connection));
 					break;
 				}
 			} catch (SQLException e) {

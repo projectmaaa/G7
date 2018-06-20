@@ -29,6 +29,8 @@ public class Message {
 	public final static String logout = "#Logout";
 
 	public final static String getExamBySubject = "#ExamBySubject";
+	
+	public final static String getActiveExamBySubject = "#ActiveExamBySubject";
 
 	public final static String getExecutionCode = "#ExecutionCode";
 
@@ -36,11 +38,15 @@ public class Message {
 
 	public final static String getCourses = "#Courses";
 
+	public final static String getExamsByAuthor = "#ExamsByAuthor";
+
 	public final static String getWaitingActiveExams = "#WaitingActiveExams";
 
 	public final static String studentInActiveExam = "#StudentInActiveExam";
 
 	public final static String getCheckedExams = "#CheckedExams";
+
+	public final static String getCheckedExamsByStudent = "#CheckedExamsByStudent";
 
 	public final static String getActiveExamsByActivator = "#ActiveExamsByActivator";
 
@@ -49,10 +55,14 @@ public class Message {
 	public final static String getAllCourses = "#AllCourses";
 
 	public final static String deleteExam = "#DeleteExam";
-	
+
 	public final static String getAllTeachers = "#AllTeachers";
 
 	public final static String requestRejected = "#RequestRejected";
+
+	public final static String requestApproved = "#RequestApproved";
+
+	public final static String getSubjectsByTeacherID = "#SubjectsByTeacherID";
 
 	// end region -> Constants
 

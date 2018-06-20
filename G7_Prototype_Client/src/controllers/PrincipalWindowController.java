@@ -34,6 +34,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import resources.ActiveExam;
 import resources.Course;
 import resources.Exam;
 import resources.Message;
@@ -167,6 +168,44 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private TableView<Exam> tableViewInExamsPool;
 
+	// active exams
+
+	@FXML
+	private AnchorPane activeExamAnchorPane;
+
+	@FXML
+	private ComboBox<String> subjectComboBoxInActiveExams;
+
+	@FXML
+	private Button showActiveExamButton;
+
+	@FXML
+	private TableView<ActiveExam> activeExamTableView;
+
+	@FXML
+	private TableColumn<ActiveExam, String> subjectColInActiveExams;
+
+	@FXML
+	private TableColumn<ActiveExam, String> courseColInActiveExams;
+
+	@FXML
+	private TableColumn<ActiveExam, String> examNumColInActiveExams;
+
+	@FXML
+	private TableColumn<ActiveExam, String> executionCodeColInActiveExams;
+
+	@FXML
+	private TableColumn<ActiveExam, String> activatorColInActiveExams;
+
+	@FXML
+	private TableColumn<ActiveExam, Integer> durationColInActiveExams;
+
+	@FXML
+	private TableColumn<ActiveExam, Integer> lockedColInActiveExams;
+
+	@FXML
+	private TableColumn<ActiveExam, String> typeColInActiveExams;
+
 	// handling requests
 
 	@FXML
@@ -238,7 +277,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	private TextField medianTextFieldInStudentReport;
 
 	@FXML
-	private BarChart<String,Number> studentBarChart;
+	private BarChart<String, Number> studentBarChart;
 
 	@FXML
 	private CategoryAxis xInStudentReportBarChart;
@@ -277,39 +316,38 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	@FXML
 	private TextField medianTextFieldInCourseReport;
-	
-	
+
 	// teacher report
-	
-	 @FXML
-	    private AnchorPane teacherReportAnchorPane;
 
-	    @FXML
-	    private Button createReportButtonInTeacherReport;
+	@FXML
+	private AnchorPane teacherReportAnchorPane;
 
-	    @FXML
-	    private TableView<Teacher> teacherTableView;
+	@FXML
+	private Button createReportButtonInTeacherReport;
 
-	    @FXML
-	    private TableColumn<Teacher, String> teacherIDColInSTeacherReport;
+	@FXML
+	private TableView<Teacher> teacherTableView;
 
-	    @FXML
-	    private TableColumn<Teacher, String> firstNameColInTeacherReport;
+	@FXML
+	private TableColumn<Teacher, String> teacherIDColInSTeacherReport;
 
-	    @FXML
-	    private TableColumn<Teacher, String> lastNameColInTeacherReport;
+	@FXML
+	private TableColumn<Teacher, String> firstNameColInTeacherReport;
 
-	    @FXML
-	    private AnchorPane report1AnchorPane;
+	@FXML
+	private TableColumn<Teacher, String> lastNameColInTeacherReport;
 
-	    @FXML
-	    private TextField averageTextFieldInTeacherReport;
+	@FXML
+	private AnchorPane report1AnchorPane;
 
-	    @FXML
-	    private Label teacherNameLabel;
+	@FXML
+	private TextField averageTextFieldInTeacherReport;
 
-	    @FXML
-	    private TextField medianTextFieldInTeacherReport;
+	@FXML
+	private Label teacherNameLabel;
+
+	@FXML
+	private TextField medianTextFieldInTeacherReport;
 
 	/***********************************************************************************************************/
 
@@ -362,12 +400,44 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		this.averageTextFieldInCourseReport = averageTextFieldInCourseReport;
 	}
 
+	public TextField getAverageTextFieldInTeacherReport() {
+		return averageTextFieldInTeacherReport;
+	}
+
+	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
+		this.averageTextFieldInTeacherReport = averageTextFieldInTeacherReport;
+	}
+
 	/*
 	 * ---------------------------------- public methods
 	 * --------------------------------- *
 	 */
 
 	// initialize method
+
+	public TextField getMedianTextFieldInStudentReport() {
+		return medianTextFieldInStudentReport;
+	}
+
+	public void setMedianTextFieldInStudentReport(TextField medianTextFieldInStudentReport) {
+		this.medianTextFieldInStudentReport = medianTextFieldInStudentReport;
+	}
+
+	public TextField getMedianTextFieldInCourseReport() {
+		return medianTextFieldInCourseReport;
+	}
+
+	public void setMedianTextFieldInCourseReport(TextField medianTextFieldInCourseReport) {
+		this.medianTextFieldInCourseReport = medianTextFieldInCourseReport;
+	}
+
+	public TextField getMedianTextFieldInTeacherReport() {
+		return medianTextFieldInTeacherReport;
+	}
+
+	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
+		this.medianTextFieldInTeacherReport = medianTextFieldInTeacherReport;
+	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -380,16 +450,14 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		setColInStudentReport();
 		setColInCourseReport();
 		setColInTeacherReport();
-
+		setColumnsInActiveExams();
 	}
 
 	/**
+	 * logout handler
 	 * 
 	 * @param event
 	 */
-
-	// logout handler
-
 	public void logOutButtonHandler(ActionEvent event) {
 		welcomeText.setText("Welcome");
 		this.client.handleMessageFromClientUI(Message.logout);
@@ -401,6 +469,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	// question tab was pressed
 
 	public void openQuestionPool(ActionEvent event) {
+		tableViewInQuestionsPool.getItems().clear();
 		setAnchorPanesFalse();
 		questionsPoolAnchorPane.setVisible(true);
 		setSubjectComboBox(subjectComboBoxInQuestionsPool);
@@ -415,6 +484,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	// exam pool tab was pressed
 
 	public void openExamPool(ActionEvent event) {
+		tableViewInExamsPool.getItems().clear();
 		setAnchorPanesFalse();
 		examsPoolAnchorPane.setVisible(true);
 		setSubjectComboBox(subjectComboBoxInExamPool);
@@ -426,6 +496,19 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		setTableInExamsPool();
 	}
 
+	// active exams was pressed
+
+	public void openActiveExams(ActionEvent event) {
+		activeExamTableView.getItems().clear();
+		setAnchorPanesFalse();
+		activeExamAnchorPane.setVisible(true);
+		setSubjectComboBox(subjectComboBoxInActiveExams);
+	}
+
+	public void showActiveExamButtonHandler(ActionEvent event) {
+		setTableInActiveExams();
+	}
+
 	// handling requests tab was pressed
 
 	public void openHandlingRequests(ActionEvent event) {
@@ -434,79 +517,101 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		setTableInHandlingRequests();
 	}
 
-	// approve button was pressed
-
+	/**
+	 * Approve button was pressed
+	 * 
+	 * @param event
+	 */
 	public void approveButtonHandle(ActionEvent event) {
-		Label text;
-		Stage primaryStage = new Stage();
-		primaryStage.setTitle("AES7");
-		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-		Popup popup = new Popup();
-		popup.setX(700);
-		popup.setY(400);
-		HBox layout = new HBox(10);
-		text = new Label("Are you sure?");
-		popup.getContent().addAll(text);
-		Button yesButton = new Button("Yes");
-		yesButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				WaitingActiveExam waitingActiveExam = handlingRequestsTableView.getSelectionModel().getSelectedItem();
-				client.handleMessageFromClientUI(new WaitingActiveExamHandle("Approve", waitingActiveExam));
-				client.handleMessageFromClientUI(new WaitingActiveExamHandle("Remove", waitingActiveExam));
-				Utilities_Client.popUpMethod("Exam duration changed successfully!");
-				setTableInHandlingRequests();
-				primaryStage.hide();
-			}
-		});
-		Button noButton = new Button("No");
-		noButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				primaryStage.hide();
-			}
-		});
-		layout.getChildren().addAll(text, yesButton, noButton);
-		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		primaryStage.setScene(new Scene(layout));
-		primaryStage.show();
+		WaitingActiveExam waitingActiveExam = handlingRequestsTableView.getSelectionModel().getSelectedItem();
+		if (waitingActiveExam == null)
+			Utilities_Client.popUpMethod("Please choose the request");
+		else {
+			Label text = new Label("Are you sure?");
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			HBox layout = new HBox(10);
+			popup.getContent().addAll(text);
+			Button yesButton = new Button("Yes");
+			yesButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					client.handleMessageFromClientUI(
+							new WaitingActiveExamHandle(Message.requestApproved, waitingActiveExam));// Approvement pop
+																										// up in
+																										// teacher's
+																										// window
+					client.handleMessageFromClientUI(new WaitingActiveExamHandle("Approve", waitingActiveExam));
+					client.handleMessageFromClientUI(new WaitingActiveExamHandle("Remove", waitingActiveExam));
+					Utilities_Client.popUpMethod("Exam duration changed successfully!");
+					setTableInHandlingRequests();
+					primaryStage.hide();
+				}
+			});
+			Button noButton = new Button("No");
+			noButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					primaryStage.hide();
+				}
+			});
+			layout.getChildren().addAll(text, yesButton, noButton);
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
 	}
 
-	// reject button was pressed
-
+	/**
+	 * Reject button was pressed
+	 * 
+	 * @param event
+	 */
 	public void rejectButtonHandle(ActionEvent event) {
-		Label text;
-		Stage primaryStage = new Stage();
-		primaryStage.setTitle("AES7");
-		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-		Popup popup = new Popup();
-		popup.setX(700);
-		popup.setY(400);
-		HBox layout = new HBox(10);
-		text = new Label("Are you sure?");
-		popup.getContent().addAll(text);
-		Button yesButton = new Button("Yes");
-		yesButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				WaitingActiveExam waitingActiveExam = handlingRequestsTableView.getSelectionModel().getSelectedItem();
-				client.handleMessageFromClientUI(new WaitingActiveExamHandle("Remove", waitingActiveExam));
-				Utilities_Client.popUpMethod("Request rejected! Message was sent to Teacher.");
-				setTableInHandlingRequests();
-				primaryStage.hide();
-			}
-		});
-		Button noButton = new Button("No");
-		noButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				primaryStage.hide();
-			}
-		});
-		layout.getChildren().addAll(text, yesButton, noButton);
-		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		primaryStage.setScene(new Scene(layout));
-		primaryStage.show();
+		WaitingActiveExam waitingActiveExam = handlingRequestsTableView.getSelectionModel().getSelectedItem();
+		if (waitingActiveExam == null)
+			Utilities_Client.popUpMethod("Please choose the request");
+		else {
+			Label text = new Label("Are you sure?");
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			HBox layout = new HBox(10);
+			popup.getContent().addAll(text);
+			Button yesButton = new Button("Yes");
+			yesButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					client.handleMessageFromClientUI(
+							new WaitingActiveExamHandle(Message.requestRejected, waitingActiveExam)); // Rejection pop
+																										// up in
+																										// teacher's
+																										// window
+					client.handleMessageFromClientUI(new WaitingActiveExamHandle("Remove", waitingActiveExam));
+					Utilities_Client.popUpMethod("Request rejected!");
+					setTableInHandlingRequests();
+					primaryStage.hide();
+				}
+			});
+			Button noButton = new Button("No");
+			noButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					primaryStage.hide();
+				}
+			});
+			layout.getChildren().addAll(text, yesButton, noButton);
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
 	}
 
 	// refresh button was pressed
@@ -526,16 +631,17 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	// create report button was pressed
 
 	public void createReportInStudentReportHandler(ActionEvent event) throws InterruptedException {
+		averageTextFieldInStudentReport.setEditable(false);
+		medianTextFieldInStudentReport.setEditable(false);
 		Student student = studentsTableView.getSelectionModel().getSelectedItem();
 		if (student == null) {
 			Utilities_Client.popUpMethod("Please choose student first!");
 		} else {
 			String fullName = student.getFirstName() + " " + student.getLastName();
 			studentNameLabel.setText(fullName);
-			client.handleMessageFromClientUI(new ReportHandle("StudentAverage", student));
-			averageTextFieldInStudentReport.setEditable(false);
+			client.handleMessageFromClientUI(new ReportHandle("StudentStatistic", student));
 			createStudentHistogram();
-			TimeUnit.SECONDS.sleep(2);
+			// TimeUnit.SECONDS.sleep(6);
 			report3AnchorPane.setVisible(true);
 		}
 	}
@@ -555,31 +661,59 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		} else {
 			String fullName = course.getCourseName();
 			CourseNameLabel.setText(fullName);
-			client.handleMessageFromClientUI(new ReportHandle("CourseAverage", course));
+			client.handleMessageFromClientUI(new ReportHandle("CourseStatistic", course));
 			averageTextFieldInCourseReport.setEditable(false);
+			try {
+				TimeUnit.SECONDS.sleep(3);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			report2AnchorPane.setVisible(true);
 		}
 	}
 
 	public void createStudentHistogram() {
+		studentBarChart.getData().clear();
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		XYChart.Series<String, Number> series1 = new XYChart.Series<String, Number>();
-		series1.setName("AES7-Histogram");  
+		series1.setName("AES7-Histogram");
 		studentBarChart.setCategoryGap(3);
 		studentBarChart.setBarGap(2);
-		series1.getData().add(new Data<String, Number>("010101", 90));
-		series1.getData().add(new Data<String, Number>("010102", 20)); 
-		studentBarChart.getData().add(series1);
-//        studentBarChart.getData().addAll(series1);
+		series1.getData().add(new XYChart.Data("010101", 90));
+		series1.getData().add(new XYChart.Data("010102", 20));
+		studentBarChart.getData().addAll(series1);
 	}
-	
+
 	public void openTeacherReport(ActionEvent event) {
 		setAnchorPanesFalse();
 		teacherReportAnchorPane.setVisible(true);
 		setTableInTeacherReport();
 	}
 
+	public void createReportInTeacherReportHandler(ActionEvent event) {
+		Teacher teacher = teacherTableView.getSelectionModel().getSelectedItem();
+		if (teacher == null) {
+			Utilities_Client.popUpMethod("Please choose teacher first!");
+		} else {
+			String fullName = teacher.getFirstName() + " " + teacher.getLastName();
+			teacherNameLabel.setText(fullName);
+			client.handleMessageFromClientUI(new ReportHandle("TeacherStatistic", teacher));
+			averageTextFieldInTeacherReport.setEditable(false);
+			try {
+				TimeUnit.SECONDS.sleep(3);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			report1AnchorPane.setVisible(true);
+		}
+	}
+
 	/*
-	 * --------------------------------* private methods *
+	 * --------------------------------* private methods * *
 	 * -----------------------------------
 	 */
 
@@ -622,6 +756,17 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		}
 	}
 
+	private void setTableInActiveExams() {
+		client.getActiveExamsBySubject().clear();
+		if (subjectComboBoxInActiveExams.getValue() != null) {
+			client.handleMessageFromClientUI(
+					Message.getActiveExamBySubject + " " + subjectComboBoxInActiveExams.getValue());
+			activeExamTableView.setItems(client.getActiveExamsBySubject());
+		} else {
+			Utilities_Client.popUpMethod("Select Subject");
+		}
+	}
+
 	private void setTableInHandlingRequests() {
 		client.getWaitingActiveExamsFromDB().clear();
 		client.handleMessageFromClientUI(Message.getWaitingActiveExams);
@@ -652,6 +797,20 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		textTeachersColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("freeTextForTeacherOnly"));
 	}
 
+	private void setColumnsInActiveExams() {
+		subjectColInActiveExams.setCellValueFactory(
+				cellData -> new SimpleStringProperty(cellData.getValue().getExam().getSubjectID()));
+		courseColInActiveExams
+				.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExam().getCourseID()));
+		examNumColInActiveExams
+				.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExam().getExamNum()));
+		executionCodeColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("executionCode"));
+		activatorColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("activator"));
+		durationColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("duration"));
+		lockedColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("locked"));
+		typeColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("type"));
+	}
+
 	private void setColumnsInHandlingRequests() {
 
 		subjectColInHandlingRequests.setCellValueFactory(
@@ -679,7 +838,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		courseIDColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("courseID"));
 		courseNameColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("courseName"));
 	}
-	
+
 	private void setColInTeacherReport() {
 		teacherIDColInSTeacherReport.setCellValueFactory(new PropertyValueFactory<>("id"));
 		firstNameColInTeacherReport.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -697,7 +856,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		client.handleMessageFromClientUI(Message.getAllCourses);
 		courseTableView.setItems(client.getAllCoursesFromDB());
 	}
-	
+
 	private void setTableInTeacherReport() {
 		client.getAllTeachersFromDB().clear();
 		client.handleMessageFromClientUI(Message.getAllTeachers);
@@ -715,5 +874,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		report2AnchorPane.setVisible(false);
 		report1AnchorPane.setVisible(false);
 		teacherReportAnchorPane.setVisible(false);
+		activeExamAnchorPane.setVisible(false);
 	}
 }

@@ -10,20 +10,21 @@ public class ReportAboutTeacher extends Report implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String teacherName;
+	private Teacher teacher;
 	
 	private ArrayList<Teacher> teachers;
 	
 	private String command;
 
-	public ReportAboutTeacher(int average, int median, String teacherName) {
-		super(average, median);
-		this.teacherName = teacherName;
+	public ReportAboutTeacher(String command, double average, int med, Teacher teacher ) {
+		setAverage(average);
+		setMedian(med);
+		this.command=command;
+		this.teacher=teacher;
 	}
 	
 
 	public ReportAboutTeacher(ArrayList<Teacher> teachers, String command) {
-		super();
 		this.teachers = teachers;
 		this.command = command;
 	}
@@ -53,13 +54,15 @@ public class ReportAboutTeacher extends Report implements Serializable {
 	}
 
 
-
-	public String getTeacherName() {
-		return teacherName;
+	public Teacher getTeacher() {
+		return teacher;
 	}
 
-	public void setTeacherName(String teacherName) {
-		this.teacherName = teacherName;
+
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
 	}
+
+
 
 }

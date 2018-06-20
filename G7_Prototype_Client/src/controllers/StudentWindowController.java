@@ -15,9 +15,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -116,6 +121,32 @@ public class StudentWindowController implements Initializable, IScreenController
 
 	/*********************************************************/
 
+	@FXML
+	private AnchorPane checkedExamAnchorPane;
+
+	@FXML
+	private TableView<CheckedExam> tableViewCheckedExam;
+
+	@FXML
+	private TableColumn<CheckedExam, String> examNumberColInCheckedExam;
+
+	@FXML
+	private TableColumn<CheckedExam, String> executionCodeColInCheckedExam;
+
+	@FXML
+	private TableColumn<CheckedExam, Integer> gradeColInCheckedExam;
+
+	@FXML
+	private TableColumn<CheckedExam, String> generalCommentsColInCheckedExam;
+
+	@FXML
+	private ComboBox<String> subjectComboBoxCheckedExam;
+
+	@FXML
+	private ComboBox<String> courseComboBoxCheckedBox;
+
+	/*********************************************************/
+
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
 		screensController = screenParent;
@@ -170,6 +201,8 @@ public class StudentWindowController implements Initializable, IScreenController
 		this.client = MainAppClient.getClient();
 		client.setStudentWindowController(this);
 		QuestionInComputerizeExamArray = new ArrayList<QuestionInComputerizeExam>();
+		setSubjectComboBox(subjectComboBoxCheckedExam);
+		setColumnsInCheckedExams();
 	}
 
 	public ActiveExam getActiveExam() {
@@ -357,6 +390,37 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * 
 	 * @param mouseEvent
 	 */
+	public void updateCheckExams(MouseEvent mouseEvent) {
+		String selectedSubject = subjectComboBoxCheckedExam.getValue();
+		if (selectedSubject == null) {
+			Utilities_Client.popUpMethod("You must select the subjec");
+			return;
+		}
+		String selectedCourse = courseComboBoxCheckedBox.getValue();
+		if (selectedCourse == null) {
+			Utilities_Client.popUpMethod("You must select the course");
+			return;
+		}
+		if (!client.getCheckedExamsFromDB().isEmpty()) {
+			client.getCheckedExamsFromDB().clear();
+		}
+		client.handleMessageFromClientUI(
+				Message.getCheckedExamsByStudent + " " + client.getId() + " " + selectedSubject + " " + selectedCourse);
+		// if (client.getCheckedExamsFromDB().isEmpty()) {
+		tableViewCheckedExam.setItems(client.getCheckedExamsFromDB());
+		// }
+	}
+
+	public void turnCheckExamAnchorPane(ActionEvent actionEvent) {
+		if (!checkedExamAnchorPane.isVisible()) {
+			checkedExamAnchorPane.setVisible(true);
+		}
+	}
+
+	/**
+	 * 
+	 * @param mouseEvent
+	 */
 	public void uploadManualExam(MouseEvent mouseEvent) {
 		stopWatchTimeline.stop();
 		submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer / 60, studentInActiveExam);
@@ -413,6 +477,54 @@ public class StudentWindowController implements Initializable, IScreenController
 		computerizeExamPane.setVisible(true);
 		welcomeAnchorPane.setVisible(true);
 		timerPane.setVisible(true);
+	}
+
+	private void setSubjectComboBox(ComboBox<String> comboBox) {
+		comboBox.getSelectionModel().clearSelection();
+		comboBox.setPromptText("Select Subject");
+		comboBox.setButtonCell(new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("Select Subject");
+				} else {
+					setText(item);
+				}
+			}
+		});
+		client.handleMessageFromClientUI(Message.getSubjects);
+		comboBox.setItems(client.getSubjectsFromDB());
+	}
+
+	/**
+	 * Prevents from the user to select course if he\she didn't select a subject
+	 * 
+	 * @param event
+	 */
+	public void selectCourseComboBoxHandler(MouseEvent event) {
+		String selectedSubject = subjectComboBoxCheckedExam.getValue();
+		if (selectedSubject == null) {
+			Utilities_Client.popUpMethod("You must select the subject first");
+			return;
+		} else {
+			client.handleMessageFromClientUI(Message.getCourses + " " + selectedSubject);
+			courseComboBoxCheckedBox.getItems().clear();
+			courseComboBoxCheckedBox.setItems(client.getCoursesFromDB()); // sets the courses that is under specific //
+																			// subject
+			courseComboBoxCheckedBox.setPromptText("Select Course");
+			courseComboBoxCheckedBox.setButtonCell(new ListCell<String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty || item == null) {
+						setText("Select Course");
+					} else {
+						setText(item);
+					}
+				}
+			});
+		}
 	}
 
 	/**
@@ -478,6 +590,13 @@ public class StudentWindowController implements Initializable, IScreenController
 		stopWatchTimeline.play();
 	}
 
+	private void setColumnsInCheckedExams() {
+		examNumberColInCheckedExam.setCellValueFactory(new PropertyValueFactory<>("examNum"));
+		executionCodeColInCheckedExam.setCellValueFactory(new PropertyValueFactory<>("executionCode"));
+		gradeColInCheckedExam.setCellValueFactory(new PropertyValueFactory<>("grade"));
+		generalCommentsColInCheckedExam.setCellValueFactory(new PropertyValueFactory<>("generalComments"));
+	}
+
 	/**
 	 * 
 	 */
@@ -531,6 +650,7 @@ public class StudentWindowController implements Initializable, IScreenController
 		computerizeExamPane.setVisible(false);
 		timerPane.setVisible(false);
 		computrizedScrollPane.setVisible(false);
+		checkedExamAnchorPane.setVisible(false);
 	}
 
 }

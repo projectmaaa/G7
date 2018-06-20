@@ -16,9 +16,10 @@ public class ReportAboutStudent extends Report implements Serializable {
 	
 	private String command;
 
-	public ReportAboutStudent(String command, double average, Student student) {
+	public ReportAboutStudent(String command, double average, int median, Student student) {
 		this.command=command;
 		setAverage(average);
+		setMedian(median);
 		this.student=student;
 	}
 

@@ -27,6 +27,10 @@ public class StudentInActiveExam implements Serializable {
 		this.activeExam = activeExam;
 	}
 
+	public StudentInActiveExam(ActiveExam activeExam) {
+		this.activeExam = activeExam;
+	}
+
 	public String getDate() {
 		return date;
 	}

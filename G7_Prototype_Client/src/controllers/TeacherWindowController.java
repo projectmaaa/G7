@@ -2,6 +2,7 @@ package controllers;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import client.Client;
@@ -14,12 +15,18 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -34,11 +41,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.converter.IntegerStringConverter;
 import resources.*;
 
@@ -119,7 +129,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private Label subject;
 
 	@FXML
-	private ComboBox<String> subjectComboBox;
+	private ComboBox<String> subjectComboBoxInAddQuestion;
 
 	@FXML
 	private Label questionText;
@@ -345,6 +355,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private Button changeTimeButton;
 
+	@FXML
+	private ScrollPane copiersStudents;
+
 	// confirm grades
 
 	@FXML
@@ -380,6 +393,52 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private Button addCommentsButtonInConfirmGrades;
 
+	// exams statistic
+
+	@FXML
+	private AnchorPane examStatisticAnchorPane;
+
+	@FXML
+	private ComboBox<String> subjectComboBoxInExamStatistic;
+
+	@FXML
+	private ComboBox<String> courseComboBoxInExamStatistic;
+
+	@FXML
+	private ComboBox<String> examNumComboBoxInExamStatistic;
+
+	@FXML
+	private Button createReportButton;
+
+	@FXML
+	private BarChart<?, ?> examStatisticBarChart;
+
+	@FXML
+	private CategoryAxis xAxis;
+
+	@FXML
+	private NumberAxis yAxis;
+
+	@FXML
+	private AnchorPane examReportAnchorPane;
+
+	@FXML
+	private TextField averageTextFieldInTeacherReport;
+
+	@FXML
+	private TextField medianTextFieldInTeacherReport;
+
+	@FXML
+	private TextField startedTextFieldInTeacherReport;
+
+	@FXML
+	private TextField finishedTextFieldInTeacherReport;
+
+	@FXML
+	private TextField forcedTextFieldInTeacherReport;
+
+	private ArrayList<Integer> grades;
+
 	//
 
 	private ScreensController screensController;
@@ -392,16 +451,24 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private Exam exam;
 
+	private StudentHandle studentHandle;
+
 	private boolean rejectionFlag;
 
-	private boolean checkingRejectionsInTheBackroundFlag;
-	 
+	private boolean acceptionFlag;
+
+	private boolean hadCopied;
 
 	// end region -> Fields
 
-	// region Setters
+	public StudentHandle getStudentHandle() {
+		return studentHandle;
+	}
 
-	@Override
+	public void setStudentHandle(StudentHandle studentHandle) {
+		this.studentHandle = studentHandle;
+	}
+
 	public void setScreenParent(ScreensController screenParent) {
 		screensController = screenParent;
 	}
@@ -430,15 +497,69 @@ public class TeacherWindowController implements Initializable, IScreenController
 		this.rejectionFlag = rejectionFlag;
 	}
 
-	public boolean isCheckingRejectionsInTheBackroundFlag() {
-		return checkingRejectionsInTheBackroundFlag;
+	public boolean isHadCopied() {
+		return hadCopied;
 	}
 
-	public void setCheckingRejectionsInTheBackroundFlag(boolean checkingRejectionsInTheBackroundFlag) {
-		this.checkingRejectionsInTheBackroundFlag = checkingRejectionsInTheBackroundFlag;
+	public void setHadCopied(boolean hadCopied) {
+		this.hadCopied = hadCopied;
 	}
 
-	// end region -> Setters
+	public boolean isAcceptionFlag() {
+		return acceptionFlag;
+	}
+
+	public void setAcceptionFlag(boolean acceptionFlag) {
+		this.acceptionFlag = acceptionFlag;
+	}
+
+	public ArrayList<Integer> getGrades() {
+		return grades;
+	}
+
+	public void setGrades(ArrayList<Integer> grades) {
+		this.grades = grades;
+	}
+
+	public TextField getAverageTextFieldInTeacherReport() {
+		return averageTextFieldInTeacherReport;
+	}
+
+	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
+		this.averageTextFieldInTeacherReport = averageTextFieldInTeacherReport;
+	}
+
+	public TextField getMedianTextFieldInTeacherReport() {
+		return medianTextFieldInTeacherReport;
+	}
+
+	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
+		this.medianTextFieldInTeacherReport = medianTextFieldInTeacherReport;
+	}
+
+	public TextField getStartedTextFieldInTeacherReport() {
+		return startedTextFieldInTeacherReport;
+	}
+
+	public void setStartedTextFieldInTeacherReport(TextField startedTextFieldInTeacherReport) {
+		this.startedTextFieldInTeacherReport = startedTextFieldInTeacherReport;
+	}
+
+	public TextField getFinishedTextFieldInTeacherReport() {
+		return finishedTextFieldInTeacherReport;
+	}
+
+	public void setFinishedTextFieldInTeacherReport(TextField finishedTextFieldInTeacherReport) {
+		this.finishedTextFieldInTeacherReport = finishedTextFieldInTeacherReport;
+	}
+
+	public TextField getForcedTextFieldInTeacherReport() {
+		return forcedTextFieldInTeacherReport;
+	}
+
+	public void setForcedTextFieldInTeacherReport(TextField forcedTextFieldInTeacherReport) {
+		this.forcedTextFieldInTeacherReport = forcedTextFieldInTeacherReport;
+	}
 
 	/**
 	 * 
@@ -462,14 +583,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		tableViewInCreateExamAllQuestion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		initAddQuestionOption();
 		client.setTeacherWindowController(this);
-//		setRejectionFlag(false);
-//		setCheckingRejectionsInTheBackroundFlag(true);
-//		Runnable r = new Runnable() {
-//			public void run() {
-//				rejectMessageCheck();
-//			}
-//		};
-//		new Thread(r).start();
 	}
 
 	// region Public Methods
@@ -502,8 +615,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 			backAnchorPane.setVisible(false);
 		if (confirmGradesAnchorPane.isVisible())
 			confirmGradesAnchorPane.setVisible(false);
-		setCheckingRejectionsInTheBackroundFlag(false);
+		if (examStatisticAnchorPane.isVisible()) {
+			examStatisticAnchorPane.setVisible(false);
+		}
 		setRejectionFlag(false);
+		setAcceptionFlag(false);
 		welcomeText.setText("Welcome");
 		welcomeAnchorPane.setVisible(true);
 		this.client.handleMessageFromClientUI(Message.logout);
@@ -532,6 +648,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 			welcomeAnchorPane.setVisible(false);
 			confirmGradesAnchorPane.setVisible(false);
 			activeExamManagementAnchorPane.setVisible(false);
+			examStatisticAnchorPane.setVisible(false);
+			examReportAnchorPane.setVisible(false);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -697,6 +815,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 */
 	public void openAddQuestion(ActionEvent event) {
 		try {
+			setSubjectComboBox(subjectComboBoxInAddQuestion);
 			addQuestionAnchorPane.setVisible(true);
 			backAnchorPane.setVisible(true);
 			questionsTableAnchorPaneInEditOrRemove.setVisible(false);
@@ -705,6 +824,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 			examManagementAnchorPane.setVisible(false);
 			confirmGradesAnchorPane.setVisible(false);
 			activeExamManagementAnchorPane.setVisible(false);
+			examStatisticAnchorPane.setVisible(false);
+			examReportAnchorPane.setVisible(false);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -719,7 +840,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 */
 	public void addNewQuestion(ActionEvent event) {
 		// if the user didn't select a subject
-		if (subjectComboBox.getValue() == null) {
+		if (subjectComboBoxInAddQuestion.getValue() == null) {
 			Utilities_Client.popUpMethod("Please Select Subject");
 			return;
 		}
@@ -735,7 +856,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			Utilities_Client.popUpMethod("Please Select Answer");
 			return;
 		}
-		Question question = new Question(subjectComboBox.getValue(), firstName + " " + lastName,
+		Question question = new Question(subjectComboBoxInAddQuestion.getValue(), firstName + " " + lastName,
 				questionTextField.getText(), firstAnswerField.getText(), secondAnswerField.getText(),
 				thirdAnswerField.getText(), fourthAnswerField.getText(), correctAnswerComboBox.getValue());
 		client.setQuestion(question);
@@ -758,6 +879,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 			examManagementAnchorPane.setVisible(false);
 			confirmGradesAnchorPane.setVisible(false);
 			activeExamManagementAnchorPane.setVisible(false);
+			examStatisticAnchorPane.setVisible(false);
+			examReportAnchorPane.setVisible(false);
 			clearAddQuestionFields();
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -802,28 +925,36 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * @param event
 	 */
 	public void selectCourseComboBoxHandler(MouseEvent event) {
-		String selectedSubject = subjectInCreateExamComboBox.getValue();
-		if (selectedSubject == null) {
+		String selectedSubject = null;
+		if (createExamAnchorPane.isVisible())
+			selectedSubject = subjectInCreateExamComboBox.getValue();
+		else if (examStatisticAnchorPane.isVisible())
+			selectedSubject = subjectComboBoxInExamStatistic.getValue();
+		if (selectedSubject == null)
 			Utilities_Client.popUpMethod("You must select the subject first");
-			return;
-		} else {
-			client.handleMessageFromClientUI(Message.getCourses + " " + selectedSubject);
-			courseInCreateExamComboBox.getItems().clear();
-			courseInCreateExamComboBox.setItems(client.getCoursesFromDB()); // sets the courses that is under specific
-																			// subject
-			courseInCreateExamComboBox.setPromptText("Select Course");
-			courseInCreateExamComboBox.setButtonCell(new ListCell<String>() {
-				@Override
-				protected void updateItem(String item, boolean empty) {
-					super.updateItem(item, empty);
-					if (empty || item == null) {
-						setText("Select Course");
-					} else {
-						setText(item);
-					}
+		else if (createExamAnchorPane.isVisible())
+			selectCourseComboBox(courseInCreateExamComboBox, selectedSubject);
+		else if (examStatisticAnchorPane.isVisible())
+			selectCourseComboBox(courseComboBoxInExamStatistic, selectedSubject);
+	}
+
+	private void selectCourseComboBox(ComboBox<String> combobox, String selectedSubject) {
+		client.handleMessageFromClientUI(Message.getCourses + " " + selectedSubject);
+		combobox.getItems().clear();
+		combobox.setItems(client.getCoursesFromDB()); // sets the courses that is under specific
+														// subject
+		combobox.setPromptText("Select Course");
+		combobox.setButtonCell(new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("Select Course");
+				} else {
+					setText(item);
 				}
-			});
-		}
+			}
+		});
 	}
 
 	public void showExamsHandler(ActionEvent event) {
@@ -843,7 +974,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private void setTableInActiveExamManagement() {
 		client.getActivatedUnlockedExams().clear();
-		client.handleMessageFromClientUI(Message.getActiveExamsByActivator + " " + firstName + " " + lastName + " "
+		client.handleMessageFromClientUI(Message.getActiveExamsByActivator + " " + client.getId() + " "
 				+ subjectsActiveExamManagement.getValue());
 		activeExamsTableView.setItems(client.getActivatedUnlockedExams());
 	}
@@ -900,6 +1031,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 			clearAddQuestionFields();
 			setSubjectComboBox(subjectExamManagement);
 			activeExamManagementAnchorPane.setVisible(false);
+			examStatisticAnchorPane.setVisible(false);
+			examReportAnchorPane.setVisible(false);
+
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -931,7 +1065,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			okButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					// check execution code
+					/* check execution code */
 					String typedExecutionCode = executionCode.getText();
 					if ((typedExecutionCode.length() != 4) || !typedExecutionCode.matches("[a-zA-Z0-9]*"))
 						Utilities_Client.popUpMethod("Illegal execution code. please try again!");
@@ -943,7 +1077,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 						Utilities_Client.popUpMethod("Type was not selected. please try again!");
 					else if (!executionCodeExist(typedExecutionCode)) {
 						ActiveExam activeExam = new ActiveExam(selectedExam, typedExecutionCode, type.getValue(),
-								firstName + " " + lastName);
+								firstName + " " + lastName, client.getId());
 						client.handleMessageFromClientUI(new ActiveExamHandle("Activate", activeExam));
 						Utilities_Client.popUpMethod("Exam activated successfully!");
 					} else
@@ -1133,132 +1267,239 @@ public class TeacherWindowController implements Initializable, IScreenController
 		createExamAnchorPane.setVisible(false);
 		examManagementAnchorPane.setVisible(false);
 		activeExamManagementAnchorPane.setVisible(false);
+		examStatisticAnchorPane.setVisible(false);
+		examReportAnchorPane.setVisible(false);
 		setTableInConfirmGrades();
 	}
 
 	public void approveButtonHandler(ActionEvent event) {
-		Label text = null;
-		Stage primaryStage = new Stage();
-		primaryStage.setTitle("AES7");
-		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-		Popup popup = new Popup();
-		popup.setX(700);
-		popup.setY(400);
-		HBox layout = new HBox(10);
-		text = new Label("Are you sure?");
-		popup.getContent().addAll(text);
-		Button yesButton = new Button("Yes");
-		yesButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
-				client.handleMessageFromClientUI(new CheckedExamHandle("Approve", selectedExam));
-				client.handleMessageFromClientUI(new CheckedExamHandle("Remove", selectedExam));
-				setTableInConfirmGrades();
-				Utilities_Client.popUpMethod("Exam sent to Student!");
-				primaryStage.hide();
-			}
-		});
-		Button noButton = new Button("No");
-		noButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				primaryStage.hide();
-			}
-		});
-		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		layout.getChildren().addAll(text, yesButton, noButton);
-		primaryStage.setScene(new Scene(layout));
-		primaryStage.show();
+		CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
+		if (selectedExam == null)
+			Utilities_Client.popUpMethod("Please Select Exam");
+		else {
+			Label text = new Label("Are you sure?");
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			HBox layout = new HBox(10);
+			popup.getContent().addAll(text);
+			Button yesButton = new Button("Yes");
+			yesButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					selectedExam.setIdApprover(client.getId());
+					client.handleMessageFromClientUI(new CheckedExamHandle("Approve", selectedExam));
+					client.handleMessageFromClientUI(new CheckedExamHandle("Remove", selectedExam));
+					setTableInConfirmGrades();
+					Utilities_Client.popUpMethod("Exam sent to Student!");
+					primaryStage.hide();
+				}
+			});
+			Button noButton = new Button("No");
+			noButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					primaryStage.hide();
+				}
+			});
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			layout.getChildren().addAll(text, yesButton, noButton);
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
 	}
 
 	public void changeGradeButtonHandler(ActionEvent event) {
-		Label text = null;
-		Stage primaryStage = new Stage();
-		primaryStage.setTitle("AES7");
-		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-		Popup popup = new Popup();
-		popup.setX(700);
-		popup.setY(400);
-		HBox layout = new HBox(10);
-		text = new Label("Please enter new grade:");
-		popup.getContent().addAll(text);
-		TextField newGrade = new TextField();
-		TextField reasons = new TextField();
-		newGrade.setPrefWidth(50);
-		newGrade.setEditable(true);
-		reasons.setPromptText("Enter reason here");
-		reasons.setEditable(true);
-		Button saveButton = new Button("Save");
-		saveButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
-				if (reasons.getText().equals("") || newGrade.getText().equals("")) {
-					Utilities_Client.popUpMethod("Some fields are missing. Try again!");
-					primaryStage.hide();
-				} else {
-					selectedExam.setGrade(Integer.parseInt(newGrade.getText()));
-					selectedExam.setCommentsOfChangeGrade(reasons.getText());
-					client.handleMessageFromClientUI(new CheckedExamHandle("ChangeGrade", selectedExam));
-					setTableInConfirmGrades();
-					Utilities_Client.popUpMethod("Grade changed successfully!");
+		CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
+		if (selectedExam == null)
+			Utilities_Client.popUpMethod("Please Select Exam");
+		else {
+			Label text = new Label("Please enter new grade:");
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			HBox layout = new HBox(10);
+			popup.getContent().addAll(text);
+			TextField newGrade = new TextField();
+			TextField reasons = new TextField();
+			newGrade.setPrefWidth(50);
+			newGrade.setEditable(true);
+			reasons.setPromptText("Enter reason here");
+			reasons.setEditable(true);
+			Button saveButton = new Button("Save");
+			saveButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					String newTypedGrade = newGrade.getText();
+					if (reasons.getText().isEmpty() || newTypedGrade.isEmpty()) {
+						Utilities_Client.popUpMethod("Some fields are missing. Try again!");
+					} else if (!newTypedGrade.matches("[0-9]*") || newTypedGrade.charAt(0) == '0')
+						Utilities_Client.popUpMethod("Please enter new grade without leading zeros");
+					else if (Integer.parseInt(newTypedGrade) > 100)
+						Utilities_Client.popUpMethod("You can't give more than 100 points");
+					else {
+						selectedExam.setGrade(Integer.parseInt(newTypedGrade));
+						selectedExam.setCommentsOfChangeGrade(reasons.getText());
+						client.handleMessageFromClientUI(new CheckedExamHandle("ChangeGrade", selectedExam));
+						setTableInConfirmGrades();
+						Utilities_Client.popUpMethod("Grade changed successfully!");
+					}
 					primaryStage.hide();
 				}
-			}
-		});
-		Button cancelButton = new Button("Cancel");
-		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				primaryStage.hide();
-			}
-		});
-		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		layout.getChildren().addAll(text, newGrade, reasons, saveButton, cancelButton);
-		primaryStage.setScene(new Scene(layout));
-		primaryStage.show();
+			});
+			Button cancelButton = new Button("Cancel");
+			cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					primaryStage.hide();
+				}
+			});
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			layout.getChildren().addAll(text, newGrade, reasons, saveButton, cancelButton);
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
 	}
 
 	public void addcommentsButtonHandler(ActionEvent event) {
-		Stage primaryStage = new Stage();
-		primaryStage.setTitle("AES7");
-		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
-		Popup popup = new Popup();
-		popup.setX(700);
-		popup.setY(400);
-		HBox layout = new HBox(10);
-		TextField comments = new TextField();
-		comments.setPromptText("Enter comment here");
-		comments.setEditable(true);
-		Button saveButton = new Button("Save");
-		saveButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
-				if (comments.getText().equals("")) {
-					Utilities_Client.popUpMethod("Some fields are missing. Try again!");
-					primaryStage.hide();
-				} else {
-					selectedExam.setComments(comments.getText());
-					client.handleMessageFromClientUI(new CheckedExamHandle("AddComments", selectedExam));
-					setTableInConfirmGrades();
-					Utilities_Client.popUpMethod("Comment added successfully!");
+		CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
+		if (selectedExam == null)
+			Utilities_Client.popUpMethod("Please Select Exam");
+		else {
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			HBox layout = new HBox(10);
+			TextField comments = new TextField();
+			comments.setPromptText("Enter comment here");
+			comments.setEditable(true);
+			Button saveButton = new Button("Save");
+			saveButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					if (comments.getText().equals("")) {
+						Utilities_Client.popUpMethod("Some fields are missing. Try again!");
+						primaryStage.hide();
+					} else {
+						selectedExam.setGeneralComments(comments.getText());
+						client.handleMessageFromClientUI(new CheckedExamHandle("AddComments", selectedExam));
+						Utilities_Client.popUpMethod("Comment added successfully!");
+						primaryStage.hide();
+					}
+				}
+			});
+			Button cancelButton = new Button("Cancel");
+			cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
 					primaryStage.hide();
 				}
+			});
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			layout.getChildren().addAll(comments, saveButton, cancelButton);
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
+	}
+
+	public void openExamStatistic(ActionEvent event) {
+		examStatisticAnchorPane.setVisible(true);
+		confirmGradesAnchorPane.setVisible(false);
+		welcomeAnchorPane.setVisible(false);
+		backAnchorPane.setVisible(false);
+		addQuestionAnchorPane.setVisible(false);
+		questionsTableAnchorPaneInEditOrRemove.setVisible(false);
+		createExamAnchorPane.setVisible(false);
+		examManagementAnchorPane.setVisible(false);
+		activeExamManagementAnchorPane.setVisible(false);
+		examReportAnchorPane.setVisible(false);
+		setSubjectComboBox(subjectComboBoxInExamStatistic);
+		setCourseComboBox(courseComboBoxInExamStatistic);
+		setExamNumberComboBox(examNumComboBoxInExamStatistic);
+		createFirstExamHistogram();
+	}
+
+	public void createReportHandler(ActionEvent event) {
+		if (examNumComboBoxInExamStatistic.getValue() == null)
+			Utilities_Client.popUpMethod("Please select exam number");
+		else {
+			examReportAnchorPane.setVisible(true);
+			createExamHistogram(subjectComboBoxInExamStatistic.getValue(), courseComboBoxInExamStatistic.getValue(),
+					examNumComboBoxInExamStatistic.getValue());
+			averageTextFieldInTeacherReport.setEditable(false);
+			medianTextFieldInTeacherReport.setEditable(false);
+			startedTextFieldInTeacherReport.setEditable(false);
+			finishedTextFieldInTeacherReport.setEditable(false);
+			forcedTextFieldInTeacherReport.setEditable(false);
+		}
+	}
+
+	public void createExamHistogram(String subject, String course, String examNum) {
+		examStatisticBarChart.getData().clear();
+		examStatisticBarChart.setCategoryGap(2);
+		examStatisticBarChart.setBarGap(0);
+		int group[] = new int[6];
+		client.handleMessageFromClientUI(new ExamReportHandle(subject, course, examNum, "ExamStatistic"));
+		// xAxis.setLabel("Grade");
+		yAxis.setLabel("Student Amount");
+
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		for (int i = 0; i < grades.size(); i++) {
+			int grade = grades.get(i);
+			if (grade <= 55) {
+				group[0]++;
+			} else if (grade <= 64) {
+				group[1]++;
+			} else if (grade <= 74) {
+				group[2]++;
+			} else if (grade <= 84) {
+				group[3]++;
+			} else if (grade <= 94) {
+				group[4]++;
+			} else if (grade <= 100) {
+				group[5]++;
 			}
-		});
-		Button cancelButton = new Button("Cancel");
-		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				primaryStage.hide();
-			}
-		});
-		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-		layout.getChildren().addAll(comments, saveButton, cancelButton);
-		primaryStage.setScene(new Scene(layout));
-		primaryStage.show();
+		}
+		XYChart.Series series1 = new XYChart.Series();
+		series1.getData().add(new XYChart.Data("0-54.9", group[0]));
+		series1.getData().add(new XYChart.Data("55-64", group[1]));
+		series1.getData().add(new XYChart.Data("65-74", group[2]));
+		series1.getData().add(new XYChart.Data("75-84", group[3]));
+		series1.getData().add(new XYChart.Data("85-94", group[4]));
+		series1.getData().add(new XYChart.Data("95-100", group[5]));
+		examStatisticBarChart.getData().addAll(series1);
+
+	}
+
+	public void createFirstExamHistogram() {
+		examStatisticBarChart.getData().clear();
+		examStatisticBarChart.setCategoryGap(2);
+		examStatisticBarChart.setBarGap(0);
+
+		// xAxis.setLabel("Grade");
+		yAxis.setLabel("Student Amount");
+
+		XYChart.Series series1 = new XYChart.Series();
+		series1.getData().add(new XYChart.Data("0-54.9", 0));
+		series1.getData().add(new XYChart.Data("55-64", 0));
+		series1.getData().add(new XYChart.Data("65-74", 0));
+		series1.getData().add(new XYChart.Data("75-84", 0));
+		series1.getData().add(new XYChart.Data("85-94", 0));
+		series1.getData().add(new XYChart.Data("95-100", 0));
+		examStatisticBarChart.getData().addAll(series1);
 	}
 
 	/**
@@ -1328,26 +1569,125 @@ public class TeacherWindowController implements Initializable, IScreenController
 		activeExamManagementAnchorPane.setVisible(true);
 	}
 
-	public void rejectMessageCheck(String activator) {
-		if (activator.equals(getFirstName() + " " + getLastName()))
+	/**
+	 * Showing the pop up for the teacher if his\hers request is denied\accepted
+	 * 
+	 * @param event
+	 */
+	public void checkRequest(MouseEvent event) {
+		if (rejectionFlag) {
 			Utilities_Client.popUpMethod("The principal rejected your request");
+			setRejectionFlag(false);
+		}
+		if (acceptionFlag) {
+			setTableInActiveExamManagement();
+			Utilities_Client.popUpMethod("The principal approved your request");
+			setAcceptionFlag(false);
+		}
+		if (hadCopied) {
+			handleCopiers();
+			setHadCopied(false);
+		}
 	}
 
-	// public void rejectMessageCheck() {
-	// while (checkingRejectionsInTheBackroundFlag)
-	// if (rejectionFlag) {
-	// Utilities_Client.popUpMethod("The principal rejected your request");
-	// setRejectionFlag(false);
-	// }
-	// }
+	/**
+	 * Shows pop-up with students that copied.
+	 * 
+	 * @param studentHandle
+	 */
+	public void handleCopiers() {
+		HashMap<Student, ArrayList<Student>> copeied = studentHandle.getCopeied();
+		String str = "";
+		for (Student studend : copeied.keySet()) {
+			str += studend.getFirstName() + " " + studend.getLastName() + " copied with:\n";
+			for (Student copier : copeied.get(studend)) {
+				str += copier.getFirstName() + " " + copier.getLastName() + "\n";
+			}
+			str += "####################\n";
+		}
+		VBox vBox = new VBox();
+		Label text = null;
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("AES7");
+		primaryStage.setResizable(false);
+		primaryStage.setHeight(600);
+		primaryStage.setWidth(400);
+		primaryStage.initStyle(StageStyle.UNDECORATED);
+		vBox.setPrefHeight(300);
+		ScrollPane scrollPane = new ScrollPane();
+		scrollPane.setLayoutX(25);
+		scrollPane.setContent(vBox);
+		Popup popup = new Popup();
+		popup.setX(700);
+		popup.setY(400);
+		popup.getContent().add(scrollPane);
+		BorderPane border = new BorderPane();
+		Button okButton = new Button("OK");
+		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		okButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+			}
+		});
+		border.setStyle(
+				"-fx-background-color: cornsilk; -fx-padding: 10; -fx-border-color: black;-fx-border-width: 1;");
+		try {
+			text = new Label(str);
+		} catch (NullPointerException e) {
+			text = new Label("No Message Sent");
+		}
+		border.setCenter(scrollPane);
+		vBox.getChildren().add(text);
+		popup.getContent().addAll(vBox);
+		border.setBottom(okButton);
+		primaryStage.setScene(new Scene(border));
+		primaryStage.show();
+	}
 
-	// end region -> Public Methods
+	/**
+	 * The handler when the teacher want to see his written exams
+	 * 
+	 * @param event
+	 */
+	public void selectExamNumberHandler(MouseEvent event) {
+		String selectedCourse = null;
+		if (examStatisticAnchorPane.isVisible())
+			selectedCourse = courseComboBoxInExamStatistic.getValue();
+		if (selectedCourse == null)
+			Utilities_Client.popUpMethod("You must select the course first");
+		else if (examStatisticAnchorPane.isVisible())
+			selectExamNumber(examNumComboBoxInExamStatistic, selectedCourse);
+	}
 
-	// region Private Methods
+	/**
+	 * Sets the exam number combo box that is filtered by author
+	 * 
+	 * @param combobox
+	 * @param course
+	 */
+	private void selectExamNumber(ComboBox<String> combobox, String course) {
+		client.handleMessageFromClientUI(Message.getExamsByAuthor + " " + course + " " + firstName + " " + lastName);
+		combobox.getItems().clear();
+		combobox.setItems(client.getExamsByAuthorFromDB()); // sets the exams that is under specific course & written by
+															// specific teacher
+		combobox.setPromptText("Select Exam Number");
+		combobox.setButtonCell(new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("Select Exam Number");
+				} else {
+					setText(item);
+				}
+			}
+		});
+	}
 
 	private void setTableInConfirmGrades() {
 		client.getCheckedExamsFromDB().clear();
-		client.handleMessageFromClientUI(Message.getCheckedExams);
+		client.handleMessageFromClientUI(Message.getCheckedExams + " " + client.getId());
 		confirmGradeTableView.setItems(client.getCheckedExamsFromDB());
 	}
 
@@ -1507,7 +1847,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * init's the fields of the 'Add Question' option
 	 */
 	private void initAddQuestionOption() {
-		setSubjectComboBox(subjectComboBox);
+		setSubjectComboBox(subjectComboBoxInAddQuestion);
 		setSelectComboBox(correctAnswerComboBox);
 	}
 
@@ -1516,10 +1856,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * pressed
 	 */
 	private void clearAddQuestionFields() {
-		if (subjectComboBox.getValue() != null) {
-			subjectComboBox.getSelectionModel().clearSelection();
-			subjectComboBox.setPromptText("Select Subject");
-			subjectComboBox.setButtonCell(new ListCell<String>() {
+		if (subjectComboBoxInAddQuestion.getValue() != null) {
+			subjectComboBoxInAddQuestion.getSelectionModel().clearSelection();
+			subjectComboBoxInAddQuestion.setPromptText("Select Subject");
+			subjectComboBoxInAddQuestion.setButtonCell(new ListCell<String>() {
 				@Override
 				protected void updateItem(String item, boolean empty) {
 					super.updateItem(item, empty);
@@ -1545,6 +1885,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 						setText(item);
 					}
 				}
+
 			});
 		}
 		if (!questionTextField.getText().isEmpty()) {
@@ -1629,7 +1970,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 				}
 			}
 		});
-		client.handleMessageFromClientUI(Message.getSubjects);
+		String ID = client.getId();
+		if (ID.isEmpty())
+			client.handleMessageFromClientUI(Message.getSubjects);
+		else
+			client.handleMessageFromClientUI(Message.getSubjectsByTeacherID + " " + ID);
 		comboBox.setItems(client.getSubjectsFromDB());
 	}
 
@@ -1658,6 +2003,16 @@ public class TeacherWindowController implements Initializable, IScreenController
 		comboBox.getSelectionModel().clearSelection();
 		comboBox.setPromptText("Select");
 		comboBox.getItems().addAll("1", "2", "3", "4");
+	}
+
+	/**
+	 * Sets the exam number combo box to default
+	 * 
+	 * @param comboBox
+	 */
+	private void setExamNumberComboBox(ComboBox<String> comboBox) {
+		comboBox.getSelectionModel().clearSelection();
+		comboBox.setPromptText("Select Exam Number");
 	}
 
 	// end region -> Private Methods
