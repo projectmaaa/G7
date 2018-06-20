@@ -119,7 +119,9 @@ public class SqlUtilities {
 
 	public final static String INSERT_SubmittedExam = "insert into SubmittedExam values (?, ?, ?, ?, ?, ?, ?);";
 
-	public final static String DELETE_Exam = "DELETE FROM Exam WHERE subjectID=? AND courseID=? AND examNum=?;";
+	public final static String DELETE_Exam_from_Exam_Table = "DELETE FROM Exam WHERE subjectID=? AND courseID=? AND examNum=?;";
+
+	public final static String DELETE_Exam_from_Active_Exam_Table = "DELETE FROM ActiveExam WHERE subjectID=? AND courseID=? AND examNum=?;";
 
 	public final static String getActivatorsID = "SELECT activatorsID FROM ActiveExam WHERE subjectID=? AND courseID=? AND examNum=?;";
 
@@ -473,8 +475,9 @@ public class SqlUtilities {
 		}
 		return (new CheckedExamHandle("AllCheckedExams", checkedExams));
 	}
-	
-	public static ApprovedExamForStudentHandle getSolvedExamsByStudent(StudentHandle studentHandle, Connection connection) throws SQLException {
+
+	public static ApprovedExamForStudentHandle getSolvedExamsByStudent(StudentHandle studentHandle,
+			Connection connection) throws SQLException {
 		ArrayList<ApprovedExamForStudent> approved = new ArrayList<ApprovedExamForStudent>();
 		PreparedStatement statement = connection.prepareStatement(SELECT_ApprovedExamByStudent);
 		statement.setString(1, studentHandle.getStudent().getId());
@@ -482,8 +485,7 @@ public class SqlUtilities {
 		while (rs.next()) {
 			Exam exam = new Exam(rs.getString(1), rs.getString(2), rs.getString(3));
 			ActiveExam activeExam = new ActiveExam(exam, rs.getString(4));
-			StudentInActiveExam studentInActiveExam = new StudentInActiveExam(
-					studentHandle.getStudent(), activeExam);
+			StudentInActiveExam studentInActiveExam = new StudentInActiveExam(studentHandle.getStudent(), activeExam);
 			SubmittedExam submittedExam = new SubmittedExam(studentInActiveExam);
 			CheckedExam checkedExam = new CheckedExam(submittedExam);
 			approved.add(new ApprovedExamForStudent(checkedExam, rs.getInt(5), rs.getString(6)));
@@ -1052,7 +1054,12 @@ public class SqlUtilities {
 	 * @throws SQLException
 	 */
 	public static void deleteExam(Exam exam, Connection connection) throws SQLException {
-		PreparedStatement delete = connection.prepareStatement(SqlUtilities.DELETE_Exam);
+		PreparedStatement delete = connection.prepareStatement(DELETE_Exam_from_Exam_Table);
+		delete.setString(1, exam.getSubjectID());
+		delete.setString(2, exam.getCourseID());
+		delete.setString(3, exam.getExamNum());
+		delete.executeUpdate();
+		delete = connection.prepareStatement(DELETE_Exam_from_Active_Exam_Table);
 		delete.setString(1, exam.getSubjectID());
 		delete.setString(2, exam.getCourseID());
 		delete.setString(3, exam.getExamNum());

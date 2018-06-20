@@ -109,7 +109,7 @@
             </Label>
             <Button layoutX="184.0" layoutY="87.0" mnemonicParsing="false" onMouseClicked="#enterIsClickedInExecuteExam" text="Enter" />
          </children></AnchorPane>
-      <AnchorPane fx:id="computerizeExamPane" layoutX="30.0" layoutY="65.0" prefHeight="500.0" prefWidth="600.0" visible="false">
+      <AnchorPane fx:id="computerizeExamPane" layoutX="30.0" layoutY="65.0" prefHeight="500.0" prefWidth="967.0" visible="false">
          <children>
             <TextField fx:id="examIDTextField" layoutX="14.0" layoutY="14.0" onKeyPressed="#enterIDKeyHandler" promptText="ID" />
             <Button fx:id="enterIDComputerizeExamButton" layoutX="183.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#enterIsClickedInEnterID" text="Enter" />
@@ -129,6 +129,11 @@
                   </Text>
                </children>
             </AnchorPane>
+            <TextArea fx:id="commentsTextArea" editable="false" layoutX="611.0" layoutY="50.0" prefHeight="200.0" prefWidth="335.0" visible="false">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextArea>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="checkedExamAnchorPane" layoutX="30.0" layoutY="86.0" prefHeight="420.0" prefWidth="551.0" visible="false">
@@ -158,11 +163,6 @@
             <Button fx:id="okButtonShowExam" layoutX="603.0" layoutY="520.0" mnemonicParsing="false" onMouseClicked="#returnToTableView" text="Ok" />
          </children>
       </AnchorPane>
-      <TextArea fx:id="commentsTextArea" editable="false" layoutX="651.0" layoutY="315.0" prefHeight="200.0" prefWidth="335.0" visible="false">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </TextArea>
       <ImageView blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="431.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/logo.jpg" />
