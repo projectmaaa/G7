@@ -412,7 +412,7 @@
                       <CategoryAxis side="BOTTOM" fx:id="xAxisInCourseReport" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis fx:id="yAxisInCourseReport" label="Student Amount" side="LEFT" />
+                      <NumberAxis fx:id="yAxisInCourseReport" label="Exams Amount" side="LEFT" />
                     </yAxis>
                   </BarChart>
                </children>
@@ -501,7 +501,7 @@
                       <CategoryAxis side="BOTTOM" fx:id="xAxisInTeacherReport" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis fx:id="yAxisInTeacherReport" label="Student Amount" side="LEFT" />
+                      <NumberAxis fx:id="yAxisInTeacherReport" label="Exams Amount" side="LEFT" />
                     </yAxis>
                   </BarChart>
                </children>

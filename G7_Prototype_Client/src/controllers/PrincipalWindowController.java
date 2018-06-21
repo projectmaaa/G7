@@ -850,7 +850,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			CourseNameLabel.setText(fullName);
 			client.handleMessageFromClientUI(new ReportHandle("CourseStatistic", course));
 			try {
-				TimeUnit.SECONDS.sleep(1);
+				TimeUnit.SECONDS.sleep(3);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -898,7 +898,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			teacherNameLabel.setText(fullName);
 			client.handleMessageFromClientUI(new ReportHandle("TeacherStatistic", teacher));
 			try {
-				TimeUnit.SECONDS.sleep(1);
+				TimeUnit.SECONDS.sleep(3);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
