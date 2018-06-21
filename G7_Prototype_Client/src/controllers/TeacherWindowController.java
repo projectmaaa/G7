@@ -1070,7 +1070,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 	
 	/**
-	 * setting table in exam mangement
+	 * setting table in exam management
 	 */
 
 	private void setTableInExamsManagement() {
@@ -1080,7 +1080,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 	
 	/**
-	 * setting table in active exam mangement
+	 * setting table in active exam management
 	 */
 
 	private void setTableInActiveExamManagement() {
@@ -2285,7 +2285,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * <p>
 	 * Select Course
 	 * </p>
-	 * MLM, MTM, ATM, OOP.
 	 * 
 	 * @param comboBox
 	 */

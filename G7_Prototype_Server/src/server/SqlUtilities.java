@@ -135,7 +135,7 @@ public class SqlUtilities {
 
 	public final static String SELECT_Comments_from_Checked_Exams = "SELECT generalComments, commentsOfChangeGrade FROM CheckedExam WHERE executionCode=? AND studentID=?;";
 
-	public final static String SELECT_ActiveExamsBySubject = "SELECT subjectID, courseID, examNum, executionCode, activator, duration, locked, type FROM ActiveExam WHERE subjectID=?;";
+	public final static String SELECT_ActiveExamsByCourse = "SELECT subjectID, courseID, examNum, executionCode, activator, duration, locked, type FROM ActiveExam WHERE courseID=?;";
 
 	public final static String SELECT_Exams_By_Author_and_Course = "SELECT examNum FROM Exam WHERE courseID=? AND author=?;";
 
@@ -957,10 +957,10 @@ public class SqlUtilities {
 		return new ActiveExamHandle("All", activeExams);
 	}
 
-	public static ActiveExamHandle getActiveExamsBySubject(String subjectID, Connection connection)
+	public static ActiveExamHandle getActiveExamsBySubject(String courseID, Connection connection)
 			throws SQLException {
-		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_ActiveExamsBySubject);
-		statement.setString(1, getSubjectID(subjectID, connection));
+		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_ActiveExamsByCourse);
+		statement.setString(1, getCourseID(courseID, connection));
 		ArrayList<ActiveExam> activeExams = new ArrayList<>();
 		ResultSet rs = statement.executeQuery();
 		while (rs.next())

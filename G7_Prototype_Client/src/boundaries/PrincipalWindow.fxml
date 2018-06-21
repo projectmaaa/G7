@@ -178,21 +178,43 @@
                   <Bloom />
                </effect>
             </Label>
-            <Label fx:id="subjectInExamsPoolLabel" layoutX="4.0" layoutY="39.0" text="Subject" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="subjectComboBoxInExamPool" layoutX="65.0" layoutY="35.0" prefWidth="150.0">
+            <ComboBox fx:id="subjectComboBoxInExamPool" layoutX="1.0" layoutY="35.0" prefWidth="150.0" promptText="Select Subject">
                <effect>
                   <InnerShadow />
                </effect>
             </ComboBox>
-            <Button fx:id="showExamsInExamsPool" layoutX="249.0" layoutY="35.0" mnemonicParsing="false" onAction="#showExamsHandler" text="Show Exams">
+            <Button fx:id="showExamsInExamsPool" layoutX="326.0" layoutY="35.0" mnemonicParsing="false" onAction="#showExamsHandler" text="Show Exams">
                <effect>
                   <InnerShadow />
                </effect>
             </Button>
+            <ComboBox fx:id="courseComboBoxInExamPool" layoutX="162.0" layoutY="35.0" onMouseClicked="#courseComboBoxHandler" prefWidth="150.0" promptText="Select Course">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ComboBox>
+            <Button fx:id="showQuestionsInExamsPool" layoutX="424.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#showQuestionsOfSpecificExam" text="Show Questions">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+            <TableView fx:id="questionsTableOfSpecificExam" editable="true" fixedCellSize="0.0" prefHeight="269.0" prefWidth="957.0" stylesheets="@table%20view.css" visible="false">
+               <columns>
+                  <TableColumn fx:id="subjectIDOfSpecificExam" maxWidth="200.0" minWidth="69.0" prefWidth="69.0" text="Subject ID" />
+                  <TableColumn fx:id="questionNumberInSpecificExam" prefWidth="82.0" text="Q.Number" />
+                  <TableColumn fx:id="authorOfSpecificExam" maxWidth="200.0" minWidth="55.0" prefWidth="93.0" text="Author" />
+                  <TableColumn fx:id="questionTextInSpecificExam" minWidth="0.0" prefWidth="244.0" text="Question Text" />
+                  <TableColumn fx:id="possibleAnswersInSpecificExam" prefWidth="341.0" text="Possible Answers">
+                     <columns>
+                        <TableColumn fx:id="firstPossibleAnswerInSpecificExam" prefWidth="85.0" text="First" />
+                        <TableColumn fx:id="secondPossibleAnswerInSpecificExam" prefWidth="85.0" text="Second" />
+                        <TableColumn fx:id="thirdPossibleAnswerInSpecificExam" prefWidth="85.0" text="Third" />
+                        <TableColumn fx:id="fourthPossibleAnswerInSpecificExam" prefWidth="85.0" text="Fourth" />
+                     </columns>
+                  </TableColumn>
+                  <TableColumn fx:id="correctAnswerInSpecificExam" maxWidth="255.0" minWidth="33.0" prefWidth="128.0" text="Correct Answer" />
+               </columns>
+            </TableView>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="handlingRequestsAnchorPane" layoutX="14.0" layoutY="139.0" prefHeight="415.0" prefWidth="967.0" visible="false">
@@ -280,7 +302,7 @@
                   </SubScene>
                   <ImageView fitHeight="86.0" fitWidth="73.0" layoutX="221.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../Pictures/Statistics-Button.png" />
+                        <Image url="@Images/Statistics-Button.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="32.0" layoutY="123.0" text="Average:">
@@ -369,7 +391,7 @@
                   </SubScene>
                   <ImageView fitHeight="86.0" fitWidth="73.0" layoutX="221.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../Pictures/Statistics-Button.png" />
+                        <Image url="@Images/Statistics-Button.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="32.0" layoutY="107.0" text="Average:">
@@ -458,7 +480,7 @@
                   </SubScene>
                   <ImageView fitHeight="86.0" fitWidth="73.0" layoutX="221.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../Pictures/Statistics-Button.png" />
+                        <Image url="@Images/Statistics-Button.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="32.0" layoutY="117.0" text="Average:">
@@ -510,7 +532,7 @@
       </AnchorPane>
       <AnchorPane fx:id="activeExamAnchorPane" layoutX="21.0" layoutY="116.0" prefHeight="450.0" prefWidth="829.0" visible="false">
          <children>
-            <Label layoutX="5.0" text="Active Exams" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+            <Label layoutX="22.0" text="Active Exams" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="24.0" />
                </font>
@@ -518,12 +540,7 @@
                   <Bloom />
                </effect>
             </Label>
-            <Label layoutX="14.0" layoutY="44.0" text="Subject" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="subjectComboBoxInActiveExams" layoutX="68.0" layoutY="41.0" prefWidth="150.0" />
+            <ComboBox fx:id="subjectComboBoxInActiveExams" layoutX="16.0" layoutY="45.0" prefWidth="150.0" promptText="Select Subject" />
             <TableView fx:id="activeExamTableView" layoutX="14.0" layoutY="96.0" prefHeight="289.0" prefWidth="792.0" stylesheets="@table%20view.css">
               <columns>
                 <TableColumn fx:id="subjectColInActiveExams" prefWidth="89.0" text="Subject" />
@@ -536,7 +553,12 @@
                   <TableColumn fx:id="typeColInActiveExams" prefWidth="142.0" text="Type" />
               </columns>
             </TableView>
-            <Button fx:id="showActiveExamButton" layoutX="241.0" layoutY="41.0" mnemonicParsing="false" onAction="#showActiveExamButtonHandler" text="Show Active Exams" />
+            <Button fx:id="showActiveExamButton" layoutX="366.0" layoutY="45.0" mnemonicParsing="false" onAction="#showActiveExamButtonHandler" text="Show Active Exams" />
+            <ComboBox fx:id="courseComboBoxInActiveExams" layoutX="195.0" layoutY="45.0" onMouseClicked="#courseComboBoxHandler" prefWidth="150.0" promptText="Select Course">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </ComboBox>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="solvedExamsAnchorPane" layoutX="16.0" layoutY="121.0" prefHeight="450.0" prefWidth="959.0" visible="false">

@@ -51,7 +51,7 @@ import resources.WaitingActiveExamHandle;
 
 public class PrincipalWindowController implements Initializable, IScreenController {
 
-	/*
+	/**
 	 * general attributes
 	 */
 
@@ -88,7 +88,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	private MenuBar menuBar;
 
 	ArrayList<Integer> grades;
-	
+
 	HashMap<String, Integer> gradesWithExam;
 
 	/**
@@ -151,13 +151,19 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	private AnchorPane examsPoolAnchorPane;
 
 	@FXML
-	private Label subjectInExamsPoolLabel;
-
-	@FXML
 	private ComboBox<String> subjectComboBoxInExamPool;
 
 	@FXML
+	private ComboBox<String> courseComboBoxInExamPool;
+
+	@FXML
 	private Button showExamsInExamsPool;
+
+	@FXML
+	private Button showQuestionsInExamsPool;
+
+	@FXML
+	private TableView<Exam> tableViewInExamsPool;
 
 	@FXML
 	private TableColumn<Exam, String> subjectColInExamsPool;
@@ -181,7 +187,37 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	private TableColumn<Exam, String> textTeachersColInExamsPool;
 
 	@FXML
-	private TableView<Exam> tableViewInExamsPool;
+	private TableView<Question> questionsTableOfSpecificExam;
+
+	@FXML
+	private TableColumn<Question, String> subjectIDOfSpecificExam;
+
+	@FXML
+	private TableColumn<Question, String> questionNumberInSpecificExam;
+
+	@FXML
+	private TableColumn<Question, String> authorOfSpecificExam;
+
+	@FXML
+	private TableColumn<Question, String> questionTextInSpecificExam;
+
+	@FXML
+	private TableColumn<Question, String> possibleAnswersInSpecificExam;
+
+	@FXML
+	private TableColumn<Question, String> firstPossibleAnswerInSpecificExam;
+
+	@FXML
+	private TableColumn<Question, String> secondPossibleAnswerInSpecificExam;
+
+	@FXML
+	private TableColumn<Question, String> thirdPossibleAnswerInSpecificExam;
+
+	@FXML
+	private TableColumn<Question, String> fourthPossibleAnswerInSpecificExam;
+
+	@FXML
+	private TableColumn<Question, String> correctAnswerInSpecificExam;
 
 	/**
 	 * active exams attributes
@@ -192,6 +228,9 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	@FXML
 	private ComboBox<String> subjectComboBoxInActiveExams;
+
+	@FXML
+	private ComboBox<String> courseComboBoxInActiveExams;
 
 	@FXML
 	private Button showActiveExamButton;
@@ -519,7 +558,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
 		this.medianTextFieldInTeacherReport = medianTextFieldInTeacherReport;
 	}
-	
+
 	public HashMap<String, Integer> getGradesWithExam() {
 		return gradesWithExam;
 	}
@@ -533,7 +572,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * --------------------------------- *
 	 */
 
-
 	/**
 	 * initialize method
 	 */
@@ -543,7 +581,16 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		date.setText(Utilities_Client.setDate());
 		this.client = MainAppClient.getClient();
 		client.setPrincipalWindowController(this);
-		setColumnsInQuestionsPool();
+		/* set the table at the questions pool */
+		setColumnsOfQuestionsTable(subjectIDColumnInQuestionsPool, questionNumColumnInQuestionsPool,
+				authorColumnInQuestionsPool, questionTextColumnInQuestionsPool,
+				firstPossibleAnswerColumnInQuestionsPool, secondPossibleAnswerColumnInQuestionsPool,
+				thirdPossibleAnswerColumnInQuestionsPool, fourthPossibleAnswerColumnInQuestionsPool,
+				correctAnswerColumnInQuestionsPool);
+		/* set the table for the questions pop up of specific exam */
+		setColumnsOfQuestionsTable(subjectIDOfSpecificExam, questionNumberInSpecificExam, authorOfSpecificExam,
+				questionTextInSpecificExam, firstPossibleAnswerInSpecificExam, secondPossibleAnswerInSpecificExam,
+				thirdPossibleAnswerInSpecificExam, fourthPossibleAnswerInSpecificExam, correctAnswerInSpecificExam);
 		setColumnsInExamsPool();
 		setColumnsInHandlingRequests();
 		setColInStudentReport();
@@ -566,8 +613,11 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		welcomeAnchorPane.setVisible(true);
 	}
 
-	// question tab was pressed
-
+	/**
+	 * Question tab was pressed
+	 * 
+	 * @param event
+	 */
 	public void openQuestionPool(ActionEvent event) {
 		tableViewInQuestionsPool.getItems().clear();
 		setAnchorPanesFalse();
@@ -596,6 +646,51 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		setAnchorPanesFalse();
 		examsPoolAnchorPane.setVisible(true);
 		setSubjectComboBox(subjectComboBoxInExamPool);
+		setCourseComboBox(courseComboBoxInExamPool);
+	}
+
+	/**
+	 * The action to be performed when the course combo box is clicked
+	 * 
+	 * @param event
+	 */
+	public void courseComboBoxHandler(MouseEvent event) {
+		if (examsPoolAnchorPane.isVisible()) {
+			if (subjectComboBoxInExamPool.getValue() != null)
+				courseComboBox(courseComboBoxInExamPool, subjectComboBoxInExamPool.getValue());
+			else
+				Utilities_Client.popUpMethod("Please Select Subject");
+		} else if (activeExamAnchorPane.isVisible()) {
+			if (subjectComboBoxInActiveExams.getValue() != null)
+				courseComboBox(courseComboBoxInActiveExams, subjectComboBoxInActiveExams.getValue());
+			else
+				Utilities_Client.popUpMethod("Please Select Subject");
+		}
+	}
+
+	/**
+	 * Sets the courses from the data base in the combo box in the relevant screen
+	 * 
+	 * @param combobox
+	 * @param selectedSubject
+	 */
+	private void courseComboBox(ComboBox<String> combobox, String selectedSubject) {
+		client.handleMessageFromClientUI(Message.getCourses + " " + selectedSubject);
+		combobox.getItems().clear();
+		combobox.setItems(client.getCoursesFromDB()); // sets the courses that is under specific
+														// subject
+		combobox.setPromptText("Select Course");
+		combobox.setButtonCell(new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("Select Course");
+				} else {
+					setText(item);
+				}
+			}
+		});
 	}
 
 	/**
@@ -603,9 +698,37 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * 
 	 * @param event
 	 */
-
 	public void showExamsHandler(ActionEvent event) {
 		setTableInExamsPool();
+	}
+
+	/**
+	 * This method shows to the principal the questions of specific exam
+	 * 
+	 * @param event
+	 */
+	public void showQuestionsOfSpecificExam(MouseEvent event) {
+		Exam selectedExam = tableViewInExamsPool.getSelectionModel().getSelectedItem();
+		if (selectedExam == null)
+			Utilities_Client.popUpMethod("Please Select Exam");
+		else {
+			client.handleMessageFromClientUI(Message.getQuestionsFromSpecificExam + " " + selectedExam.getSubjectID()
+					+ " " + selectedExam.getCourseID() + " " + selectedExam.getExamNum());
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			HBox layout = new HBox(10);
+			primaryStage.setResizable(false);
+			questionsTableOfSpecificExam.setItems(client.getQuestionsFromDB());
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			layout.getChildren().addAll(questionsTableOfSpecificExam);
+			questionsTableOfSpecificExam.setVisible(true);
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
 	}
 
 	/**
@@ -669,7 +792,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * 
 	 * @param event
 	 */
-
 	public void openHandlingRequests(ActionEvent event) {
 		setAnchorPanesFalse();
 		handlingRequestsAnchorPane.setVisible(true);
@@ -877,8 +999,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		exams.addAll(gradesWithExams.keySet());
 		ArrayList<Integer> grade = new ArrayList<Integer>();
 		grade.addAll(gradesWithExams.values());
-		for(int i=0;i<grade.size();i++) {
-		series1.getData().add(new XYChart.Data(exams.get(i), grade.get(i)));
+		for (int i = 0; i < grade.size(); i++) {
+			series1.getData().add(new XYChart.Data(exams.get(i), grade.get(i)));
 		}
 		studentBarChart.getData().addAll(series1);
 	}
@@ -942,11 +1064,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 					group[9]++;
 				}
 			}
-//			try {
-//				TimeUnit.SECONDS.sleep(3);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
 			series1.getData().add(new XYChart.Data("0-10", group[0]));
 			series1.getData().add(new XYChart.Data("11-20", group[1]));
 			series1.getData().add(new XYChart.Data("21-30", group[2]));
@@ -962,14 +1079,13 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			Utilities_Client.popUpMethod("Theres no grades yet in this course!");
 	}
 
-
 	/*-----------------------------------private-------------------------*/
+
 	/**
-	 * set subject combobox method
+	 * Set subject combo box method
 	 * 
 	 * @param comboBox
 	 */
-
 	private void setSubjectComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
 		comboBox.setPromptText("Select Subject");
@@ -989,11 +1105,20 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * set student combobox method
+	 * Set subject course box method
 	 * 
 	 * @param comboBox
 	 */
+	private void setCourseComboBox(ComboBox<String> comboBox) {
+		comboBox.getSelectionModel().clearSelection();
+		comboBox.setPromptText("Select Course");
+	}
 
+	/**
+	 * Set student combo box method
+	 * 
+	 * @param comboBox
+	 */
 	private void setStudentComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
 		comboBox.setPromptText("Select Student");
@@ -1023,36 +1148,34 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 					Message.getQuestionBySubject + " " + subjectComboBoxInQuestionsPool.getValue());
 			tableViewInQuestionsPool.setItems(client.getQuestionsFromDB());
 		} else {
-			Utilities_Client.popUpMethod("Select Subject");
+			Utilities_Client.popUpMethod("Please Select Subject");
 		}
 	}
 
 	/**
 	 * set table in exams pool anchor pane
 	 */
-
 	private void setTableInExamsPool() {
 		client.getExamsFromDB().clear();
-		if (subjectComboBoxInExamPool.getValue() != null) {
-			client.handleMessageFromClientUI(Message.getExamByCourse + " " + subjectComboBoxInExamPool.getValue());
+		if (courseComboBoxInExamPool.getValue() != null) {
+			client.handleMessageFromClientUI(Message.getExamByCourse + " " + courseComboBoxInExamPool.getValue());
 			tableViewInExamsPool.setItems(client.getExamsFromDB());
 		} else {
-			Utilities_Client.popUpMethod("Select Subject");
+			Utilities_Client.popUpMethod("Please Select Course");
 		}
 	}
 
 	/**
 	 * set table in active exams anchor pane
 	 */
-
 	private void setTableInActiveExams() {
 		client.getActiveExamsBySubject().clear();
-		if (subjectComboBoxInActiveExams.getValue() != null) {
+		if (courseComboBoxInActiveExams.getValue() != null) {
 			client.handleMessageFromClientUI(
-					Message.getActiveExamBySubject + " " + subjectComboBoxInActiveExams.getValue());
+					Message.getActiveExamBySubject + " " + courseComboBoxInActiveExams.getValue());
 			activeExamTableView.setItems(client.getActiveExamsBySubject());
 		} else {
-			Utilities_Client.popUpMethod("Select Subject");
+			Utilities_Client.popUpMethod("Please Select Course");
 		}
 	}
 
@@ -1068,7 +1191,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			client.handleMessageFromClientUI(new StudentHandle("SolvedExamsOfStudent", student));
 			solvedExamsTableView.setItems(client.getSolvedExamOfStudentsDB());
 		} else {
-			Utilities_Client.popUpMethod("Select Student");
+			Utilities_Client.popUpMethod("Please Select Student");
 		}
 	}
 
@@ -1086,18 +1209,20 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * set columns in questions pool
 	 */
 
-	private void setColumnsInQuestionsPool() {
-		subjectIDColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
-		questionNumColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
-		authorColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("author"));
-		questionTextColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("questionText"));
-		firstPossibleAnswerColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
-		secondPossibleAnswerColumnInQuestionsPool
-				.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
-		thirdPossibleAnswerColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
-		fourthPossibleAnswerColumnInQuestionsPool
-				.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
-		correctAnswerColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
+	private void setColumnsOfQuestionsTable(TableColumn<Question, String> subjectID,
+			TableColumn<Question, String> questionNumber, TableColumn<Question, String> author,
+			TableColumn<Question, String> questionText, TableColumn<Question, String> firstPossibleAnswer,
+			TableColumn<Question, String> secondPossibleAnswer, TableColumn<Question, String> thirdPossibleAnswer,
+			TableColumn<Question, String> fourthPossibleAnswer, TableColumn<Question, String> correctAnswer) {
+		subjectID.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
+		questionNumber.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
+		author.setCellValueFactory(new PropertyValueFactory<>("author"));
+		questionText.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+		firstPossibleAnswer.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
+		secondPossibleAnswer.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
+		thirdPossibleAnswer.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
+		fourthPossibleAnswer.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
+		correctAnswer.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 	}
 
 	/**
