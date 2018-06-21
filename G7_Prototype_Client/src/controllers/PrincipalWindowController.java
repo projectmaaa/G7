@@ -1257,5 +1257,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		report1AnchorPane.setVisible(false);
 		teacherReportAnchorPane.setVisible(false);
 		activeExamAnchorPane.setVisible(false);
+		solvedExamsAnchorPane.setVisible(false);
 	}
 }
