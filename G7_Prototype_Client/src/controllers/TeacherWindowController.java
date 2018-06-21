@@ -1687,7 +1687,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setSubjectComboBox(subjectComboBoxInExamStatistic);
 		setCourseComboBox(courseComboBoxInExamStatistic);
 		setExamNumberComboBox(examNumComboBoxInExamStatistic);
-		createFirstExamHistogram();
 	}
 	
 	/**
@@ -1721,9 +1720,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		examStatisticBarChart.getData().clear();
 		examStatisticBarChart.setCategoryGap(2);
 		examStatisticBarChart.setBarGap(0);
+		examStatisticBarChart.setAnimated(false);
 		int group[] = new int[10];
 		client.handleMessageFromClientUI(new ExamReportHandle(subject, course, examNum, "ExamStatistic"));
-		// xAxis.setLabel("Grade");
+		xAxis.setLabel(" ");
 		yAxis.setLabel("Student Amount");
 
 		try {
@@ -1756,6 +1756,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			}
 		}
 		XYChart.Series series1 = new XYChart.Series();
+		series1.setName("AES7-Histogram");
 		series1.getData().add(new XYChart.Data("0-10", group[0]));
 		series1.getData().add(new XYChart.Data("11-20", group[1]));
 		series1.getData().add(new XYChart.Data("21-30", group[2]));
@@ -1770,31 +1771,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	}
 	
-	/**
-	 * initialize histogram for the first time
-	 */
-
-	public void createFirstExamHistogram() {
-		examStatisticBarChart.getData().clear();
-		examStatisticBarChart.setCategoryGap(2);
-		examStatisticBarChart.setBarGap(0);
-
-		// xAxis.setLabel("Grade");
-		yAxis.setLabel("Student Amount");
-
-		XYChart.Series series1 = new XYChart.Series();
-		series1.getData().add(new XYChart.Data("0-10", 0));
-		series1.getData().add(new XYChart.Data("11-20", 0));
-		series1.getData().add(new XYChart.Data("21-30", 0));
-		series1.getData().add(new XYChart.Data("31-40", 0));
-		series1.getData().add(new XYChart.Data("41-50", 0));
-		series1.getData().add(new XYChart.Data("51-60", 0));
-		series1.getData().add(new XYChart.Data("61-70", 0));
-		series1.getData().add(new XYChart.Data("71-80", 0));
-		series1.getData().add(new XYChart.Data("81-90", 0));
-		series1.getData().add(new XYChart.Data("91-100", 0));
-		examStatisticBarChart.getData().addAll(series1);
-	}
 
 	/**
 	 * With this method you can jump between the fields in add question screen

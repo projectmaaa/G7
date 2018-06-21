@@ -2,6 +2,7 @@ package resources;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ReportAboutStudent extends Report implements Serializable {
 	
@@ -14,13 +15,16 @@ public class ReportAboutStudent extends Report implements Serializable {
 	
 	private ArrayList<Student> students;
 	
+	private HashMap<String, Integer> gradesWithExam;
+	
 	private String command;
 
-	public ReportAboutStudent(String command, double average, int median, Student student) {
+	public ReportAboutStudent(String command, double average, int median, Student student, HashMap<String, Integer> grades) {
 		this.command=command;
 		setAverage(average);
 		setMedian(median);
 		this.student=student;
+		this.gradesWithExam=grades;
 	}
 
 	public ReportAboutStudent(ArrayList<Student> students, String command) {
@@ -28,8 +32,6 @@ public class ReportAboutStudent extends Report implements Serializable {
 		this.students = students;
 		this.command = command;
 	}
-
-
 
 	public Student getStudent() {
 		return student;
@@ -55,5 +57,12 @@ public class ReportAboutStudent extends Report implements Serializable {
 		this.command = command;
 	}
 
+	public HashMap<String, Integer> getGrades() {
+		return gradesWithExam;
+	}
+
+	public void setGrades(HashMap<String, Integer> grades) {
+		this.gradesWithExam = grades;
+	}
 	
 }

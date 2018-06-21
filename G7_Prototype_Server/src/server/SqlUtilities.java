@@ -127,7 +127,7 @@ public class SqlUtilities {
 
 	public final static String CALCULATE_TeacherAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE idUsers=?";
 
-	public final static String ALL_Grades_of_Student = "SELECT grade FROM ApprovedExamForStudent WHERE studentID=?";
+	public final static String ALL_Grades_of_Student = "SELECT grade, subjectID, courseID, examNum FROM ApprovedExamForStudent WHERE studentID=?";
 
 	public final static String ALL_Grades_of_Course = "SELECT grade FROM ApprovedExamForStudent WHERE courseID=?";
 
@@ -138,6 +138,8 @@ public class SqlUtilities {
 	public final static String SELECT_ActiveExamsBySubject = "SELECT subjectID, courseID, examNum, executionCode, activator, duration, locked, type FROM ActiveExam WHERE subjectID=?;";
 
 	public final static String SELECT_Exams_By_Author_and_Course = "SELECT examNum FROM Exam WHERE courseID=? AND author=?;";
+
+	public final static String SELECT_Exams_By_Author = "SELECT subjectID, courseID, examNum FROM Exam WHERE author=?;";
 
 	public final static String getStudentAnswers = "SELECT questionNum, questionOrderInExam, answer FROM StudentAnswerInQuestion WHERE studentID=? AND subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
 
@@ -789,6 +791,18 @@ public class SqlUtilities {
 		int forced = rs3.getInt(1) - rs4.getInt(1);
 		return new ReportAboutExam(rs1.getDouble(1), med, rs3.getInt(1), rs4.getInt(1), forced, grades);
 	}
+	
+	public static int calculateExamAVG(String subjectID, String courseID, String examNum, Connection connection)
+			throws SQLException {
+		/* AVG */
+		PreparedStatement calculate1 = connection.prepareStatement(SqlUtilities.CALCULATE_ExamAVG);
+		calculate1.setString(1, subjectID);
+		calculate1.setString(2, courseID);
+		calculate1.setString(3, examNum);
+		ResultSet rs1 = calculate1.executeQuery();
+		rs1.next();
+		return (int) rs1.getDouble(1);
+	}
 
 	public static ReportAboutStudent calculateStudentStatistic(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
@@ -798,11 +812,15 @@ public class SqlUtilities {
 		rs1.next();
 		int med;
 		PreparedStatement calculate2 = connection.prepareStatement(SqlUtilities.ALL_Grades_of_Student);
-		ArrayList<Integer> grades = new ArrayList<Integer>();
+		HashMap<String, Integer> gradesWithExam = new HashMap<String, Integer>();
+		ArrayList <Integer> grades = new ArrayList <Integer>();
 		calculate2.setString(1, reportHandle.getStudent().getId());
 		ResultSet rs2 = calculate2.executeQuery();
 		while (rs2.next()) {
-			grades.add(rs2.getInt(1));
+			String str = rs2.getString(2)+rs2.getString(3)+rs2.getString(4);
+			Integer grade = rs2.getInt(1);
+			grades.add(grade);
+			gradesWithExam.put(str,grade);
 		}
 		Collections.sort(grades);
 		int mid = grades.size() / 2;
@@ -810,7 +828,7 @@ public class SqlUtilities {
 			med = grades.get(mid);
 		} else
 			med = 0;
-		return new ReportAboutStudent("StudentStatistic", rs1.getDouble(1), med, reportHandle.getStudent());
+		return new ReportAboutStudent("StudentStatistic", rs1.getDouble(1), med, reportHandle.getStudent(), gradesWithExam);
 	}
 
 	public static ReportAboutCourse calculateCourseStatistic(ReportHandle reportHandle, Connection connection)
@@ -835,8 +853,17 @@ public class SqlUtilities {
 			med = grades.get(mid);
 		} else
 			med = 0;
-		return new ReportAboutCourse("CourseStatistic", rs1.getDouble(1), med, reportHandle.getCourse(), grades);
+		PreparedStatement calculate3 = connection.prepareStatement(SqlUtilities.SELECT_Exam_BY_CourseID);
+		ArrayList<Integer> avgs = new ArrayList<Integer>();
+		calculate3.setString(1, reportHandle.getCourse().getCourseID());
+		ResultSet rs3 = calculate3.executeQuery();
+		while (rs3.next()) {
+			Integer avg = calculateExamAVG(rs3.getString(1), rs3.getString(2), rs3.getString(3), connection);
+			avgs.add(avg);
+		}
+		return new ReportAboutCourse("CourseStatistic", rs1.getDouble(1), med, reportHandle.getCourse(), avgs);
 	}
+	
 
 	public static ReportAboutTeacher calculateTeacherStatistic(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
@@ -858,7 +885,16 @@ public class SqlUtilities {
 			med = grades.get(mid);
 		} else
 			med = 0;
-		return new ReportAboutTeacher("TeacherStatistic", rs1.getDouble(1), med, reportHandle.getTeacher(), grades);
+		PreparedStatement calculate3 = connection.prepareStatement(SqlUtilities.SELECT_Exams_By_Author);
+		ArrayList<Integer> avgs = new ArrayList<Integer>();
+		String fullName = reportHandle.getTeacher().getFirstName() + " " + reportHandle.getTeacher().getLastName();
+		calculate3.setString(1, fullName);
+		ResultSet rs3 = calculate3.executeQuery();
+		while (rs3.next()) {
+			Integer avg = calculateExamAVG(rs3.getString(1), rs3.getString(2), rs3.getString(3), connection);
+			avgs.add(avg);
+		}
+		return new ReportAboutTeacher("TeacherStatistic", rs1.getDouble(1), med, reportHandle.getTeacher(), avgs);
 	}
 
 	/**
