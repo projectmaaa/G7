@@ -30,7 +30,7 @@
             <Blend opacity="0.0" />
          </effect>
       </ImageView>
-      <Button fx:id="logoutButton" layoutX="932.0" layoutY="13.0" mnemonicParsing="false" onAction="#logOutButtonHandler" text="Logout" />
+      <Button fx:id="logoutButton" layoutX="932.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#logOutButtonHandler" text="Logout" />
       <AnchorPane fx:id="welcomeAnchorPane" layoutX="542.0" layoutY="42.0" prefHeight="168.0" prefWidth="344.0" rotate="18.0">
          <children>
             <Text fx:id="welcomeText" fill="#111111" layoutX="7.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="139.52104949951172">
@@ -52,7 +52,7 @@
       </AnchorPane>
       <MenuBar fx:id="menuBar" focusTraversable="false" layoutX="14.0" layoutY="24.0" prefHeight="42.0" prefWidth="344.0" stylesheets="@TeacherWindow.css">
          <menus>
-            <Menu mnemonicParsing="false" onAction="#openExamHandler" text="Execute Exam">
+            <Menu mnemonicParsing="false" text="Execute Exam">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#openExamHandler" text="Start Exam" />
                </items>

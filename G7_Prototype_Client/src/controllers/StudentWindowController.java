@@ -11,10 +11,14 @@ import client.MainAppClient;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
@@ -23,12 +27,16 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import resources.*;
 
@@ -244,33 +252,36 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-	public void logOutButtonHandler(ActionEvent event) {
-		aesAnchorPane.setVisible(true);
-		if (stopWatchTimeline != null) {
-			stopWatchTimeline.stop();
+	public void logOutButtonHandler(MouseEvent event) {
+		if (secondTimer != -1 && secondTimer != 0)
+			checkRunningExam();
+		else { // if the student is in the middle of the exam & pressed 'No' in the submission
+				// pop up than he\she wont exit the application
+			if (stopWatchTimeline != null)
+				stopWatchTimeline.stop();
+			if (this.examIDTextField.isVisible()) {
+				examIDTextField.clear();
+				examIDTextField.setDisable(false);
+				enterIDComputerizeExamButton.setDisable(false);
+			}
+			if (sumbitExamButton.isVisible()) {
+				sumbitExamButton.setVisible(false);
+			}
+			if (uploadManualExam.isVisible()) {
+				uploadManualExam.setDisable(false);
+				uploadManualExam.setVisible(false);
+			}
+			if (!examSheetVBox.getChildren().isEmpty()) {
+				System.out.println("not empty");
+				examSheetVBox.getChildren().clear();
+			}
+			turnOffAllPane();
+			aesAnchorPane.setVisible(true);
+			welcomeAnchorPane.setVisible(true);
+			this.client.handleMessageFromClientUI(Message.logout);
+			screensController.setScreen(MainAppClient.loginScreenID);
+			this.sumbitExamButton.setDisable(false);
 		}
-		if (this.examIDTextField.isVisible()) {
-			examIDTextField.clear();
-			examIDTextField.setDisable(false);
-			enterIDComputerizeExamButton.setDisable(false);
-		}
-		if (sumbitExamButton.isVisible()) {
-			sumbitExamButton.setVisible(false);
-		}
-		if (uploadManualExam.isVisible()) {
-			uploadManualExam.setDisable(false);
-			uploadManualExam.setVisible(false);
-		}
-		if (!examSheetVBox.getChildren().isEmpty()) {
-			System.out.println("not empty");
-			examSheetVBox.getChildren().clear();
-		}
-		turnOffAllPane();
-		aesAnchorPane.setVisible(true);
-		welcomeAnchorPane.setVisible(true);
-		this.client.handleMessageFromClientUI(Message.logout);
-		screensController.setScreen(MainAppClient.loginScreenID);
-		this.sumbitExamButton.setDisable(false);
 	}
 
 	/**
@@ -278,10 +289,14 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * @param event
 	 */
 	public void openExamHandler(ActionEvent event) {
-		clearOrderExam();
-		turnOffAllPane();
-		examAnchorPane.setVisible(true);
-		welcomeAnchorPane.setVisible(true);
+		if (secondTimer != -1 && secondTimer != 0)
+			checkRunningExam();
+		else {
+			clearOrderExam();
+			turnOffAllPane();
+			examAnchorPane.setVisible(true);
+			welcomeAnchorPane.setVisible(false);
+		}
 	}
 
 	/**
@@ -496,9 +511,13 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	public void turnCheckExamAnchorPane(ActionEvent actionEvent) {
-		turnOffAllPane();
-		welcomeAnchorPane.setVisible(true);
-		checkedExamAnchorPane.setVisible(true);
+		if (secondTimer != -1 && secondTimer != 0)
+			checkRunningExam();
+		else {
+			turnOffAllPane();
+			welcomeAnchorPane.setVisible(true);
+			checkedExamAnchorPane.setVisible(true);
+		}
 	}
 
 	/**
@@ -591,6 +610,15 @@ public class StudentWindowController implements Initializable, IScreenController
 				}
 			});
 		}
+	}
+
+	/**
+	 * Checking if the student want to change screen during exam
+	 * 
+	 * @param event
+	 */
+	public void checkRunningExamInTheMenuBar(ActionEvent event) {
+		checkRunningExam();
 	}
 
 	private void setSubjectComboBox(ComboBox<String> comboBox) {
@@ -733,7 +761,6 @@ public class StudentWindowController implements Initializable, IScreenController
 		if (courseComboBoxCheckedBox.getValue() != null) {
 			courseComboBoxCheckedBox.getSelectionModel().clearSelection();
 		}
-
 	}
 
 	/**
@@ -753,4 +780,44 @@ public class StudentWindowController implements Initializable, IScreenController
 		checkedExamAnchorPane.setVisible(false);
 	}
 
+	/**
+	 * Checking if the student want to change screen\log out during a running exam
+	 */
+	private void checkRunningExam() {
+		Label text = new Label(
+				"You still in the middle of the exam. If you press 'Yes', your exam will be submitted with your current answers. You sure you want to do this?");
+		Stage primaryStage = new Stage();
+		primaryStage.setTitle("AES7");
+		primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+		primaryStage.setResizable(false);
+		Popup popup = new Popup();
+		popup.setX(700);
+		popup.setY(400);
+		GridPane layout = new GridPane();
+		layout.setHgap(3);
+		layout.setVgap(3);
+		layout.setPadding(new Insets(1, 5, 1, 5));
+		popup.getContent().addAll(text);
+		Button yesButton = new Button("Yes");
+		yesButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+				setSecondTimer(0);
+			}
+		});
+		Button noButton = new Button("No");
+		noButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.hide();
+			}
+		});
+		layout.add(text, 4, 0);
+		layout.add(yesButton, 3, 1);
+		layout.add(noButton, 5, 1);
+		layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+		primaryStage.setScene(new Scene(layout));
+		primaryStage.show();
+	}
 }
