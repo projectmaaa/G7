@@ -118,7 +118,7 @@
                   <VBox fx:id="examSheetVBox" prefHeight="400.0" prefWidth="574.0" />
                </content>
             </ScrollPane>
-            <Button fx:id="sumbitExamButton" layoutX="501.0" layoutY="461.0" mnemonicParsing="false" onMouseClicked="#sumbitExam" text="Sumbit Exam" visible="false" />
+            <Button fx:id="submitExamButton" layoutX="501.0" layoutY="461.0" mnemonicParsing="false" onMouseClicked="#sumbitExam" text="Sumbit Exam" visible="false" />
             <Button fx:id="uploadManualExam" layoutX="340.0" layoutY="70.0" mnemonicParsing="false" onMouseClicked="#uploadManualExam" text="Upload Exam" visible="false" />
             <AnchorPane fx:id="timerPane" layoutX="280.0" prefHeight="70.0" prefWidth="160.0">
                <children>

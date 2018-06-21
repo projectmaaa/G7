@@ -99,7 +99,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	private VBox examSheetVBox;
 
 	@FXML
-	private Button sumbitExamButton;
+	private Button submitExamButton;
 
 	private ArrayList<QuestionInComputerizeExam> questionInComputerizeExamArray;
 
@@ -231,6 +231,8 @@ public class StudentWindowController implements Initializable, IScreenController
 		questionInComputerizeExamArray = new ArrayList<QuestionInComputerizeExam>();
 		setSubjectComboBox(subjectComboBoxCheckedExam);
 		setColumnsInCheckedExams();
+		submitExamButton.setDisable(true);
+		uploadManualExam.setDisable(true);
 	}
 
 	public ActiveExam getActiveExam() {
@@ -253,7 +255,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * @param event
 	 */
 	public void logOutButtonHandler(MouseEvent event) {
-		if (secondTimer != -1 && secondTimer != 0)
+		if (!submitExamButton.isDisabled() || !uploadManualExam.isDisabled())
 			checkRunningExam();
 		else { // if the student is in the middle of the exam & pressed 'No' in the submission
 				// pop up than he\she wont exit the application
@@ -264,13 +266,10 @@ public class StudentWindowController implements Initializable, IScreenController
 				examIDTextField.setDisable(false);
 				enterIDComputerizeExamButton.setDisable(false);
 			}
-			if (sumbitExamButton.isVisible()) {
-				sumbitExamButton.setVisible(false);
-			}
-			if (uploadManualExam.isVisible()) {
-				uploadManualExam.setDisable(false);
+			if (submitExamButton.isVisible())
+				submitExamButton.setVisible(false);
+			if (uploadManualExam.isVisible())
 				uploadManualExam.setVisible(false);
-			}
 			if (!examSheetVBox.getChildren().isEmpty()) {
 				System.out.println("not empty");
 				examSheetVBox.getChildren().clear();
@@ -280,7 +279,6 @@ public class StudentWindowController implements Initializable, IScreenController
 			welcomeAnchorPane.setVisible(true);
 			this.client.handleMessageFromClientUI(Message.logout);
 			screensController.setScreen(MainAppClient.loginScreenID);
-			this.sumbitExamButton.setDisable(false);
 		}
 	}
 
@@ -289,13 +287,13 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * @param event
 	 */
 	public void openExamHandler(ActionEvent event) {
-		if (secondTimer != -1 && secondTimer != 0)
+		if (!submitExamButton.isDisabled() || !uploadManualExam.isDisabled())
 			checkRunningExam();
 		else {
 			clearOrderExam();
 			turnOffAllPane();
 			examAnchorPane.setVisible(true);
-			welcomeAnchorPane.setVisible(false);
+			welcomeAnchorPane.setVisible(true);
 		}
 	}
 
@@ -428,6 +426,7 @@ public class StudentWindowController implements Initializable, IScreenController
 						new StudentInActiveExamHandle(Message.studentInActiveExam, studentInActiveExam));
 				enterIDComputerizeExamButton.setDisable(true);
 				examIDTextField.setDisable(true);
+				examSheetVBox.getChildren().clear();
 				computerizeExam();
 			} else {
 				Utilities_Client.popUpMethod("Wrong ID");
@@ -441,8 +440,12 @@ public class StudentWindowController implements Initializable, IScreenController
 	private void checkExamType() {
 		setComputerizeExam();
 		if (activeExam.getType().equals("c")) {
-			this.examIDTextField.setVisible(true);
-			this.enterIDComputerizeExamButton.setVisible(true);
+			if (!examIDTextField.getText().isEmpty())
+				examIDTextField.clear();
+			examIDTextField.setVisible(true);
+			examIDTextField.setDisable(false);
+			enterIDComputerizeExamButton.setVisible(true);
+			enterIDComputerizeExamButton.setDisable(false);
 			System.out.println("c");
 		} else {
 			System.out.println("m");
@@ -458,9 +461,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * @param mouseEvent
 	 */
 	public void sumbitExam(MouseEvent mouseEvent) {
-
 		submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer / 60, studentInActiveExam);
-
 		int num = 0;
 		for (QuestionInComputerizeExam questionInComputerizeExam : questionInComputerizeExamArray) {
 			if (questionInComputerizeExam.getToggleGroup().getSelectedToggle() != null) {
@@ -475,12 +476,11 @@ public class StudentWindowController implements Initializable, IScreenController
 			}
 		}
 		stopWatchTimeline.stop();
-
 		Utilities_Client.popUpMethod("Exam was submitted succesfully");
-		sumbitExamButton.setDisable(true);
-
+		submitExamButton.setDisable(true);
 		submittedExam.setSubmitted(1);
-
+		commentsTextArea.clear();
+		commentsTextArea.setVisible(false);
 		client.handleMessageFromClientUI(new SubmittedExamHandle(Message.submittedExam, submittedExam));
 		if (!submittedExam.getAnswers().isEmpty()) {
 			System.out.println(submittedExam);
@@ -511,7 +511,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	public void turnCheckExamAnchorPane(ActionEvent actionEvent) {
-		if (secondTimer != -1 && secondTimer != 0)
+		if (!submitExamButton.isDisabled() || !uploadManualExam.isDisabled())
 			checkRunningExam();
 		else {
 			turnOffAllPane();
@@ -643,10 +643,13 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * 
 	 */
 	private void computerizeExam() {
-		sumbitExamButton.setVisible(true);
+		submitExamButton.setVisible(true);
+		submitExamButton.setDisable(false);
 		computrizedScrollPane.setVisible(true);
 		commentsTextArea.setText(activeExam.getExam().getFreeTextForExaminees());
 		commentsTextArea.setVisible(true);
+		if (!questionInComputerizeExamArray.isEmpty())
+			questionInComputerizeExamArray.clear();
 		int index = 0;
 		for (QuestionInExam questionInExam : activeExam.getExam().getQuestions()) {
 			QuestionInComputerizeExam questionInComputerizeExam = new QuestionInComputerizeExam(
@@ -668,7 +671,8 @@ public class StudentWindowController implements Initializable, IScreenController
 		enterIDComputerizeExamButton.setVisible(false);
 		examIDTextField.setVisible(false);
 		uploadManualExam.setVisible(true);
-		sumbitExamButton.setVisible(false);
+		uploadManualExam.setDisable(false);
+		submitExamButton.setVisible(false);
 		startTimer();
 		client.handleMessageFromClientUI(new ActiveExamHandle("#ManualExam", activeExam, client.getId()));
 	}
@@ -715,7 +719,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * 
 	 */
 	private void unWantedComputerizeSubmitExam() {
-		this.sumbitExamButton.setDisable(true);
+		this.submitExamButton.setDisable(true);
 		submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer / 60, studentInActiveExam);
 		int num = 0;
 		for (QuestionInComputerizeExam questionInComputerizeExam : questionInComputerizeExamArray) {
