@@ -93,7 +93,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	@FXML
 	private Button sumbitExamButton;
 
-	private ArrayList<QuestionInComputerizeExam> QuestionInComputerizeExamArray;
+	private ArrayList<QuestionInComputerizeExam> questionInComputerizeExamArray;
 
 	@FXML
 	private ScrollPane computrizedScrollPane;
@@ -220,7 +220,7 @@ public class StudentWindowController implements Initializable, IScreenController
 		date.setText(Utilities_Client.setDate());
 		this.client = MainAppClient.getClient();
 		client.setStudentWindowController(this);
-		QuestionInComputerizeExamArray = new ArrayList<QuestionInComputerizeExam>();
+		questionInComputerizeExamArray = new ArrayList<QuestionInComputerizeExam>();
 		setSubjectComboBox(subjectComboBoxCheckedExam);
 		setColumnsInCheckedExams();
 	}
@@ -310,7 +310,7 @@ public class StudentWindowController implements Initializable, IScreenController
 			ApprovedExamForStudent selectedExam = tableViewCheckedExam.getSelectionModel().getSelectedItem();
 			client.handleMessageFromClientUI(Message.getAnswers + " " + client.getId() + " "
 					+ subjectComboBoxCheckedExam.getValue() + " " + courseComboBoxCheckedBox.getValue() + " "
-					+ selectedExam.getExamNum() + " " + selectedExam.getExecutionCode());
+					+ selectedExam.getExamNum() + " " + selectedExam.getExecutionCode() + " " + "true");
 			client.handleMessageFromClientUI(Message.getQuestionInExam + " " + selectedExam.getExecutionCode());
 			try {
 				TimeUnit.SECONDS.sleep(1);
@@ -390,7 +390,7 @@ public class StudentWindowController implements Initializable, IScreenController
 					if (!studnetAnswerInQuestionDB.getStudentAnswer().equals(questionsFromDB.getCorrectAnswer())) {
 						questionInComputerizeExam.setTextOnRed(studnetAnswerInQuestionDB.getStudentAnswer());
 					}
-					QuestionInComputerizeExamArray.add(questionInComputerizeExam);
+					questionInComputerizeExamArray.add(questionInComputerizeExam);
 					vBoxShowExam.getChildren().addAll(questionInComputerizeExam.getList());
 					vBoxShowExam.getChildren().add(new Text(""));
 				}
@@ -447,7 +447,7 @@ public class StudentWindowController implements Initializable, IScreenController
 		submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer / 60, studentInActiveExam);
 
 		int num = 0;
-		for (QuestionInComputerizeExam questionInComputerizeExam : QuestionInComputerizeExamArray) {
+		for (QuestionInComputerizeExam questionInComputerizeExam : questionInComputerizeExamArray) {
 			if (questionInComputerizeExam.getToggleGroup().getSelectedToggle() != null) {
 				submittedExam.addAnswer(new StudentAnswerInQuestion(activeExam.getExam().getSubjectID(),
 						questionInComputerizeExam.getQuestionInExam().getQuestionNum(), Integer.toString(++num),
@@ -627,7 +627,7 @@ public class StudentWindowController implements Initializable, IScreenController
 					questionInExam.getQuestion().getSecondPossibleAnswer(),
 					questionInExam.getQuestion().getThirdPossibleAnswer(),
 					questionInExam.getQuestion().getFourthPossibleAnswer(), questionInExam);
-			QuestionInComputerizeExamArray.add(questionInComputerizeExam);
+			questionInComputerizeExamArray.add(questionInComputerizeExam);
 			examSheetVBox.getChildren().addAll(questionInComputerizeExam.getList());
 			examSheetVBox.getChildren().add(new Text(""));
 		}
@@ -690,7 +690,7 @@ public class StudentWindowController implements Initializable, IScreenController
 		this.sumbitExamButton.setDisable(true);
 		submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer / 60, studentInActiveExam);
 		int num = 0;
-		for (QuestionInComputerizeExam questionInComputerizeExam : QuestionInComputerizeExamArray) {
+		for (QuestionInComputerizeExam questionInComputerizeExam : questionInComputerizeExamArray) {
 			String answer;
 			if (questionInComputerizeExam.getToggleGroup().getSelectedToggle() != null) {
 				answer = questionInComputerizeExam.getToggleGroup().getSelectedToggle().getUserData().toString();

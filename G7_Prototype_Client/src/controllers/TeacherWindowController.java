@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+
+import boundaries.QuestionInComputerizeExam;
 import client.Client;
 import client.MainAppClient;
 import javafx.beans.property.SimpleStringProperty;
@@ -429,6 +431,24 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private Button addCommentsButtonInConfirmGrades;
 
+	/***************************************************/
+
+	@FXML
+	private AnchorPane anchorPaneShowExam;
+
+	@FXML
+	private ScrollPane scrollPaneShowExam;
+
+	@FXML
+	private VBox vBoxShowExam;
+
+	@FXML
+	private Button okButtonShowExam;
+
+	private ArrayList<QuestionInComputerizeExam> questionInComputerizeExamArray;
+
+	/***************************************************/
+
 	// exams statistic
 
 	@FXML
@@ -605,6 +625,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		backAnchorPane.setVisible(false);
 		date.setText(Utilities_Client.setDate());
 		this.client = MainAppClient.getClient();
+		questionInComputerizeExamArray = new ArrayList<QuestionInComputerizeExam>();
 		setColumnsInEditOrRemove();
 		setColumnInCreateExamAllQuestions();
 		setColumnInCreateExamQuestions();
@@ -654,6 +675,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 			confirmGradesAnchorPane.setVisible(false);
 		if (examStatisticAnchorPane.isVisible()) {
 			examStatisticAnchorPane.setVisible(false);
+		}
+		if (!vBoxShowExam.getChildren().isEmpty()) {
+			vBoxShowExam.getChildren().clear();
 		}
 		setRejectionFlag(false);
 		setAcceptionFlag(false);
@@ -1053,6 +1077,66 @@ public class TeacherWindowController implements Initializable, IScreenController
 		client.handleMessageFromClientUI(Message.getQuestionBySubject + " " + subjectInCreateExamComboBox.getValue());
 		initTablesInCreateExam(true, false);
 		tableViewInCreateExamAllQuestion.setItems(client.getQuestionsFromDB());
+	}
+
+	public void orderStudentExam(MouseEvent mouseEvent) {
+		if (confirmGradeTableView.getSelectionModel().getSelectedItem() != null) {
+			CheckedExam selectedStudnet = confirmGradeTableView.getSelectionModel().getSelectedItem();
+			client.handleMessageFromClientUI(Message.getAnswers + " "
+					+ selectedStudnet.getSubmittedExam().getStudentInActiveExam().getStudent().getId() + " "
+					+ selectedStudnet.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam()
+							.getSubjectID()
+					+ " "
+					+ selectedStudnet.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam()
+							.getCourseID()
+					+ " " + selectedStudnet.getExamNum() + " " + selectedStudnet.getExecutionCode() + " " + "false");
+			client.handleMessageFromClientUI(Message.getQuestionInExam + " " + selectedStudnet.getExecutionCode());
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			showExam();
+		} else {
+			Utilities_Client.popUpMethod("Please select student");
+		}
+	}
+
+	private void showExam() {
+		int index = 0;
+		QuestionInComputerizeExam questionInComputerizeExam;
+		vBoxShowExam.getChildren().add(new Text("\n"));
+		for (Question questionsFromDB : client.getQuestionsFromDB()) {
+			for (StudentAnswerInQuestion studnetAnswerInQuestionDB : client.getStudnetAnswerInQuestionDB()) {
+				if (questionsFromDB.getQuestionNum().equals(studnetAnswerInQuestionDB.getQuestionNum())) {
+					questionInComputerizeExam = new QuestionInComputerizeExam(
+							Integer.toString(++index) + ". " + questionsFromDB.getQuestionText(),
+							"\t" + questionsFromDB.getFirstPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getSecondPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getThirdPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getFourthPossibleAnswer() + "\t");
+					questionInComputerizeExam.setTextOnGreen(questionsFromDB.getCorrectAnswer());
+					if (!studnetAnswerInQuestionDB.getStudentAnswer().equals(questionsFromDB.getCorrectAnswer())) {
+						questionInComputerizeExam.setTextOnRed(studnetAnswerInQuestionDB.getStudentAnswer());
+					}
+					questionInComputerizeExamArray.add(questionInComputerizeExam);
+					vBoxShowExam.getChildren().addAll(questionInComputerizeExam.getList());
+					vBoxShowExam.getChildren().add(new Text(""));
+				}
+			}
+		}
+		anchorPaneShowExam.setVisible(true);
+		vBoxShowExam.setVisible(true);
+	}
+
+	/**
+	 * 
+	 * @param mouseEvent
+	 */
+	public void returnToExamTable(MouseEvent mouseEvent) {
+		vBoxShowExam.getChildren().clear();
+		vBoxShowExam.setVisible(false);
+		anchorPaneShowExam.setVisible(false);
 	}
 
 	/**
