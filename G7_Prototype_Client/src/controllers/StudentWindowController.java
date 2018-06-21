@@ -270,6 +270,7 @@ public class StudentWindowController implements Initializable, IScreenController
 		welcomeAnchorPane.setVisible(true);
 		this.client.handleMessageFromClientUI(Message.logout);
 		screensController.setScreen(MainAppClient.loginScreenID);
+		this.sumbitExamButton.setDisable(false);
 	}
 
 	/**

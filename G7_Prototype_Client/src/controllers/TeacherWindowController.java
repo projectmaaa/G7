@@ -1515,7 +1515,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		examStatisticBarChart.getData().clear();
 		examStatisticBarChart.setCategoryGap(2);
 		examStatisticBarChart.setBarGap(0);
-		int group[] = new int[6];
+		int group[] = new int[10];
 		client.handleMessageFromClientUI(new ExamReportHandle(subject, course, examNum, "ExamStatistic"));
 		// xAxis.setLabel("Grade");
 		yAxis.setLabel("Student Amount");
@@ -1527,27 +1527,39 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 		for (int i = 0; i < grades.size(); i++) {
 			int grade = grades.get(i);
-			if (grade <= 55) {
+			if (grade <= 10) {
 				group[0]++;
-			} else if (grade <= 64) {
+			} else if (grade <= 20) {
 				group[1]++;
-			} else if (grade <= 74) {
+			} else if (grade <= 30) {
 				group[2]++;
-			} else if (grade <= 84) {
+			} else if (grade <= 40) {
 				group[3]++;
-			} else if (grade <= 94) {
+			} else if (grade <= 50) {
 				group[4]++;
-			} else if (grade <= 100) {
+			} else if (grade <= 60) {
 				group[5]++;
+			} else if (grade <= 70) {
+				group[6]++;
+			} else if (grade <= 80) {
+				group[7]++;
+			} else if (grade <= 90) {
+				group[8]++;
+			} else if (grade <= 100) {
+				group[9]++;
 			}
 		}
 		XYChart.Series series1 = new XYChart.Series();
-		series1.getData().add(new XYChart.Data("0-54.9", group[0]));
-		series1.getData().add(new XYChart.Data("55-64", group[1]));
-		series1.getData().add(new XYChart.Data("65-74", group[2]));
-		series1.getData().add(new XYChart.Data("75-84", group[3]));
-		series1.getData().add(new XYChart.Data("85-94", group[4]));
-		series1.getData().add(new XYChart.Data("95-100", group[5]));
+		series1.getData().add(new XYChart.Data("0-10", group[0]));
+		series1.getData().add(new XYChart.Data("11-20", group[1]));
+		series1.getData().add(new XYChart.Data("21-30", group[2]));
+		series1.getData().add(new XYChart.Data("31-40", group[3]));
+		series1.getData().add(new XYChart.Data("41-50", group[4]));
+		series1.getData().add(new XYChart.Data("51-60", group[5]));
+		series1.getData().add(new XYChart.Data("61-70", group[6]));
+		series1.getData().add(new XYChart.Data("71-80", group[7]));
+		series1.getData().add(new XYChart.Data("81-90", group[8]));
+		series1.getData().add(new XYChart.Data("91-100", group[9]));
 		examStatisticBarChart.getData().addAll(series1);
 
 	}
@@ -1561,12 +1573,16 @@ public class TeacherWindowController implements Initializable, IScreenController
 		yAxis.setLabel("Student Amount");
 
 		XYChart.Series series1 = new XYChart.Series();
-		series1.getData().add(new XYChart.Data("0-54.9", 0));
-		series1.getData().add(new XYChart.Data("55-64", 0));
-		series1.getData().add(new XYChart.Data("65-74", 0));
-		series1.getData().add(new XYChart.Data("75-84", 0));
-		series1.getData().add(new XYChart.Data("85-94", 0));
-		series1.getData().add(new XYChart.Data("95-100", 0));
+		series1.getData().add(new XYChart.Data("0-10", 0));
+		series1.getData().add(new XYChart.Data("11-20", 0));
+		series1.getData().add(new XYChart.Data("21-30", 0));
+		series1.getData().add(new XYChart.Data("31-40", 0));
+		series1.getData().add(new XYChart.Data("41-50", 0));
+		series1.getData().add(new XYChart.Data("51-60", 0));
+		series1.getData().add(new XYChart.Data("61-70", 0));
+		series1.getData().add(new XYChart.Data("71-80", 0));
+		series1.getData().add(new XYChart.Data("81-90", 0));
+		series1.getData().add(new XYChart.Data("91-100", 0));
 		examStatisticBarChart.getData().addAll(series1);
 	}
 

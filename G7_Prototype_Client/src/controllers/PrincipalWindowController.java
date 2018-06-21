@@ -1,6 +1,7 @@
 package controllers;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import client.Client;
@@ -385,6 +386,17 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private TextField medianTextFieldInTeacherReport;
 
+	@FXML
+	private BarChart<?, ?> teacherBarChart;
+
+	@FXML
+	private CategoryAxis xAxisInTeacherReport;
+
+	@FXML
+	private NumberAxis yAxisInTeacherReport;
+	
+	ArrayList<Integer> grades;
+
 	/***********************************************************************************************************/
 
 	/* --------------------- setters & getters ---------------------- */
@@ -443,14 +455,15 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
 		this.averageTextFieldInTeacherReport = averageTextFieldInTeacherReport;
 	}
+	
+	public ArrayList<Integer> getGrades() {
+		return grades;
+	}
 
-	/*
-	 * ---------------------------------- public methods
-	 * --------------------------------- *
-	 */
-
-	// initialize method
-
+	public void setGrades(ArrayList<Integer> grades) {
+		this.grades = grades;
+	}
+	
 	public TextField getMedianTextFieldInStudentReport() {
 		return medianTextFieldInStudentReport;
 	}
@@ -474,6 +487,15 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
 		this.medianTextFieldInTeacherReport = medianTextFieldInTeacherReport;
 	}
+
+	/*
+	 * ---------------------------------- public methods
+	 * --------------------------------- *
+	 */
+
+	// initialize method
+
+	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -755,14 +777,85 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			teacherNameLabel.setText(fullName);
 			client.handleMessageFromClientUI(new ReportHandle("TeacherStatistic", teacher));
 			averageTextFieldInTeacherReport.setEditable(false);
-			try {
-				TimeUnit.SECONDS.sleep(3);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			createHistogram(teacherBarChart, grades);
 			report1AnchorPane.setVisible(true);
 		}
 	}
+	
+	public void createHistogram(BarChart barchart, ArrayList<Integer> grades) {
+		barchart.getData().clear();
+		int group[] = new int[10];
+		XYChart.Series<String, Number> series1 = new XYChart.Series<String, Number>();
+		series1.setName("AES7-Histogram");
+		barchart.setCategoryGap(3);
+		barchart.setBarGap(2);
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (int i = 0; i < grades.size(); i++) {
+			int grade = grades.get(i);
+			if (grade <= 10) {
+				group[0]++;
+			} else if (grade <= 20) {
+				group[1]++;
+			} else if (grade <= 30) {
+				group[2]++;
+			} else if (grade <= 40) {
+				group[3]++;
+			} else if (grade <= 50) {
+				group[4]++;
+			} else if (grade <= 60) {
+				group[5]++;
+			} else if (grade <= 70) {
+				group[6]++;
+			} else if (grade <= 80) {
+				group[7]++;
+			} else if (grade <= 90) {
+				group[8]++;
+			} else if (grade <= 100) {
+				group[9]++;
+			}
+		}
+		
+		series1.getData().add(new XYChart.Data("0-10", group[0]));
+		series1.getData().add(new XYChart.Data("11-20", group[1]));
+		series1.getData().add(new XYChart.Data("21-30", group[2]));
+		series1.getData().add(new XYChart.Data("31-40", group[3]));
+		series1.getData().add(new XYChart.Data("41-50", group[4]));
+		series1.getData().add(new XYChart.Data("51-60", group[5]));
+		series1.getData().add(new XYChart.Data("61-70", group[6]));
+		series1.getData().add(new XYChart.Data("71-80", group[7]));
+		series1.getData().add(new XYChart.Data("81-90", group[8]));
+		series1.getData().add(new XYChart.Data("91-100", group[9]));
+		barchart.getData().addAll(series1);
+	}
+	
+	public void createFirstExamHistogram(BarChart barchart) {
+		barchart.getData().clear();
+		barchart.setCategoryGap(2);
+		barchart.setBarGap(0);
+
+		// xAxis.setLabel("Grade");
+		//yAxis.setLabel("Student Amount");
+
+		XYChart.Series series1 = new XYChart.Series();
+		series1.getData().add(new XYChart.Data("0-10", 0));
+		series1.getData().add(new XYChart.Data("11-20", 0));
+		series1.getData().add(new XYChart.Data("21-30", 0));
+		series1.getData().add(new XYChart.Data("31-40", 0));
+		series1.getData().add(new XYChart.Data("41-50", 0));
+		series1.getData().add(new XYChart.Data("51-60", 0));
+		series1.getData().add(new XYChart.Data("61-70", 0));
+		series1.getData().add(new XYChart.Data("71-80", 0));
+		series1.getData().add(new XYChart.Data("81-90", 0));
+		series1.getData().add(new XYChart.Data("91-100", 0));
+		barchart.getData().addAll(series1);
+	}
+
 
 	/*
 	 * --------------------------------* private methods * *

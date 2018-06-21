@@ -851,7 +851,7 @@ public class SqlUtilities {
 			med = grades.get(mid);
 		} else
 			med = 0;
-		return new ReportAboutTeacher("TeacherStatistic", rs1.getDouble(1), med, reportHandle.getTeacher());
+		return new ReportAboutTeacher("TeacherStatistic", rs1.getDouble(1), med, reportHandle.getTeacher(), grades);
 	}
 
 	/**

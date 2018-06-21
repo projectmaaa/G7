@@ -14,13 +14,16 @@ public class ReportAboutTeacher extends Report implements Serializable {
 	
 	private ArrayList<Teacher> teachers;
 	
+	private ArrayList<Integer> grades;
+	
 	private String command;
 
-	public ReportAboutTeacher(String command, double average, int med, Teacher teacher ) {
+	public ReportAboutTeacher(String command, double average, int med, Teacher teacher, ArrayList<Integer> grades ) {
 		setAverage(average);
 		setMedian(med);
 		this.command=command;
 		this.teacher=teacher;
+		this.grades=grades;
 	}
 	
 
@@ -63,6 +66,15 @@ public class ReportAboutTeacher extends Report implements Serializable {
 		this.teacher = teacher;
 	}
 
+
+	public ArrayList<Integer> getGrades() {
+		return grades;
+	}
+
+
+	public void setGrades(ArrayList<Integer> grades) {
+		this.grades = grades;
+	}
 
 
 }
