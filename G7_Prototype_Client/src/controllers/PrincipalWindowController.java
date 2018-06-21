@@ -2,6 +2,7 @@ package controllers;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import client.Client;
@@ -87,6 +88,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	private MenuBar menuBar;
 
 	ArrayList<Integer> grades;
+	
+	HashMap<String, Integer> gradesWithExam;
 
 	/**
 	 * questions pool attributes
@@ -516,11 +519,20 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
 		this.medianTextFieldInTeacherReport = medianTextFieldInTeacherReport;
 	}
+	
+	public HashMap<String, Integer> getGradesWithExam() {
+		return gradesWithExam;
+	}
+
+	public void setGradesWithExam(HashMap<String, Integer> gradesWithExam) {
+		this.gradesWithExam = gradesWithExam;
+	}
 
 	/*
 	 * ---------------------------------- public methods
 	 * --------------------------------- *
 	 */
+
 
 	/**
 	 * initialize method
@@ -800,7 +812,12 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			String fullName = student.getFirstName() + " " + student.getLastName();
 			studentNameLabel.setText(fullName);
 			client.handleMessageFromClientUI(new ReportHandle("StudentStatistic", student));
-			createStudentHistogram();
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			createStudentHistogram(gradesWithExam);
 			// TimeUnit.SECONDS.sleep(6);
 			report3AnchorPane.setVisible(true);
 		}
@@ -835,7 +852,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			try {
 				TimeUnit.SECONDS.sleep(1);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			System.out.println(grades);
@@ -845,7 +861,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		}
 	}
 
-	public void createStudentHistogram() {
+	public void createStudentHistogram(HashMap<String, Integer> gradesWithExams) {
 		studentBarChart.getData().clear();
 		try {
 			TimeUnit.SECONDS.sleep(1);
@@ -856,8 +872,14 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		series1.setName("AES7-Histogram");
 		studentBarChart.setCategoryGap(3);
 		studentBarChart.setBarGap(2);
-		series1.getData().add(new XYChart.Data("010101", 90));
-		series1.getData().add(new XYChart.Data("010102", 20));
+		studentBarChart.setAnimated(false);
+		ArrayList<String> exams = new ArrayList<String>();
+		exams.addAll(gradesWithExams.keySet());
+		ArrayList<Integer> grade = new ArrayList<Integer>();
+		grade.addAll(gradesWithExams.values());
+		for(int i=0;i<grade.size();i++) {
+		series1.getData().add(new XYChart.Data(exams.get(i), grade.get(i)));
+		}
 		studentBarChart.getData().addAll(series1);
 	}
 
@@ -875,7 +897,13 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			String fullName = teacher.getFirstName() + " " + teacher.getLastName();
 			teacherNameLabel.setText(fullName);
 			client.handleMessageFromClientUI(new ReportHandle("TeacherStatistic", teacher));
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			averageTextFieldInTeacherReport.setEditable(false);
+			medianTextFieldInTeacherReport.setEditable(false);
 			createHistogram(teacherBarChart, grades);
 			report1AnchorPane.setVisible(true);
 		}

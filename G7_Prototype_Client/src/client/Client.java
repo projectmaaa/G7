@@ -480,6 +480,7 @@ public class Client extends AbstractClient implements IScreenController {
 				Integer med = studentReport.getMedian();
 				principalWindowController.getAverageTextFieldInStudentReport().setText(avg.toString());
 				principalWindowController.getMedianTextFieldInStudentReport().setText(med.toString());
+				principalWindowController.setGradesWithExam(studentReport.getGrades());
 			}
 		} else if (msg instanceof ReportAboutCourse) {
 			ReportAboutCourse courseReport = (ReportAboutCourse) msg;

@@ -318,7 +318,7 @@
                      </font>
                   </Label>
                   <TextField fx:id="medianTextFieldInStudentReport" layoutX="125.0" layoutY="163.0" prefHeight="25.0" prefWidth="76.0" />
-                  <BarChart fx:id="studentBarChart" layoutX="200.0" layoutY="139.0" prefHeight="289.0" prefWidth="423.0" title="Grades in student's exams">
+                  <BarChart fx:id="studentBarChart" layoutX="200.0" layoutY="139.0" prefHeight="289.0" prefWidth="423.0" stylesheets="@bar%20fill.css">
                      <xAxis>
                         <CategoryAxis label="Exam" prefHeight="44.0" prefWidth="385.0" side="BOTTOM" fx:id="xInStudentReportBarChart" />
                      </xAxis>
@@ -330,7 +330,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="courseReportAnchorPane" layoutX="10.0" layoutY="116.0" prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="courseReportAnchorPane" layoutX="10.0" layoutY="116.0" prefHeight="200.0" prefWidth="200.0" visible="false">
          <children>
             <Label layoutX="22.0" layoutY="7.0" text="Course Report" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
@@ -407,12 +407,12 @@
                      </font>
                   </Label>
                   <TextField fx:id="medianTextFieldInCourseReport" layoutX="125.0" layoutY="147.0" prefHeight="25.0" prefWidth="62.0" />
-                  <BarChart fx:id="courseReportBarChart" layoutX="116.0" layoutY="186.0" prefHeight="243.0" prefWidth="500.0">
+                  <BarChart fx:id="courseReportBarChart" layoutX="116.0" layoutY="186.0" prefHeight="243.0" prefWidth="500.0" stylesheets="@bar%20fill.css">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" fx:id="xAxisInCourseReport" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis fx:id="yAxisInCourseReport" side="LEFT" />
+                      <NumberAxis fx:id="yAxisInCourseReport" label="Student Amount" side="LEFT" />
                     </yAxis>
                   </BarChart>
                </children>
@@ -496,7 +496,7 @@
                      </font>
                   </Label>
                   <TextField fx:id="medianTextFieldInTeacherReport" layoutX="125.0" layoutY="157.0" prefHeight="25.0" prefWidth="62.0" />
-                  <BarChart fx:id="teacherBarChart" layoutX="159.0" layoutY="188.0" prefHeight="243.0" prefWidth="453.0">
+                  <BarChart fx:id="teacherBarChart" layoutX="159.0" layoutY="188.0" prefHeight="243.0" prefWidth="453.0" stylesheets="@bar%20fill.css">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" fx:id="xAxisInTeacherReport" />
                     </xAxis>

@@ -127,7 +127,7 @@ public class SqlUtilities {
 
 	public final static String CALCULATE_TeacherAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE idUsers=?";
 
-	public final static String ALL_Grades_of_Student = "SELECT grade FROM ApprovedExamForStudent WHERE studentID=?";
+	public final static String ALL_Grades_of_Student = "SELECT grade, subjectID, courseID, examNum FROM ApprovedExamForStudent WHERE studentID=?";
 
 	public final static String ALL_Grades_of_Course = "SELECT grade FROM ApprovedExamForStudent WHERE courseID=?";
 
@@ -798,11 +798,15 @@ public class SqlUtilities {
 		rs1.next();
 		int med;
 		PreparedStatement calculate2 = connection.prepareStatement(SqlUtilities.ALL_Grades_of_Student);
-		ArrayList<Integer> grades = new ArrayList<Integer>();
+		HashMap<String, Integer> gradesWithExam = new HashMap<String, Integer>();
+		ArrayList <Integer> grades = new ArrayList <Integer>();
 		calculate2.setString(1, reportHandle.getStudent().getId());
 		ResultSet rs2 = calculate2.executeQuery();
 		while (rs2.next()) {
-			grades.add(rs2.getInt(1));
+			String str = rs2.getString(2)+rs2.getString(3)+rs2.getString(4);
+			Integer grade = rs2.getInt(1);
+			grades.add(grade);
+			gradesWithExam.put(str,grade);
 		}
 		Collections.sort(grades);
 		int mid = grades.size() / 2;
@@ -810,7 +814,7 @@ public class SqlUtilities {
 			med = grades.get(mid);
 		} else
 			med = 0;
-		return new ReportAboutStudent("StudentStatistic", rs1.getDouble(1), med, reportHandle.getStudent());
+		return new ReportAboutStudent("StudentStatistic", rs1.getDouble(1), med, reportHandle.getStudent(), gradesWithExam);
 	}
 
 	public static ReportAboutCourse calculateCourseStatistic(ReportHandle reportHandle, Connection connection)
