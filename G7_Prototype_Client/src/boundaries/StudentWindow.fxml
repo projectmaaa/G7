@@ -93,13 +93,13 @@
       </AnchorPane>
       <AnchorPane fx:id="examAnchorPane" layoutX="14.0" layoutY="86.0" prefHeight="150.0" prefWidth="315.0" visible="false">
          <children>
-            <Label layoutX="38.0" layoutY="44.0" text="Execution Code" textFill="WHITE">
+            <TextField fx:id="executionCodeTextField" layoutX="152.0" layoutY="41.0" onKeyPressed="#executionCodeKeyHandler" />
+            <Label focusTraversable="false" layoutX="38.0" layoutY="44.0" text="Execution Code" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="executionCodeTextField" layoutX="152.0" layoutY="41.0" onKeyPressed="#executionCodeKeyHandler" />
-            <Label layoutX="18.0" layoutY="11.0" prefHeight="30.0" prefWidth="75.0" text="Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
+            <Label focusTraversable="false" layoutX="18.0" layoutY="11.0" prefHeight="30.0" prefWidth="75.0" text="Exam" textFill="#dabfbf" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Maiandra GD" size="24.0" />
                </font>
@@ -107,7 +107,7 @@
                   <Bloom />
                </effect>
             </Label>
-            <Button layoutX="184.0" layoutY="87.0" mnemonicParsing="false" onMouseClicked="#enterIsClickedInExecuteExam" text="Enter" />
+            <Button focusTraversable="false" layoutX="184.0" layoutY="87.0" mnemonicParsing="false" onMouseClicked="#enterIsClickedInExecuteExam" text="Enter" />
          </children></AnchorPane>
       <AnchorPane fx:id="computerizeExamPane" layoutX="30.0" layoutY="65.0" prefHeight="500.0" prefWidth="967.0" visible="false">
          <children>
@@ -152,7 +152,7 @@
             <Button layoutX="469.0" layoutY="393.0" mnemonicParsing="false" onMouseClicked="#orderExam" text="Order" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="anchorPaneShowExam" layoutX="199.0" layoutY="21.0" prefHeight="550.0" prefWidth="650.0" visible="false">
+      <AnchorPane fx:id="anchorPaneShowExam" layoutX="200.0" layoutY="20.0" prefHeight="550.0" prefWidth="650.0" visible="false">
          <children>
             <ScrollPane fx:id="scrollPaneShowExam" layoutX="14.0" layoutY="14.0" prefHeight="500.0" prefWidth="620.0">
                <content>
@@ -160,7 +160,7 @@
                </content>
             </ScrollPane>
             <TextField fx:id="gradeTextField" alignment="CENTER" focusTraversable="false" layoutX="470.0" layoutY="20.0" />
-            <Button fx:id="okButtonShowExam" layoutX="603.0" layoutY="520.0" mnemonicParsing="false" onMouseClicked="#returnToTableView" text="Ok" />
+            <Button fx:id="okButtonShowExam" layoutX="600.0" layoutY="520.0" mnemonicParsing="false" onMouseClicked="#returnToTableView" text="Ok" />
          </children>
       </AnchorPane>
       <ImageView blendMode="MULTIPLY" fitHeight="53.0" fitWidth="184.0" layoutX="431.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true">

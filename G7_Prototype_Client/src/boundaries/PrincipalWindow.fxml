@@ -411,7 +411,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="teacherReportAnchorPane" layoutX="10.0" layoutY="117.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+      <AnchorPane fx:id="teacherReportAnchorPane" layoutX="10.0" layoutY="117.0" prefHeight="200.0" prefWidth="200.0">
          <children>
             <Label layoutX="22.0" layoutY="7.0" text="Teacher Report" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
@@ -453,12 +453,12 @@
                         <Image url="@../../../../../Pictures/Statistics-Button.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="32.0" layoutY="123.0" text="Average:">
+                  <Label layoutX="32.0" layoutY="117.0" text="Average:">
                      <font>
                         <Font name="Narkisim" size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="34.0" layoutY="160.0" text="Median:">
+                  <Label layoutX="34.0" layoutY="154.0" text="Median:">
                      <font>
                         <Font name="Narkisim" size="24.0" />
                      </font>
@@ -476,7 +476,7 @@
                         </LinearGradient>
                      </fill>
                   </Text>
-                  <TextField fx:id="averageTextFieldInTeacherReport" layoutX="125.0" layoutY="129.0" prefHeight="25.0" prefWidth="62.0" />
+                  <TextField fx:id="averageTextFieldInTeacherReport" layoutX="125.0" layoutY="123.0" prefHeight="25.0" prefWidth="62.0" />
                   <Label layoutX="159.0" layoutY="84.0" text="Teacher:">
                      <font>
                         <Font name="Narkisim" size="24.0" />
@@ -487,7 +487,15 @@
                         <Font name="Narkisim" size="24.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="medianTextFieldInTeacherReport" layoutX="125.0" layoutY="163.0" prefHeight="25.0" prefWidth="62.0" />
+                  <TextField fx:id="medianTextFieldInTeacherReport" layoutX="125.0" layoutY="157.0" prefHeight="25.0" prefWidth="62.0" />
+                  <BarChart fx:id="teacherBarChart" layoutX="159.0" layoutY="188.0" prefHeight="243.0" prefWidth="453.0">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" fx:id="xAxisInTeacherReport" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis fx:id="yAxisInTeacherReport" label="Student Amount" side="LEFT" />
+                    </yAxis>
+                  </BarChart>
                </children>
             </AnchorPane>
          </children>

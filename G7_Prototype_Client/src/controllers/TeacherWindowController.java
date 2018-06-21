@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+
+import boundaries.QuestionInComputerizeExam;
 import client.Client;
 import client.MainAppClient;
 import javafx.beans.property.SimpleStringProperty;
@@ -53,7 +55,9 @@ import resources.*;
 
 public class TeacherWindowController implements Initializable, IScreenController {
 
-	// region Fields
+	/**
+	 *  region Fields
+	 */
 
 	@FXML
 	private AnchorPane mainAnchorPane;
@@ -78,6 +82,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Text welcomeText;
+	
+	/**
+	 * question attributes
+	 */
 
 	@FXML
 	private MenuItem editOrRemoveQuestion;
@@ -175,7 +183,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private ComboBox<String> subjectComboBoxInEditOrRemove;
 
-	// create exam
+	/**
+	 *  create exam attributes
+	 */
 
 	@FXML
 	private AnchorPane createExamAnchorPane;
@@ -267,7 +277,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private Button createExamButton;
 
-	/* Exam Management */
+	/**
+	 *  Exam Management attributes
+	 */
 
 	@FXML
 	private AnchorPane examManagementAnchorPane;
@@ -350,7 +362,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private TableColumn<Question, String> correctAnswerColumnInExamManagement;
 
-	/* Active Exam Management */
+	/**
+	 *  Active Exam Management attributes
+	 */
 
 	@FXML
 	private AnchorPane activeExamManagementAnchorPane;
@@ -394,7 +408,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private ScrollPane copiersStudents;
 
-	// confirm grades
+	/**
+	 * confirm grades attributes
+	 */
 
 	@FXML
 	private AnchorPane confirmGradesAnchorPane;
@@ -429,7 +445,27 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private Button addCommentsButtonInConfirmGrades;
 
-	// exams statistic
+	/***************************************************/
+
+	@FXML
+	private AnchorPane anchorPaneShowExam;
+
+	@FXML
+	private ScrollPane scrollPaneShowExam;
+
+	@FXML
+	private VBox vBoxShowExam;
+
+	@FXML
+	private Button okButtonShowExam;
+
+	private ArrayList<QuestionInComputerizeExam> questionInComputerizeExamArray;
+
+	/***************************************************/
+
+	/**
+	 *  exams statistic attributes
+	 */
 
 	@FXML
 	private AnchorPane examStatisticAnchorPane;
@@ -475,7 +511,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private ArrayList<Integer> grades;
 
-	//
+	/**
+	 * general attributes
+	 */
 
 	private ScreensController screensController;
 
@@ -605,6 +643,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		backAnchorPane.setVisible(false);
 		date.setText(Utilities_Client.setDate());
 		this.client = MainAppClient.getClient();
+		questionInComputerizeExamArray = new ArrayList<QuestionInComputerizeExam>();
 		setColumnsInEditOrRemove();
 		setColumnInCreateExamAllQuestions();
 		setColumnInCreateExamQuestions();
@@ -654,6 +693,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 			confirmGradesAnchorPane.setVisible(false);
 		if (examStatisticAnchorPane.isVisible()) {
 			examStatisticAnchorPane.setVisible(false);
+		}
+		if (!vBoxShowExam.getChildren().isEmpty()) {
+			vBoxShowExam.getChildren().clear();
 		}
 		setRejectionFlag(false);
 		setAcceptionFlag(false);
@@ -901,6 +943,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 		Utilities_Client.popUpMethod("Question Added successfully");
 		clearAddQuestionFields();
 	}
+	
+	/**
+	 * open Create Exam anchor pane
+	 * @param event
+	 */
 
 	public void openCreateExam(ActionEvent event) {
 		try {
@@ -982,6 +1029,12 @@ public class TeacherWindowController implements Initializable, IScreenController
 		else if (activeExamManagementAnchorPane.isVisible())
 			selectCourseComboBox(coursesActiveExamManagement, selectedSubject);
 	}
+	
+	/**
+	 * select Course ComboBox handler
+	 * @param combobox
+	 * @param selectedSubject
+	 */
 
 	private void selectCourseComboBox(ComboBox<String> combobox, String selectedSubject) {
 		client.handleMessageFromClientUI(Message.getCourses + " " + selectedSubject);
@@ -1001,6 +1054,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 			}
 		});
 	}
+	
+	/**
+	 * show Exams was pressed
+	 * @param event
+	 */
 
 	public void showExamsHandler(ActionEvent event) {
 		if (examManagementAnchorPane.isVisible() && courseExamManagement.getValue() != null)
@@ -1010,12 +1068,20 @@ public class TeacherWindowController implements Initializable, IScreenController
 		else
 			Utilities_Client.popUpMethod("Please Select the Course");
 	}
+	
+	/**
+	 * setting table in exam mangement
+	 */
 
 	private void setTableInExamsManagement() {
 		client.getExamsFromDB().clear();
 		client.handleMessageFromClientUI(Message.getExamByCourse + " " + courseExamManagement.getValue());
 		tableViewInExamsManagement.setItems(client.getExamsFromDB());
 	}
+	
+	/**
+	 * setting table in active exam mangement
+	 */
 
 	private void setTableInActiveExamManagement() {
 		client.getActivatedUnlockedExams().clear();
@@ -1023,6 +1089,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 				+ coursesActiveExamManagement.getValue());
 		activeExamsTableView.setItems(client.getActivatedUnlockedExams());
 	}
+	
+	/**
+	 * set Columns In Exams Management table view
+	 */
 
 	private void setColumnsInExamsManagement() {
 		subjectColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
@@ -1054,14 +1124,88 @@ public class TeacherWindowController implements Initializable, IScreenController
 		initTablesInCreateExam(true, false);
 		tableViewInCreateExamAllQuestion.setItems(client.getQuestionsFromDB());
 	}
+	
+	/**
+	 * order Student Exam was pressed
+	 * @param mouseEvent
+	 */
+
+	public void orderStudentExam(MouseEvent mouseEvent) {
+		if (confirmGradeTableView.getSelectionModel().getSelectedItem() != null) {
+			CheckedExam selectedStudnet = confirmGradeTableView.getSelectionModel().getSelectedItem();
+			client.handleMessageFromClientUI(Message.getAnswers + " "
+					+ selectedStudnet.getSubmittedExam().getStudentInActiveExam().getStudent().getId() + " "
+					+ selectedStudnet.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam()
+							.getSubjectID()
+					+ " "
+					+ selectedStudnet.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam()
+							.getCourseID()
+					+ " " + selectedStudnet.getExamNum() + " " + selectedStudnet.getExecutionCode() + " " + "false");
+			client.handleMessageFromClientUI(Message.getQuestionInExam + " " + selectedStudnet.getExecutionCode());
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			showExam();
+		} else {
+			Utilities_Client.popUpMethod("Please select student");
+		}
+	}
+	
+	/**
+	 * show exam handler
+	 */
+
+	private void showExam() {
+		int index = 0;
+		QuestionInComputerizeExam questionInComputerizeExam;
+		vBoxShowExam.getChildren().add(new Text("\n"));
+		for (Question questionsFromDB : client.getQuestionsFromDB()) {
+			for (StudentAnswerInQuestion studnetAnswerInQuestionDB : client.getStudnetAnswerInQuestionDB()) {
+				if (questionsFromDB.getQuestionNum().equals(studnetAnswerInQuestionDB.getQuestionNum())) {
+					questionInComputerizeExam = new QuestionInComputerizeExam(
+							Integer.toString(++index) + ". " + questionsFromDB.getQuestionText(),
+							"\t" + questionsFromDB.getFirstPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getSecondPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getThirdPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getFourthPossibleAnswer() + "\t");
+					questionInComputerizeExam.setTextOnGreen(questionsFromDB.getCorrectAnswer());
+					if (!studnetAnswerInQuestionDB.getStudentAnswer().equals(questionsFromDB.getCorrectAnswer())) {
+						questionInComputerizeExam.setTextOnRed(studnetAnswerInQuestionDB.getStudentAnswer());
+					}
+					questionInComputerizeExamArray.add(questionInComputerizeExam);
+					vBoxShowExam.getChildren().addAll(questionInComputerizeExam.getList());
+					vBoxShowExam.getChildren().add(new Text(""));
+				}
+			}
+		}
+		anchorPaneShowExam.setVisible(true);
+		vBoxShowExam.setVisible(true);
+	}
 
 	/**
-	 * 
+	 * return To Exam Table
+	 * @param mouseEvent
+	 */
+	public void returnToExamTable(MouseEvent mouseEvent) {
+		vBoxShowExam.getChildren().clear();
+		vBoxShowExam.setVisible(false);
+		anchorPaneShowExam.setVisible(false);
+	}
+
+	/**
+	 * update Table In Edit Or Remove button was pressed
 	 * @param event
 	 */
 	public void updateTableInEditOrRemove(ActionEvent event) {
 		setQuestionsTableInfoInEditOrRemove();
 	}
+	
+	/**
+	 * exam management tab was pressed
+	 * @param event
+	 */
 
 	public void openExamManagement(ActionEvent event) {
 		try {
@@ -1083,6 +1227,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * activate Button was pressed
+	 * @param event
+	 */
 
 	public void activateButtonHandler(ActionEvent event) {
 		Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
@@ -1142,6 +1291,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 			primaryStage.show();
 		}
 	}
+	
+	/**
+	 * show Questions Button pressed
+	 * @param event
+	 */
 
 	public void showQuestionsButtonHandler(MouseEvent event) {
 		Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
@@ -1220,6 +1374,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 			primaryStage.show();
 		}
 	}
+	
+	/**
+	 * change Time Button was pressed
+	 * @param event
+	 */
 
 	public void changeTimeButtonHandler(ActionEvent event) {
 		ActiveExam selectedExam = activeExamsTableView.getSelectionModel().getSelectedItem();
@@ -1274,6 +1433,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 
 	}
+	
+	/**
+	 * lock Button was pressed
+	 * @param event
+	 */
 
 	public void lockButtonHandler(ActionEvent event) {
 		ActiveExam selectedActiveExam = activeExamsTableView.getSelectionModel().getSelectedItem();
@@ -1321,10 +1485,20 @@ public class TeacherWindowController implements Initializable, IScreenController
 			primaryStage.show();
 		}
 	}
+	
+	/**
+	 * clear Button was pressed
+	 * @param event
+	 */
 
 	public void clearButtonPressed(ActionEvent event) {
 		clearAddQuestionFields();
 	}
+	
+	/**
+	 *  Confirm Grades tab was pressed
+	 * @param event
+	 */
 
 	public void openConfirmGrades(ActionEvent event) {
 		confirmGradesAnchorPane.setVisible(true);
@@ -1339,6 +1513,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 		examReportAnchorPane.setVisible(false);
 		setTableInConfirmGrades();
 	}
+	
+	/**
+	 * approve Button was pressed
+	 * @param event
+	 */
 
 	public void approveButtonHandler(ActionEvent event) {
 		CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
@@ -1379,6 +1558,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 			primaryStage.show();
 		}
 	}
+	
+	/**
+	 * change Grade Button was pressed
+	 * @param event
+	 */
 
 	public void changeGradeButtonHandler(ActionEvent event) {
 		CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
@@ -1434,6 +1618,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 			primaryStage.show();
 		}
 	}
+	
+	/**
+	 * add comments Button was pressed
+	 * @param event
+	 */
 
 	public void addcommentsButtonHandler(ActionEvent event) {
 		CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
@@ -1478,6 +1667,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 			primaryStage.show();
 		}
 	}
+	
+	/**
+	 * Exam Statistic tab was pressed
+	 * @param event
+	 */
 
 	public void openExamStatistic(ActionEvent event) {
 		examStatisticAnchorPane.setVisible(true);
@@ -1495,6 +1689,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setExamNumberComboBox(examNumComboBoxInExamStatistic);
 		createFirstExamHistogram();
 	}
+	
+	/**
+	 * create Report button was pressed
+	 * @param event
+	 */
 
 	public void createReportHandler(ActionEvent event) {
 		if (examNumComboBoxInExamStatistic.getValue() == null)
@@ -1510,12 +1709,19 @@ public class TeacherWindowController implements Initializable, IScreenController
 			forcedTextFieldInTeacherReport.setEditable(false);
 		}
 	}
+	
+	/**
+	 * create exam button was pressed
+	 * @param subject
+	 * @param course
+	 * @param examNum
+	 */
 
 	public void createExamHistogram(String subject, String course, String examNum) {
 		examStatisticBarChart.getData().clear();
 		examStatisticBarChart.setCategoryGap(2);
 		examStatisticBarChart.setBarGap(0);
-		int group[] = new int[6];
+		int group[] = new int[10];
 		client.handleMessageFromClientUI(new ExamReportHandle(subject, course, examNum, "ExamStatistic"));
 		// xAxis.setLabel("Grade");
 		yAxis.setLabel("Student Amount");
@@ -1527,30 +1733,46 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 		for (int i = 0; i < grades.size(); i++) {
 			int grade = grades.get(i);
-			if (grade <= 55) {
+			if (grade <= 10) {
 				group[0]++;
-			} else if (grade <= 64) {
+			} else if (grade <= 20) {
 				group[1]++;
-			} else if (grade <= 74) {
+			} else if (grade <= 30) {
 				group[2]++;
-			} else if (grade <= 84) {
+			} else if (grade <= 40) {
 				group[3]++;
-			} else if (grade <= 94) {
+			} else if (grade <= 50) {
 				group[4]++;
-			} else if (grade <= 100) {
+			} else if (grade <= 60) {
 				group[5]++;
+			} else if (grade <= 70) {
+				group[6]++;
+			} else if (grade <= 80) {
+				group[7]++;
+			} else if (grade <= 90) {
+				group[8]++;
+			} else if (grade <= 100) {
+				group[9]++;
 			}
 		}
 		XYChart.Series series1 = new XYChart.Series();
-		series1.getData().add(new XYChart.Data("0-54.9", group[0]));
-		series1.getData().add(new XYChart.Data("55-64", group[1]));
-		series1.getData().add(new XYChart.Data("65-74", group[2]));
-		series1.getData().add(new XYChart.Data("75-84", group[3]));
-		series1.getData().add(new XYChart.Data("85-94", group[4]));
-		series1.getData().add(new XYChart.Data("95-100", group[5]));
+		series1.getData().add(new XYChart.Data("0-10", group[0]));
+		series1.getData().add(new XYChart.Data("11-20", group[1]));
+		series1.getData().add(new XYChart.Data("21-30", group[2]));
+		series1.getData().add(new XYChart.Data("31-40", group[3]));
+		series1.getData().add(new XYChart.Data("41-50", group[4]));
+		series1.getData().add(new XYChart.Data("51-60", group[5]));
+		series1.getData().add(new XYChart.Data("61-70", group[6]));
+		series1.getData().add(new XYChart.Data("71-80", group[7]));
+		series1.getData().add(new XYChart.Data("81-90", group[8]));
+		series1.getData().add(new XYChart.Data("91-100", group[9]));
 		examStatisticBarChart.getData().addAll(series1);
 
 	}
+	
+	/**
+	 * initialize histogram for the first time
+	 */
 
 	public void createFirstExamHistogram() {
 		examStatisticBarChart.getData().clear();
@@ -1561,12 +1783,16 @@ public class TeacherWindowController implements Initializable, IScreenController
 		yAxis.setLabel("Student Amount");
 
 		XYChart.Series series1 = new XYChart.Series();
-		series1.getData().add(new XYChart.Data("0-54.9", 0));
-		series1.getData().add(new XYChart.Data("55-64", 0));
-		series1.getData().add(new XYChart.Data("65-74", 0));
-		series1.getData().add(new XYChart.Data("75-84", 0));
-		series1.getData().add(new XYChart.Data("85-94", 0));
-		series1.getData().add(new XYChart.Data("95-100", 0));
+		series1.getData().add(new XYChart.Data("0-10", 0));
+		series1.getData().add(new XYChart.Data("11-20", 0));
+		series1.getData().add(new XYChart.Data("21-30", 0));
+		series1.getData().add(new XYChart.Data("31-40", 0));
+		series1.getData().add(new XYChart.Data("41-50", 0));
+		series1.getData().add(new XYChart.Data("51-60", 0));
+		series1.getData().add(new XYChart.Data("61-70", 0));
+		series1.getData().add(new XYChart.Data("71-80", 0));
+		series1.getData().add(new XYChart.Data("81-90", 0));
+		series1.getData().add(new XYChart.Data("91-100", 0));
 		examStatisticBarChart.getData().addAll(series1);
 	}
 
@@ -1753,6 +1979,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			}
 		});
 	}
+	
+	/**
+	 * Define the columns in Confirm Grades screen
+	 */
 
 	private void setTableInConfirmGrades() {
 		client.getCheckedExamsFromDB().clear();
@@ -1776,7 +2006,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 				.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
 		correctAnswerColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 
-		// define the columns editable
+		/**
+		 *  define the columns editable
+		 */
 
 		questionTextColumnInEditOrRemove.setCellFactory(TextFieldTableCell.forTableColumn());
 		questionTextColumnInEditOrRemove.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
@@ -1868,7 +2100,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * define the columns In Create Exam Questions
 	 */
 	private void setColumnInCreateExamQuestions() {
 		subjectIDColumnInCreateExam.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
@@ -1888,6 +2120,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			}
 		});
 	}
+	
+	/**
+	 * set Column In Confirm Grades
+	 */
 
 	private void setColumnInConfirmGrades() {
 		subjectColInConfirmGrades.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()
