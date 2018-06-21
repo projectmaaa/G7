@@ -141,7 +141,13 @@ public class SqlUtilities {
 
 	public final static String getStudentAnswers = "SELECT questionNum, questionOrderInExam, answer FROM StudentAnswerInQuestion WHERE studentID=? AND subjectID=? AND courseID=? AND examNum=? AND executionCode=?;";
 
-	public final static String GET_QUESTIONS_OF_EXAM = "SELECT questionText, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer, correctAnswer, Questions.questionNum FROM StudentAnswerInQuestion, Questions where executionCode = ? and StudentAnswerInQuestion.subjectID=Questions.subjectID and StudentAnswerInQuestion.questionNum = Questions.questionNum;";
+	public final static String GET_QUESTIONS_OF_EXAM = "SELECT questionText, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer, correctAnswer, Questions.questionNum "
+			+ "FROM Questions, QuestionInExam, ActiveExam " + "WHERE executionCode = ? "
+			+ "AND Questions.subjectID = QuestionInExam.subjectID "
+			+ "AND QuestionInExam.subjectID = ActiveExam.subjectID "
+			+ "AND QuestionInExam.courseID = ActiveExam.courseID "
+			+ "AND Questions.questionNum = QuestionInExam.questionNum "
+			+ "AND QuestionInExam.examNum = ActiveExam.examNum;";
 
 	public final static String CALCULATE_ExamAVG = "SELECT AVG(grade) FROM ApprovedExamForStudent WHERE subjectID=? AND courseID=? AND examNum=?;";
 
@@ -321,12 +327,13 @@ public class SqlUtilities {
 	}
 
 	public static StudentAnswerInQuestionHandle getAnswers(String studentID, String subjectID, String courseID,
-			String examNum, String executionCode, Connection connection) throws SQLException {
+			String examNum, String executionCode, String student, Connection connection) throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(getStudentAnswers);
 		ArrayList<StudentAnswerInQuestion> studentAnswersArray = new ArrayList<StudentAnswerInQuestion>();
 		preparedStatement.setString(1, studentID);
-		preparedStatement.setString(2, getSubjectID(subjectID, connection));
-		preparedStatement.setString(3, getCourseID(courseID, connection));
+		preparedStatement.setString(2,
+				((student.equals("true")) ? (getSubjectID(subjectID, connection)) : (subjectID)));
+		preparedStatement.setString(3, ((student.equals("true")) ? (getCourseID(courseID, connection)) : (courseID)));
 		preparedStatement.setString(4, examNum);
 		preparedStatement.setString(5, executionCode);
 		ResultSet resultSet = preparedStatement.executeQuery();
