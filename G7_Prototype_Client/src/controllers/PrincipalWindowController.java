@@ -49,7 +49,7 @@ import resources.WaitingActiveExam;
 import resources.WaitingActiveExamHandle;
 
 public class PrincipalWindowController implements Initializable, IScreenController {
-	
+
 	/*
 	 * general attributes
 	 */
@@ -85,7 +85,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	@FXML
 	private MenuBar menuBar;
-	
+
 	ArrayList<Integer> grades;
 
 	/**
@@ -374,6 +374,15 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private TextField medianTextFieldInCourseReport;
 
+	@FXML
+	private BarChart<?, ?> courseReportBarChart;
+
+	@FXML
+	private CategoryAxis xAxisInCourseReport;
+
+	@FXML
+	private NumberAxis yAxisInCourseReport;
+
 	/**
 	 * teacher report attributes
 	 */
@@ -475,7 +484,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
 		this.averageTextFieldInTeacherReport = averageTextFieldInTeacherReport;
 	}
-	
+
 	public ArrayList<Integer> getGrades() {
 		return grades;
 	}
@@ -483,7 +492,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	public void setGrades(ArrayList<Integer> grades) {
 		this.grades = grades;
 	}
-	
+
 	public TextField getMedianTextFieldInStudentReport() {
 		return medianTextFieldInStudentReport;
 	}
@@ -513,11 +522,9 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * --------------------------------- *
 	 */
 
-	
-/**
- * initialize method
- */
-	
+	/**
+	 * initialize method
+	 */
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -558,9 +565,9 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * show question button was clicked
+	 * 
 	 * @param event
 	 */
-	
 
 	public void showQuestionHandler(ActionEvent event) {
 		setTableInQuestionPool();
@@ -568,6 +575,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * exam pool tab was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -580,19 +588,19 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * show exams button was clicked
+	 * 
 	 * @param event
 	 */
-	
 
 	public void showExamsHandler(ActionEvent event) {
 		setTableInExamsPool();
 	}
 
 	/**
-	 *  active exams was pressed
+	 * active exams was pressed
+	 * 
 	 * @param event
 	 */
-	
 
 	public void openActiveExams(ActionEvent event) {
 		activeExamTableView.getItems().clear();
@@ -600,18 +608,20 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		activeExamAnchorPane.setVisible(true);
 		setSubjectComboBox(subjectComboBoxInActiveExams);
 	}
-	
+
 	/**
 	 * show active exam button pressed
+	 * 
 	 * @param event
 	 */
 
 	public void showActiveExamButtonHandler(ActionEvent event) {
 		setTableInActiveExams();
 	}
-	
+
 	/**
 	 * solved exams tab pressed
+	 * 
 	 * @param event
 	 */
 
@@ -621,26 +631,30 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		solvedExamsAnchorPane.setVisible(true);
 		setStudentComboBox(studentComboBoxInSolvedExams);
 	}
-	
+
 	/**
 	 * show button was pressed
+	 * 
 	 * @param event
 	 */
 
 	public void showButtonHandler(ActionEvent event) {
 		setTableInSolvedExams();
 	}
-	
+
 	/**
 	 * show solved exam button was pressed
+	 * 
 	 * @param event
 	 */
 
 	public void showSolvedExamButtonHandler(ActionEvent event) {
 		// alex
 	}
+
 	/**
 	 * handling requests tab was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -746,10 +760,12 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			primaryStage.show();
 		}
 	}
+
 	/**
 	 * refresh button was pressed
+	 * 
 	 * @param event
-	 */ 
+	 */
 
 	public void refreshButtonHandle(MouseEvent event) {
 		setTableInHandlingRequests();
@@ -757,6 +773,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * student report tab was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -765,9 +782,10 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		studentReportAnchorPane.setVisible(true);
 		setTableInStudentReport();
 	}
-	
+
 	/**
 	 * create report button was pressed
+	 * 
 	 * @param event
 	 * @throws InterruptedException
 	 */
@@ -787,9 +805,10 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			report3AnchorPane.setVisible(true);
 		}
 	}
-	
+
 	/**
 	 * course report tab was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -798,9 +817,10 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		courseReportAnchorPane.setVisible(true);
 		setTableInCourseReport();
 	}
-	
+
 	/**
 	 * create report button was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -812,17 +832,18 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			String fullName = course.getCourseName();
 			CourseNameLabel.setText(fullName);
 			client.handleMessageFromClientUI(new ReportHandle("CourseStatistic", course));
-			averageTextFieldInCourseReport.setEditable(false);
 			try {
-				TimeUnit.SECONDS.sleep(3);
+				TimeUnit.SECONDS.sleep(1);
 			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			System.out.println(grades);
+			averageTextFieldInCourseReport.setEditable(false);
+			createHistogram(courseReportBarChart, grades);
 			report2AnchorPane.setVisible(true);
 		}
 	}
-	
-
 
 	public void createStudentHistogram() {
 		studentBarChart.getData().clear();
@@ -859,7 +880,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			report1AnchorPane.setVisible(true);
 		}
 	}
-	
+
 	public void createHistogram(BarChart barchart, ArrayList<Integer> grades) {
 		barchart.getData().clear();
 		int group[] = new int[10];
@@ -867,77 +888,57 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		series1.setName("AES7-Histogram");
 		barchart.setCategoryGap(3);
 		barchart.setBarGap(2);
-		try {
-			TimeUnit.SECONDS.sleep(2);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		for (int i = 0; i < grades.size(); i++) {
-			int grade = grades.get(i);
-			if (grade <= 10) {
-				group[0]++;
-			} else if (grade <= 20) {
-				group[1]++;
-			} else if (grade <= 30) {
-				group[2]++;
-			} else if (grade <= 40) {
-				group[3]++;
-			} else if (grade <= 50) {
-				group[4]++;
-			} else if (grade <= 60) {
-				group[5]++;
-			} else if (grade <= 70) {
-				group[6]++;
-			} else if (grade <= 80) {
-				group[7]++;
-			} else if (grade <= 90) {
-				group[8]++;
-			} else if (grade <= 100) {
-				group[9]++;
+		barchart.setAnimated(false);
+		if (grades.size() != 0) {
+			for (int i = 0; i < grades.size(); i++) {
+				int grade = grades.get(i);
+				if (grade <= 10) {
+					group[0]++;
+				} else if (grade <= 20) {
+					group[1]++;
+				} else if (grade <= 30) {
+					group[2]++;
+				} else if (grade <= 40) {
+					group[3]++;
+				} else if (grade <= 50) {
+					group[4]++;
+				} else if (grade <= 60) {
+					group[5]++;
+				} else if (grade <= 70) {
+					group[6]++;
+				} else if (grade <= 80) {
+					group[7]++;
+				} else if (grade <= 90) {
+					group[8]++;
+				} else if (grade <= 100) {
+					group[9]++;
+				}
 			}
-		}
-		
-		series1.getData().add(new XYChart.Data("0-10", group[0]));
-		series1.getData().add(new XYChart.Data("11-20", group[1]));
-		series1.getData().add(new XYChart.Data("21-30", group[2]));
-		series1.getData().add(new XYChart.Data("31-40", group[3]));
-		series1.getData().add(new XYChart.Data("41-50", group[4]));
-		series1.getData().add(new XYChart.Data("51-60", group[5]));
-		series1.getData().add(new XYChart.Data("61-70", group[6]));
-		series1.getData().add(new XYChart.Data("71-80", group[7]));
-		series1.getData().add(new XYChart.Data("81-90", group[8]));
-		series1.getData().add(new XYChart.Data("91-100", group[9]));
-		barchart.getData().addAll(series1);
-	}
-	
-	public void createFirstExamHistogram(BarChart barchart) {
-		barchart.getData().clear();
-		barchart.setCategoryGap(2);
-		barchart.setBarGap(0);
-
-		// xAxis.setLabel("Grade");
-		//yAxis.setLabel("Student Amount");
-
-		XYChart.Series series1 = new XYChart.Series();
-		series1.getData().add(new XYChart.Data("0-10", 0));
-		series1.getData().add(new XYChart.Data("11-20", 0));
-		series1.getData().add(new XYChart.Data("21-30", 0));
-		series1.getData().add(new XYChart.Data("31-40", 0));
-		series1.getData().add(new XYChart.Data("41-50", 0));
-		series1.getData().add(new XYChart.Data("51-60", 0));
-		series1.getData().add(new XYChart.Data("61-70", 0));
-		series1.getData().add(new XYChart.Data("71-80", 0));
-		series1.getData().add(new XYChart.Data("81-90", 0));
-		series1.getData().add(new XYChart.Data("91-100", 0));
-		barchart.getData().addAll(series1);
+//			try {
+//				TimeUnit.SECONDS.sleep(3);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+			series1.getData().add(new XYChart.Data("0-10", group[0]));
+			series1.getData().add(new XYChart.Data("11-20", group[1]));
+			series1.getData().add(new XYChart.Data("21-30", group[2]));
+			series1.getData().add(new XYChart.Data("31-40", group[3]));
+			series1.getData().add(new XYChart.Data("41-50", group[4]));
+			series1.getData().add(new XYChart.Data("51-60", group[5]));
+			series1.getData().add(new XYChart.Data("61-70", group[6]));
+			series1.getData().add(new XYChart.Data("71-80", group[7]));
+			series1.getData().add(new XYChart.Data("81-90", group[8]));
+			series1.getData().add(new XYChart.Data("91-100", group[9]));
+			barchart.getData().addAll(series1);
+		} else
+			Utilities_Client.popUpMethod("Theres no grades yet in this course!");
 	}
 
 
 	/*-----------------------------------private-------------------------*/
 	/**
 	 * set subject combobox method
+	 * 
 	 * @param comboBox
 	 */
 
@@ -958,9 +959,10 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		client.handleMessageFromClientUI(Message.getSubjects);
 		comboBox.setItems(client.getSubjectsFromDB());
 	}
-	
+
 	/**
 	 * set student combobox method
+	 * 
 	 * @param comboBox
 	 */
 
@@ -981,7 +983,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		client.handleMessageFromClientUI(Message.getAllStudents);
 		comboBox.setItems(client.getAllStudentsFromDB());
 	}
-	
+
 	/**
 	 * set table in questions pool anchor pane
 	 */
@@ -996,7 +998,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			Utilities_Client.popUpMethod("Select Subject");
 		}
 	}
-	
+
 	/**
 	 * set table in exams pool anchor pane
 	 */
@@ -1010,7 +1012,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			Utilities_Client.popUpMethod("Select Subject");
 		}
 	}
-	
+
 	/**
 	 * set table in active exams anchor pane
 	 */
@@ -1025,7 +1027,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			Utilities_Client.popUpMethod("Select Subject");
 		}
 	}
-	
+
 	/**
 	 * set table in solved exams anchor pane
 	 */
@@ -1041,7 +1043,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			Utilities_Client.popUpMethod("Select Student");
 		}
 	}
-	
+
 	/**
 	 * set table in handling requests anchor pane
 	 */
@@ -1051,7 +1053,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		client.handleMessageFromClientUI(Message.getWaitingActiveExams);
 		handlingRequestsTableView.setItems(client.getWaitingActiveExamsFromDB());
 	}
-	
+
 	/**
 	 * set columns in questions pool
 	 */
@@ -1069,7 +1071,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 				.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
 		correctAnswerColumnInQuestionsPool.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 	}
-	
+
 	/**
 	 * set columns in exams pool
 	 */
@@ -1083,7 +1085,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		textExamineesColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("freeTextForExaminees"));
 		textTeachersColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("freeTextForTeacherOnly"));
 	}
-	
+
 	/**
 	 * set columns in active exams
 	 */
@@ -1101,7 +1103,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		lockedColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("locked"));
 		typeColInActiveExams.setCellValueFactory(new PropertyValueFactory<>("type"));
 	}
-	
+
 	/**
 	 * set columns in solved exams
 	 */
@@ -1120,7 +1122,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		commentsColInSolvedExams.setCellValueFactory(new PropertyValueFactory<>("comments"));
 
 	}
-	
+
 	/**
 	 * set columns in handling requests
 	 */
@@ -1140,7 +1142,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		newDurationColInHandlingRequests.setCellValueFactory(new PropertyValueFactory<>("newDuration"));
 		reasonColInHandlingRequests.setCellValueFactory(new PropertyValueFactory<>("reason"));
 	}
-	
+
 	/**
 	 * set columns in student report
 	 */
@@ -1150,7 +1152,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		firstNameColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 		lastNameColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 	}
-	
+
 	/**
 	 * set columns in course report
 	 */
@@ -1160,7 +1162,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		courseIDColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("courseID"));
 		courseNameColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("courseName"));
 	}
-	
+
 	/**
 	 * set columns in teacher report
 	 */
@@ -1170,7 +1172,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		firstNameColInTeacherReport.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 		lastNameColInTeacherReport.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 	}
-	
+
 	/**
 	 * set table in student report
 	 */
@@ -1180,7 +1182,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		client.handleMessageFromClientUI(Message.getStudents);
 		studentsTableView.setItems(client.getStudentsFromDB());
 	}
-	
+
 	/**
 	 * set table in course report
 	 */
@@ -1190,7 +1192,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		client.handleMessageFromClientUI(Message.getAllCourses);
 		courseTableView.setItems(client.getAllCoursesFromDB());
 	}
-	
+
 	/**
 	 * set table in teacher report
 	 */
@@ -1200,7 +1202,17 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		client.handleMessageFromClientUI(Message.getAllTeachers);
 		teacherTableView.setItems(client.getAllTeachersFromDB());
 	}
-	
+
+	/**
+	 * initialize grades
+	 */
+
+	public void initializeGradesArray() {
+		grades = new ArrayList<Integer>();
+		grades.add(0);
+		grades.add(0);
+	}
+
 	/**
 	 * set all anchor panes to false
 	 */

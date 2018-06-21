@@ -835,7 +835,7 @@ public class SqlUtilities {
 			med = grades.get(mid);
 		} else
 			med = 0;
-		return new ReportAboutCourse("CourseStatistic", rs1.getDouble(1), med, reportHandle.getCourse());
+		return new ReportAboutCourse("CourseStatistic", rs1.getDouble(1), med, reportHandle.getCourse(), grades);
 	}
 
 	public static ReportAboutTeacher calculateTeacherStatistic(ReportHandle reportHandle, Connection connection)

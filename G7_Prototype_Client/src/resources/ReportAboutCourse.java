@@ -18,17 +18,19 @@ public class ReportAboutCourse extends Report implements Serializable {
 	
 	private ArrayList<Course> courses;
 	
+	private ArrayList<Integer> grades;
 
 	public ReportAboutCourse(String command, ArrayList<Course> courses) {
 		this.command=command;
 		this.courses = courses;
 	}
 
-	public ReportAboutCourse(String command, double average, int med, Course course) {
+	public ReportAboutCourse(String command, double average, int med, Course course, ArrayList<Integer> grades) {
 		this.command=command;
 		setAverage(average);
 		setMedian(med);
-		this.course=course;;
+		this.course=course;
+		this.grades=grades;
 	}
 
 	public String getCourseName() {
@@ -62,6 +64,13 @@ public class ReportAboutCourse extends Report implements Serializable {
 	public void setCommand(String command) {
 		this.command = command;
 	}
-	
+
+	public ArrayList<Integer> getGrades() {
+		return grades;
+	}
+
+	public void setGrades(ArrayList<Integer> grades) {
+		this.grades = grades;
+	}
 	
 }

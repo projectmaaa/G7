@@ -330,7 +330,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="courseReportAnchorPane" layoutX="10.0" layoutY="116.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+      <AnchorPane fx:id="courseReportAnchorPane" layoutX="10.0" layoutY="116.0" prefHeight="200.0" prefWidth="200.0">
          <children>
             <Label layoutX="22.0" layoutY="7.0" text="Course Report" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
@@ -372,12 +372,12 @@
                         <Image url="@../../../../../Pictures/Statistics-Button.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="32.0" layoutY="123.0" text="Average:">
+                  <Label layoutX="32.0" layoutY="107.0" text="Average:">
                      <font>
                         <Font name="Narkisim" size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="34.0" layoutY="160.0" text="Median:">
+                  <Label layoutX="34.0" layoutY="144.0" text="Median:">
                      <font>
                         <Font name="Narkisim" size="24.0" />
                      </font>
@@ -395,23 +395,31 @@
                         </LinearGradient>
                      </fill>
                   </Text>
-                  <TextField fx:id="averageTextFieldInCourseReport" layoutX="125.0" layoutY="129.0" prefHeight="25.0" prefWidth="62.0" />
-                  <Label layoutX="159.0" layoutY="84.0" text="Course:">
+                  <TextField fx:id="averageTextFieldInCourseReport" layoutX="125.0" layoutY="113.0" prefHeight="25.0" prefWidth="62.0" />
+                  <Label layoutX="159.0" layoutY="80.0" text="Course:">
                      <font>
                         <Font name="Narkisim" size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="CourseNameLabel" layoutX="241.0" layoutY="84.0" prefHeight="31.0" prefWidth="225.0" textFill="#0f5be8">
+                  <Label fx:id="CourseNameLabel" layoutX="241.0" layoutY="80.0" prefHeight="31.0" prefWidth="225.0" textFill="#0f5be8">
                      <font>
                         <Font name="Narkisim" size="24.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="medianTextFieldInCourseReport" layoutX="125.0" layoutY="163.0" prefHeight="25.0" prefWidth="62.0" />
+                  <TextField fx:id="medianTextFieldInCourseReport" layoutX="125.0" layoutY="147.0" prefHeight="25.0" prefWidth="62.0" />
+                  <BarChart fx:id="courseReportBarChart" layoutX="116.0" layoutY="186.0" prefHeight="243.0" prefWidth="500.0">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" fx:id="xAxisInCourseReport" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis fx:id="yAxisInCourseReport" side="LEFT" />
+                    </yAxis>
+                  </BarChart>
                </children>
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="teacherReportAnchorPane" layoutX="10.0" layoutY="117.0" prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="teacherReportAnchorPane" layoutX="10.0" layoutY="117.0" prefHeight="200.0" prefWidth="200.0" visible="false">
          <children>
             <Label layoutX="22.0" layoutY="7.0" text="Teacher Report" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
