@@ -47,8 +47,9 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Exams  ">
                <items>
-                  <MenuItem fx:id="examPool" mnemonicParsing="false" onAction="#openExamPool" text="Exams pool" />
+                  <MenuItem fx:id="examPool" mnemonicParsing="false" onAction="#openExamPool" text="Exams Pool" />
                   <MenuItem mnemonicParsing="false" onAction="#openActiveExams" text="Active Exams" />
+                  <MenuItem mnemonicParsing="false" onAction="#openSolvedExams" text="Solved Exams" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Handling Requests">
@@ -107,7 +108,6 @@
                   <Bloom />
                </effect>
             </Label>
-            <AnchorPane layoutX="-64.0" layoutY="26.0" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="questionsPoolAnchorPane" layoutX="21.0" layoutY="161.0" prefHeight="350.0" prefWidth="950.0" visible="false">
@@ -521,6 +521,36 @@
               </columns>
             </TableView>
             <Button fx:id="showActiveExamButton" layoutX="241.0" layoutY="41.0" mnemonicParsing="false" onAction="#showActiveExamButtonHandler" text="Show Active Exams" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="solvedExamsAnchorPane" layoutX="16.0" layoutY="121.0" prefHeight="450.0" prefWidth="959.0" visible="false">
+         <children>
+            <Label layoutX="14.0" layoutY="23.0" text="Solved Exams" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Maiandra GD" size="24.0" />
+               </font>
+               <effect>
+                  <Bloom />
+               </effect>
+            </Label>
+            <ComboBox fx:id="studentComboBoxInSolvedExams" layoutX="94.0" layoutY="66.0" prefWidth="150.0" promptText="Select Student" />
+            <Label layoutX="32.0" layoutY="69.0" text="Student:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TableView fx:id="solvedExamsTableView" layoutX="14.0" layoutY="125.0" prefHeight="200.0" prefWidth="528.0" stylesheets="@table%20view.css">
+              <columns>
+                <TableColumn fx:id="subjectColInSolvedExams" prefWidth="66.0" text="Subject" />
+                <TableColumn fx:id="courseColInSolvedExams" prefWidth="73.0" text="Course" />
+                  <TableColumn fx:id="examNumColInSolvedExams" prefWidth="102.0" text="Exam Number" />
+                  <TableColumn fx:id="executionCodeColInSolvedExams" prefWidth="100.0" text="Execution Code" />
+                  <TableColumn fx:id="gradeColInSolvedExams" prefWidth="72.0" text="Grade" />
+                  <TableColumn fx:id="commentsColInSolvedExams" prefWidth="114.0" text="Comments" />
+              </columns>
+            </TableView>
+            <Button fx:id="showSolvedExamButton" layoutX="225.0" layoutY="340.0" mnemonicParsing="false" onAction="#showSolvedExamButtonHandler" text="Show Solved Exam" />
+            <Button fx:id="showButtonInSolvedExams" layoutX="270.0" layoutY="66.0" mnemonicParsing="false" onAction="#showButtonHandler" text="Show" />
          </children>
       </AnchorPane>
    </children>

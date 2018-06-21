@@ -119,7 +119,9 @@ public class SqlUtilities {
 
 	public final static String INSERT_SubmittedExam = "insert into SubmittedExam values (?, ?, ?, ?, ?, ?, ?);";
 
-	public final static String DELETE_Exam = "DELETE FROM Exam WHERE subjectID=? AND courseID=? AND examNum=?;";
+	public final static String DELETE_Exam_from_Exam_Table = "DELETE FROM Exam WHERE subjectID=? AND courseID=? AND examNum=?;";
+
+	public final static String DELETE_Exam_from_Active_Exam_Table = "DELETE FROM ActiveExam WHERE subjectID=? AND courseID=? AND examNum=?;";
 
 	public final static String getActivatorsID = "SELECT activatorsID FROM ActiveExam WHERE subjectID=? AND courseID=? AND examNum=?;";
 
@@ -149,11 +151,16 @@ public class SqlUtilities {
 
 	public final static String COUNT_StudentWhoFinished = "SELECT COUNT(studentID) FROM SubmittedExam WHERE subjectID=? AND courseID=? AND examNum=? AND submitted=1;";
 
+	public final static String getQuestionsFromSpecificExam = "SELECT Questions.subjectID, Questions.questionNum, Questions.author, Questions.questionText, Questions.firstAnswer, Questions.secondAnswer, Questions.thirdAnswer, Questions.fourthAnswer, Questions.correctAnswer FROM Questions, QuestionInExam, Exam WHERE Exam.subjectID=? AND Exam.courseID=? AND Exam.examNum=? AND Exam.subjectID=QuestionInExam.subjectID AND Exam.courseID=QuestionInExam.courseID AND Exam.examNum=QuestionInExam.examNum AND QuestionInExam.questionNum=Questions.questionNum AND Exam.subjectID=Questions.subjectID;";
+
 	public final static String GetStudentAnswerInQuestionByExecutionCode = "select * from StudentAnswerInQuestion where executionCode = ?;";
+
+	public final static String SELECT_ApprovedExamByStudent = "SELECT subjectID, courseID, examNum, executionCode, grade, comments FROM ApprovedExamForStudent WHERE studentID=?;";
 
 	public final static String GetNumberOfExamineesByExecutionCode = "select count(distinct ?) from StudentAnswerInQuestion where executionCode = ?;";
 
 	public final static String GetNumberOfExamineesThatSubmitOrNot = "select count(*) from SubmittedExam where executionCode = ? and submitted = ?;";
+
 	// region Public Methods
 
 	// end region -> Constants
@@ -268,6 +275,29 @@ public class SqlUtilities {
 		}
 		closeResultSetAndStatement(null, null, preparedStatement);
 		return (new QuestionHandle("QuestionsInExam", questionArray));
+	}
+
+	public static QuestionHandle getQuestionsInGeneralExam(String subjectID, String courseID, String examNumber,
+			Connection connection) throws SQLException {
+		PreparedStatement preparedStatement = connection.prepareStatement(getQuestionsFromSpecificExam);
+		ArrayList<Question> questions = new ArrayList<>();
+		ArrayList<String> possibleAnswers = new ArrayList<>();
+		preparedStatement.setString(1, subjectID);
+		preparedStatement.setString(2, courseID);
+		preparedStatement.setString(3, examNumber);
+		ResultSet rs = preparedStatement.executeQuery();
+		int index = 0;
+		while (rs.next()) {
+			while (index < 4) { // add the possible answers to the array list
+				possibleAnswers.add(index, rs.getString(index + 5));
+				index++;
+			}
+			questions.add(new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+					possibleAnswers, rs.getString(9)));
+			index = 0;
+		}
+		closeResultSetAndStatement(rs, null, preparedStatement);
+		return (new QuestionHandle("All", questions));
 	}
 
 	/**
@@ -444,6 +474,23 @@ public class SqlUtilities {
 			checkedExams.add(new CheckedExam(submittedExam, rs.getInt(6)));
 		}
 		return (new CheckedExamHandle("AllCheckedExams", checkedExams));
+	}
+
+	public static ApprovedExamForStudentHandle getSolvedExamsByStudent(StudentHandle studentHandle,
+			Connection connection) throws SQLException {
+		ArrayList<ApprovedExamForStudent> approved = new ArrayList<ApprovedExamForStudent>();
+		PreparedStatement statement = connection.prepareStatement(SELECT_ApprovedExamByStudent);
+		statement.setString(1, studentHandle.getStudent().getId());
+		ResultSet rs = statement.executeQuery();
+		while (rs.next()) {
+			Exam exam = new Exam(rs.getString(1), rs.getString(2), rs.getString(3));
+			ActiveExam activeExam = new ActiveExam(exam, rs.getString(4));
+			StudentInActiveExam studentInActiveExam = new StudentInActiveExam(studentHandle.getStudent(), activeExam);
+			SubmittedExam submittedExam = new SubmittedExam(studentInActiveExam);
+			CheckedExam checkedExam = new CheckedExam(submittedExam);
+			approved.add(new ApprovedExamForStudent(checkedExam, rs.getInt(5), rs.getString(6)));
+		}
+		return (new ApprovedExamForStudentHandle("SolvedExamsByStudent", approved));
 	}
 
 	public static ApprovedExamForStudentHandle getApprovedExamForStudent(String studentID, String subject,
@@ -834,8 +881,12 @@ public class SqlUtilities {
 		}
 		ArrayList<String> typeOfSetFromDB = new ArrayList<>();
 		ResultSet rs = typeOfSet.executeQuery();
-		while (rs.next())
-			typeOfSetFromDB.add(rs.getString(1));
+		if (type.equals("Students"))
+			while (rs.next())
+				typeOfSetFromDB.add(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3));
+		else
+			while (rs.next())
+				typeOfSetFromDB.add(rs.getString(1));
 		closeResultSetAndStatement(rs, null, typeOfSet);
 		return new TypeHandle(type, typeOfSetFromDB);
 	}
@@ -1003,7 +1054,12 @@ public class SqlUtilities {
 	 * @throws SQLException
 	 */
 	public static void deleteExam(Exam exam, Connection connection) throws SQLException {
-		PreparedStatement delete = connection.prepareStatement(SqlUtilities.DELETE_Exam);
+		PreparedStatement delete = connection.prepareStatement(DELETE_Exam_from_Exam_Table);
+		delete.setString(1, exam.getSubjectID());
+		delete.setString(2, exam.getCourseID());
+		delete.setString(3, exam.getExamNum());
+		delete.executeUpdate();
+		delete = connection.prepareStatement(DELETE_Exam_from_Active_Exam_Table);
 		delete.setString(1, exam.getSubjectID());
 		delete.setString(2, exam.getCourseID());
 		delete.setString(3, exam.getExamNum());

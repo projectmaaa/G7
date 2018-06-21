@@ -30,6 +30,10 @@ public class CheckedExam implements Serializable {
 		this.submittedExam = submittedExam;
 		this.grade = grade;
 	}
+	
+	public CheckedExam(SubmittedExam submittedExam) {
+		this.submittedExam = submittedExam;
+	}
 
 	public CheckedExam(SubmittedExam submittedExam, int grade, String generalComments) {
 		this.submittedExam = submittedExam;
@@ -97,6 +101,15 @@ public class CheckedExam implements Serializable {
 
 	public void setIdApprover(String idApprover) {
 		this.idApprover = idApprover;
+	}
+	
+	public String getGradeString() {
+		Integer gr = this.grade;
+		return gr.toString();
+	}
+	
+	public String getAllComments() {
+		return this.generalComments + this.commentsOfChangeGrade;
 	}
 
 }

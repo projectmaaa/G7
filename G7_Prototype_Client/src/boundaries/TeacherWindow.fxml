@@ -335,12 +335,12 @@
                   <TableColumn fx:id="textTeachersColInExamsManagement" minWidth="0.0" prefWidth="195.0" text="Text For Teachers" />
               </columns>
             </TableView>
-            <Button fx:id="activateButton" layoutX="364.0" layoutY="419.0" mnemonicParsing="false" onAction="#activateButtonHandler" prefHeight="25.0" prefWidth="74.0" text="Activate">
+            <Button fx:id="activateButton" layoutX="319.0" layoutY="419.0" mnemonicParsing="false" onAction="#activateButtonHandler" prefHeight="25.0" prefWidth="74.0" text="Activate">
                <effect>
                   <InnerShadow />
                </effect>
             </Button>
-            <Button fx:id="deleteExamButton" layoutX="498.0" layoutY="419.0" mnemonicParsing="false" onMousePressed="#deleteExamButtonHandler" prefHeight="25.0" prefWidth="74.0" text="Delete">
+            <Button fx:id="deleteExamButton" layoutX="558.0" layoutY="419.0" mnemonicParsing="false" onMousePressed="#deleteExamButtonHandler" prefHeight="25.0" prefWidth="74.0" text="Delete">
                <effect>
                   <InnerShadow />
                </effect>
@@ -354,6 +354,28 @@
                   <InnerShadow />
                </effect>
             </ComboBox>
+            <Button fx:id="showQuestionsButton" layoutX="428.0" layoutY="419.0" mnemonicParsing="false" onMouseClicked="#showQuestionsButtonHandler" prefHeight="25.0" prefWidth="102.0" text="Show Questions">
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
+            <TableView fx:id="questionsOfSpecifcExamTable" editable="true" fixedCellSize="0.0" layoutX="7.0" layoutY="46.0" prefHeight="362.0" prefWidth="950.0" stylesheets="@table%20view.css" visible="false">
+               <columns>
+                  <TableColumn fx:id="subjectIDColumnInExamManagement" maxWidth="200.0" minWidth="90.0" prefWidth="75.0" text="Q.Subject" />
+                  <TableColumn fx:id="questionNumColumnInExamManagement" prefWidth="75.0" text="Q.Number" />
+                  <TableColumn fx:id="authorColumnInExamManagement" maxWidth="200.0" minWidth="55.0" prefWidth="60.0" text="Author" />
+                  <TableColumn fx:id="questionTextColumnInExamManagement" minWidth="0.0" prefWidth="280.0" text="Question Text" />
+                  <TableColumn fx:id="possibleAnswersColumn1" prefWidth="340.0" text="Possible Answers">
+                     <columns>
+                        <TableColumn fx:id="firstPossibleAnswerColumnInExamManagement" prefWidth="85.0" text="First" />
+                        <TableColumn fx:id="secondPossibleAnswerColumnInExamManagement" prefWidth="85.0" text="Second" />
+                        <TableColumn fx:id="thirdPossibleAnswerColumnInExamManagement" prefWidth="85.0" text="Third" />
+                        <TableColumn fx:id="fourthPossibleAnswerColumnInExamManagement" prefWidth="85.0" text="Fourth" />
+                     </columns>
+                  </TableColumn>
+                  <TableColumn fx:id="correctAnswerColumnInExamManagement" maxWidth="255.0" minWidth="65.0" prefWidth="104.0" text="Correct Answer" />
+               </columns>
+            </TableView>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="activeExamManagementAnchorPane" layoutX="13.0" layoutY="87.0" prefHeight="479.0" prefWidth="985.0" visible="false">
@@ -535,7 +557,7 @@
                         <Font name="Narkisim" size="20.0" />
                      </font>
                   </Label>
-                  <BarChart fx:id="examStatisticBarChart" layoutX="78.0" layoutY="157.0" prefHeight="257.0" prefWidth="492.0">
+                  <BarChart fx:id="examStatisticBarChart" layoutX="78.0" layoutY="157.0" prefHeight="257.0" prefWidth="492.0" stylesheets="@bar%20fill.css">
                     <xAxis>
                       <CategoryAxis label="Grade" prefHeight="28.0" prefWidth="409.0" side="BOTTOM" fx:id="xAxis" />
                     </xAxis>

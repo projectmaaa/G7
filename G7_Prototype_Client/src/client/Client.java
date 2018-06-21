@@ -35,6 +35,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private ObservableList<String> examsByAuthorFromDB = FXCollections.observableArrayList();
 
+	private ObservableList<String> allStudentsFromDB = FXCollections.observableArrayList();
+
 	private ObservableList<WaitingActiveExam> WaitingActiveExamsFromDB = FXCollections.observableArrayList();
 
 	private ObservableList<CheckedExam> checkedExamsFromDB = FXCollections.observableArrayList();
@@ -52,6 +54,8 @@ public class Client extends AbstractClient implements IScreenController {
 	private ObservableList<StudentAnswerInQuestion> studnetAnswerInQuestionDB = FXCollections.observableArrayList();
 
 	private ObservableList<ApprovedExamForStudent> approvedExamForStudentsDB = FXCollections.observableArrayList();
+
+	private ObservableList<ApprovedExamForStudent> solvedExamOfStudentsDB = FXCollections.observableArrayList();
 
 	private ScreensController controller;
 
@@ -216,6 +220,16 @@ public class Client extends AbstractClient implements IScreenController {
 		});
 	}
 
+	public ObservableList<String> getAllStudentsFromDB() {
+		return allStudentsFromDB;
+	}
+
+	public void setAllStudentsFromDB(ArrayList<String> allStudentsFromDB) {
+		Platform.runLater(() -> {
+			this.allStudentsFromDB.setAll(allStudentsFromDB);
+		});
+	}
+
 	public ObservableList<StudentAnswerInQuestion> getStudnetAnswerInQuestionDB() {
 		return studnetAnswerInQuestionDB;
 	}
@@ -308,6 +322,16 @@ public class Client extends AbstractClient implements IScreenController {
 		Platform.runLater(() -> {
 			this.ActiveExamsBySubject.setAll(activeExamsBySubject);
 		});
+	}
+
+	public ObservableList<ApprovedExamForStudent> getSolvedExamOfStudentsDB() {
+		return solvedExamOfStudentsDB;
+	}
+
+	public void setSolvedExamOfStudentsDB(ArrayList<ApprovedExamForStudent> solvedExamOfStudentsDB) {
+		// Platform.runLater(() -> {
+		this.solvedExamOfStudentsDB.setAll(solvedExamOfStudentsDB);
+		// });
 	}
 
 	// end region -> Setters
@@ -425,6 +449,9 @@ public class Client extends AbstractClient implements IScreenController {
 			case "ExamNumbers":
 				setExamsByAuthorFromDB(typeHandle.getTypes());
 				break;
+			case "Students":
+				setAllStudentsFromDB(typeHandle.getTypes());
+				break;
 			}
 		} else if (msg instanceof WaitingActiveExamHandle) {
 			WaitingActiveExamHandle waitingActiveExamHandle = (WaitingActiveExamHandle) msg;
@@ -505,6 +532,8 @@ public class Client extends AbstractClient implements IScreenController {
 			ApprovedExamForStudentHandle approvedExamForStudentHandle = (ApprovedExamForStudentHandle) msg;
 			if (approvedExamForStudentHandle.getCommand().equals("ApprovedExamForStudent")) {
 				setApprovedExamForStudentsDB(approvedExamForStudentHandle.getApprovedExamForStudentsArray());
+			} else if (approvedExamForStudentHandle.getCommand().equals("SolvedExamsByStudent")) {
+				setSolvedExamOfStudentsDB(approvedExamForStudentHandle.getApprovedExamForStudentsArray());
 			}
 		}
 	}

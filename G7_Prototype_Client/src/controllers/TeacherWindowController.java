@@ -15,7 +15,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -268,9 +267,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private Button createExamButton;
 
-	/***************************************************/
-
-	// exam management
+	/* Exam Management */
 
 	@FXML
 	private AnchorPane examManagementAnchorPane;
@@ -289,6 +286,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Button deleteExamButton;
+
+	@FXML
+	private Button showQuestionsButton;
 
 	@FXML
 	private Button showExamsButtonInExamManagement;
@@ -319,6 +319,36 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private TextField executionCode;
+
+	@FXML
+	private TableView<Question> questionsOfSpecifcExamTable;
+
+	@FXML
+	private TableColumn<Question, String> subjectIDColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> questionNumColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> authorColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> questionTextColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> firstPossibleAnswerColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> secondPossibleAnswerColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> thirdPossibleAnswerColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> fourthPossibleAnswerColumnInExamManagement;
+
+	@FXML
+	private TableColumn<Question, String> correctAnswerColumnInExamManagement;
 
 	/* Active Exam Management */
 
@@ -581,6 +611,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setColumnsInExamsManagement();
 		setColumnInConfirmGrades();
 		setColumnsOfActiveExams();
+		setColumnsInExamManagement();
 		initAnchorPaneInCreateExamFirstWindow();
 		tableViewInCreateExamQuestion.setEditable(true);
 		tableViewInCreateExamQuestion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -1058,7 +1089,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		if (selectedExam == null)
 			Utilities_Client.popUpMethod("Please Select Exam");
 		else {
-			Label text = null;
+			Label text = new Label("Please enter an execution code:");
 			Stage primaryStage = new Stage();
 			primaryStage.setTitle("AES7");
 			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
@@ -1066,7 +1097,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 			popup.setX(700);
 			popup.setY(400);
 			HBox layout = new HBox(10);
-			text = new Label("Please enter an execution code:");
 			popup.getContent().addAll(text);
 			executionCode = new TextField();
 			executionCode.setPrefWidth(55);
@@ -1108,6 +1138,30 @@ public class TeacherWindowController implements Initializable, IScreenController
 			});
 			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
 			layout.getChildren().addAll(text, executionCode, type, okButton, cancelButton);
+			primaryStage.setScene(new Scene(layout));
+			primaryStage.show();
+		}
+	}
+
+	public void showQuestionsButtonHandler(MouseEvent event) {
+		Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
+		if (selectedExam == null)
+			Utilities_Client.popUpMethod("Please Select Exam");
+		else {
+			client.handleMessageFromClientUI(Message.getQuestionsFromSpecificExam + " " + selectedExam.getSubjectID()
+					+ " " + selectedExam.getCourseID() + " " + selectedExam.getExamNum());
+			Stage primaryStage = new Stage();
+			primaryStage.setTitle("AES7");
+			primaryStage.getIcons().add(new Image("boundaries/Images/AES2.png"));
+			Popup popup = new Popup();
+			popup.setX(700);
+			popup.setY(400);
+			HBox layout = new HBox(10);
+			primaryStage.setResizable(false);
+			questionsOfSpecifcExamTable.setItems(client.getQuestionsFromDB());
+			layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
+			layout.getChildren().addAll(questionsOfSpecifcExamTable);
+			questionsOfSpecifcExamTable.setVisible(true);
 			primaryStage.setScene(new Scene(layout));
 			primaryStage.show();
 		}
@@ -1707,7 +1761,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * Define the columns
+	 * Define the columns in Edit\Remove screen
 	 */
 	private void setColumnsInEditOrRemove() {
 		subjectIDColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
@@ -1772,6 +1826,26 @@ public class TeacherWindowController implements Initializable, IScreenController
 						.setCorrectAnswer(t.getNewValue());
 			}
 		});
+	}
+
+	/**
+	 * Define the columns for the table of the 'Show Questions' pop up in the exam
+	 * management screen
+	 */
+	private void setColumnsInExamManagement() {
+		subjectIDColumnInExamManagement.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
+		questionNumColumnInExamManagement.setCellValueFactory(new PropertyValueFactory<>("questionNum"));
+		authorColumnInExamManagement.setCellValueFactory(new PropertyValueFactory<>("author"));
+		questionTextColumnInExamManagement.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+		firstPossibleAnswerColumnInExamManagement
+				.setCellValueFactory(new PropertyValueFactory<>("firstPossibleAnswer"));
+		secondPossibleAnswerColumnInExamManagement
+				.setCellValueFactory(new PropertyValueFactory<>("secondPossibleAnswer"));
+		thirdPossibleAnswerColumnInExamManagement
+				.setCellValueFactory(new PropertyValueFactory<>("thirdPossibleAnswer"));
+		fourthPossibleAnswerColumnInExamManagement
+				.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
+		correctAnswerColumnInExamManagement.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 	}
 
 	/**
@@ -1903,7 +1977,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 			});
 		}
-		if (!questionTextField.getText().isEmpty()) {
+		if (!questionTextField.getText().isEmpty())
+
+		{
 			questionTextField.clear();
 		}
 		if (!firstAnswerField.getText().isEmpty()) {
