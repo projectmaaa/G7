@@ -296,10 +296,11 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Returns the questions in the specific exam with execution code.
 	 * 
 	 * @param executionCode
 	 * @param connection
-	 * @return
+	 * @return QuestionHandle that contains exam's questions.
 	 * @throws SQLException
 	 */
 	public static QuestionHandle getQuestionInExam(String executionCode, Connection connection) throws SQLException {
@@ -316,6 +317,7 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Returns the questions of exam with no need of active exam
 	 * 
 	 * @param subjectID
 	 * @param courseID
@@ -348,6 +350,7 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Inserts a new record to StudentInActiveExam table in database.
 	 * 
 	 * @param studentInActiveExam
 	 * @param connection
@@ -368,6 +371,7 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Returns a reference of the Answers of student in specific active exam.
 	 * 
 	 * @param studentID
 	 * @param subjectID
@@ -376,7 +380,7 @@ public class SqlUtilities {
 	 * @param executionCode
 	 * @param student
 	 * @param connection
-	 * @return
+	 * @return StudentAnswerInQuestionHandle that contains student's answers.
 	 * @throws SQLException
 	 */
 	public static StudentAnswerInQuestionHandle getAnswers(String studentID, String subjectID, String courseID,
@@ -434,9 +438,10 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Gets all the users that are student and return a list that contains them.
 	 * 
 	 * @param connection
-	 * @return
+	 * @return StudentHandle with list that contains all the students.
 	 * @throws SQLException
 	 */
 	public static StudentHandle getAllStudents(Connection connection) throws SQLException {
@@ -451,9 +456,10 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Returns a report of specific course
 	 * 
 	 * @param connection
-	 * @return
+	 * @return ReportAboutCourse
 	 * @throws SQLException
 	 */
 	public static ReportAboutCourse getAllCourses(Connection connection) throws SQLException {
@@ -468,9 +474,10 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Returns a report of specific teacher
 	 * 
 	 * @param connection
-	 * @return
+	 * @return ReportAboutTeacher
 	 * @throws SQLException
 	 */
 	public static ReportAboutTeacher getAllTeachers(Connection connection) throws SQLException {
@@ -485,10 +492,11 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Returns the questions of specific subject by creating list of questions.
 	 * 
 	 * @param connection
 	 * @param subject
-	 * @return
+	 * @return QuestionHandle that contains list of questions
 	 * @throws SQLException
 	 */
 	public static QuestionHandle getQuestionsBySubject(Connection connection, String subject) throws SQLException {
@@ -516,10 +524,11 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Returns the exams of specific course by creating list of exams.
 	 * 
 	 * @param connection
 	 * @param course
-	 * @return
+	 * @return ExamHandle that contains list of exams
 	 * @throws SQLException
 	 */
 	public static ExamHandle getExamsByCourse(Connection connection, String course) throws SQLException {
@@ -540,9 +549,10 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Returns all the waiting exams.
 	 * 
 	 * @param connection
-	 * @return
+	 * @return WaitingActiveExamHandle that contains list of waiting exams
 	 * @throws SQLException
 	 */
 	public static WaitingActiveExamHandle getWaitingActiveExam(Connection connection) throws SQLException {
@@ -559,10 +569,11 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Returns all the checked exams.
 	 * 
 	 * @param activatorsID
 	 * @param connection
-	 * @return
+	 * @return CheckedExamHandle that contains list of checked exams
 	 * @throws SQLException
 	 */
 	public static CheckedExamHandle getCheckedExam(String activatorsID, Connection connection) throws SQLException {
@@ -582,10 +593,12 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Returns all the solved exams of specific student by creating list of approve
+	 * exams.
 	 * 
 	 * @param studentHandle
 	 * @param connection
-	 * @return
+	 * @return ApprovedExamForStudentHandle that contains list of solved exams
 	 * @throws SQLException
 	 */
 	public static ApprovedExamForStudentHandle getSolvedExamsByStudent(StudentHandle studentHandle,
@@ -606,12 +619,14 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Returns all the approved exams of specific student by creating list of
+	 * approve exams.
 	 * 
 	 * @param studentID
 	 * @param subject
 	 * @param course
 	 * @param connection
-	 * @return
+	 * @return ApprovedExamForStudentHandle that contains list of approved exams
 	 * @throws SQLException
 	 */
 	public static ApprovedExamForStudentHandle getApprovedExamForStudent(String studentID, String subject,
@@ -662,6 +677,10 @@ public class SqlUtilities {
 
 	/**
 	 * adds new question to the DB
+	 * 
+	 * @param question
+	 * @param connection
+	 * @throws SQLException
 	 */
 	public static void insertNewQuestion(Question question, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_Question);
@@ -684,7 +703,7 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * inserts new exam into the DB
+	 * Inserts new exam into the DB
 	 * 
 	 * @param exam
 	 * @param connection
@@ -707,6 +726,7 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Inserts a new record to ActiveExam table in database
 	 * 
 	 * @param activeExam
 	 * @param connection
@@ -731,6 +751,7 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Locks specific active exam by updating it's locked to 1.
 	 * 
 	 * @param activeExam
 	 * @param connection
@@ -749,6 +770,7 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Inserts a new record to WaitingActiveExam table in database.
 	 * 
 	 * @param waitingActiveExam
 	 * @param connection
@@ -769,10 +791,10 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Changes the current time of an active exam.
 	 * 
 	 * @param waitingActiveExam
 	 * @param connection
-	 * @return
 	 * @throws SQLException
 	 */
 	public static String changeTimeActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
@@ -789,6 +811,7 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Removes WaitingActiveExam because principal approved it's new time
 	 * 
 	 * @param waitingActiveExam
 	 * @param connection
@@ -823,6 +846,7 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Inserts a new record to ApprovedExamForStudent table in database and keep the specific comments.
 	 * 
 	 * @param checkedExam
 	 * @param connection
@@ -853,7 +877,7 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * 
+	 * Deletes checked exam.
 	 * @param checkedExam
 	 * @param connection
 	 * @throws SQLException
@@ -873,7 +897,7 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * 
+	 * Changes the grade by the teacher that reviews student's exam.
 	 * @param checkedExam
 	 * @param connection
 	 * @throws SQLException
@@ -895,7 +919,7 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * 
+	 * Add additional comments after reviewing the exam.
 	 * @param checkedExam
 	 * @param connection
 	 * @throws SQLException
@@ -916,10 +940,10 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * 
+	 * Returns a report of the specific exam.
 	 * @param examReportHandle
 	 * @param connection
-	 * @return
+	 * @return ReportAboutExam that contains average, median and distribution of the specific exam
 	 * @throws SQLException
 	 */
 	public static ReportAboutExam calculateExamStatistic(ExamReportHandle examReportHandle, Connection connection)
@@ -968,12 +992,12 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * 
+	 * Returns the average of all the grades of specific exam.
 	 * @param subjectID
 	 * @param courseID
 	 * @param examNum
 	 * @param connection
-	 * @return
+	 * @return int that represent the average
 	 * @throws SQLException
 	 */
 	public static int calculateExamAVG(String subjectID, String courseID, String examNum, Connection connection)
@@ -989,10 +1013,10 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * 
+	 * Calculates average, median and distribution of specific student.
 	 * @param reportHandle
 	 * @param connection
-	 * @return
+	 * @return ReportAboutStudent that contains average, median and distribution of specific student
 	 * @throws SQLException
 	 */
 	public static ReportAboutStudent calculateStudentStatistic(ReportHandle reportHandle, Connection connection)
@@ -1024,10 +1048,10 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * 
+	 * Calculates average, median and distribution of specific course.
 	 * @param reportHandle
 	 * @param connection
-	 * @return
+	 * @return ReportAboutCourse that contains average, median and distribution of specific course
 	 * @throws SQLException
 	 */
 	public static ReportAboutCourse calculateCourseStatistic(ReportHandle reportHandle, Connection connection)
@@ -1064,10 +1088,11 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Calculates average, median and distribution of specific teacher.
 	 * 
 	 * @param reportHandle
 	 * @param connection
-	 * @return
+	 * @return ReportAboutTeacher  that contains average, median and distribution of specific teacher
 	 * @throws SQLException
 	 */
 	public static ReportAboutTeacher calculateTeacherStatistic(ReportHandle reportHandle, Connection connection)
@@ -1140,10 +1165,11 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Checks if the specific excution code is exist.
 	 * 
 	 * @param code
 	 * @param connection
-	 * @return
+	 * @return true or false
 	 * @throws SQLException
 	 */
 	public static Boolean checkCode(ExecutionCodeHandle code, Connection connection) throws SQLException {
@@ -1154,11 +1180,12 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Returns list of exams by the teacher that activates them.
 	 * 
 	 * @param activatorsID
 	 * @param course
 	 * @param connection
-	 * @return
+	 * @return ActiveExamHandle that contains the list of exams
 	 * @throws SQLException
 	 */
 	public static ActiveExamHandle getActiveExamsByActivatorsID(String activatorsID, String course,
@@ -1178,10 +1205,11 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Returns list of exams by the teacher that activates them.
 	 * 
 	 * @param courseID
 	 * @param connection
-	 * @return
+	 * @return ActiveExamHandle that contains the list of exams
 	 * @throws SQLException
 	 */
 	public static ActiveExamHandle getActiveExamsBySubject(String courseID, Connection connection) throws SQLException {
@@ -1198,11 +1226,11 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * 
+	 * Returns the correct answer of specific question. 
 	 * @param subjectID
 	 * @param questionNum
 	 * @param connection
-	 * @return the answer at the specified Question
+	 * @return String that represent the answer of the specified Question
 	 * @throws SQLException
 	 */
 	public static String getCorrectAnswer(String subjectID, String questionNum, Connection connection)
@@ -1221,13 +1249,13 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * Returns the teacher who activated the exam by execution code
+	 * Returns the teacher who activated the exam by execution code.
 	 * 
 	 * @param subjectID
 	 * @param courseID
 	 * @param examNumber
 	 * @param connection
-	 * @return activator
+	 * @return String that represent the activator
 	 * @throws SQLException
 	 */
 	public static String getActivatorsID(String subjectID, String courseID, String examNumber, Connection connection)
@@ -1244,6 +1272,7 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * Returns the points of specific question\.
 	 * 
 	 * @param subjectID
 	 * @param questionNum
@@ -1341,7 +1370,7 @@ public class SqlUtilities {
 	 * 
 	 * @param examH
 	 * @param connection
-	 * @return HashMap<Student, ArrayList<Student>> copied
+	 * @return StudentHandle that contains a HashMap<Student, ArrayList<Student>> copied
 	 * @throws SQLException
 	 */
 	public static StudentHandle findExamHaveExamineesThatCopy(ActiveExamHandle examH, Connection connection)
@@ -1353,8 +1382,8 @@ public class SqlUtilities {
 				.prepareStatement(GetStudentAnswerInQuestionByExecutionCode);
 		examQuestionsByStudent.setString(1, examH.getActiveExam().getExecutionCode());
 		ResultSet rs1 = examQuestionsByStudent.executeQuery();
-		// while loop that puts by associating the specified studentID with the
-		// specified answers in this map.
+		/** while loop that puts by associating the specified studentID with the
+		 specified answers in this map.*/
 		while (rs1.next()) {
 			if (!exams.containsKey(rs1.getString(1))) {
 				exams.put(rs1.getString(1), new Vector<>());
@@ -1371,8 +1400,8 @@ public class SqlUtilities {
 					exams.get(rs1.getString(1)).add(new Integer(0));
 			}
 		}
-		// for loop that checks for every student if he had copied from another student
-		// by reviewing their common mistakes.
+		/** for loop that checks for every student if he had copied from another student
+		 by reviewing their common mistakes.*/
 		for (String studentIDi : exams.keySet()) {
 			for (String studentIDj : exams.keySet()) {
 				if (!studentIDi.equals(studentIDj) && !idOfCopied.containsKey(studentIDj)) {
@@ -1398,8 +1427,8 @@ public class SqlUtilities {
 				}
 			}
 		}
-		// for loop that puts by associating the specified Student with the specified
-		// Students that copied in this map.
+		/** for loop that puts by associating the specified Student with the specified
+		 Students that copied in this map.*/
 		for (String studentID : idOfCopied.keySet()) {
 			PreparedStatement userNameAndLastNameOfCopier = connection.prepareStatement(GetTypeAndUserNameAndLastName);
 			userNameAndLastNameOfCopier.setString(1, studentID);
