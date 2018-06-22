@@ -19,9 +19,16 @@ import javafx.scene.text.Text;
 import resources.Message;
 import resources.Utilities_Client;
 
+/**
+ * 
+ * @author Group7
+ *
+ */
 public class LoginWindowController implements Initializable, IScreenController {
 
-	// region Fields
+	/**
+	 *  region Fields
+	 */
 
 	@FXML
 	private PasswordField pw;
@@ -67,11 +74,20 @@ public class LoginWindowController implements Initializable, IScreenController {
 	// end region -> Fields
 
 	// region Setters
+	
+	/**
+	 * get My Controller
+	 * @return
+	 */
 
 	public ScreensController getMyController() {
 		return myController;
 	}
 
+	/**
+	 * set Screen Parent
+	 */
+	
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
 		myController = screenParent;
@@ -79,6 +95,10 @@ public class LoginWindowController implements Initializable, IScreenController {
 
 	// end region -> Setters
 
+	/**
+	 * initialize client screen
+	 */
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		fieldFlag = 0;
@@ -88,12 +108,21 @@ public class LoginWindowController implements Initializable, IScreenController {
 	}
 
 	// region Public Methods
+	
+	/**
+	 * login Button Handler
+	 * @param event
+	 */
 
 	public void loginButtonHandler(ActionEvent event) {
 		loginText.setText("");
 		loginCheck();
 	}
 
+	/**
+	 * define open setting to start
+	 * @param event
+	 */
 	public void openSetting(MouseEvent event) {
 		if (!turnSettings) {
 			hostField.setText(MainAppClient.getClient().getHost());
@@ -107,6 +136,10 @@ public class LoginWindowController implements Initializable, IScreenController {
 		}
 	}
 
+	/**
+	 * save setting 
+	 * @param event
+	 */
 	public void saveSettings(MouseEvent event) {
 		if (!(MainAppClient.getClient().getHost().equals(hostField.getText()))
 				|| (MainAppClient.getClient().getPort() != (Integer.parseInt(portField.getText())))) {
@@ -152,6 +185,10 @@ public class LoginWindowController implements Initializable, IScreenController {
 		}
 	}
 
+	/**
+	 * set Login Status
+	 * @param msg
+	 */
 	public void setLoginStatus(String msg) {
 		loginText.setVisible(true);
 		loginText.setText(msg);
@@ -160,6 +197,10 @@ public class LoginWindowController implements Initializable, IScreenController {
 	// end region -> Public Methods
 
 	// region Private Methods
+	
+	/**
+	 * check login user details
+	 */
 
 	private void loginCheck() {
 		if ((!un.getText().isEmpty()) && (!pw.getText().isEmpty())) {
