@@ -842,7 +842,8 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * Inserts a new record to ApprovedExamForStudent table in database and keep the specific comments.
+	 * Inserts a new record to ApprovedExamForStudent table in database and keep the
+	 * specific comments.
 	 * 
 	 * @param checkedExam
 	 * @param connection
@@ -874,6 +875,7 @@ public class SqlUtilities {
 
 	/**
 	 * Deletes checked exam.
+	 * 
 	 * @param checkedExam
 	 * @param connection
 	 * @throws SQLException
@@ -894,6 +896,7 @@ public class SqlUtilities {
 
 	/**
 	 * Changes the grade by the teacher that reviews student's exam.
+	 * 
 	 * @param checkedExam
 	 * @param connection
 	 * @throws SQLException
@@ -916,6 +919,7 @@ public class SqlUtilities {
 
 	/**
 	 * Add additional comments after reviewing the exam.
+	 * 
 	 * @param checkedExam
 	 * @param connection
 	 * @throws SQLException
@@ -937,9 +941,11 @@ public class SqlUtilities {
 
 	/**
 	 * Returns a report of the specific exam.
+	 * 
 	 * @param examReportHandle
 	 * @param connection
-	 * @return ReportAboutExam that contains average, median and distribution of the specific exam
+	 * @return ReportAboutExam that contains average, median and distribution of the
+	 *         specific exam
 	 * @throws SQLException
 	 */
 	public static ReportAboutExam calculateExamStatistic(ExamReportHandle examReportHandle, Connection connection)
@@ -989,6 +995,7 @@ public class SqlUtilities {
 
 	/**
 	 * Returns the average of all the grades of specific exam.
+	 * 
 	 * @param subjectID
 	 * @param courseID
 	 * @param examNum
@@ -1010,9 +1017,11 @@ public class SqlUtilities {
 
 	/**
 	 * Calculates average, median and distribution of specific student.
+	 * 
 	 * @param reportHandle
 	 * @param connection
-	 * @return ReportAboutStudent that contains average, median and distribution of specific student
+	 * @return ReportAboutStudent that contains average, median and distribution of
+	 *         specific student
 	 * @throws SQLException
 	 */
 	public static ReportAboutStudent calculateStudentStatistic(ReportHandle reportHandle, Connection connection)
@@ -1045,17 +1054,19 @@ public class SqlUtilities {
 
 	/**
 	 * Calculates average, median and distribution of specific course.
+	 * 
 	 * @param reportHandle
 	 * @param connection
-	 * @return ReportAboutCourse that contains average, median and distribution of specific course
+	 * @return ReportAboutCourse that contains average, median and distribution of
+	 *         specific course
 	 * @throws SQLException
 	 */
 	public static ReportAboutCourse calculateCourseStatistic(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
-		double sum =0;
-		int count =0;
-		int med=0;
-		double realAVG=0;
+		double sum = 0;
+		int count = 0;
+		int med = 0;
+		double realAVG = 0;
 		PreparedStatement calculate3 = connection.prepareStatement(SqlUtilities.SELECT_Exam_BY_CourseID);
 		ArrayList<Integer> avgs = new ArrayList<Integer>();
 		calculate3.setString(1, reportHandle.getCourse().getCourseID());
@@ -1063,14 +1074,14 @@ public class SqlUtilities {
 		while (rs3.next()) {
 			Integer avg = calculateExamAVG(rs3.getString(1), rs3.getString(2), rs3.getString(3), connection);
 			avgs.add(avg);
-			sum+=avg;
+			sum += avg;
 			count++;
 		}
-		if(avgs.size()!=0) {
-		count=count/2;
-		Collections.sort(avgs);
-		med=avgs.get(count);
-		realAVG=sum/avgs.size();
+		if (avgs.size() != 0) {
+			count = count / 2;
+			Collections.sort(avgs);
+			med = avgs.get(count);
+			realAVG = sum / avgs.size();
 		}
 		return new ReportAboutCourse("CourseStatistic", realAVG, med, reportHandle.getCourse(), avgs);
 	}
@@ -1080,15 +1091,16 @@ public class SqlUtilities {
 	 * 
 	 * @param reportHandle
 	 * @param connection
-	 * @return ReportAboutTeacher  that contains average, median and distribution of specific teacher
+	 * @return ReportAboutTeacher that contains average, median and distribution of
+	 *         specific teacher
 	 * @throws SQLException
 	 */
 	public static ReportAboutTeacher calculateTeacherStatistic(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
-		double sum =0;
-		int count =0;
-		int med=0;
-		double realAVG=0;
+		double sum = 0;
+		int count = 0;
+		int med = 0;
+		double realAVG = 0;
 		PreparedStatement calculate3 = connection.prepareStatement(SqlUtilities.SELECT_Exams_By_Author);
 		ArrayList<Integer> avgs = new ArrayList<Integer>();
 		String fullName = reportHandle.getTeacher().getFirstName() + " " + reportHandle.getTeacher().getLastName();
@@ -1097,14 +1109,14 @@ public class SqlUtilities {
 		while (rs3.next()) {
 			Integer avg = calculateExamAVG(rs3.getString(1), rs3.getString(2), rs3.getString(3), connection);
 			avgs.add(avg);
-			sum+=avg;
+			sum += avg;
 			count++;
 		}
-		if(avgs.size()!=0) {
-		count=count/2;
-		Collections.sort(avgs);
-		med=avgs.get(count);
-		realAVG= sum/avgs.size();
+		if (avgs.size() != 0) {
+			count = count / 2;
+			Collections.sort(avgs);
+			med = avgs.get(count);
+			realAVG = sum / avgs.size();
 		}
 		return new ReportAboutTeacher("TeacherStatistic", realAVG, med, reportHandle.getTeacher(), avgs);
 	}
@@ -1208,7 +1220,8 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * Returns the correct answer of specific question. 
+	 * Returns the correct answer of specific question.
+	 * 
 	 * @param subjectID
 	 * @param questionNum
 	 * @param connection
@@ -1352,7 +1365,8 @@ public class SqlUtilities {
 	 * 
 	 * @param examH
 	 * @param connection
-	 * @return StudentHandle that contains a HashMap<Student, ArrayList<Student>> copied
+	 * @return StudentHandle that contains a HashMap<Student, ArrayList<Student>>
+	 *         copied
 	 * @throws SQLException
 	 */
 	public static StudentHandle findExamHaveExamineesThatCopy(ActiveExamHandle examH, Connection connection)
@@ -1364,8 +1378,10 @@ public class SqlUtilities {
 				.prepareStatement(GetStudentAnswerInQuestionByExecutionCode);
 		examQuestionsByStudent.setString(1, examH.getActiveExam().getExecutionCode());
 		ResultSet rs1 = examQuestionsByStudent.executeQuery();
-		/** while loop that puts by associating the specified studentID with the
-		 specified answers in this map.*/
+		/**
+		 * while loop that puts by associating the specified studentID with the
+		 * specified answers in this map.
+		 */
 		while (rs1.next()) {
 			if (!exams.containsKey(rs1.getString(1))) {
 				exams.put(rs1.getString(1), new Vector<>());
@@ -1382,8 +1398,10 @@ public class SqlUtilities {
 					exams.get(rs1.getString(1)).add(new Integer(0));
 			}
 		}
-		/** for loop that checks for every student if he had copied from another student
-		 by reviewing their common mistakes.*/
+		/**
+		 * for loop that checks for every student if he had copied from another student
+		 * by reviewing their common mistakes.
+		 */
 		for (String studentIDi : exams.keySet()) {
 			for (String studentIDj : exams.keySet()) {
 				if (!studentIDi.equals(studentIDj) && !idOfCopied.containsKey(studentIDj)) {
@@ -1409,8 +1427,10 @@ public class SqlUtilities {
 				}
 			}
 		}
-		/** for loop that puts by associating the specified Student with the specified
-		 Students that copied in this map.*/
+		/**
+		 * for loop that puts by associating the specified Student with the specified
+		 * Students that copied in this map.
+		 */
 		for (String studentID : idOfCopied.keySet()) {
 			PreparedStatement userNameAndLastNameOfCopier = connection.prepareStatement(GetTypeAndUserNameAndLastName);
 			userNameAndLastNameOfCopier.setString(1, studentID);
@@ -1435,6 +1455,7 @@ public class SqlUtilities {
 	// end region -> Public Methods
 
 	/**
+	 * Closes the objects that are a table of data representing our database.
 	 * 
 	 * @param resultSet
 	 * @param statement
