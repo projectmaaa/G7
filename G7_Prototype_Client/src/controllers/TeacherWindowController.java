@@ -540,7 +540,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	// end region -> Fields
 
 	/**
-	 * 
+	 * get Student Handle
 	 * @return StudentHandle
 	 */
 	public StudentHandle getStudentHandle() {
@@ -548,7 +548,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * set Student Handle
 	 * @param studentHandle
 	 */
 	public void setStudentHandle(StudentHandle studentHandle) {
@@ -556,6 +556,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * set Screen Parent
 	 * @param screenParent
 	 */
 	public void setScreenParent(ScreensController screenParent) {
@@ -563,7 +564,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * get client First Name
 	 * @return String
 	 */
 	public String getFirstName() {
@@ -571,7 +572,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * set client First Name
 	 * @param firstName
 	 */
 	public void setFirstName(String firstName) {
@@ -579,7 +580,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * get client last Name
 	 * @return String
 	 */
 	public String getLastName() {
@@ -587,7 +588,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * set client last Name
 	 * @param lastName
 	 */
 	public void setLastName(String lastName) {
@@ -595,7 +596,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * checking rejection flag for principal rejection
 	 * @return boolean rejectionFlag
 	 */
 	public boolean isRejectionFlag() {
@@ -603,7 +604,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * setting rejection flag for principal rejection
 	 * @param rejectionFlag
 	 */
 	public void setRejectionFlag(boolean rejectionFlag) {
@@ -611,7 +612,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * is Had Copied flag for students copies
 	 * @return boolean hadCopied
 	 */
 	public boolean isHadCopied() {
@@ -619,7 +620,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * set Had Copied flag for students copies
 	 * @param hadCopied
 	 */
 	public void setHadCopied(boolean hadCopied) {
@@ -627,7 +628,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * checking acception flag in principal approve/ reject
 	 * @return boolean acceptionFlag
 	 */
 	public boolean isAcceptionFlag() {
@@ -635,7 +636,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * setting acception flag in principal approve/ reject
 	 * @param acceptionFlag
 	 */
 	public void setAcceptionFlag(boolean acceptionFlag) {
@@ -643,7 +644,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * get grades array for histogram
 	 * @return ArrayList<Integer> grades
 	 */
 	public ArrayList<Integer> getGrades() {
@@ -651,7 +652,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * set grades array for histogram
 	 * @param grades
 	 */
 	public void setGrades(ArrayList<Integer> grades) {
@@ -659,7 +660,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * get Average Text Field In Teacher Report
 	 * @return TextField averageTextFieldInTeacherReport
 	 */
 	public TextField getAverageTextFieldInTeacherReport() {
@@ -667,7 +668,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * set Average Text Field In Teacher Report
 	 * @param averageTextFieldInTeacherReport
 	 */
 	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
@@ -675,7 +676,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * get Median Text Field In Teacher Report
 	 * @return TextField medianTextFieldInTeacherReport
 	 */
 	public TextField getMedianTextFieldInTeacherReport() {
@@ -683,7 +684,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * set Median Text Field In Teacher Report
 	 * @param medianTextFieldInTeacherReport
 	 */
 	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
@@ -691,7 +692,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * get Started Text Field In Teacher Report
 	 * @return TextField startedTextFieldInTeacherReport
 	 */
 	public TextField getStartedTextFieldInTeacherReport() {
@@ -699,7 +700,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * set Started Text Field In Teacher Report
 	 * @param startedTextFieldInTeacherReport
 	 */
 	public void setStartedTextFieldInTeacherReport(TextField startedTextFieldInTeacherReport) {
@@ -707,7 +708,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * get Finished Text Field In Teacher Report
 	 * @return TextField finishedTextFieldInTeacherReport
 	 */
 	public TextField getFinishedTextFieldInTeacherReport() {
@@ -715,7 +716,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * set Finished Text Field In Teacher Report
 	 * @param finishedTextFieldInTeacherReport
 	 */
 	public void setFinishedTextFieldInTeacherReport(TextField finishedTextFieldInTeacherReport) {
@@ -723,7 +724,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * get Forced Text Field In Teacher Report
 	 * @return TextField forcedTextFieldInTeacherReport
 	 */
 	public TextField getForcedTextFieldInTeacherReport() {
@@ -731,7 +732,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * set Forced Text Field In Teacher Report
 	 * @param forcedTextFieldInTeacherReport
 	 */
 	public void setForcedTextFieldInTeacherReport(TextField forcedTextFieldInTeacherReport) {
@@ -739,7 +740,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * initialize
+	 * initialize this screen
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -767,7 +768,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	// region Public Methods
 
 	/**
-	 * 
+	 * logOut Button Handler
 	 * @param event
 	 * @throws Exception
 	 */
@@ -809,7 +810,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * set Name And Last Name of client
 	 * @param firstName
 	 * @param lastName
 	 */
@@ -822,6 +823,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	/**
 	 * Edit\Remove Question was pressed
 	 */
+	
 	public void openEditorRemove(ActionEvent event) {
 		try {
 			setSubjectComboBox(subjectComboBoxInEditOrRemove);
@@ -845,6 +847,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	/**
 	 * sends message to the server to update the data base
 	 */
+	
 	public void saveButtonHandler(ActionEvent event) {
 		ObservableList<Question> newQuestions = FXCollections.observableArrayList();
 		ArrayList<Question> updateDB = new ArrayList<Question>();
@@ -868,6 +871,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	/**
 	 * Remove button was pressed
 	 */
+	
 	public void removeButtonHandler(ActionEvent event) {
 		Label text;
 		Stage primaryStage = new Stage();
@@ -915,7 +919,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * red Arrow Up in create exam by connecting question to exam
 	 * @param event
 	 */
 	@FXML
@@ -937,7 +941,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * green Arrow Up in create exam by connecting question to exam
 	 * @param event
 	 */
 	@FXML
@@ -956,7 +960,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * check Total Points In Create Exam
 	 * @param event
 	 */
 	public void checkTotalPointsInCreateExam(MouseEvent event) {
@@ -982,7 +986,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * create Final Exam
 	 * @param event
 	 */
 	public void createFinalExam(MouseEvent event) {
@@ -1000,7 +1004,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * init Tables In Create Exam
 	 * @param allquestions
 	 * @param selected
 	 */
@@ -1037,7 +1041,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * realod Tables In Create Exam
 	 * @param event
 	 */
 	public void realodTablesInCreateExam(MouseEvent event) {
@@ -1102,7 +1106,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * create Exam Init
 	 * @param event
 	 */
 	public void createExamInit(ActionEvent event) {
@@ -1736,6 +1740,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * @param course
 	 * @param examNum
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void createExamHistogram(String subject, String course, String examNum) {
 		examStatisticBarChart.getData().clear();
 		examStatisticBarChart.setCategoryGap(2);
