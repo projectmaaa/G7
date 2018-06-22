@@ -8,8 +8,21 @@ import resources.QuestionInExam;
 import resources.StudentAnswerInQuestion;
 import resources.SubmittedExam;
 
+/**
+ * 
+ * @author G7
+ *
+ */
 public class Utilities_Server {
 
+	/**
+	 * Builds a word file
+	 * 
+	 * @param activeExam
+	 * @param executionCode
+	 * @param userID
+	 * @throws IOException
+	 */
 	public static void getManualExam(ActiveExam activeExam, String executionCode, String userID) throws IOException {
 		DocxGenerator docxGenerator = new DocxGenerator(executionCode, userID);
 		docxGenerator.addInstruction(activeExam.getExam().getFreeTextForExaminees());

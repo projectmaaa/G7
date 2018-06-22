@@ -10,6 +10,11 @@ import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import resources.*;
 
+/**
+ * 
+ * @author G7
+ *
+ */
 public class Server extends AbstractServer {
 
 	// region Constants
@@ -59,6 +64,9 @@ public class Server extends AbstractServer {
 
 	// region Protected Methods
 
+	/**
+	 * 
+	 */
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		if (msg == null) {

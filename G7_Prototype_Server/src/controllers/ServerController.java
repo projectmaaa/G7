@@ -17,6 +17,11 @@ import server.MainAppServer;
 import server.Server;
 import server.SqlUtilities;
 
+/**
+ * 
+ * @author G7
+ *
+ */
 public class ServerController implements Initializable {
 
 	// region Fields
@@ -64,6 +69,10 @@ public class ServerController implements Initializable {
 
 	// end region -> Fields
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void openSetting(MouseEvent event) {
 		if (!turnSettings) {
 			portField.setText(Integer.toString(server.getPort()));
@@ -78,6 +87,10 @@ public class ServerController implements Initializable {
 		}
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void saveSettings(MouseEvent event) {
 		if (server.getPort() != Integer.parseInt(portField.getText())) {
 			server.setPort(Integer.parseInt(portField.getText()));
@@ -104,6 +117,10 @@ public class ServerController implements Initializable {
 		anchorPaneSetting.setVisible(false);
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void turnOnOffServer(MouseEvent event) {
 		if (!saveX) {
 			setX();
@@ -133,6 +150,10 @@ public class ServerController implements Initializable {
 		// System.out.println(serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX());
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void turnOnOffDB(MouseEvent event) {
 		if (!saveX) {
 			setX();
@@ -163,12 +184,18 @@ public class ServerController implements Initializable {
 		// System.out.println(dbButton.localToScreen(dbButton.getBoundsInLocal()).getMinX());
 	}
 
+	/**
+	 * 
+	 */
 	private void clearSettings() {
 		portField.setText(null);
 		dbUserNameField.setText(null);
 		dbPasswordField.setText(null);
 	}
 
+	/**
+	 * 
+	 */
 	private void setX() {
 		saveX = true;
 		startX = serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX();

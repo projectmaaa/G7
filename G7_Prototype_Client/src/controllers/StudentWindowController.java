@@ -40,6 +40,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import resources.*;
 
+/**
+ * 
+ * @author Alex
+ *
+ */
 public class StudentWindowController implements Initializable, IScreenController {
 
 	private ScreensController screensController;
@@ -175,27 +180,50 @@ public class StudentWindowController implements Initializable, IScreenController
 
 	/*********************************************************/
 
+	/**
+	 * 
+	 */
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
 		screensController = screenParent;
 	}
 
+	/**
+	 * 
+	 * @return String firstName
+	 */
 	public String getFirstName() {
 		return firstName;
 	}
 
+	/**
+	 * 
+	 * @param firstName
+	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
+	/**
+	 * 
+	 * @return String lastName
+	 */
 	public String getLastName() {
 		return lastName;
 	}
 
+	/**
+	 * 
+	 * @param lastName
+	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
+	/**
+	 * 
+	 * @return int secondTimer
+	 */
 	public int getSecondTimer() {
 		return secondTimer;
 	}
@@ -207,6 +235,9 @@ public class StudentWindowController implements Initializable, IScreenController
 		this.secondTimer = secondTimer;
 	}
 
+	/**
+	 * 
+	 */
 	public void changeSecondTimer() {
 		int time = activeExam.getDuration() * 60;
 		if (time - activeExam.getExam().getExamDuration() * 60 > 0) {
@@ -223,6 +254,9 @@ public class StudentWindowController implements Initializable, IScreenController
 		System.out.println(secondTimer);
 	}
 
+	/**
+	 * initialize
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		date.setText(Utilities_Client.setDate());
@@ -235,10 +269,18 @@ public class StudentWindowController implements Initializable, IScreenController
 		uploadManualExam.setDisable(true);
 	}
 
+	/**
+	 * 
+	 * @return ActiveExam activeExam
+	 */
 	public ActiveExam getActiveExam() {
 		return activeExam;
 	}
 
+	/**
+	 * 
+	 * @param activeExam
+	 */
 	public void setActiveExam(ActiveExam activeExam) {
 		this.activeExam = activeExam;
 	}
@@ -347,6 +389,10 @@ public class StudentWindowController implements Initializable, IScreenController
 		checkStudentID();
 	}
 
+	/**
+	 * 
+	 * @param mouseEvent
+	 */
 	public void returnToTableView(MouseEvent mouseEvent) {
 		vBoxShowExam.getChildren().clear();
 		gradeTextField.clear();
@@ -385,6 +431,9 @@ public class StudentWindowController implements Initializable, IScreenController
 		executionCodeTextField.clear();
 	}
 
+	/**
+	 * 
+	 */
 	private void showExam() {
 		int index = 0;
 		turnOffAllPane();
@@ -437,6 +486,9 @@ public class StudentWindowController implements Initializable, IScreenController
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private void checkExamType() {
 		setComputerizeExam();
 		if (activeExam.getType().equals("c")) {
@@ -510,6 +562,10 @@ public class StudentWindowController implements Initializable, IScreenController
 		tableViewCheckedExam.setItems(client.getApprovedExamForStudentsDB());
 	}
 
+	/**
+	 * 
+	 * @param actionEvent
+	 */
 	public void turnCheckExamAnchorPane(ActionEvent actionEvent) {
 		if (!submitExamButton.isDisabled() || !uploadManualExam.isDisabled())
 			checkRunningExam();
@@ -531,6 +587,7 @@ public class StudentWindowController implements Initializable, IScreenController
 				Utilities_Client.getWordFile(activeExam.getExecutionCode(), studentInActiveExam.getStudent().getId())));
 		uploadManualExam.setDisable(true);
 		Utilities_Client.popUpMethod("Exam Uploaded Successfully");
+		submittedExam.setSubmitted(1);
 		client.handleMessageFromClientUI(new SubmittedExamHandle(Message.submittedExam, submittedExam));
 	}
 
@@ -621,6 +678,10 @@ public class StudentWindowController implements Initializable, IScreenController
 		checkRunningExam();
 	}
 
+	/**
+	 * 
+	 * @param comboBox
+	 */
 	private void setSubjectComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
 		comboBox.setPromptText("Select Subject");
@@ -708,6 +769,9 @@ public class StudentWindowController implements Initializable, IScreenController
 		stopWatchTimeline.play();
 	}
 
+	/**
+	 * 
+	 */
 	private void setColumnsInCheckedExams() {
 		examNumberColInCheckedExam.setCellValueFactory(new PropertyValueFactory<>("examNum"));
 		executionCodeColInCheckedExam.setCellValueFactory(new PropertyValueFactory<>("executionCode"));
@@ -758,6 +822,9 @@ public class StudentWindowController implements Initializable, IScreenController
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private void clearOrderExam() {
 		if (subjectComboBoxCheckedExam.getValue() != null) {
 			setSubjectComboBox(subjectComboBoxCheckedExam);

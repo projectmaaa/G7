@@ -589,7 +589,7 @@
                   <TableColumn fx:id="commentsColInSolvedExams" prefWidth="114.0" text="Comments" />
               </columns>
             </TableView>
-            <Button fx:id="showSolvedExamButton" layoutX="225.0" layoutY="340.0" mnemonicParsing="false" onAction="#showSolvedExamButtonHandler" onMouseClicked="#orderStudentExam" text="Show Solved Exam" />
+            <Button fx:id="showSolvedExamButton" layoutX="225.0" layoutY="340.0" mnemonicParsing="false" onMouseClicked="#orderStudentExam" text="Show Solved Exam" />
             <Button fx:id="showButtonInSolvedExams" layoutX="270.0" layoutY="66.0" mnemonicParsing="false" onAction="#showButtonHandler" text="Show" />
          </children>
       </AnchorPane>

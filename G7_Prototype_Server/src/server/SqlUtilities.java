@@ -13,6 +13,12 @@ import com.mysql.jdbc.Statement;
 import java.sql.PreparedStatement;
 import resources.*;
 
+/**
+ * This class for general SQL: strings, methods ,utilities.
+ * 
+ * @author G7
+ *
+ */
 public class SqlUtilities {
 
 	// region Constants
@@ -173,6 +179,14 @@ public class SqlUtilities {
 
 	// end region -> Constants
 
+	/**
+	 * this method creates connection to the db using driver with userName and
+	 * passWord.
+	 * 
+	 * @param userName
+	 * @param passWord
+	 * @return
+	 */
 	@SuppressWarnings("deprecation")
 	public static Connection connection(String userName, String passWord) {
 		try {
@@ -194,6 +208,14 @@ public class SqlUtilities {
 		return null;
 	}
 
+	/**
+	 * This method return activeExam using executionCode.
+	 * 
+	 * @param executionCode
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ActiveExamHandle getActiveExam(String executionCode, Connection connection) throws SQLException {
 		ActiveExam activeExam = null;
 		PreparedStatement statement = connection.prepareStatement(SELECT_ActiveExam);
@@ -243,6 +265,7 @@ public class SqlUtilities {
 	}
 
 	/**
+	 * This method inserts student answer
 	 * 
 	 * @param submittedExam
 	 * @param connection
@@ -272,6 +295,13 @@ public class SqlUtilities {
 		closeResultSetAndStatement(null, null, preparedStatement);
 	}
 
+	/**
+	 * 
+	 * @param executionCode
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static QuestionHandle getQuestionInExam(String executionCode, Connection connection) throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(GET_QUESTIONS_OF_EXAM);
 		ArrayList<Question> questionArray = new ArrayList<Question>();
@@ -285,6 +315,15 @@ public class SqlUtilities {
 		return (new QuestionHandle("QuestionsInExam", questionArray));
 	}
 
+	/**
+	 * 
+	 * @param subjectID
+	 * @param courseID
+	 * @param examNumber
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static QuestionHandle getQuestionsInGeneralExam(String subjectID, String courseID, String examNumber,
 			Connection connection) throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(getQuestionsFromSpecificExam);
@@ -328,6 +367,18 @@ public class SqlUtilities {
 		closeResultSetAndStatement(null, null, preparedStatement);
 	}
 
+	/**
+	 * 
+	 * @param studentID
+	 * @param subjectID
+	 * @param courseID
+	 * @param examNum
+	 * @param executionCode
+	 * @param student
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static StudentAnswerInQuestionHandle getAnswers(String studentID, String subjectID, String courseID,
 			String examNum, String executionCode, String student, Connection connection) throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(getStudentAnswers);
@@ -382,6 +433,12 @@ public class SqlUtilities {
 		return (new QuestionHandle("All", questions));
 	}
 
+	/**
+	 * 
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static StudentHandle getAllStudents(Connection connection) throws SQLException {
 		ArrayList<Student> students = new ArrayList<Student>();
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_Students);
@@ -393,6 +450,12 @@ public class SqlUtilities {
 		return (new StudentHandle("Students", students));
 	}
 
+	/**
+	 * 
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ReportAboutCourse getAllCourses(Connection connection) throws SQLException {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_Courses);
@@ -404,6 +467,12 @@ public class SqlUtilities {
 		return new ReportAboutCourse("AllCourses", courses);
 	}
 
+	/**
+	 * 
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ReportAboutTeacher getAllTeachers(Connection connection) throws SQLException {
 		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_Teachers);
@@ -415,6 +484,13 @@ public class SqlUtilities {
 		return new ReportAboutTeacher(teachers, "AllTeachers");
 	}
 
+	/**
+	 * 
+	 * @param connection
+	 * @param subject
+	 * @return
+	 * @throws SQLException
+	 */
 	public static QuestionHandle getQuestionsBySubject(Connection connection, String subject) throws SQLException {
 		ArrayList<Question> questionsBySubject = new ArrayList<Question>();
 		ArrayList<String> possibleAnswers = new ArrayList<String>(4);
@@ -439,6 +515,13 @@ public class SqlUtilities {
 		return (new QuestionHandle("Subject", questionsBySubject));
 	}
 
+	/**
+	 * 
+	 * @param connection
+	 * @param course
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ExamHandle getExamsByCourse(Connection connection, String course) throws SQLException {
 		ArrayList<Exam> examsByCourse = new ArrayList<Exam>();
 		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_Exam_BY_CourseID);
@@ -456,6 +539,12 @@ public class SqlUtilities {
 		return (new ExamHandle("Courses", examsByCourse));
 	}
 
+	/**
+	 * 
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static WaitingActiveExamHandle getWaitingActiveExam(Connection connection) throws SQLException {
 		ArrayList<WaitingActiveExam> waitingActiveExams = new ArrayList<WaitingActiveExam>();
 		PreparedStatement statement = connection.prepareStatement(SELECT_All_WaitingActiveExam);
@@ -469,6 +558,13 @@ public class SqlUtilities {
 		return (new WaitingActiveExamHandle("AllWaiting", waitingActiveExams));
 	}
 
+	/**
+	 * 
+	 * @param activatorsID
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static CheckedExamHandle getCheckedExam(String activatorsID, Connection connection) throws SQLException {
 		ArrayList<CheckedExam> checkedExams = new ArrayList<CheckedExam>();
 		PreparedStatement statement = connection.prepareStatement(SELECT_CheckedExams_By_Activator);
@@ -485,6 +581,13 @@ public class SqlUtilities {
 		return (new CheckedExamHandle("AllCheckedExams", checkedExams));
 	}
 
+	/**
+	 * 
+	 * @param studentHandle
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ApprovedExamForStudentHandle getSolvedExamsByStudent(StudentHandle studentHandle,
 			Connection connection) throws SQLException {
 		ArrayList<ApprovedExamForStudent> approved = new ArrayList<ApprovedExamForStudent>();
@@ -502,6 +605,15 @@ public class SqlUtilities {
 		return (new ApprovedExamForStudentHandle("SolvedExamsByStudent", approved));
 	}
 
+	/**
+	 * 
+	 * @param studentID
+	 * @param subject
+	 * @param course
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ApprovedExamForStudentHandle getApprovedExamForStudent(String studentID, String subject,
 			String course, Connection connection) throws SQLException {
 		// ArrayList<CheckedExam> checkedExams = new ArrayList<CheckedExam>();
@@ -594,6 +706,12 @@ public class SqlUtilities {
 		insertQuestionInExam(exam, examNumber, connection); // insert all the questions to the QuestionInExam table
 	}
 
+	/**
+	 * 
+	 * @param activeExam
+	 * @param connection
+	 * @throws SQLException
+	 */
 	public static void insertActiveExam(ActiveExam activeExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_ActiveExam);
 		insert.setString(1, activeExam.getExam().getSubjectID());
@@ -612,6 +730,13 @@ public class SqlUtilities {
 		insert.close();
 	}
 
+	/**
+	 * 
+	 * @param activeExam
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static String lockActiveExam(ActiveExam activeExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.LOCK_Exam);
 		insert.setString(1, activeExam.getExam().getSubjectID());
@@ -623,6 +748,12 @@ public class SqlUtilities {
 		return activeExam.getExecutionCode();
 	}
 
+	/**
+	 * 
+	 * @param waitingActiveExam
+	 * @param connection
+	 * @throws SQLException
+	 */
 	public static void insertWaitingActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
 			throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_WaitingActiveExam);
@@ -637,6 +768,13 @@ public class SqlUtilities {
 		insert.close();
 	}
 
+	/**
+	 * 
+	 * @param waitingActiveExam
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static String changeTimeActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
 			throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.CHANGE_ActiveExamDuration);
@@ -650,6 +788,12 @@ public class SqlUtilities {
 		return waitingActiveExam.getActiveExam().getExecutionCode() + " " + waitingActiveExam.getNewDuration();
 	}
 
+	/**
+	 * 
+	 * @param waitingActiveExam
+	 * @param connection
+	 * @throws SQLException
+	 */
 	public static void removeWaitingActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
 			throws SQLException {
 		PreparedStatement remove = connection.prepareStatement(SqlUtilities.REMOVE_WaitingActiveExam);
@@ -678,6 +822,12 @@ public class SqlUtilities {
 		closeResultSetAndStatement(null, null, remove);
 	}
 
+	/**
+	 * 
+	 * @param checkedExam
+	 * @param connection
+	 * @throws SQLException
+	 */
 	public static void approveCheckedExam(CheckedExam checkedExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_ApprovedExamForStudent);
 		PreparedStatement getComments = connection.prepareStatement(SqlUtilities.SELECT_Comments_from_Checked_Exams);
@@ -702,6 +852,12 @@ public class SqlUtilities {
 		insert.close();
 	}
 
+	/**
+	 * 
+	 * @param checkedExam
+	 * @param connection
+	 * @throws SQLException
+	 */
 	public static void removeCheckedExam(CheckedExam checkedExam, Connection connection) throws SQLException {
 		PreparedStatement remove = connection.prepareStatement(SqlUtilities.REMOVE_checkedExam);
 		remove.setString(1,
@@ -716,6 +872,12 @@ public class SqlUtilities {
 		closeResultSetAndStatement(null, null, remove);
 	}
 
+	/**
+	 * 
+	 * @param checkedExam
+	 * @param connection
+	 * @throws SQLException
+	 */
 	public static void changeGradeByTeacher(CheckedExam checkedExam, Connection connection) throws SQLException {
 		PreparedStatement update = connection.prepareStatement(SqlUtilities.CHANGE_GradeByTeacher);
 		update.setInt(1, checkedExam.getGrade());
@@ -732,6 +894,12 @@ public class SqlUtilities {
 		update.close();
 	}
 
+	/**
+	 * 
+	 * @param checkedExam
+	 * @param connection
+	 * @throws SQLException
+	 */
 	public static void addCommentsByTeacher(CheckedExam checkedExam, Connection connection) throws SQLException {
 		PreparedStatement update = connection.prepareStatement(SqlUtilities.ADD_CommentsInCheckedExam);
 		update.setString(1, checkedExam.getGeneralComments());
@@ -747,6 +915,13 @@ public class SqlUtilities {
 		update.close();
 	}
 
+	/**
+	 * 
+	 * @param examReportHandle
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ReportAboutExam calculateExamStatistic(ExamReportHandle examReportHandle, Connection connection)
 			throws SQLException {
 		/* AVG */
@@ -791,7 +966,16 @@ public class SqlUtilities {
 		int forced = rs3.getInt(1) - rs4.getInt(1);
 		return new ReportAboutExam(rs1.getDouble(1), med, rs3.getInt(1), rs4.getInt(1), forced, grades);
 	}
-	
+
+	/**
+	 * 
+	 * @param subjectID
+	 * @param courseID
+	 * @param examNum
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static int calculateExamAVG(String subjectID, String courseID, String examNum, Connection connection)
 			throws SQLException {
 		/* AVG */
@@ -804,6 +988,13 @@ public class SqlUtilities {
 		return (int) rs1.getDouble(1);
 	}
 
+	/**
+	 * 
+	 * @param reportHandle
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ReportAboutStudent calculateStudentStatistic(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
 		PreparedStatement calculate1 = connection.prepareStatement(SqlUtilities.CALCULATE_StudentAVG);
@@ -813,14 +1004,14 @@ public class SqlUtilities {
 		int med;
 		PreparedStatement calculate2 = connection.prepareStatement(SqlUtilities.ALL_Grades_of_Student);
 		HashMap<String, Integer> gradesWithExam = new HashMap<String, Integer>();
-		ArrayList <Integer> grades = new ArrayList <Integer>();
+		ArrayList<Integer> grades = new ArrayList<Integer>();
 		calculate2.setString(1, reportHandle.getStudent().getId());
 		ResultSet rs2 = calculate2.executeQuery();
 		while (rs2.next()) {
-			String str = rs2.getString(2)+rs2.getString(3)+rs2.getString(4);
+			String str = rs2.getString(2) + rs2.getString(3) + rs2.getString(4);
 			Integer grade = rs2.getInt(1);
 			grades.add(grade);
-			gradesWithExam.put(str,grade);
+			gradesWithExam.put(str, grade);
 		}
 		Collections.sort(grades);
 		int mid = grades.size() / 2;
@@ -828,9 +1019,17 @@ public class SqlUtilities {
 			med = grades.get(mid);
 		} else
 			med = 0;
-		return new ReportAboutStudent("StudentStatistic", rs1.getDouble(1), med, reportHandle.getStudent(), gradesWithExam);
+		return new ReportAboutStudent("StudentStatistic", rs1.getDouble(1), med, reportHandle.getStudent(),
+				gradesWithExam);
 	}
 
+	/**
+	 * 
+	 * @param reportHandle
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ReportAboutCourse calculateCourseStatistic(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
 		PreparedStatement calculate = connection.prepareStatement(SqlUtilities.CALCULATE_CourseAVG);
@@ -863,8 +1062,14 @@ public class SqlUtilities {
 		}
 		return new ReportAboutCourse("CourseStatistic", rs1.getDouble(1), med, reportHandle.getCourse(), avgs);
 	}
-	
 
+	/**
+	 * 
+	 * @param reportHandle
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ReportAboutTeacher calculateTeacherStatistic(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
 		PreparedStatement calculate = connection.prepareStatement(SqlUtilities.CALCULATE_TeacherAVG);
@@ -934,6 +1139,13 @@ public class SqlUtilities {
 		return new TypeHandle(type, typeOfSetFromDB);
 	}
 
+	/**
+	 * 
+	 * @param code
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static Boolean checkCode(ExecutionCodeHandle code, Connection connection) throws SQLException {
 		PreparedStatement check = connection.prepareStatement(SqlUtilities.CHECK_ExecutionCodeExist);
 		check.setString(1, code.getCode());
@@ -941,6 +1153,14 @@ public class SqlUtilities {
 		return rs.next();
 	}
 
+	/**
+	 * 
+	 * @param activatorsID
+	 * @param course
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ActiveExamHandle getActiveExamsByActivatorsID(String activatorsID, String course,
 			Connection connection) throws SQLException {
 		String courseNumber = getCourseID(course, connection);
@@ -957,8 +1177,14 @@ public class SqlUtilities {
 		return new ActiveExamHandle("All", activeExams);
 	}
 
-	public static ActiveExamHandle getActiveExamsBySubject(String courseID, Connection connection)
-			throws SQLException {
+	/**
+	 * 
+	 * @param courseID
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
+	public static ActiveExamHandle getActiveExamsBySubject(String courseID, Connection connection) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_ActiveExamsByCourse);
 		statement.setString(1, getCourseID(courseID, connection));
 		ArrayList<ActiveExam> activeExams = new ArrayList<>();
