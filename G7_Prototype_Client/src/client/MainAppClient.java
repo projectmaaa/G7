@@ -9,6 +9,11 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import resources.Message;
 
+/**
+ * 
+ * @author Group 7
+ *
+ */
 public class MainAppClient extends Application {
 
 	// region Constants
@@ -67,7 +72,11 @@ public class MainAppClient extends Application {
 	}
 
 	// region Public Methods
-
+	
+	/**
+	 * start client method
+	 */
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		client = new Client(host, 5555);

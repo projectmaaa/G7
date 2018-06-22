@@ -10,7 +10,7 @@ import resources.SubmittedExam;
 
 /**
  * 
- * @author G7
+ * @author Group 7
  *
  */
 public class Utilities_Server {

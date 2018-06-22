@@ -14,7 +14,7 @@ import resources.*;
  * sends user requests to the server & handles the returned values from the
  * server.
  * 
- * @author Group7
+ * @author Group 7
  *
  */
 public class Client extends AbstractClient implements IScreenController {
@@ -97,14 +97,14 @@ public class Client extends AbstractClient implements IScreenController {
 	/******************** Getters & Setters ********************/
 
 	/**
-	 * 
+	 * set Screen Parent
 	 */
 	public void setScreenParent(ScreensController screenParent) {
 		controller = screenParent;
 	}
 
 	/**
-	 * 
+	 * get Login Window Controller
 	 * @return LoginWindowController
 	 */
 	public LoginWindowController getLoginWindowController() {
@@ -112,7 +112,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Login Window Controller
 	 * @param loginWindowController
 	 */
 	public void setLoginWindowController(LoginWindowController loginWindowController) {
@@ -120,7 +120,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Teacher Window Controller
 	 * @return TeacherWindowController
 	 */
 	public TeacherWindowController getTeacherWindowController() {
@@ -128,7 +128,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Teacher Window Controller
 	 * @param teacherWindowController
 	 */
 	public void setTeacherWindowController(TeacherWindowController teacherWindowController) {
@@ -136,7 +136,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Student Window Controller
 	 * @return StudentWindowController
 	 */
 	public StudentWindowController getStudentWindowController() {
@@ -144,7 +144,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Student Window Controller
 	 * @param studentWindowController
 	 */
 	public void setStudentWindowController(StudentWindowController studentWindowController) {
@@ -152,7 +152,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Principal Window Controller
 	 * @return PrincipalWindowController
 	 */
 	public PrincipalWindowController getPrincipalWindowController() {
@@ -160,7 +160,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Principal Window Controller
 	 * @param principalWindowController
 	 */
 	public void setPrincipalWindowController(PrincipalWindowController principalWindowController) {
@@ -168,7 +168,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Questions From DB
 	 * @return ObservableList<Question>
 	 */
 	public ObservableList<Question> getQuestionsFromDB() {
@@ -176,7 +176,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Questions From DB
 	 * @param questions
 	 */
 	public void setQuestionsFromDB(ArrayList<Question> questions) {
@@ -184,7 +184,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Question
 	 * @return Question
 	 */
 	public Question getQuestion() {
@@ -192,7 +192,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Exams From DB
 	 * @return ObservableList<Exam>
 	 */
 	public ObservableList<Exam> getExamsFromDB() {
@@ -200,7 +200,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Exams From DB
 	 * @param exams
 	 */
 	public void setExamsFromDB(ArrayList<Exam> exams) {
@@ -208,7 +208,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Question
 	 * @param question
 	 */
 	public void setQuestion(Question question) {
@@ -216,7 +216,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get First Name of client
 	 * @return String
 	 */
 	public String getFirstName() {
@@ -224,7 +224,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set First Name of client
 	 * @param firstName
 	 */
 	public void setFirstName(String firstName) {
@@ -232,7 +232,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Last Name of client
 	 * @return String
 	 */
 	public String getLastName() {
@@ -240,7 +240,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Last Name of client
 	 * @param lastName
 	 */
 	public void setLastName(String lastName) {
@@ -248,7 +248,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Subjects From DB
 	 * @return ObservableList<String>
 	 */
 	public ObservableList<String> getSubjectsFromDB() {
@@ -256,7 +256,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Subjects From DB
 	 * @param subjects
 	 */
 	public void setSubjectsFromDB(ArrayList<String> subjects) {
@@ -266,7 +266,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Approved Exam For Students DB
 	 * @return ObservableList<ApprovedExamForStudent>
 	 */
 	public ObservableList<ApprovedExamForStudent> getApprovedExamForStudentsDB() {
@@ -274,7 +274,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Approved Exam For Students DB
 	 * @param approvedExamForStudentsDB
 	 */
 	public void setApprovedExamForStudentsDB(ArrayList<ApprovedExamForStudent> approvedExamForStudentsDB) {
@@ -284,7 +284,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Courses From DB
 	 * @return ObservableList<String>
 	 */
 	public ObservableList<String> getCoursesFromDB() {
@@ -292,7 +292,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Courses From DB
 	 * @param courses
 	 */
 	public void setCoursesFromDB(ArrayList<String> courses) {
@@ -302,7 +302,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Exams By Author From DB
 	 * @return ObservableList<String>
 	 */
 	public ObservableList<String> getExamsByAuthorFromDB() {
@@ -310,7 +310,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Exams By Author From DB
 	 * @param examsByAuthorFromDB
 	 */
 	public void setExamsByAuthorFromDB(ArrayList<String> examsByAuthorFromDB) {
@@ -320,7 +320,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get All Students From DB
 	 * @return ObservableList<String>
 	 */
 	public ObservableList<String> getAllStudentsFromDB() {
@@ -328,7 +328,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set All Students From DB
 	 * @param allStudentsFromDB
 	 */
 	public void setAllStudentsFromDB(ArrayList<String> allStudentsFromDB) {
@@ -338,7 +338,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Studne tAnswer In Question DB
 	 * @return ObservableList<StudentAnswerInQuestion>
 	 */
 	public ObservableList<StudentAnswerInQuestion> getStudnetAnswerInQuestionDB() {
@@ -346,7 +346,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Studnet Answer In Question DB
 	 * @param studnetAnswerInQuestionDB
 	 */
 	public void setStudnetAnswerInQuestionDB(ArrayList<StudentAnswerInQuestion> studnetAnswerInQuestionDB) {
@@ -354,7 +354,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get client Id
 	 * @return String
 	 */
 	public String getId() {
@@ -362,7 +362,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set client ID
 	 * @param id
 	 */
 	public void setId(String id) {
@@ -370,7 +370,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Waiting Active Exams From DB
 	 * @return ObservableList<WaitingActiveExam>
 	 */
 	public ObservableList<WaitingActiveExam> getWaitingActiveExamsFromDB() {
@@ -378,7 +378,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Waiting Active Exams From DB
 	 * @param waitingActiveExamsFromDB
 	 */
 	public void setWaitingActiveExamsFromDB(ArrayList<WaitingActiveExam> waitingActiveExamsFromDB) {
@@ -388,7 +388,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Execution Code Exist Flag
 	 * @return boolean
 	 */
 	public boolean getExecutionCodeExistFlag() {
@@ -396,7 +396,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Execution Code Exist Flag
 	 * @param executionCodeExistFlag
 	 */
 	public void setExecutionCodeExistFlag(boolean executionCodeExistFlag) {
@@ -404,7 +404,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Checked Exams From DB
 	 * @return ObservableList<CheckedExam>
 	 */
 	public ObservableList<CheckedExam> getCheckedExamsFromDB() {
@@ -412,7 +412,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Checked Exams From DB
 	 * @param checkedExamsFromDB
 	 */
 	public void setCheckedExamsFromDB(ArrayList<CheckedExam> checkedExamsFromDB) {
@@ -422,7 +422,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Activated Unlocked Exams
 	 * @return ObservableList<ActiveExam>
 	 */
 	public ObservableList<ActiveExam> getActivatedUnlockedExams() {
@@ -430,7 +430,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Activated Unlocked Exams
 	 * @param activatedUnlockedExams
 	 */
 	public void setActivatedUnlockedExams(ArrayList<ActiveExam> activatedUnlockedExams) {
@@ -440,7 +440,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Students From DB
 	 * @return ObservableList<Student>
 	 */
 	public ObservableList<Student> getStudentsFromDB() {
@@ -448,7 +448,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Students From DB
 	 * @param studentsFromDB
 	 */
 	public void setStudentsFromDB(ArrayList<Student> studentsFromDB) {
@@ -458,7 +458,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get All Courses From DB
 	 * @return ObservableList<Course>
 	 */
 	public ObservableList<Course> getAllCoursesFromDB() {
@@ -466,7 +466,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set all Courses From DB
 	 * @param allCoursesFromDB
 	 */
 	public void setAllCoursesFromDB(ArrayList<Course> allCoursesFromDB) {
@@ -476,7 +476,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get All Teachers From DB
 	 * @return ObservableList<Teacher>
 	 */
 	public ObservableList<Teacher> getAllTeachersFromDB() {
@@ -484,7 +484,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set All Teachers From DB
 	 * @param allTeachersFromDB
 	 */
 	public void setAllTeachersFromDB(ArrayList<Teacher> allTeachersFromDB) {
@@ -494,7 +494,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Active Exams By Subject
 	 * @return ObservableList<ActiveExam>
 	 */
 	public ObservableList<ActiveExam> getActiveExamsBySubject() {
@@ -502,7 +502,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Active Exams By Subject
 	 * @param activeExamsBySubject
 	 */
 	public void setActiveExamsBySubject(ArrayList<ActiveExam> activeExamsBySubject) {
@@ -512,7 +512,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * get Solved Exam Of Students DB
 	 * @return ObservableList<ApprovedExamForStudent>
 	 */
 	public ObservableList<ApprovedExamForStudent> getSolvedExamOfStudentsDB() {
@@ -520,7 +520,7 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * 
+	 * set Solved Exam Of Students DB
 	 * @param solvedExamOfStudentsDB
 	 */
 	public void setSolvedExamOfStudentsDB(ArrayList<ApprovedExamForStudent> solvedExamOfStudentsDB) {

@@ -13,6 +13,11 @@ import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
+/**
+ * 
+ * @author Group 7
+ *
+ */
 public class ScreensController extends StackPane {
 
 	// region Fields

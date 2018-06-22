@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 /**
  * 
- * @author G7
+ * @author Group 7
  *
  */
 public class MainAppServer extends Application {
