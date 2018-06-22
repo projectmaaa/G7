@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
-
 import boundaries.QuestionInComputerizeExam;
-import client.Client;
-import client.MainAppClient;
+import client.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -39,21 +37,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
-import resources.ActiveExam;
-import resources.ApprovedExamForStudent;
-import resources.CheckedExam;
-import resources.Course;
-import resources.Exam;
-import resources.Message;
-import resources.Question;
-import resources.ReportHandle;
-import resources.Student;
-import resources.StudentAnswerInQuestion;
-import resources.StudentHandle;
-import resources.Teacher;
-import resources.Utilities_Client;
-import resources.WaitingActiveExam;
-import resources.WaitingActiveExamHandle;
+import resources.*;
 
 /**
  * 

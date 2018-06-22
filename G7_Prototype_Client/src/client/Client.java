@@ -2,13 +2,7 @@ package client;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import controllers.IScreenController;
-import controllers.LoginWindowController;
-import controllers.PrincipalWindowController;
-import controllers.ScreensController;
-import controllers.StudentWindowController;
-import controllers.TeacherWindowController;
+import controllers.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,19 +10,16 @@ import ocsf.client.AbstractClient;
 import resources.*;
 
 /**
+ * The main connector between the user interface and the server. This class
+ * sends user requests to the server & handles the returned values from the
+ * server.
  * 
- * @author G7
+ * @author Group7
  *
  */
 public class Client extends AbstractClient implements IScreenController {
 
-	// Class variables *************************************************
-
-	// region Constants
-
-	// end region -> Constants
-
-	// region Fields
+	/******************** Attributes ********************/
 
 	private ObservableList<Question> questionsFromDB = FXCollections.observableArrayList();
 
@@ -82,11 +73,7 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private boolean executionCodeExistFlag;
 
-	// end region -> Fields
-
-	// region Constructors
-
-	// Constructors ****************************************************
+	/******************** Constructors ********************/
 
 	/**
 	 * Constructs an instance of the chat client.
@@ -107,7 +94,7 @@ public class Client extends AbstractClient implements IScreenController {
 		}
 	}
 
-	// region Setters
+	/******************** Getters & Setters ********************/
 
 	/**
 	 * 
@@ -537,14 +524,10 @@ public class Client extends AbstractClient implements IScreenController {
 	 * @param solvedExamOfStudentsDB
 	 */
 	public void setSolvedExamOfStudentsDB(ArrayList<ApprovedExamForStudent> solvedExamOfStudentsDB) {
-		// Platform.runLater(() -> {
 		this.solvedExamOfStudentsDB.setAll(solvedExamOfStudentsDB);
-		// });
 	}
 
-	// end region -> Setters
-
-	// region Public Methods
+	/******************** Methods ********************/
 
 	/**
 	 * This method handles all data that comes in from the server.
@@ -774,6 +757,4 @@ public class Client extends AbstractClient implements IScreenController {
 		System.exit(0);
 	}
 
-	// end region -> Public Methods
-
-}
+} // end of class
