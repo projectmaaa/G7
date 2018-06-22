@@ -1,8 +1,15 @@
 package resources;
 
+/**
+ * The class that holds the messages that tell what to do between the clients &
+ * the server.
+ * 
+ * @author Group 7
+ *
+ */
 public class Message {
 
-	// region Constants
+	/******************** Attributes ********************/
 
 	public final static String login = "#Login";
 
@@ -67,11 +74,9 @@ public class Message {
 	public final static String getAnswers = "#GetAnswers";
 
 	public final static String getQuestionInExam = "#GetQuestionsInExam";
-	
+
 	public final static String getAllStudents = "#GetAllStudents";
-	
+
 	public final static String getQuestionsFromSpecificExam = "#GetQuestionsFromSpecificExam";
 
-	// end region -> Constants
-
-}
+} // end of class

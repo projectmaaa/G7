@@ -2,12 +2,19 @@ package resources;
 
 import java.io.Serializable;
 
+/**
+ * Student class
+ * 
+ * @author Group 7
+ *
+ */
 public class Student extends User implements Serializable {
 
-	/**
-	 * 
-	 */
+	/******************** Attributes ********************/
+
 	private static final long serialVersionUID = 1L;
+
+	/******************** Constructors ********************/
 
 	/**
 	 * 
@@ -19,4 +26,4 @@ public class Student extends User implements Serializable {
 		super(id, firstName, lastName);
 	}
 
-}
+} // end of class

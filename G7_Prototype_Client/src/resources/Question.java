@@ -3,15 +3,17 @@ package resources;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * This class contains all the question details.
+ * 
+ * @author group 7
+ *
+ */
 public class Question implements Serializable {
 
-	// region Constants
+	/******************** Attributes ********************/
 
 	private static final long serialVersionUID = 1L;
-
-	// end region -> Constants
-
-	// region Fields
 
 	private String subjectID;
 
@@ -31,12 +33,18 @@ public class Question implements Serializable {
 
 	private String correctAnswer;
 
-	// end region -> Fields
-
-	// region Constructors
+	/******************** Constructors ********************/
 
 	/**
-	 * this constructor is for creating new question
+	 * 
+	 * @param subjectID
+	 * @param author
+	 * @param questionText
+	 * @param firstPossibleAnswer
+	 * @param secondPossibleAnswer
+	 * @param thirdPossibleAnswer
+	 * @param fourthPossibleAnswer
+	 * @param correctAnswer
 	 */
 	public Question(String subjectID, String author, String questionText, String firstPossibleAnswer,
 			String secondPossibleAnswer, String thirdPossibleAnswer, String fourthPossibleAnswer,
@@ -52,8 +60,13 @@ public class Question implements Serializable {
 	}
 
 	/**
-	 * this constructor is when getting the info from the data base to show in the
-	 * table view of the whole questions
+	 * 
+	 * @param subjectID
+	 * @param questionNum
+	 * @param author
+	 * @param questionText
+	 * @param possibleAnswers
+	 * @param correctAnswer
 	 */
 	public Question(String subjectID, String questionNum, String author, String questionText,
 			ArrayList<String> possibleAnswers, String correctAnswer) {
@@ -89,80 +102,150 @@ public class Question implements Serializable {
 		this.questionNum = questionNum;
 	}
 
-	// end region -> Constructors
+	/******************** Getters & Setters ********************/
 
-	// region Getters & Setters
-
+	/**
+	 * 
+	 * @return The question number
+	 */
 	public String getQuestionNum() {
 		return questionNum;
 	}
 
+	/**
+	 * 
+	 * @param questionNum
+	 */
 	public void setQuestionNum(String questionNum) {
 		this.questionNum = questionNum;
 	}
 
+	/**
+	 * 
+	 * @return The number of the subject that this question belongs to
+	 */
 	public String getSubjectID() {
 		return subjectID;
 	}
 
+	/**
+	 * 
+	 * @param subjectID
+	 */
 	public void setSubjectID(String subjectID) {
 		this.subjectID = subjectID;
 	}
 
+	/**
+	 * 
+	 * @return The teacher's name who wrote this question
+	 */
 	public String getAuthor() {
 		return author;
 	}
 
+	/**
+	 * 
+	 * @param author
+	 */
 	public void setAuthor(String author) {
 		this.author = author;
 	}
 
+	/**
+	 * 
+	 * @return The question itself
+	 */
 	public String getQuestionText() {
 		return questionText;
 	}
 
+	/**
+	 * 
+	 * @param questionText
+	 */
 	public void setQuestionText(String questionText) {
 		this.questionText = questionText;
 	}
 
+	/**
+	 * 
+	 * @return The first option to answer
+	 */
 	public String getFirstPossibleAnswer() {
 		return firstPossibleAnswer;
 	}
 
+	/**
+	 * 
+	 * @param firstPossibleAnswer
+	 */
 	public void setFirstPossibleAnswer(String firstPossibleAnswer) {
 		this.firstPossibleAnswer = firstPossibleAnswer;
 	}
 
+	/**
+	 * 
+	 * @return The second option to answer
+	 */
 	public String getSecondPossibleAnswer() {
 		return secondPossibleAnswer;
 	}
 
+	/**
+	 * 
+	 * @param secondPossibleAnswer
+	 */
 	public void setSecondPossibleAnswer(String secondPossibleAnswer) {
 		this.secondPossibleAnswer = secondPossibleAnswer;
 	}
 
+	/**
+	 * 
+	 * @return The third option to answer
+	 */
 	public String getThirdPossibleAnswer() {
 		return thirdPossibleAnswer;
 	}
 
+	/**
+	 * 
+	 * @param thirdPossibleAnswer
+	 */
 	public void setThirdPossibleAnswer(String thirdPossibleAnswer) {
 		this.thirdPossibleAnswer = thirdPossibleAnswer;
 	}
 
+	/**
+	 * 
+	 * @return The fourth option to answer
+	 */
 	public String getFourthPossibleAnswer() {
 		return fourthPossibleAnswer;
 	}
 
+	/**
+	 * 
+	 * @param fourthPossibleAnswer
+	 */
 	public void setFourthPossibleAnswer(String fourthPossibleAnswer) {
 		this.fourthPossibleAnswer = fourthPossibleAnswer;
 	}
 
+	/**
+	 * 
+	 * @return The correct answer
+	 */
 	public String getCorrectAnswer() {
 		return correctAnswer;
 	}
 
+	/**
+	 * 
+	 * @param correctAnswer
+	 */
 	public void setCorrectAnswer(String correctAnswer) {
 		this.correctAnswer = correctAnswer;
 	}
 
-}// end of class Question
+} // end of class

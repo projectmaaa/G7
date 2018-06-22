@@ -23,19 +23,19 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- * <p>
- * Client Side
- * </p>
- * This class will have method for general use
+ * This class contains methods for general client use.
+ * 
+ * @author Group 7
+ *
  */
 public class Utilities_Client {
 
-	// region Public Methods
+	/******************** Methods ********************/
 
 	/**
-	 * This method will return the date
+	 * This method return the date in string format
 	 * 
-	 * @return String date format (dd/MM/yyyy)
+	 * @return The current date in format dd/MM/yyyy
 	 */
 	public static String setDate() {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -43,6 +43,11 @@ public class Utilities_Client {
 		return (dateFormat.format(date));
 	}
 
+	/**
+	 * This method return the time in string format
+	 * 
+	 * @return The current time in format HH/mm/ss
+	 */
 	public static String getTime() {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -50,7 +55,7 @@ public class Utilities_Client {
 	}
 
 	/**
-	 * This method will show pop up screen
+	 * This method show pop up screen
 	 * 
 	 * @param str
 	 */
@@ -90,13 +95,13 @@ public class Utilities_Client {
 	}
 
 	/**
+	 * This method is loading the word file
 	 * 
 	 * @param myFile
 	 */
 	public static void writeWordFile(MyFile myFile, Boolean open) {
 		try {
 			File file = new File(myFile.getFileName());
-
 			FileOutputStream fileOutputStream = new FileOutputStream(file);
 			fileOutputStream.write(myFile.getMybytearray());
 			fileOutputStream.close();
@@ -115,6 +120,7 @@ public class Utilities_Client {
 	}
 
 	/**
+	 * This method returns the word file of specific student
 	 * 
 	 * @param executionCode
 	 * @param studentID
@@ -126,14 +132,10 @@ public class Utilities_Client {
 		try {
 			byte[] byteArray = new byte[(int) file.length()];
 			FileInputStream fileInputStream;
-
 			fileInputStream = new FileInputStream(file);
-
 			BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-
 			myFile.initArray(byteArray.length);
 			myFile.setSize(byteArray.length);
-
 			bufferedInputStream.read(myFile.getMybytearray(), 0, byteArray.length);
 			bufferedInputStream.close();
 		} catch (IOException e) {
@@ -142,6 +144,4 @@ public class Utilities_Client {
 		return myFile;
 	}
 
-	// end region -> Public Methods
-
-} // end of class utilities
+} // end of class
