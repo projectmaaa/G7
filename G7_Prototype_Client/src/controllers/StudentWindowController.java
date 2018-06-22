@@ -41,11 +41,14 @@ import javafx.util.Duration;
 import resources.*;
 
 /**
+ * This class represents controller for Student Window (Gui).
  * 
- * @author Alex
+ * @author Group7
  *
  */
 public class StudentWindowController implements Initializable, IScreenController {
+
+	/******************** Attributes ********************/
 
 	private ScreensController screensController;
 
@@ -180,9 +183,22 @@ public class StudentWindowController implements Initializable, IScreenController
 
 	/*********************************************************/
 
-	/**
-	 * 
-	 */
+	/******************** Initialization ********************/
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		date.setText(Utilities_Client.setDate());
+		this.client = MainAppClient.getClient();
+		client.setStudentWindowController(this);
+		questionInComputerizeExamArray = new ArrayList<QuestionInComputerizeExam>();
+		setSubjectComboBox(subjectComboBoxCheckedExam);
+		setColumnsInCheckedExams();
+		submitExamButton.setDisable(true);
+		uploadManualExam.setDisable(true);
+	}
+
+	/******************** Getters & Setters ********************/
+
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
 		screensController = screenParent;
@@ -237,6 +253,31 @@ public class StudentWindowController implements Initializable, IScreenController
 
 	/**
 	 * 
+	 * @return ActiveExam activeExam
+	 */
+	public ActiveExam getActiveExam() {
+		return activeExam;
+	}
+
+	/**
+	 * 
+	 * @param activeExam
+	 */
+	public void setActiveExam(ActiveExam activeExam) {
+		this.activeExam = activeExam;
+	}
+
+	/**
+	 * Sets the name of the student in this controller
+	 */
+	public void setName() {
+		name.setText(firstName + " " + lastName);
+	}
+
+	/******************** Methods ********************/
+
+	/**
+	 * Changing the timer based on the value at secondTimer
 	 */
 	public void changeSecondTimer() {
 		int time = activeExam.getDuration() * 60;
@@ -255,44 +296,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * initialize
-	 */
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		date.setText(Utilities_Client.setDate());
-		this.client = MainAppClient.getClient();
-		client.setStudentWindowController(this);
-		questionInComputerizeExamArray = new ArrayList<QuestionInComputerizeExam>();
-		setSubjectComboBox(subjectComboBoxCheckedExam);
-		setColumnsInCheckedExams();
-		submitExamButton.setDisable(true);
-		uploadManualExam.setDisable(true);
-	}
-
-	/**
-	 * 
-	 * @return ActiveExam activeExam
-	 */
-	public ActiveExam getActiveExam() {
-		return activeExam;
-	}
-
-	/**
-	 * 
-	 * @param activeExam
-	 */
-	public void setActiveExam(ActiveExam activeExam) {
-		this.activeExam = activeExam;
-	}
-
-	/**
-	 * 
-	 */
-	public void setName() {
-		name.setText(firstName + " " + lastName);
-	}
-
-	/**
+	 * Defines the steps at login out
 	 * 
 	 * @param event
 	 */
@@ -325,6 +329,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * Open exam window
 	 * 
 	 * @param event
 	 */
@@ -340,7 +345,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * Checking if the execution code is null
 	 */
 	public void checkExecutionCodeForNull() {
 		if (activeExam == null) {
@@ -356,7 +361,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * ************
+	 * Ordering exam based on the selected information at the gui
 	 * 
 	 * @param mouseEvent
 	 */
@@ -390,6 +395,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * Returns from the exam window to the view of checked exams
 	 * 
 	 * @param mouseEvent
 	 */
@@ -432,7 +438,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * Showing solved exam for the student
 	 */
 	private void showExam() {
 		int index = 0;
@@ -487,7 +493,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * Checking the type of the exam and on that action
 	 */
 	private void checkExamType() {
 		setComputerizeExam();
@@ -509,6 +515,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * Submitting exam, stopping the timer
 	 * 
 	 * @param mouseEvent
 	 */
@@ -540,6 +547,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * Updates the table view based on the selected comboboxs
 	 * 
 	 * @param mouseEvent
 	 */
@@ -563,6 +571,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * Checking if the student is still taking the exam
 	 * 
 	 * @param actionEvent
 	 */
@@ -577,6 +586,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * Uploads manual exam
 	 * 
 	 * @param mouseEvent
 	 */
@@ -592,6 +602,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * Open computerized exam window
 	 * 
 	 * @param event
 	 */
@@ -601,7 +612,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 *
+	 * Sets the time at the timer
 	 */
 	public void setTimer() {
 		secondTimer = activeExam.getDuration() * 60;
@@ -630,7 +641,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * Sets the window at computerize exam
 	 */
 	public void setComputerizeExam() {
 		turnOffAllPane();
@@ -679,6 +690,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * Initialize the combo box based on the data
 	 * 
 	 * @param comboBox
 	 */
@@ -701,7 +713,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * Builds the computerize exam
 	 */
 	private void computerizeExam() {
 		submitExamButton.setVisible(true);
@@ -726,7 +738,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * Sets the window at the manual exam
 	 */
 	private void manualExam() {
 		enterIDComputerizeExamButton.setVisible(false);
@@ -739,7 +751,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * Sets the timer text
 	 */
 	private void setTimerDisplay() {
 		timerDisplay.setText(
@@ -747,6 +759,8 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * Creating Timeline for exam timer, as well if the time ends and close and
+	 * submitting the exam
 	 * 
 	 * @param time
 	 */
@@ -770,7 +784,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * Sets columns in the table view
 	 */
 	private void setColumnsInCheckedExams() {
 		examNumberColInCheckedExam.setCellValueFactory(new PropertyValueFactory<>("examNum"));
@@ -780,7 +794,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * Action for unwanted computerize submit exam
 	 */
 	private void unWantedComputerizeSubmitExam() {
 		this.submitExamButton.setDisable(true);
@@ -805,7 +819,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * Action for unwanted manual submit exam
 	 */
 	private void unWantedManualSubmitExam() {
 		try {
@@ -823,7 +837,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * Clears order exam window
 	 */
 	private void clearOrderExam() {
 		if (subjectComboBoxCheckedExam.getValue() != null) {
@@ -835,7 +849,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * 
+	 * Turning off all "Panes" at this controller
 	 */
 	private void turnOffAllPane() {
 		clearOrderExam();
