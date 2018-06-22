@@ -1,5 +1,10 @@
 package controllers;
 
+/**
+ * 
+ * @author Group 7
+ *
+ */
 public interface IScreenController {
 	
 	/**

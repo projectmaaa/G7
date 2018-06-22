@@ -54,7 +54,7 @@ import resources.*;
 
 /**
  * 
- * @author G7
+ * @author Group 7
  *
  */
 public class TeacherWindowController implements Initializable, IScreenController {

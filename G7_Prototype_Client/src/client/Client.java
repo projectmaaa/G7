@@ -14,7 +14,7 @@ import resources.*;
  * sends user requests to the server & handles the returned values from the
  * server.
  * 
- * @author Group7
+ * @author Group 7
  *
  */
 public class Client extends AbstractClient implements IScreenController {

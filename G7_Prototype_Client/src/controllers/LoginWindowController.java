@@ -21,7 +21,7 @@ import resources.Utilities_Client;
 
 /**
  * 
- * @author Group7
+ * @author Group 7
  *
  */
 public class LoginWindowController implements Initializable, IScreenController {
