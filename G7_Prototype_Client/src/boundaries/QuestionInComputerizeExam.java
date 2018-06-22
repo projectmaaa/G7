@@ -12,7 +12,7 @@ import resources.QuestionInExam;
 /**
  * This class represents single question in specific computerized exam.
  * 
- * @author Group7
+ * @author Group 7
  *
  */
 public class QuestionInComputerizeExam {

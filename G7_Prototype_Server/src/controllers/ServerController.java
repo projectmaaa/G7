@@ -18,13 +18,14 @@ import server.Server;
 import server.SqlUtilities;
 
 /**
+ * This class represents controller for server Window (Gui).
  * 
- * @author G7
+ * @author Group 7
  *
  */
 public class ServerController implements Initializable {
 
-	// region Fields
+	/******************** Attributes ********************/
 
 	@FXML
 	private ImageView settingsButton;
@@ -67,9 +68,19 @@ public class ServerController implements Initializable {
 
 	private TranslateTransition translateAnimationDB = new TranslateTransition(Duration.seconds(0.25));
 
-	// end region -> Fields
+	/******************** Initialization ********************/
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		this.server = MainAppServer.getServer();
+		translateAnimationServer.setNode(serverButton);
+		translateAnimationDB.setNode(dbButton);
+	}
+
+	/********************* Methods ************************/
 
 	/**
+	 * Open settings option for the server
 	 * 
 	 * @param event
 	 */
@@ -88,6 +99,7 @@ public class ServerController implements Initializable {
 	}
 
 	/**
+	 * Saves the new settings for the server
 	 * 
 	 * @param event
 	 */
@@ -118,6 +130,7 @@ public class ServerController implements Initializable {
 	}
 
 	/**
+	 * Turn off/on the server handler
 	 * 
 	 * @param event
 	 */
@@ -151,6 +164,7 @@ public class ServerController implements Initializable {
 	}
 
 	/**
+	 * Turn on/off the connection to the db
 	 * 
 	 * @param event
 	 */
@@ -185,7 +199,7 @@ public class ServerController implements Initializable {
 	}
 
 	/**
-	 * 
+	 * clears the settings window
 	 */
 	private void clearSettings() {
 		portField.setText(null);
@@ -194,7 +208,7 @@ public class ServerController implements Initializable {
 	}
 
 	/**
-	 * 
+	 * SetX the starting point for the animation button
 	 */
 	private void setX() {
 		saveX = true;
@@ -202,10 +216,4 @@ public class ServerController implements Initializable {
 		endX = serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX() + 50;
 	}
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		this.server = MainAppServer.getServer();
-		translateAnimationServer.setNode(serverButton);
-		translateAnimationDB.setNode(dbButton);
-	}
 }
