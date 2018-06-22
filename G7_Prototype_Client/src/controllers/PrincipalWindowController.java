@@ -497,7 +497,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * get first name of client
 	 * @return String firstName
 	 */
 	public String getFirstName() {
@@ -505,7 +505,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * set first name of client
 	 * @param firstName
 	 */
 	public void setFirstName(String firstName) {
@@ -513,7 +513,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * get last name of client
 	 * @return String lastName
 	 */
 	public String getLastName() {
@@ -521,7 +521,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * set last name of client
 	 * @param lastName
 	 */
 	public void setLastName(String lastName) {
@@ -529,7 +529,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * set full name of client
 	 */
 	public void setName() {
 		name.setText(firstName + " " + lastName);
@@ -552,7 +552,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * set first and last name of client
 	 * @param firstName
 	 * @param lastName
 	 */
@@ -563,7 +563,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * get Average Text Field In Course Report
 	 * @return TextField averageTextFieldInCourseReport
 	 */
 	public TextField getAverageTextFieldInCourseReport() {
@@ -571,7 +571,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * set Average Text Field In Course Report
 	 * @param averageTextFieldInCourseReport
 	 */
 	public void setAverageTextFieldInCourseReport(TextField averageTextFieldInCourseReport) {
@@ -579,7 +579,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * get Average Text Field In Teacher Report
 	 * @return TextField averageTextFieldInTeacherReport
 	 */
 	public TextField getAverageTextFieldInTeacherReport() {
@@ -587,7 +587,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * set Average Text Field In Teacher Report
 	 * @param averageTextFieldInTeacherReport
 	 */
 	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
@@ -595,7 +595,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * get grades array for histogram
 	 * @return ArrayList<Integer> grades
 	 */
 	public ArrayList<Integer> getGrades() {
@@ -603,6 +603,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
+	 * set grades array for histogram
 	 * @param ArrayList<Integer>
 	 *            grades
 	 */
@@ -611,7 +612,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * get Median Text Field In Student Report
 	 * @return TextField medianTextFieldInStudentReport
 	 */
 	public TextField getMedianTextFieldInStudentReport() {
@@ -619,7 +620,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * set Median Text Field In Student Report
 	 * @param medianTextFieldInStudentReport
 	 */
 	public void setMedianTextFieldInStudentReport(TextField medianTextFieldInStudentReport) {
@@ -627,7 +628,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * get Median Text Field In Course Report
 	 * @return TextField medianTextFieldInCourseReport
 	 */
 	public TextField getMedianTextFieldInCourseReport() {
@@ -635,7 +636,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * set Median Text Field In Course Report
 	 * @param medianTextFieldInCourseReport
 	 */
 	public void setMedianTextFieldInCourseReport(TextField medianTextFieldInCourseReport) {
@@ -643,7 +644,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * get Median Text Field In Teacher Report
 	 * @return TextField medianTextFieldInTeacherReport
 	 */
 	public TextField getMedianTextFieldInTeacherReport() {
@@ -651,7 +652,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * set Median Text Field In Teacher Report
 	 * @param medianTextFieldInTeacherReport
 	 */
 	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
@@ -659,7 +660,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * get exam & grade hash map for student report
 	 * @return HashMap<String, Integer> gradesWithExam
 	 */
 	public HashMap<String, Integer> getGradesWithExam() {
@@ -667,7 +668,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * set exam & grade hash map for student report
 	 * @param gradesWithExam
 	 */
 	public void setGradesWithExam(HashMap<String, Integer> gradesWithExam) {
@@ -680,12 +681,9 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 */
 
 	/**
-	 * initialize method
+	 * initialize screen method
 	 */
 
-	/**
-	 * 
-	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		date.setText(Utilities_Client.setDate());
@@ -712,7 +710,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * logout handler
+	 * logout button handler
 	 * 
 	 * @param event
 	 */
@@ -1075,9 +1073,10 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * create Student Histogram with hash map
 	 * @param gradesWithExams
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void createStudentHistogram(HashMap<String, Integer> gradesWithExams) {
 		studentBarChart.getData().clear();
 		try {
@@ -1101,7 +1100,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * teacher report was pressed
 	 * @param event
 	 */
 	public void openTeacherReport(ActionEvent event) {
@@ -1111,7 +1110,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * create report button was pressed
 	 * @param event
 	 */
 	public void createReportInTeacherReportHandler(ActionEvent event) {
@@ -1135,10 +1134,11 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * 
+	 * general create Histogram (Course & Teacher)
 	 * @param barchart
 	 * @param grades
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void createHistogram(BarChart barchart, ArrayList<Integer> grades) {
 		barchart.getData().clear();
 		int group[] = new int[10];
@@ -1221,7 +1221,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * return To Exam Table
-	 * 
 	 * @param mouseEvent
 	 */
 	public void returnToExamTable(MouseEvent mouseEvent) {
