@@ -10,13 +10,14 @@ import javafx.stage.Stage;
 import resources.Message;
 
 /**
+ * The class that loads & starts the client application
  * 
  * @author Group 7
  *
  */
 public class MainAppClient extends Application {
 
-	// region Constants
+	/******************** Attributes ********************/
 
 	public static Client client;
 
@@ -40,27 +41,41 @@ public class MainAppClient extends Application {
 
 	private static String host = "";
 
-	// end region -> Constants
+	/******************** Getters & Setters ********************/
 
-	// region Setters
-
+	/**
+	 * 
+	 * @return The client
+	 */
 	public static Client getClient() {
 		return client;
 	}
 
+	/**
+	 * 
+	 * @param client
+	 */
 	public void setClient(Client client) {
 		MainAppClient.client = client;
 	}
 
+	/**
+	 * 
+	 * @return The IP host
+	 */
 	public static String getHost() {
 		return host;
 	}
 
+	/**
+	 * 
+	 * @param host
+	 */
 	public static void setHost(String host) {
 		MainAppClient.host = host;
 	}
 
-	// end region -> Setters
+	/******************** Methods ********************/
 
 	public static void main(String[] args) throws IOException {
 		try {
@@ -71,12 +86,9 @@ public class MainAppClient extends Application {
 		launch(args);
 	}
 
-	// region Public Methods
-	
 	/**
 	 * start client method
 	 */
-	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		client = new Client(host, 5555);
@@ -108,6 +120,4 @@ public class MainAppClient extends Application {
 		primaryStage.show();
 	}
 
-	// end region -> Public Methods
-
-}
+} // end of class

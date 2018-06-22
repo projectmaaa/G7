@@ -3,8 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import client.Client;
-import client.MainAppClient;
+import client.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,19 +15,17 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import resources.Message;
-import resources.Utilities_Client;
+import resources.*;
 
 /**
+ * This class represents controller for Login Window (Gui).
  * 
  * @author Group 7
  *
  */
 public class LoginWindowController implements Initializable, IScreenController {
 
-	/**
-	 *  region Fields
-	 */
+	/******************** Attributes ********************/
 
 	@FXML
 	private PasswordField pw;
@@ -71,13 +68,12 @@ public class LoginWindowController implements Initializable, IScreenController {
 
 	private ScreensController myController;
 
-	// end region -> Fields
+	/******************** Getters & Setters ********************/
 
-	// region Setters
-	
 	/**
 	 * get My Controller
-	 * @return
+	 * 
+	 * @return The controller
 	 */
 
 	public ScreensController getMyController() {
@@ -87,18 +83,16 @@ public class LoginWindowController implements Initializable, IScreenController {
 	/**
 	 * set Screen Parent
 	 */
-	
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
 		myController = screenParent;
 	}
 
-	// end region -> Setters
+	/******************** Initialization ********************/
 
 	/**
 	 * initialize client screen
 	 */
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		fieldFlag = 0;
@@ -107,13 +101,13 @@ public class LoginWindowController implements Initializable, IScreenController {
 		date.setText(Utilities_Client.setDate());
 	}
 
-	// region Public Methods
-	
+	/******************** Methods ********************/
+
 	/**
 	 * login Button Handler
+	 * 
 	 * @param event
 	 */
-
 	public void loginButtonHandler(ActionEvent event) {
 		loginText.setText("");
 		loginCheck();
@@ -121,6 +115,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 
 	/**
 	 * define open setting to start
+	 * 
 	 * @param event
 	 */
 	public void openSetting(MouseEvent event) {
@@ -137,7 +132,8 @@ public class LoginWindowController implements Initializable, IScreenController {
 	}
 
 	/**
-	 * save setting 
+	 * save setting
+	 * 
 	 * @param event
 	 */
 	public void saveSettings(MouseEvent event) {
@@ -187,6 +183,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 
 	/**
 	 * set Login Status
+	 * 
 	 * @param msg
 	 */
 	public void setLoginStatus(String msg) {
@@ -194,14 +191,9 @@ public class LoginWindowController implements Initializable, IScreenController {
 		loginText.setText(msg);
 	}
 
-	// end region -> Public Methods
-
-	// region Private Methods
-	
 	/**
 	 * check login user details
 	 */
-
 	private void loginCheck() {
 		if ((!un.getText().isEmpty()) && (!pw.getText().isEmpty())) {
 			if (anchorPaneSetting.isVisible()) {
@@ -215,6 +207,9 @@ public class LoginWindowController implements Initializable, IScreenController {
 		setLoginStatus("Incorrect username or password.");
 	}
 
+	/**
+	 * Clear the settings
+	 */
 	private void clearSettings() {
 		portField.setText(null);
 		hostField.setText(null);
@@ -229,6 +224,4 @@ public class LoginWindowController implements Initializable, IScreenController {
 		loginText.setText("");
 	}
 
-	// end region -> Private Methods
-
-}
+} // end of class

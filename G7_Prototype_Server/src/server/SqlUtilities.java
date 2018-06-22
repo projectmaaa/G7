@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
-
 import java.util.Collections;
 import com.mysql.jdbc.Statement;
 import java.sql.PreparedStatement;
@@ -21,7 +20,7 @@ import resources.*;
  */
 public class SqlUtilities {
 
-	// region Constants
+	/******************** Attributes ********************/
 
 	public final static String SELECT_All_FROM_Questions_by_author = "SELECT * FROM Questions WHERE author=? AND subjectID=?;";
 
@@ -171,9 +170,7 @@ public class SqlUtilities {
 
 	public final static String GetNumberOfExamineesThatSubmitOrNot = "select count(*) from SubmittedExam where executionCode = ? and submitted = ?;";
 
-	// region Public Methods
-
-	// end region -> Constants
+	/******************** Methods ********************/
 
 	/**
 	 * this method creates connection to the db using driver with userName and
@@ -181,7 +178,7 @@ public class SqlUtilities {
 	 * 
 	 * @param userName
 	 * @param passWord
-	 * @return
+	 * @return The connection to the data base
 	 */
 	@SuppressWarnings("deprecation")
 	public static Connection connection(String userName, String passWord) {
@@ -209,7 +206,7 @@ public class SqlUtilities {
 	 * 
 	 * @param executionCode
 	 * @param connection
-	 * @return
+	 * @return The active exam & what to do with it
 	 * @throws SQLException
 	 */
 	public static ActiveExamHandle getActiveExam(String executionCode, Connection connection) throws SQLException {
@@ -319,7 +316,7 @@ public class SqlUtilities {
 	 * @param courseID
 	 * @param examNumber
 	 * @param connection
-	 * @return
+	 * @return The questions & what to do with it
 	 * @throws SQLException
 	 */
 	public static QuestionHandle getQuestionsInGeneralExam(String subjectID, String courseID, String examNumber,
@@ -404,7 +401,7 @@ public class SqlUtilities {
 	 * 
 	 * @param author
 	 * @param connection
-	 * @return
+	 * @return The questions & what to do with it
 	 * @throws SQLException
 	 */
 	public static QuestionHandle getQuestions(String author, String subject, Connection connection)
@@ -627,7 +624,6 @@ public class SqlUtilities {
 	 */
 	public static ApprovedExamForStudentHandle getApprovedExamForStudent(String studentID, String subject,
 			String course, Connection connection) throws SQLException {
-		// ArrayList<CheckedExam> checkedExams = new ArrayList<CheckedExam>();
 		ArrayList<ApprovedExamForStudent> approvedExamForStudents = new ArrayList<ApprovedExamForStudent>();
 		PreparedStatement preparedStatement = connection
 				.prepareStatement(SqlUtilities.SELECT_User_ApprovedExamForStudent);
@@ -645,7 +641,6 @@ public class SqlUtilities {
 		}
 		closeResultSetAndStatement(null, null, preparedStatement);
 		return (new ApprovedExamForStudentHandle("ApprovedExamForStudent", approvedExamForStudents));
-		// CheckExamsByStudent
 	}
 
 	/**
@@ -1267,7 +1262,7 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * Returns the points of specific question\.
+	 * Returns the points of specific question.
 	 * 
 	 * @param subjectID
 	 * @param questionNum
@@ -1369,6 +1364,7 @@ public class SqlUtilities {
 	 *         copied
 	 * @throws SQLException
 	 */
+	@SuppressWarnings("deprecation")
 	public static StudentHandle findExamHaveExamineesThatCopy(ActiveExamHandle examH, Connection connection)
 			throws SQLException {
 		HashMap<Student, ArrayList<Student>> copied = new HashMap<>();
@@ -1479,10 +1475,10 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * get subject as name and return as id
+	 * Get subject as name and return as id
 	 * 
 	 * @param subject
-	 * @return
+	 * @return The subject ID
 	 * @throws SQLException
 	 */
 	private static String getSubjectID(String subject, Connection connection) throws SQLException {
@@ -1496,10 +1492,10 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * get course as name and return as id
+	 * Get course as name and return as id
 	 * 
 	 * @param course
-	 * @return
+	 * @return The Course ID
 	 * @throws SQLException
 	 */
 	private static String getCourseID(String course, Connection connection) throws SQLException {
@@ -1513,7 +1509,7 @@ public class SqlUtilities {
 	}
 
 	/**
-	 * adds the questions into the QuestionInExam table
+	 * Adds the questions into the QuestionInExam table
 	 * 
 	 * @param exam
 	 * @param examNumber
@@ -1539,7 +1535,7 @@ public class SqlUtilities {
 	 * 
 	 * @param courseID
 	 * @param connection
-	 * @return
+	 * @return The amount of exams
 	 * @throws SQLException
 	 */
 	private static Integer getExamCount(String courseID, Connection connection) throws SQLException {
@@ -1562,7 +1558,7 @@ public class SqlUtilities {
 	 * 
 	 * @param subjectID
 	 * @param connection
-	 * @return
+	 * @return The amount of questions
 	 * @throws SQLException
 	 */
 	private static Integer getQuestionCount(String subjectID, Connection connection) throws SQLException {

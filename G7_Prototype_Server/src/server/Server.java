@@ -11,13 +11,15 @@ import ocsf.server.ConnectionToClient;
 import resources.*;
 
 /**
+ * This class handles the client requests. Only this class works with the data
+ * base directly.
  * 
  * @author Group 7
  *
  */
 public class Server extends AbstractServer {
 
-	// region Constants
+	/******************** Attributes ********************/
 
 	@SuppressWarnings("unused")
 	private int DEFAULT_PORT = 5555;
@@ -28,41 +30,63 @@ public class Server extends AbstractServer {
 
 	private String passWordDBcon = "project7";
 
-	// end region -> Constants
-
-	// region Constructors
+	/******************** Constructors ********************/
 
 	public Server(int port) {
 		super(port);
 	}
 
-	// end region -> Constructors
+	/******************** Getters & Setters ********************/
 
+	/**
+	 * 
+	 * @return The connection
+	 */
 	public Connection getConnection() {
 		return connection;
 	}
 
+	/**
+	 * 
+	 * @param connection
+	 */
 	public void setConnection(Connection connection) {
 		this.connection = connection;
 	}
 
+	/**
+	 * 
+	 * @return The user name to connect to the data base
+	 */
 	public String getUserNameDBcon() {
 		return userNameDBcon;
 	}
 
+	/**
+	 * 
+	 * @param userNameDBcon
+	 */
 	public void setUserNameDBcon(String userNameDBcon) {
 		this.userNameDBcon = userNameDBcon;
 	}
 
+	/**
+	 * 
+	 * @return The password to connect to the data base
+	 */
 	public String getPassWordDBcon() {
 		return passWordDBcon;
 	}
 
+	/**
+	 * 
+	 * @param passWordDBcon
+	 */
 	public void setPassWordDBcon(String passWordDBcon) {
 		this.passWordDBcon = passWordDBcon;
 	}
 
-	// region Protected Methods
+	/******************** Methods ********************/
 
 	/**
 	 * When this single slot method called by the framework, it provides as
@@ -551,6 +575,4 @@ public class Server extends AbstractServer {
 		System.out.println("Server has stopped listening for connections.");
 	}
 
-	// end region -> Protected Methods
-
-}
+} // end of class

@@ -9,6 +9,7 @@ import resources.StudentAnswerInQuestion;
 import resources.SubmittedExam;
 
 /**
+ * This class is for general server methods.
  * 
  * @author Group 7
  *
@@ -56,4 +57,4 @@ public class Utilities_Server {
 		return grade;
 	}
 
-}
+} /* end of class */

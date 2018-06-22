@@ -160,7 +160,6 @@ public class ServerController implements Initializable {
 			}
 		}
 		translateAnimationServer.play();
-		// System.out.println(serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX());
 	}
 
 	/**
@@ -195,7 +194,6 @@ public class ServerController implements Initializable {
 			}
 		}
 		translateAnimationDB.play();
-		// System.out.println(dbButton.localToScreen(dbButton.getBoundsInLocal()).getMinX());
 	}
 
 	/**
@@ -216,4 +214,4 @@ public class ServerController implements Initializable {
 		endX = serverButton.localToScreen(serverButton.getBoundsInLocal()).getMinX() + 50;
 	}
 
-}
+} // end of class

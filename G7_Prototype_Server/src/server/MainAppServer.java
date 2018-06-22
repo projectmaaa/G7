@@ -11,23 +11,24 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
+ * The class that loads & starts the server application
  * 
  * @author Group 7
  *
  */
 public class MainAppServer extends Application {
 
-	// region Constants
+	/******************** Attributes ********************/
 
 	public static Server server;
 
 	public static String loginScreenFile = "/boundaries/ServerWindow.fxml";
 
-	// end region -> Constants
+	/******************** Getters & Setters ********************/
 
 	/**
 	 * 
-	 * @return
+	 * @return The server
 	 */
 	public static Server getServer() {
 		return server;
@@ -41,6 +42,8 @@ public class MainAppServer extends Application {
 		MainAppServer.server = server;
 	}
 
+	/******************** Methods ********************/
+
 	/**
 	 * 
 	 * @param args
@@ -53,11 +56,6 @@ public class MainAppServer extends Application {
 			port = 5555; // Set port to 5555
 		}
 		server = new Server(port);
-		// try {
-		// server.listen(); // Start listening for connections
-		// } catch (Exception ex) {
-		// System.out.println("ERROR - Could not listen for clients!");
-		// }
 		launch(args);
 	}
 
@@ -76,7 +74,6 @@ public class MainAppServer extends Application {
 		primaryStage.setTitle("AES7-Server");
 		primaryStage.sizeToScene();
 		primaryStage.setOnCloseRequest(e -> {
-			// System.out.println("Close");
 			try {
 				if (server.isListening()) {
 					server.close();
@@ -98,4 +95,4 @@ public class MainAppServer extends Application {
 		primaryStage.show();
 	}
 
-}
+} // end of class

@@ -10,7 +10,15 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 
+/**
+ * This class generating all the data into word document.
+ * 
+ * @author Group 7
+ *
+ */
 public class DocxGenerator {
+
+	/******************** Attributes ********************/
 
 	private XWPFDocument document;
 
@@ -20,33 +28,77 @@ public class DocxGenerator {
 
 	private int index;
 
+	/******************** Constructors ********************/
+
+	/**
+	 * 
+	 * @param executionCode
+	 * @param studentID
+	 * @throws FileNotFoundException
+	 */
 	public DocxGenerator(String executionCode, String studentID) throws FileNotFoundException {
 		document = new XWPFDocument();
 		docxFile = new File("./exams/" + executionCode + "_" + studentID + ".docx");
 	}
 
+	/******************** Getters & Setters ********************/
+
+	/**
+	 * 
+	 * @return The word document
+	 */
 	public XWPFDocument getDocument() {
 		return document;
 	}
 
+	/**
+	 * 
+	 * @param document
+	 */
 	public void setDocument(XWPFDocument document) {
 		this.document = document;
 	}
 
+	/**
+	 * 
+	 * @return The word file
+	 */
 	public File getDocxFile() {
 		return docxFile;
 	}
 
+	/**
+	 * 
+	 * @param docxFile
+	 */
 	public void setDocxFile(File docxFile) {
 		this.docxFile = docxFile;
 	}
 
+	/******************** Methods ********************/
+
+	/**
+	 * Adding the question and the answers into the word file
+	 * 
+	 * @param questionText
+	 * @param firstPossibleAnswer
+	 * @param secondPossibleAnswer
+	 * @param thirdPossibleAnswer
+	 * @param fourthPossibleAnswer
+	 * @throws IOException
+	 */
 	public void addQuestionToWord(String questionText, String firstPossibleAnswer, String secondPossibleAnswer,
 			String thirdPossibleAnswer, String fourthPossibleAnswer) throws IOException {
 		addQuestion(questionText);
 		addQuestionAnswers(firstPossibleAnswer, secondPossibleAnswer, thirdPossibleAnswer, fourthPossibleAnswer);
 	}
 
+	/**
+	 * Adding the question
+	 * 
+	 * @param questionText
+	 * @throws IOException
+	 */
 	private void addQuestion(String questionText) throws IOException {
 		fileOutputStream = new FileOutputStream(docxFile);
 		XWPFParagraph paragraph = document.createParagraph();
@@ -59,6 +111,15 @@ public class DocxGenerator {
 		fileOutputStream.close();
 	}
 
+	/**
+	 * Adding the answers
+	 * 
+	 * @param firstPossibleAnswer
+	 * @param secondPossibleAnswer
+	 * @param thirdPossibleAnswer
+	 * @param fourthPossibleAnswer
+	 * @throws IOException
+	 */
 	private void addQuestionAnswers(String firstPossibleAnswer, String secondPossibleAnswer, String thirdPossibleAnswer,
 			String fourthPossibleAnswer) throws IOException {
 		int index = 0;
@@ -79,6 +140,12 @@ public class DocxGenerator {
 		fileOutputStream.close();
 	}
 
+	/**
+	 * Adding the instructions
+	 * 
+	 * @param instruction
+	 * @throws IOException
+	 */
 	public void addInstruction(String instruction) throws IOException {
 		fileOutputStream = new FileOutputStream(docxFile);
 		XWPFParagraph paragraph = document.createParagraph();
@@ -93,9 +160,14 @@ public class DocxGenerator {
 		fileOutputStream.close();
 	}
 
+	/**
+	 * Add tab & break
+	 * 
+	 * @param run
+	 */
 	private void tabAndBreak(XWPFRun run) {
 		run.addBreak();
 		run.addTab();
 	}
 
-}
+} // end of class

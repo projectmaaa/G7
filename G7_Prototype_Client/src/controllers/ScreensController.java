@@ -14,30 +14,27 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 /**
+ * The class that contains all the controllers
  * 
  * @author Group 7
  *
  */
 public class ScreensController extends StackPane {
 
-	// region Fields
+	/******************** Attributes ********************/
 
 	/**
 	 * Holds the screens to be displayed
 	 */
 	private HashMap<String, Node> screens = new HashMap<>();
 
-	// end region -> Fields
-
-	// region Constructors
+	/******************** Constructors ********************/
 
 	public ScreensController() {
 		super();
 	}
 
-	// end region -> Constructors
-
-	// region Public Methods
+	/******************** Methods ********************/
 
 	/**
 	 * Add the screen to the collection
@@ -136,6 +133,4 @@ public class ScreensController extends StackPane {
 		}
 	}
 
-	// end region -> Public Methods
-
-}
+} // end of class

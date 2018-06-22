@@ -43,7 +43,7 @@ import resources.*;
 /**
  * This class represents controller for Student Window (Gui).
  * 
- * @author Group7
+ * @author Group 7
  *
  */
 public class StudentWindowController implements Initializable, IScreenController {
@@ -246,6 +246,8 @@ public class StudentWindowController implements Initializable, IScreenController
 
 	/**
 	 * Changes the time of exam.
+	 * 
+	 * @param secondTimer
 	 */
 	public void setSecondTimer(int secondTimer) {
 		this.secondTimer = secondTimer;
@@ -547,7 +549,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * Updates the table view based on the selected comboboxs
+	 * Updates the table view based on the selected combo boxes
 	 * 
 	 * @param mouseEvent
 	 */
@@ -905,4 +907,4 @@ public class StudentWindowController implements Initializable, IScreenController
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}
-}
+} // end of class

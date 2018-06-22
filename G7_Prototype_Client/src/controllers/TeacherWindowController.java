@@ -53,15 +53,14 @@ import javafx.util.converter.IntegerStringConverter;
 import resources.*;
 
 /**
+ * This class represents controller for Teacher Window (Gui).
  * 
  * @author Group 7
  *
  */
 public class TeacherWindowController implements Initializable, IScreenController {
 
-	/**
-	 * region Fields
-	 */
+	/******************** Attributes ********************/
 
 	@FXML
 	private AnchorPane mainAnchorPane;
@@ -87,9 +86,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private Text welcomeText;
 
-	/**
-	 * question attributes
-	 */
+	/***** Questions Attributes *****/
 
 	@FXML
 	private MenuItem editOrRemoveQuestion;
@@ -187,9 +184,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private ComboBox<String> subjectComboBoxInEditOrRemove;
 
-	/**
-	 * create exam attributes
-	 */
+	/***** Create Exam Attributes ****/
 
 	@FXML
 	private AnchorPane createExamAnchorPane;
@@ -281,9 +276,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private Button createExamButton;
 
-	/**
-	 * Exam Management attributes
-	 */
+	/***** Exam Management Attributes *****/
 
 	@FXML
 	private AnchorPane examManagementAnchorPane;
@@ -366,9 +359,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private TableColumn<Question, String> correctAnswerColumnInExamManagement;
 
-	/**
-	 * Active Exam Management attributes
-	 */
+	/***** Active Exam Management Attributes *****/
 
 	@FXML
 	private AnchorPane activeExamManagementAnchorPane;
@@ -412,9 +403,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	@FXML
 	private ScrollPane copiersStudents;
 
-	/**
-	 * confirm grades attributes
-	 */
+	/***** confirm grades attributes *****/
 
 	@FXML
 	private AnchorPane confirmGradesAnchorPane;
@@ -467,9 +456,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/***************************************************/
 
-	/**
-	 * exams statistic attributes
-	 */
+	/***** Exams Statistic Attributes *****/
 
 	@FXML
 	private AnchorPane examStatisticAnchorPane;
@@ -515,9 +502,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private ArrayList<Integer> grades;
 
-	/**
-	 * general attributes
-	 */
+	/***** General Attributes *****/
 
 	private ScreensController screensController;
 
@@ -537,10 +522,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	private boolean hadCopied;
 
-	// end region -> Fields
+	/******************** Getters & Setters ********************/
 
 	/**
 	 * get Student Handle
+	 * 
 	 * @return StudentHandle
 	 */
 	public StudentHandle getStudentHandle() {
@@ -549,6 +535,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * set Student Handle
+	 * 
 	 * @param studentHandle
 	 */
 	public void setStudentHandle(StudentHandle studentHandle) {
@@ -557,6 +544,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * set Screen Parent
+	 * 
 	 * @param screenParent
 	 */
 	public void setScreenParent(ScreensController screenParent) {
@@ -565,6 +553,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * get client First Name
+	 * 
 	 * @return String
 	 */
 	public String getFirstName() {
@@ -573,6 +562,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * set client First Name
+	 * 
 	 * @param firstName
 	 */
 	public void setFirstName(String firstName) {
@@ -581,6 +571,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * get client last Name
+	 * 
 	 * @return String
 	 */
 	public String getLastName() {
@@ -589,6 +580,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * set client last Name
+	 * 
 	 * @param lastName
 	 */
 	public void setLastName(String lastName) {
@@ -597,6 +589,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * checking rejection flag for principal rejection
+	 * 
 	 * @return boolean rejectionFlag
 	 */
 	public boolean isRejectionFlag() {
@@ -605,6 +598,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * setting rejection flag for principal rejection
+	 * 
 	 * @param rejectionFlag
 	 */
 	public void setRejectionFlag(boolean rejectionFlag) {
@@ -613,6 +607,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * is Had Copied flag for students copies
+	 * 
 	 * @return boolean hadCopied
 	 */
 	public boolean isHadCopied() {
@@ -621,6 +616,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * set Had Copied flag for students copies
+	 * 
 	 * @param hadCopied
 	 */
 	public void setHadCopied(boolean hadCopied) {
@@ -628,7 +624,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * checking acception flag in principal approve/ reject
+	 * checking acception flag in principal approve
+	 * 
 	 * @return boolean acceptionFlag
 	 */
 	public boolean isAcceptionFlag() {
@@ -636,7 +633,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * setting acception flag in principal approve/ reject
+	 * setting acception flag in principal approve
+	 * 
 	 * @param acceptionFlag
 	 */
 	public void setAcceptionFlag(boolean acceptionFlag) {
@@ -645,6 +643,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * get grades array for histogram
+	 * 
 	 * @return ArrayList<Integer> grades
 	 */
 	public ArrayList<Integer> getGrades() {
@@ -653,6 +652,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * set grades array for histogram
+	 * 
 	 * @param grades
 	 */
 	public void setGrades(ArrayList<Integer> grades) {
@@ -661,6 +661,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * get Average Text Field In Teacher Report
+	 * 
 	 * @return TextField averageTextFieldInTeacherReport
 	 */
 	public TextField getAverageTextFieldInTeacherReport() {
@@ -669,6 +670,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * set Average Text Field In Teacher Report
+	 * 
 	 * @param averageTextFieldInTeacherReport
 	 */
 	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
@@ -677,6 +679,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * get Median Text Field In Teacher Report
+	 * 
 	 * @return TextField medianTextFieldInTeacherReport
 	 */
 	public TextField getMedianTextFieldInTeacherReport() {
@@ -685,6 +688,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * set Median Text Field In Teacher Report
+	 * 
 	 * @param medianTextFieldInTeacherReport
 	 */
 	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
@@ -693,6 +697,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * get Started Text Field In Teacher Report
+	 * 
 	 * @return TextField startedTextFieldInTeacherReport
 	 */
 	public TextField getStartedTextFieldInTeacherReport() {
@@ -701,6 +706,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * set Started Text Field In Teacher Report
+	 * 
 	 * @param startedTextFieldInTeacherReport
 	 */
 	public void setStartedTextFieldInTeacherReport(TextField startedTextFieldInTeacherReport) {
@@ -709,6 +715,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * get Finished Text Field In Teacher Report
+	 * 
 	 * @return TextField finishedTextFieldInTeacherReport
 	 */
 	public TextField getFinishedTextFieldInTeacherReport() {
@@ -717,6 +724,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * set Finished Text Field In Teacher Report
+	 * 
 	 * @param finishedTextFieldInTeacherReport
 	 */
 	public void setFinishedTextFieldInTeacherReport(TextField finishedTextFieldInTeacherReport) {
@@ -725,6 +733,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * get Forced Text Field In Teacher Report
+	 * 
 	 * @return TextField forcedTextFieldInTeacherReport
 	 */
 	public TextField getForcedTextFieldInTeacherReport() {
@@ -733,11 +742,14 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * set Forced Text Field In Teacher Report
+	 * 
 	 * @param forcedTextFieldInTeacherReport
 	 */
 	public void setForcedTextFieldInTeacherReport(TextField forcedTextFieldInTeacherReport) {
 		this.forcedTextFieldInTeacherReport = forcedTextFieldInTeacherReport;
 	}
+
+	/******************** Initialization ********************/
 
 	/**
 	 * initialize this screen
@@ -765,10 +777,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 		client.setTeacherWindowController(this);
 	}
 
-	// region Public Methods
+	/******************** Methods ********************/
 
 	/**
 	 * logOut Button Handler
+	 * 
 	 * @param event
 	 * @throws Exception
 	 */
@@ -811,6 +824,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * set Name And Last Name of client
+	 * 
 	 * @param firstName
 	 * @param lastName
 	 */
@@ -821,9 +835,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * Edit\Remove Question was pressed
+	 * Edit\Remove Questions was pressed
+	 * 
+	 * @param event
 	 */
-	
 	public void openEditorRemove(ActionEvent event) {
 		try {
 			setSubjectComboBox(subjectComboBoxInEditOrRemove);
@@ -846,8 +861,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * sends message to the server to update the data base
+	 * 
+	 * @param event
 	 */
-	
 	public void saveButtonHandler(ActionEvent event) {
 		ObservableList<Question> newQuestions = FXCollections.observableArrayList();
 		ArrayList<Question> updateDB = new ArrayList<Question>();
@@ -870,8 +886,9 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * Remove button was pressed
+	 * 
+	 * @param event
 	 */
-	
 	public void removeButtonHandler(ActionEvent event) {
 		Label text;
 		Stage primaryStage = new Stage();
@@ -920,6 +937,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * red Arrow Up in create exam by connecting question to exam
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -942,6 +960,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * green Arrow Up in create exam by connecting question to exam
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -961,6 +980,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * check Total Points In Create Exam
+	 * 
 	 * @param event
 	 */
 	public void checkTotalPointsInCreateExam(MouseEvent event) {
@@ -987,6 +1007,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * create Final Exam
+	 * 
 	 * @param event
 	 */
 	public void createFinalExam(MouseEvent event) {
@@ -1004,7 +1025,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * init Tables In Create Exam
+	 * initialize Tables In Create Exam
+	 * 
 	 * @param allquestions
 	 * @param selected
 	 */
@@ -1041,7 +1063,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * realod Tables In Create Exam
+	 * reload Tables In Create Exam
+	 * 
 	 * @param event
 	 */
 	public void realodTablesInCreateExam(MouseEvent event) {
@@ -1050,6 +1073,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * 'Create question' button was pressed - add Question to DB
+	 * 
+	 * @param event
 	 */
 	public void addNewQuestion(ActionEvent event) {
 		// if the user didn't select a subject
@@ -1106,7 +1131,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * create Exam Init
+	 * Create Exam initialize
+	 * 
 	 * @param event
 	 */
 	public void createExamInit(ActionEvent event) {
@@ -1818,6 +1844,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * When the whit back arrow is pressed
 	 * 
 	 * @param event
 	 */
@@ -1836,7 +1863,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * checks if the execution code already exists in the DB
 	 * 
 	 * @param code
-	 * @return
+	 * @return True if execution code exists already in other exam
 	 */
 	public boolean executionCodeExist(String code) {
 		client.handleMessageFromClientUI(new ExecutionCodeHandle("Check", code));
@@ -2118,10 +2145,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				.setCellValueFactory(new PropertyValueFactory<>("fourthPossibleAnswer"));
 		correctAnswerColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 
-		/**
-		 * define the columns editable
-		 */
-
+		/* define the columns editable */
 		questionTextColumnInEditOrRemove.setCellFactory(TextFieldTableCell.forTableColumn());
 		questionTextColumnInEditOrRemove.setOnEditCommit(new EventHandler<CellEditEvent<Question, String>>() {
 			@Override
@@ -2387,10 +2411,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * <p>
-	 * Select Subject
-	 * </p>
-	 * Software, Math, Physics.
+	 * Sets the subject combo box by teacher
 	 * 
 	 * @param comboBox
 	 */
@@ -2417,9 +2438,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * <p>
-	 * Select Course
-	 * </p>
+	 * Sets the course combo box by subject
 	 * 
 	 * @param comboBox
 	 */
@@ -2429,10 +2448,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * <p>
-	 * Select
-	 * </p>
-	 * 1, 2, 3, 4.
+	 * Set the answers combo box
 	 * 
 	 * @param comboBox
 	 */
@@ -2452,6 +2468,4 @@ public class TeacherWindowController implements Initializable, IScreenController
 		comboBox.setPromptText("Select Exam Number");
 	}
 
-	// end region -> Private Methods
-
-}
+} // end of class

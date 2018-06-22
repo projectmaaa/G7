@@ -40,15 +40,14 @@ import javafx.stage.Stage;
 import resources.*;
 
 /**
+ * This class represents controller for Principal Window (Gui).
  * 
  * @author Group 7
  *
  */
 public class PrincipalWindowController implements Initializable, IScreenController {
 
-	/**
-	 * general attributes
-	 */
+	/******************** Attributes ********************/
 
 	private ScreensController screensController;
 
@@ -86,9 +85,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	HashMap<String, Integer> gradesWithExam;
 
-	/**
-	 * questions pool attributes
-	 */
+	/***** Questions Pool Attributes *****/
 
 	@FXML
 	private MenuItem questionsPool;
@@ -138,9 +135,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private TableColumn<Question, String> correctAnswerColumnInQuestionsPool;
 
-	/**
-	 * exams pool attributes
-	 */
+	/***** Exams Pool Attributes *****/
 
 	@FXML
 	private AnchorPane examsPoolAnchorPane;
@@ -214,9 +209,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private TableColumn<Question, String> correctAnswerInSpecificExam;
 
-	/**
-	 * active exams attributes
-	 */
+	/***** Active Exams Attributes *****/
 
 	@FXML
 	private AnchorPane activeExamAnchorPane;
@@ -257,9 +250,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private TableColumn<ActiveExam, String> typeColInActiveExams;
 
-	/**
-	 * solved exams attributes
-	 */
+	/***** Solved Exams Attributes *****/
 
 	@FXML
 	private AnchorPane solvedExamsAnchorPane;
@@ -294,9 +285,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private Button showButtonInSolvedExams;
 
-	/**
-	 * show solved exam
-	 */
+	/***** Show Solved Exam *****/
 
 	@FXML
 	private AnchorPane anchorPaneShowExam;
@@ -312,9 +301,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	private ArrayList<QuestionInComputerizeExam> questionInComputerizeExamArray;
 
-	/**
-	 * handling requests attributes
-	 */
+	/***** Handling Requests Attributes *****/
 
 	@FXML
 	private AnchorPane handlingRequestsAnchorPane;
@@ -352,9 +339,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private ImageView refreshButtonInHandlingRequests;
 
-	/**
-	 * student report attributes
-	 */
+	/***** Student Report Attributes *****/
 
 	@FXML
 	private AnchorPane studentReportAnchorPane;
@@ -395,9 +380,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private NumberAxis yInStudentReportBarChart;
 
-	/**
-	 * course report attributes
-	 */
+	/***** Course Report Attributes *****/
 
 	@FXML
 	private AnchorPane courseReportAnchorPane;
@@ -438,9 +421,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private NumberAxis yAxisInCourseReport;
 
-	/**
-	 * teacher report attributes
-	 */
+	/***** Teacher Report Attributes *****/
 
 	@FXML
 	private AnchorPane teacherReportAnchorPane;
@@ -481,11 +462,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private NumberAxis yAxisInTeacherReport;
 
-	/***********************************************************************************************************/
-
-	/**
-	 * --------------------- setters & getters ----------------------
-	 */
+	/******************** Getters & Setters ********************/
 
 	/**
 	 * @param ScreensController
@@ -498,6 +475,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * get first name of client
+	 * 
 	 * @return String firstName
 	 */
 	public String getFirstName() {
@@ -506,6 +484,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * set first name of client
+	 * 
 	 * @param firstName
 	 */
 	public void setFirstName(String firstName) {
@@ -514,6 +493,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * get last name of client
+	 * 
 	 * @return String lastName
 	 */
 	public String getLastName() {
@@ -522,6 +502,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * set last name of client
+	 * 
 	 * @param lastName
 	 */
 	public void setLastName(String lastName) {
@@ -553,6 +534,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * set first and last name of client
+	 * 
 	 * @param firstName
 	 * @param lastName
 	 */
@@ -564,6 +546,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * get Average Text Field In Course Report
+	 * 
 	 * @return TextField averageTextFieldInCourseReport
 	 */
 	public TextField getAverageTextFieldInCourseReport() {
@@ -572,6 +555,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * set Average Text Field In Course Report
+	 * 
 	 * @param averageTextFieldInCourseReport
 	 */
 	public void setAverageTextFieldInCourseReport(TextField averageTextFieldInCourseReport) {
@@ -580,6 +564,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * get Average Text Field In Teacher Report
+	 * 
 	 * @return TextField averageTextFieldInTeacherReport
 	 */
 	public TextField getAverageTextFieldInTeacherReport() {
@@ -588,6 +573,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * set Average Text Field In Teacher Report
+	 * 
 	 * @param averageTextFieldInTeacherReport
 	 */
 	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
@@ -596,6 +582,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * get grades array for histogram
+	 * 
 	 * @return ArrayList<Integer> grades
 	 */
 	public ArrayList<Integer> getGrades() {
@@ -604,6 +591,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * set grades array for histogram
+	 * 
 	 * @param ArrayList<Integer>
 	 *            grades
 	 */
@@ -613,6 +601,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * get Median Text Field In Student Report
+	 * 
 	 * @return TextField medianTextFieldInStudentReport
 	 */
 	public TextField getMedianTextFieldInStudentReport() {
@@ -621,6 +610,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * set Median Text Field In Student Report
+	 * 
 	 * @param medianTextFieldInStudentReport
 	 */
 	public void setMedianTextFieldInStudentReport(TextField medianTextFieldInStudentReport) {
@@ -629,6 +619,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * get Median Text Field In Course Report
+	 * 
 	 * @return TextField medianTextFieldInCourseReport
 	 */
 	public TextField getMedianTextFieldInCourseReport() {
@@ -637,6 +628,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * set Median Text Field In Course Report
+	 * 
 	 * @param medianTextFieldInCourseReport
 	 */
 	public void setMedianTextFieldInCourseReport(TextField medianTextFieldInCourseReport) {
@@ -645,6 +637,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * get Median Text Field In Teacher Report
+	 * 
 	 * @return TextField medianTextFieldInTeacherReport
 	 */
 	public TextField getMedianTextFieldInTeacherReport() {
@@ -653,6 +646,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * set Median Text Field In Teacher Report
+	 * 
 	 * @param medianTextFieldInTeacherReport
 	 */
 	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
@@ -661,6 +655,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * get exam & grade hash map for student report
+	 * 
 	 * @return HashMap<String, Integer> gradesWithExam
 	 */
 	public HashMap<String, Integer> getGradesWithExam() {
@@ -669,21 +664,18 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * set exam & grade hash map for student report
+	 * 
 	 * @param gradesWithExam
 	 */
 	public void setGradesWithExam(HashMap<String, Integer> gradesWithExam) {
 		this.gradesWithExam = gradesWithExam;
 	}
 
-	/**
-	 * ---------------------------------- public methods
-	 * ---------------------------------
-	 */
+	/******************** Initialization ********************/
 
 	/**
 	 * initialize screen method
 	 */
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		date.setText(Utilities_Client.setDate());
@@ -708,6 +700,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		setColumnsInActiveExams();
 		setColumnsInSolvedExams();
 	}
+
+	/******************** Methods ********************/
 
 	/**
 	 * logout button handler
@@ -1074,6 +1068,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * create Student Histogram with hash map
+	 * 
 	 * @param gradesWithExams
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -1101,6 +1096,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * teacher report was pressed
+	 * 
 	 * @param event
 	 */
 	public void openTeacherReport(ActionEvent event) {
@@ -1111,6 +1107,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * create report button was pressed
+	 * 
 	 * @param event
 	 */
 	public void createReportInTeacherReportHandler(ActionEvent event) {
@@ -1135,6 +1132,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * general create Histogram (Course & Teacher)
+	 * 
 	 * @param barchart
 	 * @param grades
 	 */
@@ -1221,6 +1219,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * return To Exam Table
+	 * 
 	 * @param mouseEvent
 	 */
 	public void returnToExamTable(MouseEvent mouseEvent) {
@@ -1390,7 +1389,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * set columns in questions pool
+	 * set columns in questions table
 	 */
 	private void setColumnsOfQuestionsTable(TableColumn<Question, String> subjectID,
 			TableColumn<Question, String> questionNumber, TableColumn<Question, String> author,
@@ -1554,4 +1553,4 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		activeExamAnchorPane.setVisible(false);
 		solvedExamsAnchorPane.setVisible(false);
 	}
-}
+} // end of class
