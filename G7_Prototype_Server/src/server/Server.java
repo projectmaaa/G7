@@ -141,18 +141,10 @@ public class Server extends AbstractServer {
 				try {
 					sendToAllClients("#LockExam" + " "
 							+ SqlUtilities.lockActiveExam(activeExamHandle.getActiveExam(), connection));
-					client.sendToClient(SqlUtilities.findExamHaveExamineesThatCopy(activeExamHandle, connection)); // send
-																													// to
-																													// the
-																													// teacher
-																													// all
-																													// the
-																													// students
-																													// that
-																													// copied
-																													// in
-																													// the
-																													// exam.
+					/**
+					 * send to the teacher all the students that copied in the exam.
+					 */
+					client.sendToClient(SqlUtilities.findExamHaveExamineesThatCopy(activeExamHandle, connection));
 				} catch (SQLException | IOException e) {
 					e.printStackTrace();
 				}

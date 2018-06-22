@@ -56,7 +56,7 @@ import resources.*;
 public class TeacherWindowController implements Initializable, IScreenController {
 
 	/**
-	 *  region Fields
+	 * region Fields
 	 */
 
 	@FXML
@@ -82,7 +82,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	@FXML
 	private Text welcomeText;
-	
+
 	/**
 	 * question attributes
 	 */
@@ -184,7 +184,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private ComboBox<String> subjectComboBoxInEditOrRemove;
 
 	/**
-	 *  create exam attributes
+	 * create exam attributes
 	 */
 
 	@FXML
@@ -278,7 +278,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private Button createExamButton;
 
 	/**
-	 *  Exam Management attributes
+	 * Exam Management attributes
 	 */
 
 	@FXML
@@ -363,7 +363,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	private TableColumn<Question, String> correctAnswerColumnInExamManagement;
 
 	/**
-	 *  Active Exam Management attributes
+	 * Active Exam Management attributes
 	 */
 
 	@FXML
@@ -464,7 +464,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 	/***************************************************/
 
 	/**
-	 *  exams statistic attributes
+	 * exams statistic attributes
 	 */
 
 	@FXML
@@ -943,9 +943,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		Utilities_Client.popUpMethod("Question Added successfully");
 		clearAddQuestionFields();
 	}
-	
+
 	/**
 	 * open Create Exam anchor pane
+	 * 
 	 * @param event
 	 */
 
@@ -1029,9 +1030,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		else if (activeExamManagementAnchorPane.isVisible())
 			selectCourseComboBox(coursesActiveExamManagement, selectedSubject);
 	}
-	
+
 	/**
 	 * select Course ComboBox handler
+	 * 
 	 * @param combobox
 	 * @param selectedSubject
 	 */
@@ -1054,9 +1056,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			}
 		});
 	}
-	
+
 	/**
 	 * show Exams was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -1068,7 +1071,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		else
 			Utilities_Client.popUpMethod("Please Select the Course");
 	}
-	
+
 	/**
 	 * setting table in exam management
 	 */
@@ -1078,7 +1081,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		client.handleMessageFromClientUI(Message.getExamByCourse + " " + courseExamManagement.getValue());
 		tableViewInExamsManagement.setItems(client.getExamsFromDB());
 	}
-	
+
 	/**
 	 * setting table in active exam management
 	 */
@@ -1089,7 +1092,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 				+ coursesActiveExamManagement.getValue());
 		activeExamsTableView.setItems(client.getActivatedUnlockedExams());
 	}
-	
+
 	/**
 	 * set Columns In Exams Management table view
 	 */
@@ -1124,9 +1127,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		initTablesInCreateExam(true, false);
 		tableViewInCreateExamAllQuestion.setItems(client.getQuestionsFromDB());
 	}
-	
+
 	/**
 	 * order Student Exam was pressed
+	 * 
 	 * @param mouseEvent
 	 */
 
@@ -1152,11 +1156,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			Utilities_Client.popUpMethod("Please select student");
 		}
 	}
-	
+
 	/**
 	 * show exam handler
 	 */
-
 	private void showExam() {
 		int index = 0;
 		QuestionInComputerizeExam questionInComputerizeExam;
@@ -1186,6 +1189,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * return To Exam Table
+	 * 
 	 * @param mouseEvent
 	 */
 	public void returnToExamTable(MouseEvent mouseEvent) {
@@ -1196,14 +1200,16 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * update Table In Edit Or Remove button was pressed
+	 * 
 	 * @param event
 	 */
 	public void updateTableInEditOrRemove(ActionEvent event) {
 		setQuestionsTableInfoInEditOrRemove();
 	}
-	
+
 	/**
 	 * exam management tab was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -1227,9 +1233,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * activate Button was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -1291,9 +1298,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			primaryStage.show();
 		}
 	}
-	
+
 	/**
 	 * show Questions Button pressed
+	 * 
 	 * @param event
 	 */
 
@@ -1374,9 +1382,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			primaryStage.show();
 		}
 	}
-	
+
 	/**
 	 * change Time Button was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -1433,9 +1442,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 
 	}
-	
+
 	/**
 	 * lock Button was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -1485,18 +1495,20 @@ public class TeacherWindowController implements Initializable, IScreenController
 			primaryStage.show();
 		}
 	}
-	
+
 	/**
 	 * clear Button was pressed
+	 * 
 	 * @param event
 	 */
 
 	public void clearButtonPressed(ActionEvent event) {
 		clearAddQuestionFields();
 	}
-	
+
 	/**
-	 *  Confirm Grades tab was pressed
+	 * Confirm Grades tab was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -1513,9 +1525,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		examReportAnchorPane.setVisible(false);
 		setTableInConfirmGrades();
 	}
-	
+
 	/**
 	 * approve Button was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -1558,9 +1571,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			primaryStage.show();
 		}
 	}
-	
+
 	/**
 	 * change Grade Button was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -1618,9 +1632,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			primaryStage.show();
 		}
 	}
-	
+
 	/**
 	 * add comments Button was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -1667,9 +1682,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			primaryStage.show();
 		}
 	}
-	
+
 	/**
 	 * Exam Statistic tab was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -1688,9 +1704,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		setCourseComboBox(courseComboBoxInExamStatistic);
 		setExamNumberComboBox(examNumComboBoxInExamStatistic);
 	}
-	
+
 	/**
 	 * create Report button was pressed
+	 * 
 	 * @param event
 	 */
 
@@ -1708,9 +1725,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			forcedTextFieldInTeacherReport.setEditable(false);
 		}
 	}
-	
+
 	/**
 	 * create exam button was pressed
+	 * 
 	 * @param subject
 	 * @param course
 	 * @param examNum
@@ -1770,7 +1788,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 		examStatisticBarChart.getData().addAll(series1);
 
 	}
-	
 
 	/**
 	 * With this method you can jump between the fields in add question screen
@@ -1955,7 +1972,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			}
 		});
 	}
-	
+
 	/**
 	 * Define the columns in Confirm Grades screen
 	 */
@@ -1983,7 +2000,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		correctAnswerColumnInEditOrRemove.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 
 		/**
-		 *  define the columns editable
+		 * define the columns editable
 		 */
 
 		questionTextColumnInEditOrRemove.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -2096,7 +2113,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 			}
 		});
 	}
-	
+
 	/**
 	 * set Column In Confirm Grades
 	 */

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+
+import boundaries.QuestionInComputerizeExam;
 import client.Client;
 import client.MainAppClient;
 import javafx.beans.property.SimpleStringProperty;
@@ -23,6 +25,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -32,17 +35,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import resources.ActiveExam;
 import resources.ApprovedExamForStudent;
+import resources.CheckedExam;
 import resources.Course;
 import resources.Exam;
 import resources.Message;
 import resources.Question;
 import resources.ReportHandle;
 import resources.Student;
+import resources.StudentAnswerInQuestion;
 import resources.StudentHandle;
 import resources.Teacher;
 import resources.Utilities_Client;
@@ -298,6 +304,24 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	@FXML
 	private Button showButtonInSolvedExams;
+
+	/**
+	 * show solved exam
+	 */
+
+	@FXML
+	private AnchorPane anchorPaneShowExam;
+
+	@FXML
+	private ScrollPane scrollPaneShowExam;
+
+	@FXML
+	private VBox vBoxShowExam;
+
+	@FXML
+	private Button okButtonShowExam;
+
+	private ArrayList<QuestionInComputerizeExam> questionInComputerizeExamArray;
 
 	/**
 	 * handling requests attributes
@@ -581,6 +605,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		date.setText(Utilities_Client.setDate());
 		this.client = MainAppClient.getClient();
 		client.setPrincipalWindowController(this);
+		questionInComputerizeExamArray = new ArrayList<QuestionInComputerizeExam>();
 		/* set the table at the questions pool */
 		setColumnsOfQuestionsTable(subjectIDColumnInQuestionsPool, questionNumColumnInQuestionsPool,
 				authorColumnInQuestionsPool, questionTextColumnInQuestionsPool,
@@ -611,6 +636,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		screensController.setScreen(MainAppClient.loginScreenID);
 		setAnchorPanesFalse();
 		welcomeAnchorPane.setVisible(true);
+		clearSolvedExam();
 	}
 
 	/**
@@ -1079,7 +1105,88 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 			Utilities_Client.popUpMethod("Theres no grades yet in this course!");
 	}
 
+	/**
+	 * order Student Exam was pressed
+	 * 
+	 * @param mouseEvent
+	 */
+
+	public void orderStudentExam(MouseEvent mouseEvent) {
+		if (studentComboBoxInSolvedExams.getValue() != null) {
+			if (solvedExamsTableView.getSelectionModel().getSelectedItem() != null) {
+				ApprovedExamForStudent selectedExam = solvedExamsTableView.getSelectionModel().getSelectedItem();
+				String[] studentID = studentComboBoxInSolvedExams.getValue().split(" ");
+				client.handleMessageFromClientUI(Message.getAnswers + " " + studentID[0] + " "
+						+ selectedExam.getCheckedExam().getSubmittedExam().getStudentInActiveExam().getActiveExam()
+								.getExam().getSubjectID()
+						+ " "
+						+ selectedExam.getCheckedExam().getSubmittedExam().getStudentInActiveExam().getActiveExam()
+								.getExam().getCourseID()
+						+ " " + selectedExam.getExamNum() + " " + selectedExam.getExecutionCode() + " " + "false");
+				client.handleMessageFromClientUI(Message.getQuestionInExam + " " + selectedExam.getExecutionCode());
+				try {
+					TimeUnit.SECONDS.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				showExam();
+			} else {
+				Utilities_Client.popUpMethod("Please select exam");
+			}
+		} else {
+			Utilities_Client.popUpMethod("Please select student");
+		}
+	}
+
+	/**
+	 * return To Exam Table
+	 * 
+	 * @param mouseEvent
+	 */
+	public void returnToExamTable(MouseEvent mouseEvent) {
+		clearSolvedExam();
+	}
+
 	/*-----------------------------------private-------------------------*/
+
+	/**
+	 * show exam handler
+	 */
+	private void showExam() {
+		int index = 0;
+		QuestionInComputerizeExam questionInComputerizeExam;
+		vBoxShowExam.getChildren().add(new Text("\n"));
+		for (Question questionsFromDB : client.getQuestionsFromDB()) {
+			for (StudentAnswerInQuestion studnetAnswerInQuestionDB : client.getStudnetAnswerInQuestionDB()) {
+				if (questionsFromDB.getQuestionNum().equals(studnetAnswerInQuestionDB.getQuestionNum())) {
+					questionInComputerizeExam = new QuestionInComputerizeExam(
+							Integer.toString(++index) + ". " + questionsFromDB.getQuestionText(),
+							"\t" + questionsFromDB.getFirstPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getSecondPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getThirdPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getFourthPossibleAnswer() + "\t");
+					questionInComputerizeExam.setTextOnGreen(questionsFromDB.getCorrectAnswer());
+					if (!studnetAnswerInQuestionDB.getStudentAnswer().equals(questionsFromDB.getCorrectAnswer())) {
+						questionInComputerizeExam.setTextOnRed(studnetAnswerInQuestionDB.getStudentAnswer());
+					}
+					questionInComputerizeExamArray.add(questionInComputerizeExam);
+					vBoxShowExam.getChildren().addAll(questionInComputerizeExam.getList());
+					vBoxShowExam.getChildren().add(new Text(""));
+				}
+			}
+		}
+		anchorPaneShowExam.setVisible(true);
+		vBoxShowExam.setVisible(true);
+	}
+
+	/**
+	 * method to clear the tables and etc at solved exam
+	 */
+	private void clearSolvedExam() {
+		vBoxShowExam.getChildren().clear();
+		vBoxShowExam.setVisible(false);
+		anchorPaneShowExam.setVisible(false);
+	}
 
 	/**
 	 * Set subject combo box method

@@ -11,6 +11,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -20,6 +21,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
@@ -587,8 +589,18 @@
                   <TableColumn fx:id="commentsColInSolvedExams" prefWidth="114.0" text="Comments" />
               </columns>
             </TableView>
-            <Button fx:id="showSolvedExamButton" layoutX="225.0" layoutY="340.0" mnemonicParsing="false" onAction="#showSolvedExamButtonHandler" text="Show Solved Exam" />
+            <Button fx:id="showSolvedExamButton" layoutX="225.0" layoutY="340.0" mnemonicParsing="false" onAction="#showSolvedExamButtonHandler" onMouseClicked="#orderStudentExam" text="Show Solved Exam" />
             <Button fx:id="showButtonInSolvedExams" layoutX="270.0" layoutY="66.0" mnemonicParsing="false" onAction="#showButtonHandler" text="Show" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorPaneShowExam" layoutX="10.0" layoutY="90.0" prefHeight="470.0" prefWidth="650.0" visible="false">
+         <children>
+            <ScrollPane fx:id="scrollPaneShowExam" layoutX="15.0" layoutY="15.0" prefHeight="440.0" prefWidth="620.0">
+               <content>
+                  <VBox fx:id="vBoxShowExam" layoutX="15.0" layoutY="15.0" prefHeight="500.0" prefWidth="620.0" />
+               </content>
+            </ScrollPane>
+            <Button fx:id="okButtonShowExam" layoutX="602.0" layoutY="460.0" mnemonicParsing="false" onMouseClicked="#returnToExamTable" text="OK" />
          </children>
       </AnchorPane>
    </children>
