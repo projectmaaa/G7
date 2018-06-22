@@ -16,7 +16,7 @@ import resources.*;
 /**
  * This class for general SQL: strings, methods ,utilities.
  * 
- * @author G7
+ * @author Group 7
  *
  */
 public class SqlUtilities {
