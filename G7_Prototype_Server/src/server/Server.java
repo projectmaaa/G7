@@ -65,9 +65,9 @@ public class Server extends AbstractServer {
 	// region Protected Methods
 
 	/**
-	 *  When this single slot method called by the framework, it provides as arguments the message
-		received as well as the instance of ConnectionToClient corresponding to the client
-		that sent the message.
+	 * When this single slot method called by the framework, it provides as
+	 * arguments the message received as well as the instance of ConnectionToClient
+	 * corresponding to the client that sent the message.
 	 */
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
@@ -75,9 +75,12 @@ public class Server extends AbstractServer {
 			System.out.println("error window");
 			return;
 		} else if (msg instanceof QuestionHandle) {
-			/** The client sends questions for the server in order to insert them to the database*/
+			/**
+			 * The client sends questions for the server in order to insert them to the
+			 * database
+			 */
 			QuestionHandle questionsHandle = (QuestionHandle) msg;
-			if (questionsHandle.getCommand().equals("Delete")) { /** question to remove*/
+			if (questionsHandle.getCommand().equals("Delete")) { /** question to remove */
 				try {
 					SqlUtilities.removeQuestions(questionsHandle.getQuestionArray(), connection);
 					client.sendToClient(Message.tableSaved);
@@ -86,7 +89,7 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} else if (questionsHandle.getCommand().equals("Add")) { /** new question to add*/
+			} else if (questionsHandle.getCommand().equals("Add")) { /** new question to add */
 				try {
 					SqlUtilities.insertNewQuestion(questionsHandle.getQuestion(), connection);
 					client.sendToClient(Message.tableSaved);
@@ -95,7 +98,7 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} else if (questionsHandle.getCommand().equals("All")) { /** if it's from the questions table*/
+			} else if (questionsHandle.getCommand().equals("All")) { /** if it's from the questions table */
 				try {
 					SqlUtilities.editQuestionsTable(questionsHandle.getQuestionArray(), connection);
 					client.sendToClient(Message.tableSaved);
@@ -106,7 +109,10 @@ public class Server extends AbstractServer {
 				}
 			}
 		} else if (msg instanceof SubmittedExamHandle) {
-			/** The client sends submitted exam for the server in order to insert them to the database*/
+			/**
+			 * The client sends submitted exam for the server in order to insert them to the
+			 * database
+			 */
 			SubmittedExamHandle submittedExamHandle = (SubmittedExamHandle) msg;
 			if (submittedExamHandle.getCommand().equals(Message.submittedExam)) {
 				try {
@@ -120,7 +126,9 @@ public class Server extends AbstractServer {
 				}
 			}
 		} else if (msg instanceof ExamHandle) {
-			/** The client sends exams for the server in order to insert them to the database*/
+			/**
+			 * The client sends exams for the server in order to insert them to the database
+			 */
 			ExamHandle examHandle = (ExamHandle) msg;
 			if (examHandle.getCommand().equals(Message.exam))
 				try {
@@ -140,7 +148,10 @@ public class Server extends AbstractServer {
 				e.printStackTrace();
 			}
 		} else if (msg instanceof ActiveExamHandle) {
-			/** The client sends active exam for the server in order to insert her to the database*/
+			/**
+			 * The client sends active exam for the server in order to insert her to the
+			 * database
+			 */
 			ActiveExamHandle activeExamHandle = (ActiveExamHandle) msg;
 			if (activeExamHandle.getCommand().equals("Activate")) {
 				try {
@@ -173,7 +184,10 @@ public class Server extends AbstractServer {
 				}
 			}
 		} else if (msg instanceof MyFileHandle) {
-			/** The client sends .docx file that is a manual exam for the server in order to insert exams folder*/
+			/**
+			 * The client sends .docx file that is a manual exam for the server in order to
+			 * insert exams folder
+			 */
 			MyFileHandle myFileHandle = (MyFileHandle) msg;
 			if (myFileHandle.getCommand().equals("UploadExam")) {
 				String[] strArray = myFileHandle.getFile().getFileName().split("/");
@@ -181,7 +195,9 @@ public class Server extends AbstractServer {
 				Utilities_Client.writeWordFile(myFileHandle.getFile(), false);
 			}
 		} else if (msg instanceof ExecutionCodeHandle) {
-			/** The client sends an execution code for the server in order to check if exists*/
+			/**
+			 * The client sends an execution code for the server in order to check if exists
+			 */
 			ExecutionCodeHandle executionCodeHandle = (ExecutionCodeHandle) msg;
 			try {
 				client.sendToClient(SqlUtilities.checkCode(executionCodeHandle, connection));
@@ -191,7 +207,10 @@ public class Server extends AbstractServer {
 				e.printStackTrace();
 			}
 		} else if (msg instanceof StudentInActiveExamHandle) {
-			/** The client sends an student that started an exam for the server in order to insert them to the database*/
+			/**
+			 * The client sends an student that started an exam for the server in order to
+			 * insert them to the database
+			 */
 			StudentInActiveExamHandle studentInActiveExamHandle = (StudentInActiveExamHandle) msg;
 			if (studentInActiveExamHandle.getCommand().equals(Message.studentInActiveExam)) {
 				try {
@@ -202,7 +221,10 @@ public class Server extends AbstractServer {
 				}
 			}
 		} else if (msg instanceof WaitingActiveExamHandle) {
-			/** The client sends an exam for the server in order to insert them to the database by the following command*/
+			/**
+			 * The client sends an exam for the server in order to insert them to the
+			 * database by the following command
+			 */
 			WaitingActiveExamHandle waitingActiveExamHandle = (WaitingActiveExamHandle) msg;
 			if (waitingActiveExamHandle.getCommand().equals("ChangeTime")) {
 				try {
@@ -226,8 +248,8 @@ public class Server extends AbstractServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} else if (waitingActiveExamHandle.getCommand().equals(Message.requestRejected)) { 
-				/** Show the pop up for the teacher*/
+			} else if (waitingActiveExamHandle.getCommand().equals(Message.requestRejected)) {
+				/** Show the pop up for the teacher */
 				try {
 					String activatorsID = SqlUtilities.getActivatorsID(
 							waitingActiveExamHandle.getWaitingActiveExam().getActiveExam().getExam().getSubjectID(),
@@ -251,7 +273,10 @@ public class Server extends AbstractServer {
 				}
 			}
 		} else if (msg instanceof CheckedExamHandle) {
-			/** The client sends an checked exam for the server in order to insert them to the database by the following command*/
+			/**
+			 * The client sends an checked exam for the server in order to insert them to
+			 * the database by the following command
+			 */
 			CheckedExamHandle checkedExam = (CheckedExamHandle) msg;
 			if (checkedExam.getCommand().equals("Approve")) {
 				try {
@@ -291,7 +316,10 @@ public class Server extends AbstractServer {
 				}
 			}
 		} else if (msg instanceof StudentHandle) {
-			/** The client sends an students for the server in order to insert them to the database by the following command*/
+			/**
+			 * The client sends an students for the server in order to insert them to the
+			 * database by the following command
+			 */
 			StudentHandle studentHandle = (StudentHandle) msg;
 			if (studentHandle.getCommand().equals("SolvedExamsOfStudent")) {
 				try {
@@ -304,7 +332,10 @@ public class Server extends AbstractServer {
 			}
 
 		} else if (msg instanceof ReportHandle) {
-			/** The client sends a report for the server in order to insert them to the database by the following command*/
+			/**
+			 * The client sends a report for the server in order to insert them to the
+			 * database by the following command
+			 */
 			ReportHandle reportHandle = (ReportHandle) msg;
 			if (reportHandle.getCommand().equals("StudentStatistic")) {
 				try {
@@ -333,7 +364,10 @@ public class Server extends AbstractServer {
 			}
 
 		} else if (msg instanceof ExamReportHandle) {
-			/** The client sends an exam report for the server in order to insert them to the database by the following command*/
+			/**
+			 * The client sends an exam report for the server in order to insert them to the
+			 * database by the following command
+			 */
 			ExamReportHandle examReportHandle = (ExamReportHandle) msg;
 			if (examReportHandle.getCommand().equals("ExamStatistic")) {
 				try {
@@ -344,12 +378,15 @@ public class Server extends AbstractServer {
 					e.printStackTrace();
 				}
 			}
-		} else if (msg instanceof String) {		
+		} else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
 			try {
 				switch (strArray[0]) {
-				/** The client sends the user's name and password for the server in order to authenticate them with the database*/
+				/**
+				 * The client sends the user's name and password for the server in order to
+				 * authenticate them with the database
+				 */
 				case Message.login:
 					PreparedStatement login = connection.prepareStatement(SqlUtilities.Login_SELECT_UserID_From_Users);
 					login.setString(1, strArray[1]);
