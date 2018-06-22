@@ -53,6 +53,11 @@ import javafx.stage.StageStyle;
 import javafx.util.converter.IntegerStringConverter;
 import resources.*;
 
+/**
+ * 
+ * @author G7
+ *
+ */
 public class TeacherWindowController implements Initializable, IScreenController {
 
 	/**
@@ -535,108 +540,207 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	// end region -> Fields
 
+	/**
+	 * 
+	 * @return StudentHandle
+	 */
 	public StudentHandle getStudentHandle() {
 		return studentHandle;
 	}
 
+	/**
+	 * 
+	 * @param studentHandle
+	 */
 	public void setStudentHandle(StudentHandle studentHandle) {
 		this.studentHandle = studentHandle;
 	}
 
+	/**
+	 * @param screenParent
+	 */
 	public void setScreenParent(ScreensController screenParent) {
 		screensController = screenParent;
 	}
 
+	/**
+	 * 
+	 * @return String
+	 */
 	public String getFirstName() {
 		return firstName;
 	}
 
+	/**
+	 * 
+	 * @param firstName
+	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
+	/**
+	 * 
+	 * @return String
+	 */
 	public String getLastName() {
 		return lastName;
 	}
 
+	/**
+	 * 
+	 * @param lastName
+	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
+	/**
+	 * 
+	 * @return boolean rejectionFlag
+	 */
 	public boolean isRejectionFlag() {
 		return rejectionFlag;
 	}
 
+	/**
+	 * 
+	 * @param rejectionFlag
+	 */
 	public void setRejectionFlag(boolean rejectionFlag) {
 		this.rejectionFlag = rejectionFlag;
 	}
 
+	/**
+	 * 
+	 * @return boolean hadCopied
+	 */
 	public boolean isHadCopied() {
 		return hadCopied;
 	}
 
+	/**
+	 * 
+	 * @param hadCopied
+	 */
 	public void setHadCopied(boolean hadCopied) {
 		this.hadCopied = hadCopied;
 	}
 
+	/**
+	 * 
+	 * @return boolean acceptionFlag
+	 */
 	public boolean isAcceptionFlag() {
 		return acceptionFlag;
 	}
 
+	/**
+	 * 
+	 * @param acceptionFlag
+	 */
 	public void setAcceptionFlag(boolean acceptionFlag) {
 		this.acceptionFlag = acceptionFlag;
 	}
 
+	/**
+	 * 
+	 * @return ArrayList<Integer> grades
+	 */
 	public ArrayList<Integer> getGrades() {
 		return grades;
 	}
 
+	/**
+	 * 
+	 * @param grades
+	 */
 	public void setGrades(ArrayList<Integer> grades) {
 		this.grades = grades;
 	}
 
+	/**
+	 * 
+	 * @return TextField averageTextFieldInTeacherReport
+	 */
 	public TextField getAverageTextFieldInTeacherReport() {
 		return averageTextFieldInTeacherReport;
 	}
 
+	/**
+	 * 
+	 * @param averageTextFieldInTeacherReport
+	 */
 	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
 		this.averageTextFieldInTeacherReport = averageTextFieldInTeacherReport;
 	}
 
+	/**
+	 * 
+	 * @return TextField medianTextFieldInTeacherReport
+	 */
 	public TextField getMedianTextFieldInTeacherReport() {
 		return medianTextFieldInTeacherReport;
 	}
 
+	/**
+	 * 
+	 * @param medianTextFieldInTeacherReport
+	 */
 	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
 		this.medianTextFieldInTeacherReport = medianTextFieldInTeacherReport;
 	}
 
+	/**
+	 * 
+	 * @return TextField startedTextFieldInTeacherReport
+	 */
 	public TextField getStartedTextFieldInTeacherReport() {
 		return startedTextFieldInTeacherReport;
 	}
 
+	/**
+	 * 
+	 * @param startedTextFieldInTeacherReport
+	 */
 	public void setStartedTextFieldInTeacherReport(TextField startedTextFieldInTeacherReport) {
 		this.startedTextFieldInTeacherReport = startedTextFieldInTeacherReport;
 	}
 
+	/**
+	 * 
+	 * @return TextField finishedTextFieldInTeacherReport
+	 */
 	public TextField getFinishedTextFieldInTeacherReport() {
 		return finishedTextFieldInTeacherReport;
 	}
 
+	/**
+	 * 
+	 * @param finishedTextFieldInTeacherReport
+	 */
 	public void setFinishedTextFieldInTeacherReport(TextField finishedTextFieldInTeacherReport) {
 		this.finishedTextFieldInTeacherReport = finishedTextFieldInTeacherReport;
 	}
 
+	/**
+	 * 
+	 * @return TextField forcedTextFieldInTeacherReport
+	 */
 	public TextField getForcedTextFieldInTeacherReport() {
 		return forcedTextFieldInTeacherReport;
 	}
 
+	/**
+	 * 
+	 * @param forcedTextFieldInTeacherReport
+	 */
 	public void setForcedTextFieldInTeacherReport(TextField forcedTextFieldInTeacherReport) {
 		this.forcedTextFieldInTeacherReport = forcedTextFieldInTeacherReport;
 	}
 
 	/**
-	 * 
+	 * initialize
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -705,6 +809,11 @@ public class TeacherWindowController implements Initializable, IScreenController
 		screensController.setScreen(MainAppClient.loginScreenID);
 	}
 
+	/**
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 */
 	public void setNameAndLastName(String firstName, String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -806,6 +915,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		primaryStage.show();
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void redArrowUp(MouseEvent event) {
 		ObservableList<QuestionInExam> regretQuestions = tableViewInCreateExamQuestion.getSelectionModel()
@@ -824,6 +937,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			Utilities_Client.popUpMethod("Please Select Questions");
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void greenArrowDown(MouseEvent event) {
 		ObservableList<Question> questionsFromAllTable = tableViewInCreateExamAllQuestion.getSelectionModel()
@@ -839,6 +956,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 			Utilities_Client.popUpMethod("Please Select Questions");
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void checkTotalPointsInCreateExam(MouseEvent event) {
 		int totalPoints = 0;
 		for (QuestionInExam question : tableViewInCreateExamQuestion.getItems()) {
@@ -861,6 +982,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void createFinalExam(MouseEvent event) {
 		if (!textAreaStudentsInCreateExam.getText().isEmpty()) {
 			exam.setFreeTextForExaminees(textAreaStudentsInCreateExam.getText());
@@ -891,6 +1016,8 @@ public class TeacherWindowController implements Initializable, IScreenController
 
 	/**
 	 * 'Add Question' was pressed
+	 * 
+	 * @param event
 	 */
 	public void openAddQuestion(ActionEvent event) {
 		try {
@@ -910,6 +1037,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void realodTablesInCreateExam(MouseEvent event) {
 		initTablesInCreateExam(true, true);
 	}
@@ -949,7 +1080,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-
 	public void openCreateExam(ActionEvent event) {
 		try {
 			tableViewInCreateExamAllQuestion.getItems().clear();
@@ -1032,108 +1162,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * select Course ComboBox handler
-	 * 
-	 * @param combobox
-	 * @param selectedSubject
-	 */
-
-	private void selectCourseComboBox(ComboBox<String> combobox, String selectedSubject) {
-		client.handleMessageFromClientUI(Message.getCourses + " " + selectedSubject);
-		combobox.getItems().clear();
-		combobox.setItems(client.getCoursesFromDB()); // sets the courses that is under specific
-														// subject
-		combobox.setPromptText("Select Course");
-		combobox.setButtonCell(new ListCell<String>() {
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				super.updateItem(item, empty);
-				if (empty || item == null) {
-					setText("Select Course");
-				} else {
-					setText(item);
-				}
-			}
-		});
-	}
-
-	/**
-	 * show Exams was pressed
-	 * 
-	 * @param event
-	 */
-
-	public void showExamsHandler(ActionEvent event) {
-		if (examManagementAnchorPane.isVisible() && courseExamManagement.getValue() != null)
-			setTableInExamsManagement();
-		else if (activeExamManagementAnchorPane.isVisible() && coursesActiveExamManagement.getValue() != null)
-			setTableInActiveExamManagement();
-		else
-			Utilities_Client.popUpMethod("Please Select the Course");
-	}
-
-	/**
-	 * setting table in exam management
-	 */
-
-	private void setTableInExamsManagement() {
-		client.getExamsFromDB().clear();
-		client.handleMessageFromClientUI(Message.getExamByCourse + " " + courseExamManagement.getValue());
-		tableViewInExamsManagement.setItems(client.getExamsFromDB());
-	}
-
-	/**
-	 * setting table in active exam management
-	 */
-
-	private void setTableInActiveExamManagement() {
-		client.getActivatedUnlockedExams().clear();
-		client.handleMessageFromClientUI(Message.getActiveExamsByActivator + " " + client.getId() + " "
-				+ coursesActiveExamManagement.getValue());
-		activeExamsTableView.setItems(client.getActivatedUnlockedExams());
-	}
-
-	/**
-	 * set Columns In Exams Management table view
-	 */
-
-	private void setColumnsInExamsManagement() {
-		subjectColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
-		courseColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("courseID"));
-		examNumColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("examNum"));
-		authorColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("teacherName"));
-		durationColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("examDuration"));
-		textExamineesColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("freeTextForExaminees"));
-		textTeachersColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("freeTextForTeacherOnly"));
-	}
-
-	/**
-	 * Initialize for comboBox in CreateExam
-	 */
-	private void initAnchorPaneInCreateExamFirstWindow() {
-		setSubjectComboBox(subjectInCreateExamComboBox);
-		setCourseComboBox(courseInCreateExamComboBox);
-		durationInCreateExamField.setText(null);
-	}
-
-	/**
-	 * Update the table by subject for create exam
-	 * 
-	 * @param event
-	 */
-	private void setTableInCreateExamAllQuestions() {
-		client.getQuestionsFromDB().clear();
-		client.handleMessageFromClientUI(Message.getQuestionBySubject + " " + subjectInCreateExamComboBox.getValue());
-		initTablesInCreateExam(true, false);
-		tableViewInCreateExamAllQuestion.setItems(client.getQuestionsFromDB());
-	}
-
-	/**
 	 * order Student Exam was pressed
 	 * 
 	 * @param mouseEvent
 	 */
-
 	public void orderStudentExam(MouseEvent mouseEvent) {
 		if (confirmGradeTableView.getSelectionModel().getSelectedItem() != null) {
 			CheckedExam selectedStudnet = confirmGradeTableView.getSelectionModel().getSelectedItem();
@@ -1158,33 +1190,17 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
-	 * show exam handler
+	 * show Exams was pressed
+	 * 
+	 * @param event
 	 */
-	private void showExam() {
-		int index = 0;
-		QuestionInComputerizeExam questionInComputerizeExam;
-		vBoxShowExam.getChildren().add(new Text("\n"));
-		for (Question questionsFromDB : client.getQuestionsFromDB()) {
-			for (StudentAnswerInQuestion studnetAnswerInQuestionDB : client.getStudnetAnswerInQuestionDB()) {
-				if (questionsFromDB.getQuestionNum().equals(studnetAnswerInQuestionDB.getQuestionNum())) {
-					questionInComputerizeExam = new QuestionInComputerizeExam(
-							Integer.toString(++index) + ". " + questionsFromDB.getQuestionText(),
-							"\t" + questionsFromDB.getFirstPossibleAnswer() + "\t",
-							"\t" + questionsFromDB.getSecondPossibleAnswer() + "\t",
-							"\t" + questionsFromDB.getThirdPossibleAnswer() + "\t",
-							"\t" + questionsFromDB.getFourthPossibleAnswer() + "\t");
-					questionInComputerizeExam.setTextOnGreen(questionsFromDB.getCorrectAnswer());
-					if (!studnetAnswerInQuestionDB.getStudentAnswer().equals(questionsFromDB.getCorrectAnswer())) {
-						questionInComputerizeExam.setTextOnRed(studnetAnswerInQuestionDB.getStudentAnswer());
-					}
-					questionInComputerizeExamArray.add(questionInComputerizeExam);
-					vBoxShowExam.getChildren().addAll(questionInComputerizeExam.getList());
-					vBoxShowExam.getChildren().add(new Text(""));
-				}
-			}
-		}
-		anchorPaneShowExam.setVisible(true);
-		vBoxShowExam.setVisible(true);
+	public void showExamsHandler(ActionEvent event) {
+		if (examManagementAnchorPane.isVisible() && courseExamManagement.getValue() != null)
+			setTableInExamsManagement();
+		else if (activeExamManagementAnchorPane.isVisible() && coursesActiveExamManagement.getValue() != null)
+			setTableInActiveExamManagement();
+		else
+			Utilities_Client.popUpMethod("Please Select the Course");
 	}
 
 	/**
@@ -1212,7 +1228,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-
 	public void openExamManagement(ActionEvent event) {
 		try {
 			tableViewInExamsManagement.getItems().clear();
@@ -1239,7 +1254,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-
 	public void activateButtonHandler(ActionEvent event) {
 		Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
 		if (selectedExam == null)
@@ -1304,7 +1318,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-
 	public void showQuestionsButtonHandler(MouseEvent event) {
 		Exam selectedExam = tableViewInExamsManagement.getSelectionModel().getSelectedItem();
 		if (selectedExam == null)
@@ -1388,7 +1401,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-
 	public void changeTimeButtonHandler(ActionEvent event) {
 		ActiveExam selectedExam = activeExamsTableView.getSelectionModel().getSelectedItem();
 		if (selectedExam == null)
@@ -1448,7 +1460,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-
 	public void lockButtonHandler(ActionEvent event) {
 		ActiveExam selectedActiveExam = activeExamsTableView.getSelectionModel().getSelectedItem();
 		if (selectedActiveExam == null)
@@ -1501,7 +1512,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-
 	public void clearButtonPressed(ActionEvent event) {
 		clearAddQuestionFields();
 	}
@@ -1511,7 +1521,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-
 	public void openConfirmGrades(ActionEvent event) {
 		confirmGradesAnchorPane.setVisible(true);
 		welcomeAnchorPane.setVisible(false);
@@ -1531,7 +1540,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-
 	public void approveButtonHandler(ActionEvent event) {
 		CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
 		if (selectedExam == null)
@@ -1577,7 +1585,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-
 	public void changeGradeButtonHandler(ActionEvent event) {
 		CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
 		if (selectedExam == null)
@@ -1638,7 +1645,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-
 	public void addcommentsButtonHandler(ActionEvent event) {
 		CheckedExam selectedExam = confirmGradeTableView.getSelectionModel().getSelectedItem();
 		if (selectedExam == null)
@@ -1688,7 +1694,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-
 	public void openExamStatistic(ActionEvent event) {
 		examStatisticAnchorPane.setVisible(true);
 		confirmGradesAnchorPane.setVisible(false);
@@ -1710,7 +1715,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * 
 	 * @param event
 	 */
-
 	public void createReportHandler(ActionEvent event) {
 		if (examNumComboBoxInExamStatistic.getValue() == null)
 			Utilities_Client.popUpMethod("Please select exam number");
@@ -1733,7 +1737,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	 * @param course
 	 * @param examNum
 	 */
-
 	public void createExamHistogram(String subject, String course, String examNum) {
 		examStatisticBarChart.getData().clear();
 		examStatisticBarChart.setCategoryGap(2);
@@ -1810,6 +1813,10 @@ public class TeacherWindowController implements Initializable, IScreenController
 		}
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void backToMainScreen(MouseEvent event) {
 		welcomeAnchorPane.setVisible(true);
 		backAnchorPane.setVisible(false);
@@ -1949,6 +1956,114 @@ public class TeacherWindowController implements Initializable, IScreenController
 	}
 
 	/**
+	 * select Course ComboBox handler
+	 * 
+	 * @param combobox
+	 * @param selectedSubject
+	 */
+	private void selectCourseComboBox(ComboBox<String> combobox, String selectedSubject) {
+		client.handleMessageFromClientUI(Message.getCourses + " " + selectedSubject);
+		combobox.getItems().clear();
+		combobox.setItems(client.getCoursesFromDB()); // sets the courses that is under specific
+														// subject
+		combobox.setPromptText("Select Course");
+		combobox.setButtonCell(new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText("Select Course");
+				} else {
+					setText(item);
+				}
+			}
+		});
+	}
+
+	/**
+	 * setting table in exam management
+	 */
+	private void setTableInExamsManagement() {
+		client.getExamsFromDB().clear();
+		client.handleMessageFromClientUI(Message.getExamByCourse + " " + courseExamManagement.getValue());
+		tableViewInExamsManagement.setItems(client.getExamsFromDB());
+	}
+
+	/**
+	 * setting table in active exam management
+	 */
+	private void setTableInActiveExamManagement() {
+		client.getActivatedUnlockedExams().clear();
+		client.handleMessageFromClientUI(Message.getActiveExamsByActivator + " " + client.getId() + " "
+				+ coursesActiveExamManagement.getValue());
+		activeExamsTableView.setItems(client.getActivatedUnlockedExams());
+	}
+
+	/**
+	 * set Columns In Exams Management table view
+	 */
+	private void setColumnsInExamsManagement() {
+		subjectColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
+		courseColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("courseID"));
+		examNumColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("examNum"));
+		authorColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("teacherName"));
+		durationColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("examDuration"));
+		textExamineesColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("freeTextForExaminees"));
+		textTeachersColInExamsManagement.setCellValueFactory(new PropertyValueFactory<>("freeTextForTeacherOnly"));
+	}
+
+	/**
+	 * Initialize for comboBox in CreateExam
+	 */
+	private void initAnchorPaneInCreateExamFirstWindow() {
+		setSubjectComboBox(subjectInCreateExamComboBox);
+		setCourseComboBox(courseInCreateExamComboBox);
+		durationInCreateExamField.setText(null);
+	}
+
+	/**
+	 * Update the table by subject for create exam
+	 * 
+	 * @param event
+	 */
+	private void setTableInCreateExamAllQuestions() {
+		client.getQuestionsFromDB().clear();
+		client.handleMessageFromClientUI(Message.getQuestionBySubject + " " + subjectInCreateExamComboBox.getValue());
+		initTablesInCreateExam(true, false);
+		tableViewInCreateExamAllQuestion.setItems(client.getQuestionsFromDB());
+	}
+
+	/**
+	 * show exam handler
+	 */
+	private void showExam() {
+		int index = 0;
+		QuestionInComputerizeExam questionInComputerizeExam;
+		vBoxShowExam.getChildren().add(new Text("\n"));
+		for (Question questionsFromDB : client.getQuestionsFromDB()) {
+			for (StudentAnswerInQuestion studnetAnswerInQuestionDB : client.getStudnetAnswerInQuestionDB()) {
+				if (questionsFromDB.getQuestionNum().equals(studnetAnswerInQuestionDB.getQuestionNum())) {
+					questionInComputerizeExam = new QuestionInComputerizeExam(
+							Integer.toString(++index) + ". " + questionsFromDB.getQuestionText(),
+							"\t" + questionsFromDB.getFirstPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getSecondPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getThirdPossibleAnswer() + "\t",
+							"\t" + questionsFromDB.getFourthPossibleAnswer() + "\t");
+					questionInComputerizeExam.setTextOnGreen(questionsFromDB.getCorrectAnswer());
+					if (!studnetAnswerInQuestionDB.getStudentAnswer().equals(questionsFromDB.getCorrectAnswer())) {
+						questionInComputerizeExam.setTextOnRed(studnetAnswerInQuestionDB.getStudentAnswer());
+					}
+					questionInComputerizeExamArray.add(questionInComputerizeExam);
+					vBoxShowExam.getChildren().addAll(questionInComputerizeExam.getList());
+					vBoxShowExam.getChildren().add(new Text(""));
+				}
+			}
+		}
+		anchorPaneShowExam.setVisible(true);
+		vBoxShowExam.setVisible(true);
+	}
+
+	/**
 	 * Sets the exam number combo box that is filtered by author
 	 * 
 	 * @param combobox
@@ -1976,7 +2091,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	/**
 	 * Define the columns in Confirm Grades screen
 	 */
-
 	private void setTableInConfirmGrades() {
 		client.getCheckedExamsFromDB().clear();
 		client.handleMessageFromClientUI(Message.getCheckedExams + " " + client.getId());
@@ -2117,7 +2231,6 @@ public class TeacherWindowController implements Initializable, IScreenController
 	/**
 	 * set Column In Confirm Grades
 	 */
-
 	private void setColumnInConfirmGrades() {
 		subjectColInConfirmGrades.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()
 				.getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().getSubjectID()));

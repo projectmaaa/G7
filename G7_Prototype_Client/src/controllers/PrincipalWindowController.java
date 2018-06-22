@@ -55,6 +55,11 @@ import resources.Utilities_Client;
 import resources.WaitingActiveExam;
 import resources.WaitingActiveExamHandle;
 
+/**
+ * 
+ * @author G7
+ *
+ */
 public class PrincipalWindowController implements Initializable, IScreenController {
 
 	/**
@@ -494,112 +499,209 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/***********************************************************************************************************/
 
-	/* --------------------- setters & getters ---------------------- */
+	/**
+	 * --------------------- setters & getters ----------------------
+	 */
 
+	/**
+	 * @param ScreensController
+	 *            screenParent
+	 */
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
 		screensController = screenParent;
 	}
 
+	/**
+	 * 
+	 * @return String firstName
+	 */
 	public String getFirstName() {
 		return firstName;
 	}
 
+	/**
+	 * 
+	 * @param firstName
+	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
+	/**
+	 * 
+	 * @return String lastName
+	 */
 	public String getLastName() {
 		return lastName;
 	}
 
+	/**
+	 * 
+	 * @param lastName
+	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
+	/**
+	 * 
+	 */
 	public void setName() {
 		name.setText(firstName + " " + lastName);
 	}
 
+	/**
+	 * 
+	 * @return TextField averageTextFieldInStudentReport
+	 */
 	public TextField getAverageTextFieldInStudentReport() {
 		return averageTextFieldInStudentReport;
 	}
 
+	/**
+	 * 
+	 * @param averageTextFieldInStudentReport
+	 */
 	public void setAverageTextFieldInStudentReport(TextField averageTextFieldInStudentReport) {
 		this.averageTextFieldInStudentReport = averageTextFieldInStudentReport;
 	}
 
+	/**
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 */
 	public void setNameAndLastName(String firstName, String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		welcomeText.setText(welcomeText.getText() + " " + this.firstName + " " + this.lastName);
 	}
 
+	/**
+	 * 
+	 * @return TextField averageTextFieldInCourseReport
+	 */
 	public TextField getAverageTextFieldInCourseReport() {
 		return averageTextFieldInCourseReport;
 	}
 
+	/**
+	 * 
+	 * @param averageTextFieldInCourseReport
+	 */
 	public void setAverageTextFieldInCourseReport(TextField averageTextFieldInCourseReport) {
 		this.averageTextFieldInCourseReport = averageTextFieldInCourseReport;
 	}
 
+	/**
+	 * 
+	 * @return TextField averageTextFieldInTeacherReport
+	 */
 	public TextField getAverageTextFieldInTeacherReport() {
 		return averageTextFieldInTeacherReport;
 	}
 
+	/**
+	 * 
+	 * @param averageTextFieldInTeacherReport
+	 */
 	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
 		this.averageTextFieldInTeacherReport = averageTextFieldInTeacherReport;
 	}
 
+	/**
+	 * 
+	 * @return ArrayList<Integer> grades
+	 */
 	public ArrayList<Integer> getGrades() {
 		return grades;
 	}
 
+	/**
+	 * @param ArrayList<Integer>
+	 *            grades
+	 */
 	public void setGrades(ArrayList<Integer> grades) {
 		this.grades = grades;
 	}
 
+	/**
+	 * 
+	 * @return TextField medianTextFieldInStudentReport
+	 */
 	public TextField getMedianTextFieldInStudentReport() {
 		return medianTextFieldInStudentReport;
 	}
 
+	/**
+	 * 
+	 * @param medianTextFieldInStudentReport
+	 */
 	public void setMedianTextFieldInStudentReport(TextField medianTextFieldInStudentReport) {
 		this.medianTextFieldInStudentReport = medianTextFieldInStudentReport;
 	}
 
+	/**
+	 * 
+	 * @return TextField medianTextFieldInCourseReport
+	 */
 	public TextField getMedianTextFieldInCourseReport() {
 		return medianTextFieldInCourseReport;
 	}
 
+	/**
+	 * 
+	 * @param medianTextFieldInCourseReport
+	 */
 	public void setMedianTextFieldInCourseReport(TextField medianTextFieldInCourseReport) {
 		this.medianTextFieldInCourseReport = medianTextFieldInCourseReport;
 	}
 
+	/**
+	 * 
+	 * @return TextField medianTextFieldInTeacherReport
+	 */
 	public TextField getMedianTextFieldInTeacherReport() {
 		return medianTextFieldInTeacherReport;
 	}
 
+	/**
+	 * 
+	 * @param medianTextFieldInTeacherReport
+	 */
 	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
 		this.medianTextFieldInTeacherReport = medianTextFieldInTeacherReport;
 	}
 
+	/**
+	 * 
+	 * @return HashMap<String, Integer> gradesWithExam
+	 */
 	public HashMap<String, Integer> getGradesWithExam() {
 		return gradesWithExam;
 	}
 
+	/**
+	 * 
+	 * @param gradesWithExam
+	 */
 	public void setGradesWithExam(HashMap<String, Integer> gradesWithExam) {
 		this.gradesWithExam = gradesWithExam;
 	}
 
-	/*
+	/**
 	 * ---------------------------------- public methods
-	 * --------------------------------- *
+	 * ---------------------------------
 	 */
 
 	/**
 	 * initialize method
 	 */
 
+	/**
+	 * 
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		date.setText(Utilities_Client.setDate());
@@ -656,7 +758,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * 
 	 * @param event
 	 */
-
 	public void showQuestionHandler(ActionEvent event) {
 		setTableInQuestionPool();
 	}
@@ -666,7 +767,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * 
 	 * @param event
 	 */
-
 	public void openExamPool(ActionEvent event) {
 		tableViewInExamsPool.getItems().clear();
 		setAnchorPanesFalse();
@@ -762,7 +862,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * 
 	 * @param event
 	 */
-
 	public void openActiveExams(ActionEvent event) {
 		activeExamTableView.getItems().clear();
 		setAnchorPanesFalse();
@@ -775,7 +874,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * 
 	 * @param event
 	 */
-
 	public void showActiveExamButtonHandler(ActionEvent event) {
 		setTableInActiveExams();
 	}
@@ -785,7 +883,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * 
 	 * @param event
 	 */
-
 	public void openSolvedExams(ActionEvent event) {
 		solvedExamsTableView.getItems().clear();
 		setAnchorPanesFalse();
@@ -798,19 +895,8 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * 
 	 * @param event
 	 */
-
 	public void showButtonHandler(ActionEvent event) {
 		setTableInSolvedExams();
-	}
-
-	/**
-	 * show solved exam button was pressed
-	 * 
-	 * @param event
-	 */
-
-	public void showSolvedExamButtonHandler(ActionEvent event) {
-		// alex
 	}
 
 	/**
@@ -926,7 +1012,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * 
 	 * @param event
 	 */
-
 	public void refreshButtonHandle(MouseEvent event) {
 		setTableInHandlingRequests();
 	}
@@ -936,7 +1021,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * 
 	 * @param event
 	 */
-
 	public void openStudentReport(ActionEvent event) {
 		setAnchorPanesFalse();
 		studentReportAnchorPane.setVisible(true);
@@ -949,7 +1033,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * @param event
 	 * @throws InterruptedException
 	 */
-
 	public void createReportInStudentReportHandler(ActionEvent event) throws InterruptedException {
 		averageTextFieldInStudentReport.setEditable(false);
 		medianTextFieldInStudentReport.setEditable(false);
@@ -976,7 +1059,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * 
 	 * @param event
 	 */
-
 	public void openCourseReport(ActionEvent event) {
 		setAnchorPanesFalse();
 		courseReportAnchorPane.setVisible(true);
@@ -988,7 +1070,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * 
 	 * @param event
 	 */
-
 	public void createReportInCourseReportHandler(ActionEvent event) {
 		Course course = courseTableView.getSelectionModel().getSelectedItem();
 		if (course == null) {
@@ -1009,6 +1090,10 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		}
 	}
 
+	/**
+	 * 
+	 * @param gradesWithExams
+	 */
 	public void createStudentHistogram(HashMap<String, Integer> gradesWithExams) {
 		studentBarChart.getData().clear();
 		try {
@@ -1031,12 +1116,20 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		studentBarChart.getData().addAll(series1);
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void openTeacherReport(ActionEvent event) {
 		setAnchorPanesFalse();
 		teacherReportAnchorPane.setVisible(true);
 		setTableInTeacherReport();
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void createReportInTeacherReportHandler(ActionEvent event) {
 		Teacher teacher = teacherTableView.getSelectionModel().getSelectedItem();
 		if (teacher == null) {
@@ -1057,6 +1150,11 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		}
 	}
 
+	/**
+	 * 
+	 * @param barchart
+	 * @param grades
+	 */
 	public void createHistogram(BarChart barchart, ArrayList<Integer> grades) {
 		barchart.getData().clear();
 		int group[] = new int[10];
@@ -1110,7 +1208,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * 
 	 * @param mouseEvent
 	 */
-
 	public void orderStudentExam(MouseEvent mouseEvent) {
 		if (studentComboBoxInSolvedExams.getValue() != null) {
 			if (solvedExamsTableView.getSelectionModel().getSelectedItem() != null) {
@@ -1247,7 +1344,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set table in questions pool anchor pane
 	 */
-
 	private void setTableInQuestionPool() {
 		client.getQuestionsFromDB().clear();
 		if (subjectComboBoxInQuestionsPool.getValue() != null) {
@@ -1289,7 +1385,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set table in solved exams anchor pane
 	 */
-
 	private void setTableInSolvedExams() {
 		if (studentComboBoxInSolvedExams.getValue() != null) {
 			client.getSolvedExamOfStudentsDB().clear();
@@ -1305,7 +1400,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set table in handling requests anchor pane
 	 */
-
 	private void setTableInHandlingRequests() {
 		client.getWaitingActiveExamsFromDB().clear();
 		client.handleMessageFromClientUI(Message.getWaitingActiveExams);
@@ -1315,7 +1409,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set columns in questions pool
 	 */
-
 	private void setColumnsOfQuestionsTable(TableColumn<Question, String> subjectID,
 			TableColumn<Question, String> questionNumber, TableColumn<Question, String> author,
 			TableColumn<Question, String> questionText, TableColumn<Question, String> firstPossibleAnswer,
@@ -1335,7 +1428,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set columns in exams pool
 	 */
-
 	private void setColumnsInExamsPool() {
 		subjectColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
 		courseColInExamsPool.setCellValueFactory(new PropertyValueFactory<>("courseID"));
@@ -1349,7 +1441,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set columns in active exams
 	 */
-
 	private void setColumnsInActiveExams() {
 		subjectColInActiveExams.setCellValueFactory(
 				cellData -> new SimpleStringProperty(cellData.getValue().getExam().getSubjectID()));
@@ -1367,7 +1458,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set columns in solved exams
 	 */
-
 	private void setColumnsInSolvedExams() {
 		subjectColInSolvedExams
 				.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCheckedExam()
@@ -1386,9 +1476,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set columns in handling requests
 	 */
-
 	private void setColumnsInHandlingRequests() {
-
 		subjectColInHandlingRequests.setCellValueFactory(
 				cellData -> new SimpleStringProperty(cellData.getValue().getActiveExam().getExam().getSubjectID()));
 		courseColInHandlingRequests.setCellValueFactory(
@@ -1406,7 +1494,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set columns in student report
 	 */
-
 	private void setColInStudentReport() {
 		studentIDColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("id"));
 		firstNameColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -1416,7 +1503,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set columns in course report
 	 */
-
 	private void setColInCourseReport() {
 		subjectColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("subjectID"));
 		courseIDColInStudentReport.setCellValueFactory(new PropertyValueFactory<>("courseID"));
@@ -1426,7 +1512,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set columns in teacher report
 	 */
-
 	private void setColInTeacherReport() {
 		teacherIDColInSTeacherReport.setCellValueFactory(new PropertyValueFactory<>("id"));
 		firstNameColInTeacherReport.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -1436,7 +1521,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set table in student report
 	 */
-
 	private void setTableInStudentReport() {
 		client.getStudentsFromDB().clear();
 		client.handleMessageFromClientUI(Message.getStudents);
@@ -1446,7 +1530,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set table in course report
 	 */
-
 	private void setTableInCourseReport() {
 		client.getAllCoursesFromDB().clear();
 		client.handleMessageFromClientUI(Message.getAllCourses);
@@ -1456,7 +1539,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set table in teacher report
 	 */
-
 	private void setTableInTeacherReport() {
 		client.getAllTeachersFromDB().clear();
 		client.handleMessageFromClientUI(Message.getAllTeachers);
@@ -1466,7 +1548,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * initialize grades
 	 */
-
 	public void initializeGradesArray() {
 		grades = new ArrayList<Integer>();
 		grades.add(0);
@@ -1476,7 +1557,6 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * set all anchor panes to false
 	 */
-
 	private void setAnchorPanesFalse() {
 		handlingRequestsAnchorPane.setVisible(false);
 		examsPoolAnchorPane.setVisible(false);

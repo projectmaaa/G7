@@ -10,6 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author G7
+ *
+ */
 public class MainAppServer extends Application {
 
 	// region Constants
@@ -20,14 +25,26 @@ public class MainAppServer extends Application {
 
 	// end region -> Constants
 
+	/**
+	 * 
+	 * @return
+	 */
 	public static Server getServer() {
 		return server;
 	}
 
+	/**
+	 * 
+	 * @param server
+	 */
 	public static void setServer(Server server) {
 		MainAppServer.server = server;
 	}
 
+	/**
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		int port = 0; // Port to listen on
 		try {
@@ -44,6 +61,9 @@ public class MainAppServer extends Application {
 		launch(args);
 	}
 
+	/**
+	 * @param primaryStage
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		FXMLLoader myLoader = new FXMLLoader(getClass().getResource(loginScreenFile));

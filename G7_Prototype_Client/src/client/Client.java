@@ -15,6 +15,11 @@ import javafx.collections.ObservableList;
 import ocsf.client.AbstractClient;
 import resources.*;
 
+/**
+ * 
+ * @author G7
+ *
+ */
 public class Client extends AbstractClient implements IScreenController {
 
 	// Class variables *************************************************
@@ -104,230 +109,433 @@ public class Client extends AbstractClient implements IScreenController {
 
 	// region Setters
 
+	/**
+	 * 
+	 */
 	public void setScreenParent(ScreensController screenParent) {
 		controller = screenParent;
 	}
 
+	/**
+	 * 
+	 * @return LoginWindowController
+	 */
 	public LoginWindowController getLoginWindowController() {
 		return loginWindowController;
 	}
 
+	/**
+	 * 
+	 * @param loginWindowController
+	 */
 	public void setLoginWindowController(LoginWindowController loginWindowController) {
 		this.loginWindowController = loginWindowController;
 	}
 
+	/**
+	 * 
+	 * @return TeacherWindowController
+	 */
 	public TeacherWindowController getTeacherWindowController() {
 		return teacherWindowController;
 	}
 
+	/**
+	 * 
+	 * @param teacherWindowController
+	 */
 	public void setTeacherWindowController(TeacherWindowController teacherWindowController) {
 		this.teacherWindowController = teacherWindowController;
 	}
 
+	/**
+	 * 
+	 * @return StudentWindowController
+	 */
 	public StudentWindowController getStudentWindowController() {
 		return studentWindowController;
 	}
 
+	/**
+	 * 
+	 * @param studentWindowController
+	 */
 	public void setStudentWindowController(StudentWindowController studentWindowController) {
 		this.studentWindowController = studentWindowController;
 	}
 
+	/**
+	 * 
+	 * @return PrincipalWindowController
+	 */
 	public PrincipalWindowController getPrincipalWindowController() {
 		return principalWindowController;
 	}
 
+	/**
+	 * 
+	 * @param principalWindowController
+	 */
 	public void setPrincipalWindowController(PrincipalWindowController principalWindowController) {
 		this.principalWindowController = principalWindowController;
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<Question>
+	 */
 	public ObservableList<Question> getQuestionsFromDB() {
 		return questionsFromDB;
 	}
 
+	/**
+	 * 
+	 * @param questions
+	 */
 	public void setQuestionsFromDB(ArrayList<Question> questions) {
 		questionsFromDB.setAll(questions);
 	}
 
+	/**
+	 * 
+	 * @return Question
+	 */
 	public Question getQuestion() {
 		return question;
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<Exam>
+	 */
 	public ObservableList<Exam> getExamsFromDB() {
 		return examsFromDB;
 	}
 
+	/**
+	 * 
+	 * @param exams
+	 */
 	public void setExamsFromDB(ArrayList<Exam> exams) {
 		examsFromDB.setAll(exams);
 	}
 
+	/**
+	 * 
+	 * @param question
+	 */
 	public void setQuestion(Question question) {
 		this.question = question;
 	}
 
+	/**
+	 * 
+	 * @return String
+	 */
 	public String getFirstName() {
 		return firstName;
 	}
 
+	/**
+	 * 
+	 * @param firstName
+	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
+	/**
+	 * 
+	 * @return String
+	 */
 	public String getLastName() {
 		return lastName;
 	}
 
+	/**
+	 * 
+	 * @param lastName
+	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<String>
+	 */
 	public ObservableList<String> getSubjectsFromDB() {
 		return subjectsFromDB;
 	}
 
+	/**
+	 * 
+	 * @param subjects
+	 */
 	public void setSubjectsFromDB(ArrayList<String> subjects) {
 		Platform.runLater(() -> {
 			subjectsFromDB.setAll(subjects);
 		});
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<ApprovedExamForStudent>
+	 */
 	public ObservableList<ApprovedExamForStudent> getApprovedExamForStudentsDB() {
 		return approvedExamForStudentsDB;
 	}
 
+	/**
+	 * 
+	 * @param approvedExamForStudentsDB
+	 */
 	public void setApprovedExamForStudentsDB(ArrayList<ApprovedExamForStudent> approvedExamForStudentsDB) {
 		Platform.runLater(() -> {
 			this.approvedExamForStudentsDB.setAll(approvedExamForStudentsDB);
 		});
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<String>
+	 */
 	public ObservableList<String> getCoursesFromDB() {
 		return coursesFromDB;
 	}
 
+	/**
+	 * 
+	 * @param courses
+	 */
 	public void setCoursesFromDB(ArrayList<String> courses) {
 		Platform.runLater(() -> {
 			coursesFromDB.setAll(courses);
 		});
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<String>
+	 */
 	public ObservableList<String> getExamsByAuthorFromDB() {
 		return examsByAuthorFromDB;
 	}
 
+	/**
+	 * 
+	 * @param examsByAuthorFromDB
+	 */
 	public void setExamsByAuthorFromDB(ArrayList<String> examsByAuthorFromDB) {
 		Platform.runLater(() -> {
 			this.examsByAuthorFromDB.setAll(examsByAuthorFromDB);
 		});
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<String>
+	 */
 	public ObservableList<String> getAllStudentsFromDB() {
 		return allStudentsFromDB;
 	}
 
+	/**
+	 * 
+	 * @param allStudentsFromDB
+	 */
 	public void setAllStudentsFromDB(ArrayList<String> allStudentsFromDB) {
 		Platform.runLater(() -> {
 			this.allStudentsFromDB.setAll(allStudentsFromDB);
 		});
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<StudentAnswerInQuestion>
+	 */
 	public ObservableList<StudentAnswerInQuestion> getStudnetAnswerInQuestionDB() {
 		return studnetAnswerInQuestionDB;
 	}
 
+	/**
+	 * 
+	 * @param studnetAnswerInQuestionDB
+	 */
 	public void setStudnetAnswerInQuestionDB(ArrayList<StudentAnswerInQuestion> studnetAnswerInQuestionDB) {
 		this.studnetAnswerInQuestionDB.setAll(studnetAnswerInQuestionDB);
 	}
 
+	/**
+	 * 
+	 * @return String
+	 */
 	public String getId() {
 		return id;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 */
 	public void setId(String id) {
 		this.id = id;
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<WaitingActiveExam>
+	 */
 	public ObservableList<WaitingActiveExam> getWaitingActiveExamsFromDB() {
 		return WaitingActiveExamsFromDB;
 	}
 
+	/**
+	 * 
+	 * @param waitingActiveExamsFromDB
+	 */
 	public void setWaitingActiveExamsFromDB(ArrayList<WaitingActiveExam> waitingActiveExamsFromDB) {
 		Platform.runLater(() -> {
 			WaitingActiveExamsFromDB.setAll(waitingActiveExamsFromDB);
 		});
 	}
 
+	/**
+	 * 
+	 * @return boolean
+	 */
 	public boolean getExecutionCodeExistFlag() {
 		return executionCodeExistFlag;
 	}
 
+	/**
+	 * 
+	 * @param executionCodeExistFlag
+	 */
 	public void setExecutionCodeExistFlag(boolean executionCodeExistFlag) {
 		this.executionCodeExistFlag = executionCodeExistFlag;
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<CheckedExam>
+	 */
 	public ObservableList<CheckedExam> getCheckedExamsFromDB() {
 		return checkedExamsFromDB;
 	}
 
+	/**
+	 * 
+	 * @param checkedExamsFromDB
+	 */
 	public void setCheckedExamsFromDB(ArrayList<CheckedExam> checkedExamsFromDB) {
 		Platform.runLater(() -> {
 			this.checkedExamsFromDB.setAll(checkedExamsFromDB);
 		});
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<ActiveExam>
+	 */
 	public ObservableList<ActiveExam> getActivatedUnlockedExams() {
 		return activatedUnlockedExams;
 	}
 
+	/**
+	 * 
+	 * @param activatedUnlockedExams
+	 */
 	public void setActivatedUnlockedExams(ArrayList<ActiveExam> activatedUnlockedExams) {
 		Platform.runLater(() -> {
 			this.activatedUnlockedExams.setAll(activatedUnlockedExams);
 		});
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<Student>
+	 */
 	public ObservableList<Student> getStudentsFromDB() {
 		return studentsFromDB;
 	}
 
+	/**
+	 * 
+	 * @param studentsFromDB
+	 */
 	public void setStudentsFromDB(ArrayList<Student> studentsFromDB) {
 		Platform.runLater(() -> {
 			this.studentsFromDB.setAll(studentsFromDB);
 		});
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<Course>
+	 */
 	public ObservableList<Course> getAllCoursesFromDB() {
 		return allCoursesFromDB;
 	}
 
+	/**
+	 * 
+	 * @param allCoursesFromDB
+	 */
 	public void setAllCoursesFromDB(ArrayList<Course> allCoursesFromDB) {
 		Platform.runLater(() -> {
 			this.allCoursesFromDB.setAll(allCoursesFromDB);
 		});
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<Teacher>
+	 */
 	public ObservableList<Teacher> getAllTeachersFromDB() {
 		return allTeachersFromDB;
 	}
 
+	/**
+	 * 
+	 * @param allTeachersFromDB
+	 */
 	public void setAllTeachersFromDB(ArrayList<Teacher> allTeachersFromDB) {
 		Platform.runLater(() -> {
 			this.allTeachersFromDB.setAll(allTeachersFromDB);
 		});
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<ActiveExam>
+	 */
 	public ObservableList<ActiveExam> getActiveExamsBySubject() {
 		return ActiveExamsBySubject;
 	}
 
+	/**
+	 * 
+	 * @param activeExamsBySubject
+	 */
 	public void setActiveExamsBySubject(ArrayList<ActiveExam> activeExamsBySubject) {
 		Platform.runLater(() -> {
 			this.ActiveExamsBySubject.setAll(activeExamsBySubject);
 		});
 	}
 
+	/**
+	 * 
+	 * @return ObservableList<ApprovedExamForStudent>
+	 */
 	public ObservableList<ApprovedExamForStudent> getSolvedExamOfStudentsDB() {
 		return solvedExamOfStudentsDB;
 	}
 
+	/**
+	 * 
+	 * @param solvedExamOfStudentsDB
+	 */
 	public void setSolvedExamOfStudentsDB(ArrayList<ApprovedExamForStudent> solvedExamOfStudentsDB) {
 		// Platform.runLater(() -> {
 		this.solvedExamOfStudentsDB.setAll(solvedExamOfStudentsDB);
@@ -468,7 +676,7 @@ public class Client extends AbstractClient implements IScreenController {
 				setStudentsFromDB(studentHandle.getStudents());
 			}
 			// The teacher gets all the students that had copied in the exam
-			else if(studentHandle.getCommand().equals("Copiers")) {
+			else if (studentHandle.getCommand().equals("Copiers")) {
 				System.out.println("Copiers");
 				teacherWindowController.setStudentHandle(studentHandle);
 				teacherWindowController.setHadCopied(true);
