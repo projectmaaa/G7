@@ -1,11 +1,17 @@
 package resources;
 
 import java.io.Serializable;
+/**
+ * This class presents active exam that waiting for approvement or rejection of
+ * principal of changing time
+ * @author Group7
+ *
+ */
 
 public class WaitingActiveExam implements Serializable {
 	
 	/**
-	 * 
+	 * Class attributes
 	 */
 	private static final long serialVersionUID = 1L;
 
