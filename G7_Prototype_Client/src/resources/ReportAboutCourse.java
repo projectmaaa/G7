@@ -20,7 +20,7 @@ public class ReportAboutCourse extends Report implements Serializable {
 	
 	private ArrayList<Integer> grades;
 
-	public ReportAboutCourse(String command, ArrayList<Course> courses) {
+	public ReportAboutCourse (String command, ArrayList<Course> courses) {
 		this.command=command;
 		this.courses = courses;
 	}

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
-
 import boundaries.QuestionInComputerizeExam;
 import client.Client;
 import client.MainAppClient;
@@ -1855,6 +1854,7 @@ public class TeacherWindowController implements Initializable, IScreenController
 		activeExamsTableView.getItems().clear();
 		backAnchorPane.setVisible(true);
 		activeExamManagementAnchorPane.setVisible(true);
+		examStatisticAnchorPane.setVisible(false);
 	}
 
 	/**
