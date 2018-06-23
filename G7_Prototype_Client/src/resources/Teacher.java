@@ -16,6 +16,15 @@ public class Teacher extends User implements Serializable {
 
 	/******************** Constructors ********************/
 
+	/**
+	 * 
+	 * @param id
+	 *            Teacher's ID
+	 * @param firstName
+	 *            Teacher's First Name
+	 * @param lastName
+	 *            Teacher's last Name
+	 */
 	public Teacher(String id, String firstName, String lastName) {
 		super(id, firstName, lastName);
 	}

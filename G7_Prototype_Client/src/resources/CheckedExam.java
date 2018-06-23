@@ -3,7 +3,7 @@ package resources;
 import java.io.Serializable;
 
 /**
- * This class holds the information like grade, comments & the submitted exam
+ * This class holds the information like grade, comments and the submitted exam
  * before the teacher approve the student's exam.
  * 
  * @author Group 7
@@ -30,9 +30,13 @@ public class CheckedExam implements Serializable {
 	/**
 	 * 
 	 * @param submittedExam
+	 *            The Exam
 	 * @param grade
+	 *            The grade
 	 * @param generalComments
+	 *            The general comments
 	 * @param commentsOfChangeGrade
+	 *            The comments of the grade changing
 	 */
 	public CheckedExam(SubmittedExam submittedExam, int grade, String generalComments, String commentsOfChangeGrade) {
 		this.submittedExam = submittedExam;
@@ -44,7 +48,9 @@ public class CheckedExam implements Serializable {
 	/**
 	 * 
 	 * @param submittedExam
+	 *            The Exam
 	 * @param grade
+	 *            The grade
 	 */
 	public CheckedExam(SubmittedExam submittedExam, int grade) {
 		this.submittedExam = submittedExam;
@@ -54,6 +60,7 @@ public class CheckedExam implements Serializable {
 	/**
 	 * 
 	 * @param submittedExam
+	 *            The Exam
 	 */
 	public CheckedExam(SubmittedExam submittedExam) {
 		this.submittedExam = submittedExam;
@@ -62,8 +69,11 @@ public class CheckedExam implements Serializable {
 	/**
 	 * 
 	 * @param submittedExam
+	 *            The Exam
 	 * @param grade
+	 *            The grade
 	 * @param generalComments
+	 *            The general comments
 	 */
 	public CheckedExam(SubmittedExam submittedExam, int grade, String generalComments) {
 		this.submittedExam = submittedExam;
@@ -74,14 +84,16 @@ public class CheckedExam implements Serializable {
 	/**
 	 * 
 	 * @param submittedExam
+	 *            The Exam
 	 * @param generalComments
+	 *            The general comments
 	 */
 	public CheckedExam(SubmittedExam submittedExam, String generalComments) {
 		this.submittedExam = submittedExam;
 		this.generalComments = generalComments;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -94,6 +106,7 @@ public class CheckedExam implements Serializable {
 	/**
 	 * 
 	 * @param submittedExam
+	 *            Student's submitted exam
 	 */
 	public void setSubmittedExam(SubmittedExam submittedExam) {
 		this.submittedExam = submittedExam;
@@ -110,6 +123,7 @@ public class CheckedExam implements Serializable {
 	/**
 	 * 
 	 * @param grade
+	 *            Student's grade which the system gave him\her
 	 */
 	public void setGrade(int grade) {
 		this.grade = grade;
@@ -126,6 +140,7 @@ public class CheckedExam implements Serializable {
 	/**
 	 * 
 	 * @param examNum
+	 *            The exam number
 	 */
 	public void setExamNum(String examNum) {
 		this.submittedExam.getStudentInActiveExam().getActiveExam().getExam().setExamNum(examNum);
@@ -134,6 +149,7 @@ public class CheckedExam implements Serializable {
 	/**
 	 * 
 	 * @param executionCode
+	 *            The execution code
 	 */
 	public void setExecutionCode(String executionCode) {
 		this.submittedExam.getStudentInActiveExam().getActiveExam().setExecutionCode(executionCode);
@@ -158,6 +174,7 @@ public class CheckedExam implements Serializable {
 	/**
 	 * 
 	 * @param generalComments
+	 *            The general comments
 	 */
 	public void setGeneralComments(String generalComments) {
 		this.generalComments = generalComments;
@@ -174,6 +191,7 @@ public class CheckedExam implements Serializable {
 	/**
 	 * 
 	 * @param commentsOfChangeGrade
+	 *            The comments that the teacher added when changed studet's grade
 	 */
 	public void setCommentsOfChangeGrade(String commentsOfChangeGrade) {
 		this.commentsOfChangeGrade = commentsOfChangeGrade;
@@ -190,6 +208,7 @@ public class CheckedExam implements Serializable {
 	/**
 	 * 
 	 * @param idApprover
+	 *            The ID of the teacher who need to approve this exam
 	 */
 	public void setIdApprover(String idApprover) {
 		this.idApprover = idApprover;
@@ -208,8 +227,8 @@ public class CheckedExam implements Serializable {
 
 	/**
 	 * 
-	 * @return The combination of the general comments & the comments of the changed
-	 *         grade
+	 * @return The combination of the general comments and the comments of the
+	 *         changed grade
 	 */
 	public String getAllComments() {
 		return this.generalComments + this.commentsOfChangeGrade;

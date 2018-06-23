@@ -38,13 +38,21 @@ public class Question implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            Subject ID
 	 * @param author
+	 *            Teacher's Name
 	 * @param questionText
+	 *            Question Text
 	 * @param firstPossibleAnswer
+	 *            First Possible Answer
 	 * @param secondPossibleAnswer
+	 *            Second Possible Answer
 	 * @param thirdPossibleAnswer
+	 *            Third Possible Answer
 	 * @param fourthPossibleAnswer
+	 *            Fourth Possible Answer
 	 * @param correctAnswer
+	 *            Correct Answer
 	 */
 	public Question(String subjectID, String author, String questionText, String firstPossibleAnswer,
 			String secondPossibleAnswer, String thirdPossibleAnswer, String fourthPossibleAnswer,
@@ -62,11 +70,17 @@ public class Question implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            Subject ID
 	 * @param questionNum
+	 *            Question Number
 	 * @param author
+	 *            Teacher's Name
 	 * @param questionText
+	 *            Question Text
 	 * @param possibleAnswers
+	 *            Possible Answers
 	 * @param correctAnswer
+	 *            Correct Answer
 	 */
 	public Question(String subjectID, String questionNum, String author, String questionText,
 			ArrayList<String> possibleAnswers, String correctAnswer) {
@@ -84,15 +98,22 @@ public class Question implements Serializable {
 	/**
 	 * 
 	 * @param questionText
+	 *            Question Text
 	 * @param firstPossibleAnswer
+	 *            First Possible Answer
 	 * @param secondPossibleAnswer
+	 *            Second Possible Answer
 	 * @param thirdPossibleAnswer
+	 *            Third Possible Answer
 	 * @param fourthPossibleAnswer
+	 *            Fourth Possible Answer
 	 * @param correctAnswer
+	 *            Correct Answer
+	 * @param questionNum
+	 *            Question Number
 	 */
 	public Question(String questionText, String firstPossibleAnswer, String secondPossibleAnswer,
 			String thirdPossibleAnswer, String fourthPossibleAnswer, String correctAnswer, String questionNum) {
-		super();
 		this.questionText = questionText;
 		this.firstPossibleAnswer = firstPossibleAnswer;
 		this.secondPossibleAnswer = secondPossibleAnswer;
@@ -102,7 +123,7 @@ public class Question implements Serializable {
 		this.questionNum = questionNum;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -115,6 +136,7 @@ public class Question implements Serializable {
 	/**
 	 * 
 	 * @param questionNum
+	 *            The question number
 	 */
 	public void setQuestionNum(String questionNum) {
 		this.questionNum = questionNum;
@@ -131,6 +153,7 @@ public class Question implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            The number of the subject that this question belongs to
 	 */
 	public void setSubjectID(String subjectID) {
 		this.subjectID = subjectID;
@@ -147,6 +170,7 @@ public class Question implements Serializable {
 	/**
 	 * 
 	 * @param author
+	 *            The teacher's name who wrote this question
 	 */
 	public void setAuthor(String author) {
 		this.author = author;
@@ -163,6 +187,7 @@ public class Question implements Serializable {
 	/**
 	 * 
 	 * @param questionText
+	 *            The question itself
 	 */
 	public void setQuestionText(String questionText) {
 		this.questionText = questionText;
@@ -179,6 +204,7 @@ public class Question implements Serializable {
 	/**
 	 * 
 	 * @param firstPossibleAnswer
+	 *            The first option to answer
 	 */
 	public void setFirstPossibleAnswer(String firstPossibleAnswer) {
 		this.firstPossibleAnswer = firstPossibleAnswer;
@@ -195,6 +221,7 @@ public class Question implements Serializable {
 	/**
 	 * 
 	 * @param secondPossibleAnswer
+	 *            The second option to answer
 	 */
 	public void setSecondPossibleAnswer(String secondPossibleAnswer) {
 		this.secondPossibleAnswer = secondPossibleAnswer;
@@ -211,6 +238,7 @@ public class Question implements Serializable {
 	/**
 	 * 
 	 * @param thirdPossibleAnswer
+	 *            The third option to answer
 	 */
 	public void setThirdPossibleAnswer(String thirdPossibleAnswer) {
 		this.thirdPossibleAnswer = thirdPossibleAnswer;
@@ -227,6 +255,7 @@ public class Question implements Serializable {
 	/**
 	 * 
 	 * @param fourthPossibleAnswer
+	 *            The fourth option to answer
 	 */
 	public void setFourthPossibleAnswer(String fourthPossibleAnswer) {
 		this.fourthPossibleAnswer = fourthPossibleAnswer;
@@ -243,6 +272,7 @@ public class Question implements Serializable {
 	/**
 	 * 
 	 * @param correctAnswer
+	 *            The correct answer
 	 */
 	public void setCorrectAnswer(String correctAnswer) {
 		this.correctAnswer = correctAnswer;

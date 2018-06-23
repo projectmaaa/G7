@@ -27,12 +27,13 @@ public class MyFile implements Serializable {
 	/**
 	 * 
 	 * @param fileName
+	 *            The name of the file
 	 */
 	public MyFile(String fileName) {
 		this.fileName = fileName;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -45,6 +46,7 @@ public class MyFile implements Serializable {
 	/**
 	 * 
 	 * @param fileName
+	 *            The name of the file
 	 */
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
@@ -61,6 +63,7 @@ public class MyFile implements Serializable {
 	/**
 	 * 
 	 * @param size
+	 *            The size of the byte array
 	 */
 	public void setSize(int size) {
 		this.size = size;
@@ -77,6 +80,7 @@ public class MyFile implements Serializable {
 	/**
 	 * 
 	 * @param i
+	 *            Index
 	 * @return The element at the i index
 	 */
 	public byte getMybytearray(int i) {
@@ -86,6 +90,7 @@ public class MyFile implements Serializable {
 	/**
 	 * 
 	 * @param mybytearray
+	 *            The Byte Array
 	 */
 	public void setMybytearray(byte[] mybytearray) {
 		for (int i = 0; i < mybytearray.length; i++)
@@ -103,6 +108,7 @@ public class MyFile implements Serializable {
 	/**
 	 * 
 	 * @param description
+	 *            The file description
 	 */
 	public void setDescription(String description) {
 		Description = description;
@@ -114,6 +120,7 @@ public class MyFile implements Serializable {
 	 * Allocates the byte array by size
 	 * 
 	 * @param size
+	 *            The wished size
 	 */
 	public void initArray(int size) {
 		mybytearray = new byte[size];

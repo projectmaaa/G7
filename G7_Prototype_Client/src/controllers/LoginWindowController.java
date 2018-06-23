@@ -68,7 +68,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 
 	private ScreensController myController;
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * get My Controller
@@ -107,6 +107,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	 * login Button Handler
 	 * 
 	 * @param event
+	 *            The Button has been clicked
 	 */
 	public void loginButtonHandler(ActionEvent event) {
 		loginText.setText("");
@@ -117,6 +118,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	 * define open setting to start
 	 * 
 	 * @param event
+	 *            The Button has been clicked
 	 */
 	public void openSetting(MouseEvent event) {
 		if (!turnSettings) {
@@ -135,6 +137,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	 * save setting
 	 * 
 	 * @param event
+	 *            The Button has been clicked
 	 */
 	public void saveSettings(MouseEvent event) {
 		if (!(MainAppClient.getClient().getHost().equals(hostField.getText()))
@@ -158,6 +161,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	 * This handler is for move between fields with tab.
 	 * 
 	 * @param event
+	 *            Tab is pressed
 	 */
 	public void keyHandler(KeyEvent event) {
 		KeyCode code = event.getCode();
@@ -185,6 +189,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	 * set Login Status
 	 * 
 	 * @param msg
+	 *            The message of connection status
 	 */
 	public void setLoginStatus(String msg) {
 		loginText.setVisible(true);

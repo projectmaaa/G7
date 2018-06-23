@@ -3,9 +3,9 @@ package resources;
 import java.io.Serializable;
 
 /**
- * The class that holds the student in active exam & the command what to do with
- * the student. This class is the message that sent between the client & the
- * server.
+ * The class that holds the student in active exam and the command what to do
+ * with the student. This class is the message that sent between the client and
+ * the server.
  * 
  * @author Group 7
  *
@@ -25,14 +25,16 @@ public class StudentInActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What To Do
 	 * @param studentInActiveExam
+	 *            Student In Active Exam
 	 */
 	public StudentInActiveExamHandle(String command, StudentInActiveExam studentInActiveExam) {
 		this.command = command;
 		this.studentInActiveExam = studentInActiveExam;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -45,6 +47,7 @@ public class StudentInActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            The message what to do with the student
 	 */
 	public void setCommand(String command) {
 		this.command = command;
@@ -61,6 +64,7 @@ public class StudentInActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param studentInActiveExam
+	 *            The student in active exam
 	 */
 	public void setStudentInActiveExam(StudentInActiveExam studentInActiveExam) {
 		this.studentInActiveExam = studentInActiveExam;

@@ -12,6 +12,7 @@ public interface IScreenController {
 	 * This method will allow the injection of the Parent ScreenPane
 	 * 
 	 * @param screenPage
+	 *            The requested screen
 	 */
 	public void setScreenParent(ScreensController screenPage);
 

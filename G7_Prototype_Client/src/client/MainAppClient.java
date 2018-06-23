@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import resources.Message;
 
 /**
- * The class that loads & starts the client application
+ * The class that loads and starts the client application
  * 
  * @author Group 7
  *
@@ -41,7 +41,7 @@ public class MainAppClient extends Application {
 
 	private static String host = "";
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -54,6 +54,7 @@ public class MainAppClient extends Application {
 	/**
 	 * 
 	 * @param client
+	 *            The Client
 	 */
 	public void setClient(Client client) {
 		MainAppClient.client = client;
@@ -70,6 +71,7 @@ public class MainAppClient extends Application {
 	/**
 	 * 
 	 * @param host
+	 *            The host
 	 */
 	public static void setHost(String host) {
 		MainAppClient.host = host;
@@ -77,6 +79,12 @@ public class MainAppClient extends Application {
 
 	/******************** Methods ********************/
 
+	/**
+	 * 
+	 * @param args
+	 *            The IP of the server
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws IOException {
 		try {
 			host = args[0];

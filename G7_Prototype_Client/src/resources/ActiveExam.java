@@ -34,7 +34,9 @@ public class ActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param exam
+	 *            The exam
 	 * @param executionCode
+	 *            The execution code
 	 */
 	public ActiveExam(Exam exam, String executionCode) {
 		this.exam = exam;
@@ -46,10 +48,15 @@ public class ActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param exam
+	 *            The exam
 	 * @param executionCode
+	 *            The execution code
 	 * @param type
+	 *            The type
 	 * @param activator
+	 *            Activator's name
 	 * @param activatorsID
+	 *            Activator's ID
 	 */
 	public ActiveExam(Exam exam, String executionCode, String type, String activator, String activatorsID) {
 		this.exam = exam;
@@ -64,8 +71,11 @@ public class ActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param exam
+	 *            The exam
 	 * @param executionCode
+	 *            The execution code
 	 * @param duration
+	 *            The duration
 	 */
 	public ActiveExam(Exam exam, String executionCode, int duration) {
 		this.exam = exam;
@@ -76,11 +86,17 @@ public class ActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param exam
+	 *            The exam
 	 * @param executionCode
+	 *            The execution code
 	 * @param activator
+	 *            Activator's name
 	 * @param duration
+	 *            The duration
 	 * @param locked
+	 *            If locked
 	 * @param type
+	 *            The type
 	 */
 	public ActiveExam(Exam exam, String executionCode, String activator, int duration, int locked, String type) {
 		this.exam = exam;
@@ -94,9 +110,13 @@ public class ActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param exam
+	 *            The exam
 	 * @param duration
+	 *            The duration
 	 * @param executionCode
+	 *            The execution code
 	 * @param type
+	 *            The type
 	 */
 	public ActiveExam(Exam exam, int duration, String executionCode, String type) {
 		this.exam = exam;
@@ -108,12 +128,13 @@ public class ActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param executionCode
+	 *            The execution code
 	 */
 	public ActiveExam(String executionCode) {
 		this.executionCode = executionCode;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -126,6 +147,7 @@ public class ActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param exam
+	 *            Exam
 	 */
 	public void setExam(Exam exam) {
 		this.exam = exam;
@@ -142,6 +164,7 @@ public class ActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param executionCode
+	 *            Execution Code
 	 */
 	public void setExecutionCode(String executionCode) {
 		this.executionCode = executionCode;
@@ -158,6 +181,7 @@ public class ActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param duration
+	 *            Duration
 	 */
 	public void setDuration(int duration) {
 		this.duration = duration;
@@ -174,6 +198,7 @@ public class ActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param locked
+	 *            Locked Value
 	 */
 	public void setLocked(int locked) {
 		this.locked = locked;
@@ -210,6 +235,7 @@ public class ActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param type
+	 *            Type
 	 */
 	public void setType(String type) {
 		this.type = type;
@@ -227,6 +253,7 @@ public class ActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param activator
+	 *            Activator's Name
 	 */
 	public void setActivator(String activator) {
 		this.activator = activator;
@@ -244,6 +271,7 @@ public class ActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param activatorsID
+	 *            Activator's ID
 	 */
 	public void setActivatorsID(String activatorsID) {
 		this.activatorsID = activatorsID;
@@ -278,4 +306,5 @@ public class ActiveExam implements Serializable {
 		}
 		return string;
 	}
+
 } // end of class

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 /**
  * This class contains the details for the principal report about specific exam.
- * This class is the message that sent between the client & the server.
+ * This class is the message that sent between the client and the server.
  * 
  * @author Group 7
  *
@@ -29,11 +29,17 @@ public class ReportAboutExam extends Report implements Serializable {
 	/**
 	 * 
 	 * @param avg
+	 *            Average
 	 * @param median
+	 *            Median
 	 * @param studentStarted
+	 *            Amount of Students who Started
 	 * @param studentFinished
+	 *            Amount of Students who finished the exam by their own submission
 	 * @param studentForced
+	 *            finished the exam by the system automatic submission
 	 * @param grades
+	 *            Grades
 	 */
 	public ReportAboutExam(double avg, int median, int studentStarted, int studentFinished, int studentForced,
 			ArrayList<Integer> grades) {
@@ -45,7 +51,7 @@ public class ReportAboutExam extends Report implements Serializable {
 		this.grades = grades;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -58,6 +64,7 @@ public class ReportAboutExam extends Report implements Serializable {
 	/**
 	 * 
 	 * @param studentStarted
+	 *            The amount of students who started the exam
 	 */
 	public void setStudentStarted(int studentStarted) {
 		this.studentStarted = studentStarted;
@@ -74,6 +81,8 @@ public class ReportAboutExam extends Report implements Serializable {
 	/**
 	 * 
 	 * @param studentFinished
+	 *            The amount of students who finished the exam by their own
+	 *            submission
 	 */
 	public void setStudentFinished(int studentFinished) {
 		this.studentFinished = studentFinished;
@@ -91,6 +100,8 @@ public class ReportAboutExam extends Report implements Serializable {
 	/**
 	 * 
 	 * @param studentForced
+	 *            The amount of students who finished the exam by the system
+	 *            automatic submission
 	 */
 	public void setStudentForced(int studentForced) {
 		this.studentForced = studentForced;
@@ -107,6 +118,7 @@ public class ReportAboutExam extends Report implements Serializable {
 	/**
 	 * 
 	 * @param grades
+	 *            The grades of the students who did this exam
 	 */
 	public void setGrades(ArrayList<Integer> grades) {
 		this.grades = grades;

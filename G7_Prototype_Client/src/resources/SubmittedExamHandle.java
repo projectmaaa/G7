@@ -3,8 +3,8 @@ package resources;
 import java.io.Serializable;
 
 /**
- * The class that holds the submitted exam & the command what to do with the
- * exam. This class is the message that sent between the client & the server.
+ * The class that holds the submitted exam and the command what to do with the
+ * exam. This class is the message that sent between the client and the server.
  * 
  * @author Group 7
  *
@@ -24,14 +24,16 @@ public class SubmittedExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What To Do
 	 * @param submittedExam
+	 *            Submitted Exam
 	 */
 	public SubmittedExamHandle(String command, SubmittedExam submittedExam) {
 		this.command = command;
 		this.submittedExam = submittedExam;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -44,6 +46,7 @@ public class SubmittedExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            The message what to do with the submitted exam
 	 */
 	public void setCommand(String command) {
 		this.command = command;
@@ -60,6 +63,7 @@ public class SubmittedExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param submittedExam
+	 *            The exam
 	 */
 	public void setSubmittedExam(SubmittedExam submittedExam) {
 		this.submittedExam = submittedExam;

@@ -25,8 +25,11 @@ public class Course implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            Subject ID
 	 * @param courseID
+	 *            Course ID
 	 * @param courseName
+	 *            Course Name
 	 */
 	public Course(String subjectID, String courseID, String courseName) {
 		this.courseID = courseID;
@@ -34,7 +37,7 @@ public class Course implements Serializable {
 		this.courseName = courseName;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -47,6 +50,7 @@ public class Course implements Serializable {
 	/**
 	 * 
 	 * @param courseID
+	 *            The course number
 	 */
 	public void setCourseID(String courseID) {
 		this.courseID = courseID;
@@ -63,6 +67,7 @@ public class Course implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            The number of the subject that this course belongs to
 	 */
 	public void setSubjectID(String subjectID) {
 		this.subjectID = subjectID;
@@ -79,6 +84,7 @@ public class Course implements Serializable {
 	/**
 	 * 
 	 * @param courseName
+	 *            The name of the course
 	 */
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;

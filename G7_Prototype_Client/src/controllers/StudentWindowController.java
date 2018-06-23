@@ -197,7 +197,7 @@ public class StudentWindowController implements Initializable, IScreenController
 		uploadManualExam.setDisable(true);
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
@@ -215,6 +215,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	/**
 	 * 
 	 * @param firstName
+	 *            The first name
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -231,6 +232,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	/**
 	 * 
 	 * @param lastName
+	 *            The last name
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -248,6 +250,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * Changes the time of exam.
 	 * 
 	 * @param secondTimer
+	 *            The timer
 	 */
 	public void setSecondTimer(int secondTimer) {
 		this.secondTimer = secondTimer;
@@ -264,6 +267,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	/**
 	 * 
 	 * @param activeExam
+	 *            The active exam
 	 */
 	public void setActiveExam(ActiveExam activeExam) {
 		this.activeExam = activeExam;
@@ -301,11 +305,12 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * Defines the steps at login out
 	 * 
 	 * @param event
+	 *            The button is clicked
 	 */
 	public void logOutButtonHandler(MouseEvent event) {
 		if (!submitExamButton.isDisabled() || !uploadManualExam.isDisabled())
 			checkRunningExam();
-		else { // if the student is in the middle of the exam & pressed 'No' in the submission
+		else { // if the student is in the middle of the exam and pressed 'No' in the submission
 				// pop up than he\she wont exit the application
 			if (stopWatchTimeline != null)
 				stopWatchTimeline.stop();
@@ -334,6 +339,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * Open exam window
 	 * 
 	 * @param event
+	 *            The menu item is clicked
 	 */
 	public void openExamHandler(ActionEvent event) {
 		if (!submitExamButton.isDisabled() || !uploadManualExam.isDisabled())
@@ -366,6 +372,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * Ordering exam based on the selected information at the gui
 	 * 
 	 * @param mouseEvent
+	 *            The button is clicked
 	 */
 	public void orderExam(MouseEvent mouseEvent) {
 		if (tableViewCheckedExam.getSelectionModel().getSelectedItem() != null) {
@@ -391,6 +398,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * when the user clicked on 'enter' after entering his\hers ID
 	 * 
 	 * @param e
+	 *            The button is clicked
 	 */
 	public void enterIsClickedInEnterID(MouseEvent e) {
 		checkStudentID();
@@ -400,6 +408,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * Returns from the exam window to the view of checked exams
 	 * 
 	 * @param mouseEvent
+	 *            The button is clicked
 	 */
 	public void returnToTableView(MouseEvent mouseEvent) {
 		vBoxShowExam.getChildren().clear();
@@ -413,6 +422,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * When the user pressed enter key after entering his\hers ID
 	 * 
 	 * @param e
+	 *            Enter is pressed
 	 */
 	public void enterIDKeyHandler(KeyEvent e) {
 		KeyCode code = e.getCode();
@@ -520,6 +530,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * Submitting exam, stopping the timer
 	 * 
 	 * @param mouseEvent
+	 *            The button is clicked
 	 */
 	public void sumbitExam(MouseEvent mouseEvent) {
 		submittedExam = new SubmittedExam(activeExam.getDuration() - secondTimer / 60, studentInActiveExam);
@@ -552,6 +563,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * Updates the table view based on the selected combo boxes
 	 * 
 	 * @param mouseEvent
+	 *            The button is clicked
 	 */
 	public void updateCheckExams(MouseEvent mouseEvent) {
 		String selectedSubject = subjectComboBoxCheckedExam.getValue();
@@ -576,6 +588,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * Checking if the student is still taking the exam
 	 * 
 	 * @param actionEvent
+	 *            The menu item is clicked
 	 */
 	public void turnCheckExamAnchorPane(ActionEvent actionEvent) {
 		if (!submitExamButton.isDisabled() || !uploadManualExam.isDisabled())
@@ -591,6 +604,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * Uploads manual exam
 	 * 
 	 * @param mouseEvent
+	 *            The button is clicked
 	 */
 	public void uploadManualExam(MouseEvent mouseEvent) {
 		stopWatchTimeline.stop();
@@ -607,6 +621,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * Open computerized exam window
 	 * 
 	 * @param event
+	 *            The button is clicked
 	 */
 	public void openComputerizedExamHandler(ActionEvent event) {
 		turnOffAllPane();
@@ -626,6 +641,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * when the user clicked on 'enter' after entering the execution code
 	 * 
 	 * @param e
+	 *            The button is clicked
 	 */
 	public void enterIsClickedInExecuteExam(MouseEvent e) {
 		checkExecutionCode();
@@ -635,6 +651,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * When the user pressed enter key after entering the execution code
 	 * 
 	 * @param e
+	 *            Enter is pressed
 	 */
 	public void executionCodeKeyHandler(KeyEvent e) {
 		KeyCode code = e.getCode();
@@ -656,6 +673,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * Prevents from the user to select course if he\she didn't select a subject
 	 * 
 	 * @param event
+	 *            The combo box is clicked
 	 */
 	public void selectCourseComboBoxHandler(MouseEvent event) {
 		String selectedSubject = subjectComboBoxCheckedExam.getValue();
@@ -686,6 +704,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * Checking if the student want to change screen during exam
 	 * 
 	 * @param event
+	 *            One of the menu items or log out button is clicked
 	 */
 	public void checkRunningExamInTheMenuBar(ActionEvent event) {
 		checkRunningExam();
@@ -695,6 +714,7 @@ public class StudentWindowController implements Initializable, IScreenController
 	 * Initialize the combo box based on the data
 	 * 
 	 * @param comboBox
+	 *            The subject combo box
 	 */
 	private void setSubjectComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
@@ -763,8 +783,6 @@ public class StudentWindowController implements Initializable, IScreenController
 	/**
 	 * Creating Timeline for exam timer, as well if the time ends and close and
 	 * submitting the exam
-	 * 
-	 * @param time
 	 */
 	private void startTimer() {
 		stopWatchTimeline = new Timeline(new KeyFrame(Duration.seconds(1), (ActionEvent event) -> {
@@ -907,4 +925,5 @@ public class StudentWindowController implements Initializable, IScreenController
 		primaryStage.setScene(new Scene(layout));
 		primaryStage.show();
 	}
+
 } // end of class

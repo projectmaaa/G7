@@ -3,8 +3,8 @@ package resources;
 import java.io.Serializable;
 
 /**
- * This class holds the information about the student, about the exam & general
- * information about the submission.
+ * This class holds the information about the student, about the exam and
+ * general information about the submission.
  * 
  * @author Group 7
  *
@@ -30,7 +30,9 @@ public class StudentInActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param student
+	 *            Student
 	 * @param activeExam
+	 *            Active Exam
 	 */
 	public StudentInActiveExam(Student student, ActiveExam activeExam) {
 		this.date = Utilities_Client.setDate();
@@ -39,11 +41,12 @@ public class StudentInActiveExam implements Serializable {
 		this.activeExam = activeExam;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
 	 * @param activeExam
+	 *            Active Exam
 	 */
 	public StudentInActiveExam(ActiveExam activeExam) {
 		this.activeExam = activeExam;
@@ -60,6 +63,7 @@ public class StudentInActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param date
+	 *            The date of the exam session
 	 */
 	public void setDate(String date) {
 		this.date = date;
@@ -67,7 +71,7 @@ public class StudentInActiveExam implements Serializable {
 
 	/**
 	 * 
-	 * @return The tume of the exam session
+	 * @return The time of the exam session
 	 */
 	public String getStartedTime() {
 		return startedTime;
@@ -76,6 +80,7 @@ public class StudentInActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param startedTime
+	 *            The time of the exam session
 	 */
 	public void setStartedTime(String startedTime) {
 		this.startedTime = startedTime;
@@ -92,6 +97,7 @@ public class StudentInActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param student
+	 *            The student
 	 */
 	public void setStudent(Student student) {
 		this.student = student;
@@ -108,6 +114,7 @@ public class StudentInActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param activeExam
+	 *            The active exam
 	 */
 	public void setActiveExam(ActiveExam activeExam) {
 		this.activeExam = activeExam;
@@ -124,6 +131,7 @@ public class StudentInActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param sumbited
+	 *            True if the student submitted the exam by himself\herself
 	 */
 	public void setSumbited(boolean sumbited) {
 		this.sumbited = sumbited;

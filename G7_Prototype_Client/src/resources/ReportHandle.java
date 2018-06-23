@@ -21,13 +21,15 @@ public class ReportHandle implements Serializable {
 	private Course course;
 
 	private Teacher teacher;
-	
+
 	/******************** Constructors ********************/
 
 	/**
 	 * 
 	 * @param command
+	 *            What To Do
 	 * @param student
+	 *            Student
 	 */
 	public ReportHandle(String command, Student student) {
 		this.command = command;
@@ -37,7 +39,9 @@ public class ReportHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What To Do
 	 * @param course
+	 *            Course
 	 */
 	public ReportHandle(String command, Course course) {
 		this.command = command;
@@ -47,18 +51,20 @@ public class ReportHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What To Do
 	 * @param teacher
+	 *            Teacher
 	 */
 	public ReportHandle(String command, Teacher teacher) {
 		this.command = command;
 		this.teacher = teacher;
 	}
-	
-	/******************** Getters & Setters ********************/
+
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
-	 * @return The message what to do 
+	 * @return The message what to do
 	 */
 	public String getCommand() {
 		return command;
@@ -67,6 +73,7 @@ public class ReportHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            The message what to do
 	 */
 	public void setCommand(String command) {
 		this.command = command;
@@ -83,6 +90,7 @@ public class ReportHandle implements Serializable {
 	/**
 	 * 
 	 * @param student
+	 *            The student
 	 */
 	public void setStudent(Student student) {
 		this.student = student;
@@ -99,6 +107,7 @@ public class ReportHandle implements Serializable {
 	/**
 	 * 
 	 * @param course
+	 *            The course
 	 */
 	public void setCourse(Course course) {
 		this.course = course;
@@ -115,6 +124,7 @@ public class ReportHandle implements Serializable {
 	/**
 	 * 
 	 * @param teacher
+	 *            The teacher
 	 */
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;

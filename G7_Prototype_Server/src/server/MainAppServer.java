@@ -11,7 +11,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- * The class that loads & starts the server application
+ * The class that loads and starts the server application
  * 
  * @author Group 7
  *

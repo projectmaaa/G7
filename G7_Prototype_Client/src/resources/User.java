@@ -25,8 +25,11 @@ public class User implements Serializable {
 	/**
 	 * 
 	 * @param id
+	 *            ID
 	 * @param firstName
+	 *            First Name
 	 * @param lastName
+	 *            Last Name
 	 */
 	public User(String id, String firstName, String lastName) {
 		this.id = id;
@@ -34,11 +37,11 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
-	 * @return The user ID
+	 * @return The user's ID
 	 */
 	public String getId() {
 		return id;
@@ -47,6 +50,7 @@ public class User implements Serializable {
 	/**
 	 * 
 	 * @param id
+	 *            The user's ID
 	 */
 	public void setId(String id) {
 		this.id = id;
@@ -63,6 +67,7 @@ public class User implements Serializable {
 	/**
 	 * 
 	 * @param firstName
+	 *            The user's first name
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -79,6 +84,7 @@ public class User implements Serializable {
 	/**
 	 * 
 	 * @param lastName
+	 *            The user's last name
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;

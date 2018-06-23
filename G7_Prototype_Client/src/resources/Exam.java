@@ -37,9 +37,13 @@ public class Exam implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            Subject ID
 	 * @param courseID
+	 *            Course ID
 	 * @param examDuration
+	 *            Duration
 	 * @param teacherName
+	 *            Teacher's name
 	 */
 	public Exam(String subjectID, String courseID, int examDuration, String teacherName) {
 		this.subjectID = subjectID;
@@ -52,8 +56,11 @@ public class Exam implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            Subject ID
 	 * @param courseID
+	 *            Course ID
 	 * @param examNum
+	 *            Exam Number
 	 */
 	public Exam(String subjectID, String courseID, String examNum) {
 		this.subjectID = subjectID;
@@ -65,12 +72,19 @@ public class Exam implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            Subject ID
 	 * @param courseID
+	 *            Course ID
 	 * @param examNum
+	 *            Exam Number
 	 * @param teacherName
+	 *            Teacher's name
 	 * @param examDuration
+	 *            Duration
 	 * @param freeTextForExaminees
+	 *            Text For Examines
 	 * @param freeTextForTeacherOnly
+	 *            Text For Teacher Only
 	 */
 	public Exam(String subjectID, String courseID, String examNum, String teacherName, int examDuration,
 			String freeTextForExaminees, String freeTextForTeacherOnly) {
@@ -87,13 +101,21 @@ public class Exam implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            Subject ID
 	 * @param courseID
+	 *            Course ID
 	 * @param examNum
+	 *            Exam Number
 	 * @param teacherName
+	 *            Teacher's name
 	 * @param examDuration
+	 *            Duration
 	 * @param freeTextForExaminees
+	 *            Text For Examines
 	 * @param freeTextForTeacherOnly
+	 *            Text For Teacher Only
 	 * @param questions
+	 *            Questions
 	 */
 	public Exam(String subjectID, String courseID, String examNum, String teacherName, int examDuration,
 			String freeTextForExaminees, String freeTextForTeacherOnly, ArrayList<QuestionInExam> questions) {
@@ -110,12 +132,13 @@ public class Exam implements Serializable {
 	/**
 	 * 
 	 * @param examNum
+	 *            Exam Number
 	 */
 	public Exam(String examNum) {
 		this.examNum = examNum;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -128,6 +151,7 @@ public class Exam implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            The number of the subject that this exam belongs to
 	 */
 	public void setSubjectID(String subjectID) {
 		this.subjectID = subjectID;
@@ -144,6 +168,7 @@ public class Exam implements Serializable {
 	/**
 	 * 
 	 * @param courseID
+	 *            The number of the course that this exam belongs to
 	 */
 	public void setCourseID(String courseID) {
 		this.courseID = courseID;
@@ -160,6 +185,7 @@ public class Exam implements Serializable {
 	/**
 	 * 
 	 * @param questions
+	 *            The questions in this exam
 	 */
 	public void setQuestions(ObservableList<QuestionInExam> questions) {
 		this.questions.addAll(questions);
@@ -176,6 +202,7 @@ public class Exam implements Serializable {
 	/**
 	 * 
 	 * @param examDuration
+	 *            The exam duration in minutes
 	 */
 	public void setExamDuration(int examDuration) {
 		this.examDuration = examDuration;
@@ -192,6 +219,8 @@ public class Exam implements Serializable {
 	/**
 	 * 
 	 * @param freeTextForExaminees
+	 *            The text for examines that the teacher entered when created the
+	 *            exam
 	 */
 	public void setFreeTextForExaminees(String freeTextForExaminees) {
 		this.freeTextForExaminees = freeTextForExaminees;
@@ -209,6 +238,8 @@ public class Exam implements Serializable {
 	/**
 	 * 
 	 * @param freeTextForTeacherOnly
+	 *            The text for the activating teacher that the creating teacher
+	 *            entered when created the exam
 	 */
 	public void setFreeTextForTeacherOnly(String freeTextForTeacherOnly) {
 		this.freeTextForTeacherOnly = freeTextForTeacherOnly;
@@ -225,6 +256,7 @@ public class Exam implements Serializable {
 	/**
 	 * 
 	 * @param teacherName
+	 *            The creator's name
 	 */
 	public void setTeacherName(String teacherName) {
 		this.teacherName = teacherName;
@@ -241,6 +273,7 @@ public class Exam implements Serializable {
 	/**
 	 * 
 	 * @param examNum
+	 *            The exam number
 	 */
 	public void setExamNum(String examNum) {
 		this.examNum = examNum;
@@ -260,6 +293,7 @@ public class Exam implements Serializable {
 	 * Adds a question to this exam
 	 * 
 	 * @param question
+	 *            Question
 	 */
 	public void addQuestionToExam(QuestionInExam question) {
 		questions.add(question);

@@ -23,14 +23,16 @@ public class ExecutionCodeHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What To Do
 	 * @param code
+	 *            Execution Code
 	 */
 	public ExecutionCodeHandle(String command, String code) {
 		this.command = command;
 		this.code = code;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -43,6 +45,7 @@ public class ExecutionCodeHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            The message what to do
 	 */
 	public void setCommand(String command) {
 		this.command = command;
@@ -59,6 +62,7 @@ public class ExecutionCodeHandle implements Serializable {
 	/**
 	 * 
 	 * @param code
+	 *            The execution code
 	 */
 	public void setCode(String code) {
 		this.code = code;

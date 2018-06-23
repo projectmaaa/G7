@@ -6,7 +6,8 @@ import java.util.HashMap;
 
 /**
  * This class contains the details for the principal report about specific
- * student. This class is the message that sent between the client & the server.
+ * student. This class is the message that sent between the client and the
+ * server.
  * 
  * @author Group 7
  *
@@ -30,10 +31,15 @@ public class ReportAboutStudent extends Report implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What To Do
 	 * @param average
+	 *            Average
 	 * @param median
+	 *            Median
 	 * @param student
+	 *            Student
 	 * @param grades
+	 *            Grades
 	 */
 	public ReportAboutStudent(String command, double average, int median, Student student,
 			HashMap<String, Integer> grades) {
@@ -47,14 +53,16 @@ public class ReportAboutStudent extends Report implements Serializable {
 	/**
 	 * 
 	 * @param students
+	 *            Students
 	 * @param command
+	 *            What To Do
 	 */
 	public ReportAboutStudent(ArrayList<Student> students, String command) {
 		this.students = students;
 		this.command = command;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -67,6 +75,7 @@ public class ReportAboutStudent extends Report implements Serializable {
 	/**
 	 * 
 	 * @param student
+	 *            The student who's the report about
 	 */
 	public void setStudent(Student student) {
 		this.student = student;
@@ -83,6 +92,7 @@ public class ReportAboutStudent extends Report implements Serializable {
 	/**
 	 * 
 	 * @param students
+	 *            The students who's the report about
 	 */
 	public void setStudents(ArrayList<Student> students) {
 		this.students = students;
@@ -99,6 +109,7 @@ public class ReportAboutStudent extends Report implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            The message what to do with the report
 	 */
 	public void setCommand(String command) {
 		this.command = command;
@@ -115,6 +126,7 @@ public class ReportAboutStudent extends Report implements Serializable {
 	/**
 	 * 
 	 * @param grades
+	 *            The grades of the student
 	 */
 	public void setGrades(HashMap<String, Integer> grades) {
 		this.gradesWithExam = grades;

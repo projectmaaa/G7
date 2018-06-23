@@ -1,7 +1,7 @@
 package resources;
 
 /**
- * This class connects between the teacher & his\hers subjects.
+ * This class connects between the teacher and his\hers subjects.
  * 
  * @author Group 7
  *
@@ -16,12 +16,19 @@ public class TeacherSubjects {
 
 	/******************** Constructors ********************/
 
+	/**
+	 * 
+	 * @param teacher
+	 *            Teacher
+	 * @param subject
+	 *            Subject
+	 */
 	public TeacherSubjects(Teacher teacher, Subject subject) {
 		this.teacher = teacher;
 		this.subject = subject;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -34,6 +41,7 @@ public class TeacherSubjects {
 	/**
 	 * 
 	 * @param teacher
+	 *            The teacher
 	 */
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
@@ -50,6 +58,7 @@ public class TeacherSubjects {
 	/**
 	 * 
 	 * @param subject
+	 *            One of the teacher's subjects
 	 */
 	public void setSubject(Subject subject) {
 		this.subject = subject;

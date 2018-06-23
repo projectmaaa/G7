@@ -11,7 +11,7 @@ import resources.*;
 
 /**
  * The main connector between the user interface and the server. This class
- * sends user requests to the server & handles the returned values from the
+ * sends user requests to the server and handles the returned values from the
  * server.
  * 
  * @author Group 7
@@ -82,8 +82,6 @@ public class Client extends AbstractClient implements IScreenController {
 	 *            The server to connect to.
 	 * @param port
 	 *            The port number to connect on.
-	 * @param clientUI
-	 *            The interface type variable.
 	 */
 	public Client(String host, int port) {
 		super(host, port); // Call the superclass constructor
@@ -94,7 +92,7 @@ public class Client extends AbstractClient implements IScreenController {
 		}
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * set Screen Parent
@@ -105,6 +103,7 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Login Window Controller
+	 * 
 	 * @return LoginWindowController
 	 */
 	public LoginWindowController getLoginWindowController() {
@@ -113,7 +112,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Login Window Controller
+	 * 
 	 * @param loginWindowController
+	 *            The login window
 	 */
 	public void setLoginWindowController(LoginWindowController loginWindowController) {
 		this.loginWindowController = loginWindowController;
@@ -121,6 +122,7 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Teacher Window Controller
+	 * 
 	 * @return TeacherWindowController
 	 */
 	public TeacherWindowController getTeacherWindowController() {
@@ -129,7 +131,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Teacher Window Controller
+	 * 
 	 * @param teacherWindowController
+	 *            The teacher window
 	 */
 	public void setTeacherWindowController(TeacherWindowController teacherWindowController) {
 		this.teacherWindowController = teacherWindowController;
@@ -137,6 +141,7 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Student Window Controller
+	 * 
 	 * @return StudentWindowController
 	 */
 	public StudentWindowController getStudentWindowController() {
@@ -145,7 +150,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Student Window Controller
+	 * 
 	 * @param studentWindowController
+	 *            The student window
 	 */
 	public void setStudentWindowController(StudentWindowController studentWindowController) {
 		this.studentWindowController = studentWindowController;
@@ -153,6 +160,7 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Principal Window Controller
+	 * 
 	 * @return PrincipalWindowController
 	 */
 	public PrincipalWindowController getPrincipalWindowController() {
@@ -161,7 +169,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Principal Window Controller
+	 * 
 	 * @param principalWindowController
+	 *            The principal window
 	 */
 	public void setPrincipalWindowController(PrincipalWindowController principalWindowController) {
 		this.principalWindowController = principalWindowController;
@@ -169,7 +179,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Questions From DB
-	 * @return ObservableList<Question>
+	 * 
+	 * @return Observable list of questions that returned from the data base
 	 */
 	public ObservableList<Question> getQuestionsFromDB() {
 		return questionsFromDB;
@@ -177,7 +188,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Questions From DB
+	 * 
 	 * @param questions
+	 *            The questions from the data base
 	 */
 	public void setQuestionsFromDB(ArrayList<Question> questions) {
 		questionsFromDB.setAll(questions);
@@ -185,6 +198,7 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Question
+	 * 
 	 * @return Question
 	 */
 	public Question getQuestion() {
@@ -193,7 +207,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Exams From DB
-	 * @return ObservableList<Exam>
+	 * 
+	 * @return Observable List of exams from the data base
 	 */
 	public ObservableList<Exam> getExamsFromDB() {
 		return examsFromDB;
@@ -201,7 +216,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Exams From DB
+	 * 
 	 * @param exams
+	 *            Exams from the data base
 	 */
 	public void setExamsFromDB(ArrayList<Exam> exams) {
 		examsFromDB.setAll(exams);
@@ -209,7 +226,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Question
+	 * 
 	 * @param question
+	 *            The requested question
 	 */
 	public void setQuestion(Question question) {
 		this.question = question;
@@ -217,6 +236,7 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get First Name of client
+	 * 
 	 * @return String
 	 */
 	public String getFirstName() {
@@ -225,7 +245,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set First Name of client
+	 * 
 	 * @param firstName
+	 *            The first name
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -233,6 +255,7 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Last Name of client
+	 * 
 	 * @return String
 	 */
 	public String getLastName() {
@@ -241,7 +264,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Last Name of client
+	 * 
 	 * @param lastName
+	 *            The last name
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -249,7 +274,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Subjects From DB
-	 * @return ObservableList<String>
+	 * 
+	 * @return Observable List of subjects from the data base
 	 */
 	public ObservableList<String> getSubjectsFromDB() {
 		return subjectsFromDB;
@@ -257,7 +283,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Subjects From DB
+	 * 
 	 * @param subjects
+	 *            The list of subjects from the data base
 	 */
 	public void setSubjectsFromDB(ArrayList<String> subjects) {
 		Platform.runLater(() -> {
@@ -267,7 +295,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Approved Exam For Students DB
-	 * @return ObservableList<ApprovedExamForStudent>
+	 * 
+	 * @return Observable List of approved Exam For Student from the data base
 	 */
 	public ObservableList<ApprovedExamForStudent> getApprovedExamForStudentsDB() {
 		return approvedExamForStudentsDB;
@@ -275,7 +304,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Approved Exam For Students DB
+	 * 
 	 * @param approvedExamForStudentsDB
+	 *            The list of approved Exam For Student from the data base
 	 */
 	public void setApprovedExamForStudentsDB(ArrayList<ApprovedExamForStudent> approvedExamForStudentsDB) {
 		Platform.runLater(() -> {
@@ -285,7 +316,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Courses From DB
-	 * @return ObservableList<String>
+	 * 
+	 * @return Observable List of courses from the data base
 	 */
 	public ObservableList<String> getCoursesFromDB() {
 		return coursesFromDB;
@@ -293,7 +325,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Courses From DB
+	 * 
 	 * @param courses
+	 *            The list of courses from the data base
 	 */
 	public void setCoursesFromDB(ArrayList<String> courses) {
 		Platform.runLater(() -> {
@@ -303,7 +337,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Exams By Author From DB
-	 * @return ObservableList<String>
+	 * 
+	 * @return Observable List of exams filtered by author
 	 */
 	public ObservableList<String> getExamsByAuthorFromDB() {
 		return examsByAuthorFromDB;
@@ -311,7 +346,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Exams By Author From DB
+	 * 
 	 * @param examsByAuthorFromDB
+	 *            The list of exams filtered by author
 	 */
 	public void setExamsByAuthorFromDB(ArrayList<String> examsByAuthorFromDB) {
 		Platform.runLater(() -> {
@@ -321,7 +358,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get All Students From DB
-	 * @return ObservableList<String>
+	 * 
+	 * @return Observable List of students from the data base
 	 */
 	public ObservableList<String> getAllStudentsFromDB() {
 		return allStudentsFromDB;
@@ -329,7 +367,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set All Students From DB
+	 * 
 	 * @param allStudentsFromDB
+	 *            The List of students from the data base
 	 */
 	public void setAllStudentsFromDB(ArrayList<String> allStudentsFromDB) {
 		Platform.runLater(() -> {
@@ -338,16 +378,19 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * get Studne tAnswer In Question DB
-	 * @return ObservableList<StudentAnswerInQuestion>
+	 * get Student Answer In Question DB
+	 * 
+	 * @return Observable List of student answers from the data base
 	 */
 	public ObservableList<StudentAnswerInQuestion> getStudnetAnswerInQuestionDB() {
 		return studnetAnswerInQuestionDB;
 	}
 
 	/**
-	 * set Studnet Answer In Question DB
+	 * set Student Answer In Question DB
+	 * 
 	 * @param studnetAnswerInQuestionDB
+	 *            The list of student answers from the data base
 	 */
 	public void setStudnetAnswerInQuestionDB(ArrayList<StudentAnswerInQuestion> studnetAnswerInQuestionDB) {
 		this.studnetAnswerInQuestionDB.setAll(studnetAnswerInQuestionDB);
@@ -355,7 +398,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get client Id
-	 * @return String
+	 * 
+	 * @return String The client ID
 	 */
 	public String getId() {
 		return id;
@@ -363,7 +407,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set client ID
+	 * 
 	 * @param id
+	 *            The client ID
 	 */
 	public void setId(String id) {
 		this.id = id;
@@ -371,7 +417,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Waiting Active Exams From DB
-	 * @return ObservableList<WaitingActiveExam>
+	 * 
+	 * @return Observable List of requests to approve\reject by the principal
 	 */
 	public ObservableList<WaitingActiveExam> getWaitingActiveExamsFromDB() {
 		return WaitingActiveExamsFromDB;
@@ -379,7 +426,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Waiting Active Exams From DB
+	 * 
 	 * @param waitingActiveExamsFromDB
+	 *            The list of requests to approve\reject by the principal
 	 */
 	public void setWaitingActiveExamsFromDB(ArrayList<WaitingActiveExam> waitingActiveExamsFromDB) {
 		Platform.runLater(() -> {
@@ -389,7 +438,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Execution Code Exist Flag
-	 * @return boolean
+	 * 
+	 * @return True if Execution Code Exist
 	 */
 	public boolean getExecutionCodeExistFlag() {
 		return executionCodeExistFlag;
@@ -397,7 +447,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Execution Code Exist Flag
+	 * 
 	 * @param executionCodeExistFlag
+	 *            Flag if the execution code exists in the data base
 	 */
 	public void setExecutionCodeExistFlag(boolean executionCodeExistFlag) {
 		this.executionCodeExistFlag = executionCodeExistFlag;
@@ -405,7 +457,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Checked Exams From DB
-	 * @return ObservableList<CheckedExam>
+	 * 
+	 * @return Observable List of checked exams from the data base
 	 */
 	public ObservableList<CheckedExam> getCheckedExamsFromDB() {
 		return checkedExamsFromDB;
@@ -413,7 +466,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Checked Exams From DB
+	 * 
 	 * @param checkedExamsFromDB
+	 *            The list of checked exams from the data base
 	 */
 	public void setCheckedExamsFromDB(ArrayList<CheckedExam> checkedExamsFromDB) {
 		Platform.runLater(() -> {
@@ -423,7 +478,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Activated Unlocked Exams
-	 * @return ObservableList<ActiveExam>
+	 * 
+	 * @return Observable List of active exams from the data base
 	 */
 	public ObservableList<ActiveExam> getActivatedUnlockedExams() {
 		return activatedUnlockedExams;
@@ -431,7 +487,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Activated Unlocked Exams
+	 * 
 	 * @param activatedUnlockedExams
+	 *            The list of active exams from the data base
 	 */
 	public void setActivatedUnlockedExams(ArrayList<ActiveExam> activatedUnlockedExams) {
 		Platform.runLater(() -> {
@@ -441,7 +499,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Students From DB
-	 * @return ObservableList<Student>
+	 * 
+	 * @return Observable List of students from the data base
 	 */
 	public ObservableList<Student> getStudentsFromDB() {
 		return studentsFromDB;
@@ -449,7 +508,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Students From DB
+	 * 
 	 * @param studentsFromDB
+	 *            The list of students from the data base
 	 */
 	public void setStudentsFromDB(ArrayList<Student> studentsFromDB) {
 		Platform.runLater(() -> {
@@ -459,7 +520,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get All Courses From DB
-	 * @return ObservableList<Course>
+	 * 
+	 * @return Observable List of courses from the data base
 	 */
 	public ObservableList<Course> getAllCoursesFromDB() {
 		return allCoursesFromDB;
@@ -467,7 +529,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set all Courses From DB
+	 * 
 	 * @param allCoursesFromDB
+	 *            The List of courses from the data base
 	 */
 	public void setAllCoursesFromDB(ArrayList<Course> allCoursesFromDB) {
 		Platform.runLater(() -> {
@@ -477,7 +541,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get All Teachers From DB
-	 * @return ObservableList<Teacher>
+	 * 
+	 * @return Observable List of teachers from the data base
 	 */
 	public ObservableList<Teacher> getAllTeachersFromDB() {
 		return allTeachersFromDB;
@@ -485,7 +550,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set All Teachers From DB
+	 * 
 	 * @param allTeachersFromDB
+	 *            The List of teachers from the data base
 	 */
 	public void setAllTeachersFromDB(ArrayList<Teacher> allTeachersFromDB) {
 		Platform.runLater(() -> {
@@ -495,7 +562,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * get Active Exams By Subject
-	 * @return ObservableList<ActiveExam>
+	 * 
+	 * @return Observable List of active exams from the data base
 	 */
 	public ObservableList<ActiveExam> getActiveExamsBySubject() {
 		return ActiveExamsBySubject;
@@ -503,7 +571,9 @@ public class Client extends AbstractClient implements IScreenController {
 
 	/**
 	 * set Active Exams By Subject
+	 * 
 	 * @param activeExamsBySubject
+	 *            The list of active exams from the data base
 	 */
 	public void setActiveExamsBySubject(ArrayList<ActiveExam> activeExamsBySubject) {
 		Platform.runLater(() -> {
@@ -512,16 +582,19 @@ public class Client extends AbstractClient implements IScreenController {
 	}
 
 	/**
-	 * get Solved Exam Of Students DB
-	 * @return ObservableList<ApprovedExamForStudent>
+	 * Get approved Exam Of Students DB
+	 * 
+	 * @return Observable List of approved exams from the data base
 	 */
 	public ObservableList<ApprovedExamForStudent> getSolvedExamOfStudentsDB() {
 		return solvedExamOfStudentsDB;
 	}
 
 	/**
-	 * set Solved Exam Of Students DB
+	 * Set approved Exam Of Students DB
+	 * 
 	 * @param solvedExamOfStudentsDB
+	 *            The list of approved exams from the data base
 	 */
 	public void setSolvedExamOfStudentsDB(ArrayList<ApprovedExamForStudent> solvedExamOfStudentsDB) {
 		this.solvedExamOfStudentsDB.setAll(solvedExamOfStudentsDB);

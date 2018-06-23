@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * The class that holds the question\s & the command what to do with the
- * question\s. This class is the message that sent between the client & the
+ * The class that holds the question\s and the command what to do with the
+ * question\s. This class is the message that sent between the client and the
  * server.
  * 
  * @author Group 7
@@ -28,7 +28,9 @@ public class QuestionHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What To Do
 	 * @param question
+	 *            Question
 	 */
 	public QuestionHandle(String command, Question question) {
 		this.command = command;
@@ -38,14 +40,16 @@ public class QuestionHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What To Do
 	 * @param questionArray
+	 *            Questions
 	 */
 	public QuestionHandle(String command, ArrayList<Question> questionArray) {
 		this.command = command;
 		this.questionArray = questionArray;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -58,6 +62,7 @@ public class QuestionHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            The message what to do with the question\s
 	 */
 	public void setCommand(String command) {
 		this.command = command;
@@ -74,6 +79,7 @@ public class QuestionHandle implements Serializable {
 	/**
 	 * 
 	 * @param questionArray
+	 *            The questions
 	 */
 	public void setQuestionArray(ArrayList<Question> questionArray) {
 		this.questionArray = questionArray;
@@ -90,6 +96,7 @@ public class QuestionHandle implements Serializable {
 	/**
 	 * 
 	 * @param question
+	 *            The question
 	 */
 	public void setQuestion(Question question) {
 		this.question = question;

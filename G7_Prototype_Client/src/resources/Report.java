@@ -3,7 +3,7 @@ package resources;
 import java.io.Serializable;
 
 /**
- * This class contains the average & the median that each report must contain.
+ * This class contains the average and the median that each report must contain.
  * 
  * @author Group 7
  *
@@ -29,14 +29,16 @@ public abstract class Report implements Serializable {
 	/**
 	 * 
 	 * @param average
+	 *            Average
 	 * @param median
+	 *            Median
 	 */
 	public Report(int average, int median) {
 		this.average = average;
 		this.median = median;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -49,6 +51,7 @@ public abstract class Report implements Serializable {
 	/**
 	 * 
 	 * @param average
+	 *            The average
 	 */
 	public void setAverage(double average) {
 		this.average = average;
@@ -65,6 +68,7 @@ public abstract class Report implements Serializable {
 	/**
 	 * 
 	 * @param median
+	 *            The median
 	 */
 	public void setMedian(int median) {
 		this.median = median;

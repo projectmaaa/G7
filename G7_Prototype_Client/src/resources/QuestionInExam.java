@@ -3,7 +3,7 @@ package resources;
 import java.io.Serializable;
 
 /**
- * This class contains the question & the exam it belongs to.
+ * This class contains the question and the exam it belongs to.
  * 
  * @author Group 7
  *
@@ -25,7 +25,9 @@ public class QuestionInExam implements Serializable {
 	/**
 	 * 
 	 * @param exam
+	 *            Exam
 	 * @param question
+	 *            Question
 	 */
 	public QuestionInExam(Exam exam, Question question) {
 		this.exam = exam;
@@ -35,8 +37,11 @@ public class QuestionInExam implements Serializable {
 	/**
 	 * 
 	 * @param exam
+	 *            Exam
 	 * @param question
+	 *            Question
 	 * @param points
+	 *            Points
 	 */
 	public QuestionInExam(Exam exam, Question question, int points) {
 		this.exam = exam;
@@ -44,7 +49,7 @@ public class QuestionInExam implements Serializable {
 		this.points = points;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -57,6 +62,7 @@ public class QuestionInExam implements Serializable {
 	/**
 	 * 
 	 * @param exam
+	 *            The exam that contains this question
 	 */
 	public void setExam(Exam exam) {
 		this.exam = exam;
@@ -65,6 +71,7 @@ public class QuestionInExam implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            The number of the subject that this question belongs to
 	 */
 	public void setSubjectID(String subjectID) {
 		this.question.setSubjectID(subjectID);
@@ -81,6 +88,7 @@ public class QuestionInExam implements Serializable {
 	/**
 	 * 
 	 * @param questionNum
+	 *            The question number
 	 */
 	public void setQuestionNum(String questionNum) {
 		this.question.setQuestionNum(questionNum);
@@ -97,6 +105,7 @@ public class QuestionInExam implements Serializable {
 	/**
 	 * 
 	 * @param questionText
+	 *            The question text
 	 */
 	public void setQuestionText(String questionText) {
 		this.question.setQuestionText(questionText);
@@ -121,6 +130,7 @@ public class QuestionInExam implements Serializable {
 	/**
 	 * 
 	 * @param question
+	 *            The question that contains all the general information
 	 */
 	public void setQuestion(Question question) {
 		this.question = question;
@@ -137,6 +147,7 @@ public class QuestionInExam implements Serializable {
 	/**
 	 * 
 	 * @param points
+	 *            The points for this question
 	 */
 	public void setPoints(int points) {
 		this.points = points;

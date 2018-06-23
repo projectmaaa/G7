@@ -3,7 +3,7 @@ package resources;
 import java.io.Serializable;
 
 /**
- * This class holds the information like grade, comments & the checked exam
+ * This class holds the information like grade, comments and the checked exam
  * after the teacher approve the student's exam.
  * 
  * @author Group 7
@@ -26,7 +26,9 @@ public class ApprovedExamForStudent implements Serializable {
 	/**
 	 * 
 	 * @param checkedExam
+	 *            Checked Exam
 	 * @param finalGrade
+	 *            Final Grade
 	 */
 	public ApprovedExamForStudent(CheckedExam checkedExam, int finalGrade) {
 		this.checkedExam = checkedExam;
@@ -36,8 +38,11 @@ public class ApprovedExamForStudent implements Serializable {
 	/**
 	 * 
 	 * @param checkedExam
+	 *            Checked Exam
 	 * @param finalGrade
+	 *            Final Grade
 	 * @param comments
+	 *            Comments
 	 */
 	public ApprovedExamForStudent(CheckedExam checkedExam, int finalGrade, String comments) {
 		this.checkedExam = checkedExam;
@@ -45,7 +50,7 @@ public class ApprovedExamForStudent implements Serializable {
 		this.comments = comments;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -58,6 +63,7 @@ public class ApprovedExamForStudent implements Serializable {
 	/**
 	 * 
 	 * @param checkedExam
+	 *            Checked Exam
 	 */
 	public void setCheckedExam(CheckedExam checkedExam) {
 		this.checkedExam = checkedExam;
@@ -75,6 +81,7 @@ public class ApprovedExamForStudent implements Serializable {
 	/**
 	 * 
 	 * @param finalGrade
+	 *            Final Grade
 	 */
 	public void setFinalGrade(int finalGrade) {
 		this.finalGrade = finalGrade;
@@ -91,6 +98,7 @@ public class ApprovedExamForStudent implements Serializable {
 	/**
 	 * 
 	 * @param comments
+	 *            Teacher's comments
 	 */
 	public void setComments(String comments) {
 		this.comments = comments;
@@ -107,6 +115,7 @@ public class ApprovedExamForStudent implements Serializable {
 	/**
 	 * 
 	 * @param examNum
+	 *            The exam number
 	 */
 	public void setExamNum(String examNum) {
 		getCheckedExam().getSubmittedExam().getStudentInActiveExam().getActiveExam().getExam().setExamNum(examNum);
@@ -115,6 +124,7 @@ public class ApprovedExamForStudent implements Serializable {
 	/**
 	 * 
 	 * @param executionCode
+	 *            The execution code
 	 */
 	public void setExecutionCode(String executionCode) {
 		getCheckedExam().getSubmittedExam().getStudentInActiveExam().getActiveExam().setExecutionCode(executionCode);
@@ -130,7 +140,7 @@ public class ApprovedExamForStudent implements Serializable {
 
 	/**
 	 * 
-	 * @return Teacher's comments. The combination of changing grade comments & and
+	 * @return Teacher's comments. The combination of changing grade comments and and
 	 *         side comments that the teacher wants to add for the student.
 	 */
 	public String getGeneralComments() {
@@ -140,6 +150,8 @@ public class ApprovedExamForStudent implements Serializable {
 	/**
 	 * 
 	 * @param generalComments
+	 *            Teacher's comments. The combination of changing grade comments and
+	 *            and side comments that the teacher wants to add for the student.
 	 */
 	public void setGeneralComments(String generalComments) {
 		getCheckedExam().setGeneralComments(generalComments);

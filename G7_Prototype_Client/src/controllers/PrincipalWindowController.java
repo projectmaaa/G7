@@ -462,11 +462,10 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	@FXML
 	private NumberAxis yAxisInTeacherReport;
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
-	 * @param ScreensController
-	 *            screenParent
+	 * Set the parent screen
 	 */
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
@@ -476,7 +475,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * get first name of client
 	 * 
-	 * @return String firstName
+	 * @return The first name
 	 */
 	public String getFirstName() {
 		return firstName;
@@ -486,6 +485,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * set first name of client
 	 * 
 	 * @param firstName
+	 *            The first name
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -494,7 +494,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * get last name of client
 	 * 
-	 * @return String lastName
+	 * @return The last name
 	 */
 	public String getLastName() {
 		return lastName;
@@ -504,6 +504,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * set last name of client
 	 * 
 	 * @param lastName
+	 *            The last name
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -518,7 +519,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 
 	/**
 	 * 
-	 * @return TextField averageTextFieldInStudentReport
+	 * @return The average text field
 	 */
 	public TextField getAverageTextFieldInStudentReport() {
 		return averageTextFieldInStudentReport;
@@ -527,6 +528,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * 
 	 * @param averageTextFieldInStudentReport
+	 *            The average text field
 	 */
 	public void setAverageTextFieldInStudentReport(TextField averageTextFieldInStudentReport) {
 		this.averageTextFieldInStudentReport = averageTextFieldInStudentReport;
@@ -536,7 +538,9 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * set first and last name of client
 	 * 
 	 * @param firstName
+	 *            The first name
 	 * @param lastName
+	 *            The last name
 	 */
 	public void setNameAndLastName(String firstName, String lastName) {
 		this.firstName = firstName;
@@ -557,6 +561,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * set Average Text Field In Course Report
 	 * 
 	 * @param averageTextFieldInCourseReport
+	 *            The average text field in course report
 	 */
 	public void setAverageTextFieldInCourseReport(TextField averageTextFieldInCourseReport) {
 		this.averageTextFieldInCourseReport = averageTextFieldInCourseReport;
@@ -575,6 +580,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * set Average Text Field In Teacher Report
 	 * 
 	 * @param averageTextFieldInTeacherReport
+	 *            The average text field in teacher's report
 	 */
 	public void setAverageTextFieldInTeacherReport(TextField averageTextFieldInTeacherReport) {
 		this.averageTextFieldInTeacherReport = averageTextFieldInTeacherReport;
@@ -583,17 +589,16 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	/**
 	 * get grades array for histogram
 	 * 
-	 * @return ArrayList<Integer> grades
+	 * @return Array List of grades
 	 */
 	public ArrayList<Integer> getGrades() {
 		return grades;
 	}
 
 	/**
-	 * set grades array for histogram
 	 * 
-	 * @param ArrayList<Integer>
-	 *            grades
+	 * @param grades
+	 *            The list of grades
 	 */
 	public void setGrades(ArrayList<Integer> grades) {
 		this.grades = grades;
@@ -612,6 +617,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * set Median Text Field In Student Report
 	 * 
 	 * @param medianTextFieldInStudentReport
+	 *            The median text field in the report about student
 	 */
 	public void setMedianTextFieldInStudentReport(TextField medianTextFieldInStudentReport) {
 		this.medianTextFieldInStudentReport = medianTextFieldInStudentReport;
@@ -630,6 +636,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * set Median Text Field In Course Report
 	 * 
 	 * @param medianTextFieldInCourseReport
+	 *            The median text field in the report about course
 	 */
 	public void setMedianTextFieldInCourseReport(TextField medianTextFieldInCourseReport) {
 		this.medianTextFieldInCourseReport = medianTextFieldInCourseReport;
@@ -648,24 +655,26 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * set Median Text Field In Teacher Report
 	 * 
 	 * @param medianTextFieldInTeacherReport
+	 *            The median text field in the report about teacher
 	 */
 	public void setMedianTextFieldInTeacherReport(TextField medianTextFieldInTeacherReport) {
 		this.medianTextFieldInTeacherReport = medianTextFieldInTeacherReport;
 	}
 
 	/**
-	 * get exam & grade hash map for student report
+	 * get exam and grade hash map for student report
 	 * 
-	 * @return HashMap<String, Integer> gradesWithExam
+	 * @return Grades With Exam
 	 */
 	public HashMap<String, Integer> getGradesWithExam() {
 		return gradesWithExam;
 	}
 
 	/**
-	 * set exam & grade hash map for student report
+	 * set exam and grade hash map for student report
 	 * 
 	 * @param gradesWithExam
+	 *            Grades With Exam
 	 */
 	public void setGradesWithExam(HashMap<String, Integer> gradesWithExam) {
 		this.gradesWithExam = gradesWithExam;
@@ -707,6 +716,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * logout button handler
 	 * 
 	 * @param event
+	 *            The button is clicked
 	 */
 	public void logOutButtonHandler(ActionEvent event) {
 		welcomeText.setText("Welcome");
@@ -721,6 +731,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * Question tab was pressed
 	 * 
 	 * @param event
+	 *            The menu item is clicked
 	 */
 	public void openQuestionPool(ActionEvent event) {
 		tableViewInQuestionsPool.getItems().clear();
@@ -733,6 +744,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * show question button was clicked
 	 * 
 	 * @param event
+	 *            The button is clicked
 	 */
 	public void showQuestionHandler(ActionEvent event) {
 		setTableInQuestionPool();
@@ -742,6 +754,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * exam pool tab was pressed
 	 * 
 	 * @param event
+	 *            The menu item is clicked
 	 */
 	public void openExamPool(ActionEvent event) {
 		tableViewInExamsPool.getItems().clear();
@@ -755,6 +768,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * The action to be performed when the course combo box is clicked
 	 * 
 	 * @param event
+	 *            The combo box is clicked
 	 */
 	public void courseComboBoxHandler(MouseEvent event) {
 		if (examsPoolAnchorPane.isVisible()) {
@@ -774,7 +788,10 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * Sets the courses from the data base in the combo box in the relevant screen
 	 * 
 	 * @param combobox
+	 *            The course combo box in the relevant screen
 	 * @param selectedSubject
+	 *            The selected subject from the subject combo box in the relevant
+	 *            screen
 	 */
 	private void courseComboBox(ComboBox<String> combobox, String selectedSubject) {
 		client.handleMessageFromClientUI(Message.getCourses + " " + selectedSubject);
@@ -799,6 +816,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * show exams button was clicked
 	 * 
 	 * @param event
+	 *            The button is clicked
 	 */
 	public void showExamsHandler(ActionEvent event) {
 		setTableInExamsPool();
@@ -808,6 +826,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * This method shows to the principal the questions of specific exam
 	 * 
 	 * @param event
+	 *            The button is clicked
 	 */
 	public void showQuestionsOfSpecificExam(MouseEvent event) {
 		Exam selectedExam = tableViewInExamsPool.getSelectionModel().getSelectedItem();
@@ -837,6 +856,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * active exams was pressed
 	 * 
 	 * @param event
+	 *            The menu item is clicked
 	 */
 	public void openActiveExams(ActionEvent event) {
 		activeExamTableView.getItems().clear();
@@ -849,6 +869,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * show active exam button pressed
 	 * 
 	 * @param event
+	 *            The button is clicked
 	 */
 	public void showActiveExamButtonHandler(ActionEvent event) {
 		setTableInActiveExams();
@@ -858,6 +879,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * solved exams tab pressed
 	 * 
 	 * @param event
+	 *            The menu item is clicked
 	 */
 	public void openSolvedExams(ActionEvent event) {
 		solvedExamsTableView.getItems().clear();
@@ -870,6 +892,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * show button was pressed
 	 * 
 	 * @param event
+	 *            The button is clicked
 	 */
 	public void showButtonHandler(ActionEvent event) {
 		setTableInSolvedExams();
@@ -879,6 +902,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * handling requests tab was pressed
 	 * 
 	 * @param event
+	 *            The menu item is clicked
 	 */
 	public void openHandlingRequests(ActionEvent event) {
 		setAnchorPanesFalse();
@@ -890,6 +914,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * Approve button was pressed
 	 * 
 	 * @param event
+	 *            The button is clicked
 	 */
 	public void approveButtonHandle(ActionEvent event) {
 		WaitingActiveExam waitingActiveExam = handlingRequestsTableView.getSelectionModel().getSelectedItem();
@@ -939,6 +964,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * Reject button was pressed
 	 * 
 	 * @param event
+	 *            The button is clicked
 	 */
 	public void rejectButtonHandle(ActionEvent event) {
 		WaitingActiveExam waitingActiveExam = handlingRequestsTableView.getSelectionModel().getSelectedItem();
@@ -987,6 +1013,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * refresh button was pressed
 	 * 
 	 * @param event
+	 *            The button is clicked
 	 */
 	public void refreshButtonHandle(MouseEvent event) {
 		setTableInHandlingRequests();
@@ -996,6 +1023,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * student report tab was pressed
 	 * 
 	 * @param event
+	 *            The menu item is clicked
 	 */
 	public void openStudentReport(ActionEvent event) {
 		setAnchorPanesFalse();
@@ -1007,6 +1035,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * create report button was pressed
 	 * 
 	 * @param event
+	 *            The button is clicked
 	 * @throws InterruptedException
 	 */
 	public void createReportInStudentReportHandler(ActionEvent event) throws InterruptedException {
@@ -1034,6 +1063,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * course report tab was pressed
 	 * 
 	 * @param event
+	 *            The menu item is clicked
 	 */
 	public void openCourseReport(ActionEvent event) {
 		setAnchorPanesFalse();
@@ -1045,6 +1075,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * create report button was pressed
 	 * 
 	 * @param event
+	 *            The button is clicked
 	 */
 	public void createReportInCourseReportHandler(ActionEvent event) {
 		Course course = courseTableView.getSelectionModel().getSelectedItem();
@@ -1070,6 +1101,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * create Student Histogram with hash map
 	 * 
 	 * @param gradesWithExams
+	 *            The grades of specific exam
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void createStudentHistogram(HashMap<String, Integer> gradesWithExams) {
@@ -1098,6 +1130,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * teacher report was pressed
 	 * 
 	 * @param event
+	 *            The menu item is clicked
 	 */
 	public void openTeacherReport(ActionEvent event) {
 		setAnchorPanesFalse();
@@ -1109,6 +1142,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * create report button was pressed
 	 * 
 	 * @param event
+	 *            The button is clicked
 	 */
 	public void createReportInTeacherReportHandler(ActionEvent event) {
 		Teacher teacher = teacherTableView.getSelectionModel().getSelectedItem();
@@ -1131,10 +1165,12 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * general create Histogram (Course & Teacher)
+	 * general create Histogram (Course and Teacher)
 	 * 
 	 * @param barchart
+	 *            The histogram to present
 	 * @param grades
+	 *            The grades
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void createHistogram(BarChart barchart, ArrayList<Integer> grades) {
@@ -1189,6 +1225,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * order Student Exam was pressed
 	 * 
 	 * @param mouseEvent
+	 *            The button is clicked
 	 */
 	public void orderStudentExam(MouseEvent mouseEvent) {
 		if (studentComboBoxInSolvedExams.getValue() != null) {
@@ -1221,6 +1258,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * return To Exam Table
 	 * 
 	 * @param mouseEvent
+	 *            The button is clicked
 	 */
 	public void returnToExamTable(MouseEvent mouseEvent) {
 		clearSolvedExam();
@@ -1271,6 +1309,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * Set subject combo box method
 	 * 
 	 * @param comboBox
+	 *            The subject combo box of the relevant screen
 	 */
 	private void setSubjectComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
@@ -1291,9 +1330,10 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * Set subject course box method
+	 * Set course combo box method
 	 * 
 	 * @param comboBox
+	 *            The course combo box of the relevant screen
 	 */
 	private void setCourseComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
@@ -1304,6 +1344,7 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	 * Set student combo box method
 	 * 
 	 * @param comboBox
+	 *            The student combo box of the relevant screen
 	 */
 	private void setStudentComboBox(ComboBox<String> comboBox) {
 		comboBox.getSelectionModel().clearSelection();
@@ -1389,7 +1430,26 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * set columns in questions table
+	 * Set Columns in Questions Table
+	 * 
+	 * @param subjectID
+	 *            Subject ID Column
+	 * @param questionNumber
+	 *            Question Number Column
+	 * @param author
+	 *            Author Column
+	 * @param questionText
+	 *            Question Text Column
+	 * @param firstPossibleAnswer
+	 *            First Possible Answer Column
+	 * @param secondPossibleAnswer
+	 *            Second Possible Answer Column
+	 * @param thirdPossibleAnswer
+	 *            Third Possible Answer Column
+	 * @param fourthPossibleAnswer
+	 *            Fourth Possible Answer Column
+	 * @param correctAnswer
+	 *            Correct Answer Column
 	 */
 	private void setColumnsOfQuestionsTable(TableColumn<Question, String> subjectID,
 			TableColumn<Question, String> questionNumber, TableColumn<Question, String> author,
@@ -1553,4 +1613,5 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 		activeExamAnchorPane.setVisible(false);
 		solvedExamsAnchorPane.setVisible(false);
 	}
+
 } // end of class

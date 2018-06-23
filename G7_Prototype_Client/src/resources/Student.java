@@ -19,8 +19,11 @@ public class Student extends User implements Serializable {
 	/**
 	 * 
 	 * @param id
+	 *            Student's ID
 	 * @param firstName
+	 *            Student's First Name
 	 * @param lastName
+	 *            Student's Last Name
 	 */
 	public Student(String id, String firstName, String lastName) {
 		super(id, firstName, lastName);

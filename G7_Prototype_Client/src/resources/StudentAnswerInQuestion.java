@@ -3,8 +3,8 @@ package resources;
 import java.io.Serializable;
 
 /**
- * This class contains the selected answer by student in specific question &
- * details about the student & the question.
+ * This class contains the selected answer by student in specific question and
+ * details about the student and the question.
  * 
  * @author Group 7
  *
@@ -30,10 +30,15 @@ public class StudentAnswerInQuestion implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            Subject ID
 	 * @param questionNum
-	 * @param questionNum
+	 *            Question Number
+	 * @param questionOrderInExam
+	 *            Question Order In Exam
 	 * @param studentAnswer
+	 *            Student Answer
 	 * @param student
+	 *            Student
 	 */
 	public StudentAnswerInQuestion(String subjectID, String questionNum, String questionOrderInExam,
 			String studentAnswer, Student student) {
@@ -47,9 +52,13 @@ public class StudentAnswerInQuestion implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            Subject ID
 	 * @param questionNum
+	 *            Question Number
 	 * @param questionOrderInExam
+	 *            Question Order In Exam
 	 * @param studentAnswer
+	 *            Student Answer
 	 */
 	public StudentAnswerInQuestion(String subjectID, String questionNum, String questionOrderInExam,
 			String studentAnswer) {
@@ -59,7 +68,7 @@ public class StudentAnswerInQuestion implements Serializable {
 		this.studentAnswer = studentAnswer;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -72,6 +81,7 @@ public class StudentAnswerInQuestion implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            The number of the subject that this question belongs to
 	 */
 	public void setSubjectID(String subjectID) {
 		this.subjectID = subjectID;
@@ -88,6 +98,7 @@ public class StudentAnswerInQuestion implements Serializable {
 	/**
 	 * 
 	 * @param questionNum
+	 *            The question number
 	 */
 	public void setQuestionNum(String questionNum) {
 		this.questionNum = questionNum;
@@ -104,6 +115,7 @@ public class StudentAnswerInQuestion implements Serializable {
 	/**
 	 * 
 	 * @param studentAnswer
+	 *            The answer that the student selected
 	 */
 	public void setStudentAnswer(String studentAnswer) {
 		this.studentAnswer = studentAnswer;
@@ -120,6 +132,7 @@ public class StudentAnswerInQuestion implements Serializable {
 	/**
 	 * 
 	 * @param student
+	 *            The student who took the exam
 	 */
 	public void setStudent(Student student) {
 		this.student = student;
@@ -136,6 +149,7 @@ public class StudentAnswerInQuestion implements Serializable {
 	/**
 	 * 
 	 * @param questionOrderInExam
+	 *            The question order in the specific exam
 	 */
 	public void setQuestionOrderInExam(String questionOrderInExam) {
 		this.questionOrderInExam = questionOrderInExam;

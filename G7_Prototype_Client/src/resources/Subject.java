@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * This class contains the subject details & the courses that belongs to this
+ * This class contains the subject details and the courses that belongs to this
  * subject.
  * 
  * @author Group 7
@@ -27,7 +27,9 @@ public class Subject implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            ID
 	 * @param subjectName
+	 *            Name
 	 */
 	public Subject(String subjectID, String subjectName) {
 		this.subjectID = subjectID;
@@ -35,7 +37,7 @@ public class Subject implements Serializable {
 		this.courses = new ArrayList<Course>();
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -48,6 +50,7 @@ public class Subject implements Serializable {
 	/**
 	 * 
 	 * @param subjectID
+	 *            The number of the subject
 	 */
 	public void setSubjectID(String subjectID) {
 		this.subjectID = subjectID;
@@ -64,6 +67,7 @@ public class Subject implements Serializable {
 	/**
 	 * 
 	 * @param subjectName
+	 *            The name of the subject
 	 */
 	public void setSubjectName(String subjectName) {
 		this.subjectName = subjectName;
@@ -71,7 +75,7 @@ public class Subject implements Serializable {
 
 	/**
 	 * 
-	 * @return The courses that belongs to this subject
+	 * @return The courses that belong to this subject
 	 */
 	public ArrayList<Course> getCourses() {
 		return courses;
@@ -83,6 +87,7 @@ public class Subject implements Serializable {
 	 * Adds new course to this subject
 	 * 
 	 * @param course
+	 *            The course that belongs to this subject
 	 */
 	public void addCourseToSubject(Course course) {
 		courses.add(course);

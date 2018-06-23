@@ -1,8 +1,8 @@
 package resources;
 
 /**
- * The class that holds the messages that tell what to do between the clients &
- * the server.
+ * The class that holds the messages that tell what to do between the clients
+ * and the server.
  * 
  * @author Group 7
  *

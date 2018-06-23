@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * The class that holds the checked exam\s & the command what to do with the
- * exam\s. This class is the message that sent between the client & the server.
+ * The class that holds the checked exam\s and the command what to do with the
+ * exam\s. This class is the message that sent between the client and the
+ * server.
  * 
  * @author Group 7
  *
@@ -27,7 +28,9 @@ public class CheckedExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What To Do
 	 * @param checkedExam
+	 *            Checked Exam
 	 */
 	public CheckedExamHandle(String command, CheckedExam checkedExam) {
 		this.command = command;
@@ -37,14 +40,16 @@ public class CheckedExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What To Do
 	 * @param checkedExams
+	 *            Checked Exams
 	 */
 	public CheckedExamHandle(String command, ArrayList<CheckedExam> checkedExams) {
 		this.command = command;
 		this.checkedExams = checkedExams;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -57,6 +62,7 @@ public class CheckedExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            The message what to do with the checked exam\s
 	 */
 	public void setCommand(String command) {
 		this.command = command;
@@ -73,6 +79,7 @@ public class CheckedExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param checkedExam
+	 *            The checked exam
 	 */
 	public void setCheckedExam(CheckedExam checkedExam) {
 		this.checkedExam = checkedExam;
@@ -89,6 +96,7 @@ public class CheckedExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param checkedExams
+	 *            The checked exams
 	 */
 	public void setCheckedExams(ArrayList<CheckedExam> checkedExams) {
 		this.checkedExams = checkedExams;

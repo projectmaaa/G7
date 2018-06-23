@@ -38,11 +38,17 @@ public class QuestionInComputerizeExam {
 	/**
 	 * 
 	 * @param questionText
+	 *            The question text
 	 * @param ans1
+	 *            First answer
 	 * @param ans2
+	 *            Second answer
 	 * @param ans3
+	 *            Third answer
 	 * @param ans4
+	 *            Fourth answer
 	 * @param questionInExam
+	 *            The question itself
 	 */
 	public QuestionInComputerizeExam(String questionText, String ans1, String ans2, String ans3, String ans4,
 			QuestionInExam questionInExam) {
@@ -73,10 +79,15 @@ public class QuestionInComputerizeExam {
 	/**
 	 * 
 	 * @param questionText
+	 *            The text of the question
 	 * @param ans1
+	 *            first answer
 	 * @param ans2
+	 *            second answer
 	 * @param ans3
+	 *            third answer
 	 * @param ans4
+	 *            fourth answer
 	 */
 	public QuestionInComputerizeExam(String questionText, String ans1, String ans2, String ans3, String ans4) {
 		this.labelfirst = new Label(questionText);
@@ -87,7 +98,7 @@ public class QuestionInComputerizeExam {
 		list.addAll(labelfirst, this.ans1, this.ans2, this.ans3, this.ans4);
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -100,6 +111,7 @@ public class QuestionInComputerizeExam {
 	/**
 	 * 
 	 * @param toggleGroup
+	 *            The toggle group
 	 */
 	public void setToggleGroup(ToggleGroup toggleGroup) {
 		this.toggleGroup = toggleGroup;
@@ -116,6 +128,7 @@ public class QuestionInComputerizeExam {
 	/**
 	 * 
 	 * @param labelfirst
+	 *            The first Label
 	 */
 	public void setLabelfirst(Label labelfirst) {
 		this.labelfirst = labelfirst;
@@ -132,6 +145,7 @@ public class QuestionInComputerizeExam {
 	/**
 	 * 
 	 * @param radio1
+	 *            The first radio button
 	 */
 	public void setRadio1(RadioButton radio1) {
 		this.radio1 = radio1;
@@ -148,6 +162,7 @@ public class QuestionInComputerizeExam {
 	/**
 	 * 
 	 * @param radio2
+	 *            The second radio button
 	 */
 	public void setRadio2(RadioButton radio2) {
 		this.radio2 = radio2;
@@ -164,6 +179,7 @@ public class QuestionInComputerizeExam {
 	/**
 	 * 
 	 * @param radio3
+	 *            The third radio button
 	 */
 	public void setRadio3(RadioButton radio3) {
 		this.radio3 = radio3;
@@ -180,6 +196,7 @@ public class QuestionInComputerizeExam {
 	/**
 	 * 
 	 * @param radio4
+	 *            The Fourth Radio Button
 	 */
 	public void setRadio4(RadioButton radio4) {
 		this.radio4 = radio4;
@@ -196,6 +213,7 @@ public class QuestionInComputerizeExam {
 	/**
 	 * 
 	 * @param button
+	 *            The set button
 	 */
 	public void setButton(Button button) {
 		this.button = button;
@@ -212,6 +230,7 @@ public class QuestionInComputerizeExam {
 	/**
 	 * 
 	 * @param list
+	 *            The list of nodes
 	 */
 	public void setList(ObservableList<Node> list) {
 		this.list = list;
@@ -228,6 +247,7 @@ public class QuestionInComputerizeExam {
 	/**
 	 * 
 	 * @param questionInExam
+	 *            The question in specific exam
 	 */
 	public void setQuestionInExam(QuestionInExam questionInExam) {
 		this.questionInExam = questionInExam;
@@ -239,6 +259,7 @@ public class QuestionInComputerizeExam {
 	 * Sets the background color of a text to red. For wrong Answers.
 	 * 
 	 * @param ans
+	 *            The selected answer
 	 */
 	public void setTextOnRed(String ans) {
 		switch (ans) {
@@ -261,6 +282,7 @@ public class QuestionInComputerizeExam {
 	 * Sets the background color of a text to green. For correct Answers.
 	 * 
 	 * @param ans
+	 *            The selected answer
 	 */
 	public void setTextOnGreen(String ans) {
 		switch (ans) {

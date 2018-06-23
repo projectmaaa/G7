@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * The class that holds the request\s & the command what to do with the
- * request\s. This class is the message that sent between the client & the
+ * The class that holds the request\s and the command what to do with the
+ * request\s. This class is the message that sent between the client and the
  * server.
  * 
  * @author Group 7
@@ -28,7 +28,9 @@ public class WaitingActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What To Do
 	 * @param waitingActiveExam
+	 *            The Requested Exam
 	 */
 	public WaitingActiveExamHandle(String command, WaitingActiveExam waitingActiveExam) {
 		this.command = command;
@@ -38,14 +40,16 @@ public class WaitingActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What To Do
 	 * @param waitingActiveExams
+	 *            The Requested Exams
 	 */
 	public WaitingActiveExamHandle(String command, ArrayList<WaitingActiveExam> waitingActiveExams) {
 		this.command = command;
 		this.waitingActiveExams = waitingActiveExams;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -58,6 +62,7 @@ public class WaitingActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            The message what to do with the request\s
 	 */
 	public void setCommand(String command) {
 		this.command = command;
@@ -74,6 +79,7 @@ public class WaitingActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param waitingActiveExam
+	 *            The exam
 	 */
 	public void setWaitingActiveExam(WaitingActiveExam waitingActiveExam) {
 		this.waitingActiveExam = waitingActiveExam;
@@ -90,6 +96,7 @@ public class WaitingActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param waitingActiveExams
+	 *            The exams
 	 */
 	public void setWaitingActiveExams(ArrayList<WaitingActiveExam> waitingActiveExams) {
 		this.waitingActiveExams = waitingActiveExams;

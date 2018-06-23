@@ -58,6 +58,7 @@ public class Utilities_Client {
 	 * This method show pop up screen
 	 * 
 	 * @param str
+	 *            What to present in the pop up
 	 */
 	public static void popUpMethod(String str) {
 		Label text = null;
@@ -98,6 +99,7 @@ public class Utilities_Client {
 	 * This method is loading the word file
 	 * 
 	 * @param myFile
+	 *            The word file
 	 */
 	public static void writeWordFile(MyFile myFile, Boolean open) {
 		try {
@@ -123,8 +125,10 @@ public class Utilities_Client {
 	 * This method returns the word file of specific student
 	 * 
 	 * @param executionCode
+	 *            Execution Code
 	 * @param studentID
-	 * @return
+	 *            Student's ID
+	 * @return The word file
 	 */
 	public static MyFile getWordFile(String executionCode, String studentID) {
 		MyFile myFile = new MyFile("./exams/" + executionCode + "_" + studentID + ".docx");

@@ -25,14 +25,16 @@ public class TypeHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What To Do
 	 * @param types
+	 *            List of a Specific Type
 	 */
 	public TypeHandle(String command, ArrayList<String> types) {
 		setCommand(command);
 		setTypes(types);
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -45,6 +47,7 @@ public class TypeHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            Which type it is
 	 */
 	public void setCommand(String command) {
 		this.command = command;
@@ -61,6 +64,7 @@ public class TypeHandle implements Serializable {
 	/**
 	 * 
 	 * @param types
+	 *            The list of the relevant type
 	 */
 	public void setTypes(ArrayList<String> types) {
 		this.types = types;

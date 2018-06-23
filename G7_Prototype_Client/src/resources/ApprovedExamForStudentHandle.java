@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * The class that holds the approved exam\s & the command what to do with the
- * exam\s. This class is the message that sent between the client & the server.
+ * The class that holds the approved exam\s and the command what to do with the
+ * exam\s. This class is the message that sent between the client and the
+ * server.
  * 
  * @author Group 7
  *
@@ -27,7 +28,9 @@ public class ApprovedExamForStudentHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What to do
 	 * @param approvedExamForStudentsArray
+	 *            Approved Exams
 	 */
 	public ApprovedExamForStudentHandle(String command,
 			ArrayList<ApprovedExamForStudent> approvedExamForStudentsArray) {
@@ -38,14 +41,16 @@ public class ApprovedExamForStudentHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What to do
 	 * @param approvedExamForStudent
+	 *            Approved Exams
 	 */
 	public ApprovedExamForStudentHandle(String command, ApprovedExamForStudent approvedExamForStudent) {
 		this.command = command;
 		this.approvedExamForStudent = approvedExamForStudent;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -58,6 +63,7 @@ public class ApprovedExamForStudentHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What to do
 	 */
 	public void setCommand(String command) {
 		this.command = command;
@@ -74,6 +80,7 @@ public class ApprovedExamForStudentHandle implements Serializable {
 	/**
 	 * 
 	 * @param approvedExamForStudent
+	 *            The approved exam
 	 */
 	public void setApprovedExamForStudent(ApprovedExamForStudent approvedExamForStudent) {
 		this.approvedExamForStudent = approvedExamForStudent;
@@ -90,6 +97,7 @@ public class ApprovedExamForStudentHandle implements Serializable {
 	/**
 	 * 
 	 * @param approvedExamForStudentsArray
+	 *            The approved exams
 	 */
 	public void setApprovedExamForStudentsArray(ArrayList<ApprovedExamForStudent> approvedExamForStudentsArray) {
 		this.approvedExamForStudentsArray = approvedExamForStudentsArray;

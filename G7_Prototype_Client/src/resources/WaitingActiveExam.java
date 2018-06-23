@@ -3,7 +3,7 @@ package resources;
 import java.io.Serializable;
 
 /**
- * This class contains the information about exam & the changing time request.
+ * This class contains the information about exam and the changing time request.
  * 
  * @author Group 7
  *
@@ -25,8 +25,11 @@ public class WaitingActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param activeExam
+	 *            Active Exam
 	 * @param newDuration
+	 *            New Requested Duration
 	 * @param reason
+	 *            Reason for changing
 	 */
 	public WaitingActiveExam(ActiveExam activeExam, int newDuration, String reason) {
 		this.activeExam = activeExam;
@@ -34,7 +37,7 @@ public class WaitingActiveExam implements Serializable {
 		this.reason = reason;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -47,6 +50,7 @@ public class WaitingActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param activeExam
+	 *            The active exam
 	 */
 	public void setActiveExam(ActiveExam activeExam) {
 		this.activeExam = activeExam;
@@ -63,6 +67,7 @@ public class WaitingActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param newDuration
+	 *            The new requested duration
 	 */
 	public void setNewDuration(int newDuration) {
 		this.newDuration = newDuration;
@@ -79,6 +84,7 @@ public class WaitingActiveExam implements Serializable {
 	/**
 	 * 
 	 * @param reason
+	 *            The reason for changing the time
 	 */
 	public void setReason(String reason) {
 		this.reason = reason;

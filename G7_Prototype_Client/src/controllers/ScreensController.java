@@ -37,11 +37,11 @@ public class ScreensController extends StackPane {
 	/******************** Methods ********************/
 
 	/**
-	 * Add the screen to the collection
 	 * 
 	 * @param name
+	 *            The name of the screen
 	 * @param screen
-	 * @return
+	 *            The screen
 	 */
 	public void addScreen(String name, Node screen) {
 		screens.put(name, screen);
@@ -51,7 +51,8 @@ public class ScreensController extends StackPane {
 	 * Returns the Node with the appropriate name
 	 * 
 	 * @param name
-	 * @return
+	 *            The name of the screen
+	 * @return The requested screen
 	 */
 	public Node getScreen(String name) {
 		return screens.get(name);
@@ -63,8 +64,10 @@ public class ScreensController extends StackPane {
 	 * injects the screenPane to the controller.
 	 * 
 	 * @param name
+	 *            The screen's name
 	 * @param resource
-	 * @return
+	 *            From where to load
+	 * @return True if loaded successfully
 	 */
 	public boolean loadScreen(String name, String resource) {
 		try {
@@ -88,7 +91,8 @@ public class ScreensController extends StackPane {
 	 * added to the root.
 	 * 
 	 * @param name
-	 * @return
+	 *            The screen's name
+	 * @return True if sets successfully
 	 */
 	public boolean setScreen(final String name) {
 		if (screens.get(name) != null) { // screen loaded
@@ -123,6 +127,10 @@ public class ScreensController extends StackPane {
 	/**
 	 * This method will remove the screen with the given name from the collection of
 	 * screens
+	 * 
+	 * @param name
+	 *            The screen's name
+	 * @return True if unloaded successfully
 	 */
 	public boolean unloadScreen(String name) {
 		if (screens.remove(name) == null) {

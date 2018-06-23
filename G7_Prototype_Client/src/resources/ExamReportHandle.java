@@ -27,9 +27,13 @@ public class ExamReportHandle implements Serializable {
 	/**
 	 * 
 	 * @param subject
+	 *            Subject
 	 * @param course
+	 *            Course
 	 * @param examNum
+	 *            Exam Number
 	 * @param command
+	 *            What To Do
 	 */
 	public ExamReportHandle(String subject, String course, String examNum, String command) {
 		this.subject = subject;
@@ -38,7 +42,7 @@ public class ExamReportHandle implements Serializable {
 		this.command = command;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -51,6 +55,7 @@ public class ExamReportHandle implements Serializable {
 	/**
 	 * 
 	 * @param subject
+	 *            The subject that the exam belongs to
 	 */
 	public void setSubject(String subject) {
 		this.subject = subject;
@@ -67,6 +72,7 @@ public class ExamReportHandle implements Serializable {
 	/**
 	 * 
 	 * @param course
+	 *            The course that the exam belongs to
 	 */
 	public void setCourse(String course) {
 		this.course = course;
@@ -83,6 +89,7 @@ public class ExamReportHandle implements Serializable {
 	/**
 	 * 
 	 * @param examNum
+	 *            The exam number
 	 */
 	public void setExamNum(String examNum) {
 		this.examNum = examNum;
@@ -99,6 +106,7 @@ public class ExamReportHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            The message what to do
 	 */
 	public void setCommand(String command) {
 		this.command = command;

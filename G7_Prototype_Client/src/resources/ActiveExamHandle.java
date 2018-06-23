@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * The class that holds the active exam\s & the command what to do with the
- * exam\s. This class is the message that sent between the client & the server.
+ * The class that holds the active exam\s and the command what to do with the
+ * exam\s. This class is the message that sent between the client and the
+ * server.
  * 
  * @author Group 7
  *
@@ -29,7 +30,9 @@ public class ActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What to do
 	 * @param activeExam
+	 *            The exam
 	 */
 	public ActiveExamHandle(String command, ActiveExam activeExam) {
 		this.command = command;
@@ -39,8 +42,11 @@ public class ActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What to do
 	 * @param activeExam
+	 *            The exam
 	 * @param userID
+	 *            User's ID
 	 */
 	public ActiveExamHandle(String command, ActiveExam activeExam, String userID) {
 		this.command = command;
@@ -51,14 +57,16 @@ public class ActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What to do
 	 * @param activeExams
+	 *            The exam
 	 */
 	public ActiveExamHandle(String command, ArrayList<ActiveExam> activeExams) {
 		this.command = command;
 		this.activeExams = activeExams;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -71,6 +79,7 @@ public class ActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            What to do
 	 */
 	public void setCommand(String command) {
 		this.command = command;
@@ -87,6 +96,7 @@ public class ActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param activeExam
+	 *            The active exam
 	 */
 	public void setActiveExam(ActiveExam activeExam) {
 		this.activeExam = activeExam;
@@ -103,6 +113,7 @@ public class ActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param userID
+	 *            The activator's ID
 	 */
 	public void setUserID(String userID) {
 		this.userID = userID;
@@ -119,6 +130,7 @@ public class ActiveExamHandle implements Serializable {
 	/**
 	 * 
 	 * @param activeExams
+	 *            The active exams
 	 */
 	public void setActiveExams(ArrayList<ActiveExam> activeExams) {
 		this.activeExams = activeExams;

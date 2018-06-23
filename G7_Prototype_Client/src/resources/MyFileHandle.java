@@ -3,8 +3,8 @@ package resources;
 import java.io.Serializable;
 
 /**
- * The class that holds the file & the command what to do with the file. This
- * class is the message that sent between the client & the server.
+ * The class that holds the file and the command what to do with the file. This
+ * class is the message that sent between the client and the server.
  * 
  * @author Group 7
  *
@@ -21,12 +21,19 @@ public class MyFileHandle implements Serializable {
 
 	/******************** Constructors ********************/
 
+	/**
+	 * 
+	 * @param command
+	 *            What To Do
+	 * @param file
+	 *            File
+	 */
 	public MyFileHandle(String command, MyFile file) {
 		this.command = command;
 		this.file = file;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -39,6 +46,7 @@ public class MyFileHandle implements Serializable {
 	/**
 	 * 
 	 * @param command
+	 *            The message what to do with the file
 	 */
 	public void setCommand(String command) {
 		this.command = command;
@@ -55,6 +63,7 @@ public class MyFileHandle implements Serializable {
 	/**
 	 * 
 	 * @param file
+	 *            The file
 	 */
 	public void setFile(MyFile file) {
 		this.file = file;

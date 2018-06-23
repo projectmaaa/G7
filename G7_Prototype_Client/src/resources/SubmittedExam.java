@@ -27,9 +27,10 @@ public class SubmittedExam implements Serializable {
 
 	/**
 	 * 
-	 * @param answers
 	 * @param timeToSolve
+	 *            Time To Solve
 	 * @param studentInActiveExam
+	 *            Student In Active Exam
 	 */
 	public SubmittedExam(int timeToSolve, StudentInActiveExam studentInActiveExam) {
 		this.answers = new ArrayList<StudentAnswerInQuestion>();
@@ -40,13 +41,14 @@ public class SubmittedExam implements Serializable {
 	/**
 	 * 
 	 * @param studentInActiveExam
+	 *            Student In Active Exam
 	 */
 	public SubmittedExam(StudentInActiveExam studentInActiveExam) {
 		this.answers = new ArrayList<StudentAnswerInQuestion>();
 		this.studentInActiveExam = studentInActiveExam;
 	}
 
-	/******************** Getters & Setters ********************/
+	/******************** Getters and Setters ********************/
 
 	/**
 	 * 
@@ -67,6 +69,7 @@ public class SubmittedExam implements Serializable {
 	/**
 	 * 
 	 * @param timeToSolve
+	 *            Time To Solve in Minutes
 	 */
 	public void setTimeToSolve(int timeToSolve) {
 		this.timeToSolve = timeToSolve;
@@ -83,6 +86,7 @@ public class SubmittedExam implements Serializable {
 	/**
 	 * 
 	 * @param studentInActiveExam
+	 *            Student In Active Exam
 	 */
 	public void setStudentInActiveExam(StudentInActiveExam studentInActiveExam) {
 		this.studentInActiveExam = studentInActiveExam;
@@ -99,6 +103,7 @@ public class SubmittedExam implements Serializable {
 	/**
 	 * 
 	 * @param submitted
+	 *            If submitted by himself\herself or forced by the system
 	 */
 	public void setSubmitted(int submitted) {
 		this.submitted = submitted;
@@ -109,6 +114,7 @@ public class SubmittedExam implements Serializable {
 	/**
 	 * 
 	 * @param answer
+	 *            Student's Answer In Question
 	 */
 	public void addAnswer(StudentAnswerInQuestion answer) {
 		answers.add(answer);
