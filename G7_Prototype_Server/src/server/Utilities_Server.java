@@ -20,9 +20,13 @@ public class Utilities_Server {
 	 * Builds a word file
 	 * 
 	 * @param activeExam
+	 *            Active Exam
 	 * @param executionCode
+	 *            Execution Code
 	 * @param userID
+	 *            User's ID
 	 * @throws IOException
+	 *             Provides what went wrong with the word file
 	 */
 	public static void getManualExam(ActiveExam activeExam, String executionCode, String userID) throws IOException {
 		DocxGenerator docxGenerator = new DocxGenerator(executionCode, userID);
@@ -41,9 +45,13 @@ public class Utilities_Server {
 	 * Returns a calculated grade of exam
 	 * 
 	 * @param exam
+	 *            Exam
 	 * @param connection
+	 *            A connection (session) with a specific database
 	 * @return the grade
 	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors
 	 */
 	public static int getCalculateExamGrade(SubmittedExam exam, Connection connection) throws SQLException {
 		int grade = 0;

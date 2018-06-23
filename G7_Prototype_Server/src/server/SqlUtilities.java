@@ -177,7 +177,9 @@ public class SqlUtilities {
 	 * passWord.
 	 * 
 	 * @param userName
+	 *            User's Name
 	 * @param passWord
+	 *            Password
 	 * @return The connection to the data base
 	 */
 	@SuppressWarnings("deprecation")
@@ -205,9 +207,12 @@ public class SqlUtilities {
 	 * This method return activeExam using executionCode.
 	 * 
 	 * @param executionCode
+	 *            Execution Code
 	 * @param connection
+	 *            Connection to the data base
 	 * @return The active exam and what to do with it
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static ActiveExamHandle getActiveExam(String executionCode, Connection connection) throws SQLException {
 		ActiveExam activeExam = null;
@@ -261,8 +266,11 @@ public class SqlUtilities {
 	 * This method inserts student answer
 	 * 
 	 * @param submittedExam
+	 *            Submitted Exam
 	 * @param connection
+	 *            Connection to the data base
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static void insert_StudentAnswerInQuestion(SubmittedExam submittedExam, Connection connection)
 			throws SQLException {
@@ -292,9 +300,12 @@ public class SqlUtilities {
 	 * Returns the questions in the specific exam with execution code.
 	 * 
 	 * @param executionCode
+	 *            Execution Code
 	 * @param connection
-	 * @return QuestionHandle that contains exam's questions.
+	 *            Connection to the data base
+	 * @return Question Handle that contains exam's questions.
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static QuestionHandle getQuestionInExam(String executionCode, Connection connection) throws SQLException {
 		PreparedStatement preparedStatement = connection.prepareStatement(GET_QUESTIONS_OF_EXAM);
@@ -313,11 +324,16 @@ public class SqlUtilities {
 	 * Returns the questions of exam with no need of active exam
 	 * 
 	 * @param subjectID
+	 *            The number of the subject
 	 * @param courseID
+	 *            The number of the Course
 	 * @param examNumber
+	 *            Exam Number
 	 * @param connection
+	 *            Connection to the data base
 	 * @return The questions and what to do with it
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static QuestionHandle getQuestionsInGeneralExam(String subjectID, String courseID, String examNumber,
 			Connection connection) throws SQLException {
@@ -346,8 +362,11 @@ public class SqlUtilities {
 	 * Inserts a new record to StudentInActiveExam table in database.
 	 * 
 	 * @param studentInActiveExam
+	 *            Student in active exam
 	 * @param connection
+	 *            Connection to the data base
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static void insert_StudentInActiveExam(StudentInActiveExam studentInActiveExam, Connection connection)
 			throws SQLException {
@@ -367,14 +386,22 @@ public class SqlUtilities {
 	 * Returns a reference of the Answers of student in specific active exam.
 	 * 
 	 * @param studentID
+	 *            Student's ID
 	 * @param subjectID
+	 *            The number of the subject
 	 * @param courseID
+	 *            The number of the Course
 	 * @param examNum
+	 *            Exam Number
 	 * @param executionCode
+	 *            Execution Code
 	 * @param student
+	 *            Student
 	 * @param connection
-	 * @return StudentAnswerInQuestionHandle that contains student's answers.
+	 *            Connection to the data base
+	 * @return Student Answer In Question Handle that contains student's answers.
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static StudentAnswerInQuestionHandle getAnswers(String studentID, String subjectID, String courseID,
 			String examNum, String executionCode, String student, Connection connection) throws SQLException {
@@ -400,9 +427,14 @@ public class SqlUtilities {
 	 * the table view when edit\remove is pressed
 	 * 
 	 * @param author
+	 *            Author's Name
+	 * @param subject
+	 *            Subject Name
 	 * @param connection
+	 *            Connection to the data base
 	 * @return The questions and what to do with it
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static QuestionHandle getQuestions(String author, String subject, Connection connection)
 			throws SQLException {
@@ -434,8 +466,10 @@ public class SqlUtilities {
 	 * Gets all the users that are student and return a list that contains them.
 	 * 
 	 * @param connection
-	 * @return StudentHandle with list that contains all the students.
+	 *            Connection to the data base
+	 * @return Student Handle with list that contains all the students.
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static StudentHandle getAllStudents(Connection connection) throws SQLException {
 		ArrayList<Student> students = new ArrayList<Student>();
@@ -452,8 +486,10 @@ public class SqlUtilities {
 	 * Returns a report of specific course
 	 * 
 	 * @param connection
-	 * @return ReportAboutCourse
+	 *            Connection to the data base
+	 * @return Report About Course
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static ReportAboutCourse getAllCourses(Connection connection) throws SQLException {
 		ArrayList<Course> courses = new ArrayList<Course>();
@@ -470,8 +506,10 @@ public class SqlUtilities {
 	 * Returns a report of specific teacher
 	 * 
 	 * @param connection
-	 * @return ReportAboutTeacher
+	 *            Connection to the data base
+	 * @return Report About Teacher
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static ReportAboutTeacher getAllTeachers(Connection connection) throws SQLException {
 		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
@@ -488,9 +526,12 @@ public class SqlUtilities {
 	 * Returns the questions of specific subject by creating list of questions.
 	 * 
 	 * @param connection
+	 *            Connection to the data base
 	 * @param subject
-	 * @return QuestionHandle that contains list of questions
+	 *            Subject Name
+	 * @return Question Handle that contains list of questions
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static QuestionHandle getQuestionsBySubject(Connection connection, String subject) throws SQLException {
 		ArrayList<Question> questionsBySubject = new ArrayList<Question>();
@@ -520,9 +561,12 @@ public class SqlUtilities {
 	 * Returns the exams of specific course by creating list of exams.
 	 * 
 	 * @param connection
+	 *            Connection to the data base
 	 * @param course
-	 * @return ExamHandle that contains list of exams
+	 *            Course Name
+	 * @return Exam Handle that contains list of exams
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static ExamHandle getExamsByCourse(Connection connection, String course) throws SQLException {
 		ArrayList<Exam> examsByCourse = new ArrayList<Exam>();
@@ -545,8 +589,10 @@ public class SqlUtilities {
 	 * Returns all the waiting exams.
 	 * 
 	 * @param connection
-	 * @return WaitingActiveExamHandle that contains list of waiting exams
+	 *            Connection to the data base
+	 * @return Waiting Active Exam Handle that contains list of waiting exams
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static WaitingActiveExamHandle getWaitingActiveExam(Connection connection) throws SQLException {
 		ArrayList<WaitingActiveExam> waitingActiveExams = new ArrayList<WaitingActiveExam>();
@@ -565,9 +611,12 @@ public class SqlUtilities {
 	 * Returns all the checked exams.
 	 * 
 	 * @param activatorsID
+	 *            Activator's ID
 	 * @param connection
-	 * @return CheckedExamHandle that contains list of checked exams
+	 *            Connection to the data base
+	 * @return Checked Exam Handle that contains list of checked exams
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static CheckedExamHandle getCheckedExam(String activatorsID, Connection connection) throws SQLException {
 		ArrayList<CheckedExam> checkedExams = new ArrayList<CheckedExam>();
@@ -590,9 +639,13 @@ public class SqlUtilities {
 	 * exams.
 	 * 
 	 * @param studentHandle
+	 *            Student Handle that contains the information about the student and
+	 *            what to do with it
 	 * @param connection
-	 * @return ApprovedExamForStudentHandle that contains list of solved exams
+	 *            Connection to the data base
+	 * @return Approved Exam For Student Handle that contains list of solved exams
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static ApprovedExamForStudentHandle getSolvedExamsByStudent(StudentHandle studentHandle,
 			Connection connection) throws SQLException {
@@ -616,11 +669,16 @@ public class SqlUtilities {
 	 * approve exams.
 	 * 
 	 * @param studentID
+	 *            Student ID
 	 * @param subject
+	 *            Subject Name
 	 * @param course
+	 *            Course Name
 	 * @param connection
-	 * @return ApprovedExamForStudentHandle that contains list of approved exams
+	 *            Connection to the data base
+	 * @return Approved Exam For Student Handle that contains list of approved exams
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static ApprovedExamForStudentHandle getApprovedExamForStudent(String studentID, String subject,
 			String course, Connection connection) throws SQLException {
@@ -647,8 +705,11 @@ public class SqlUtilities {
 	 * updates the questions table in the data base
 	 * 
 	 * @param newQuestions
+	 *            List of questions to update
 	 * @param connection
+	 *            Connection to the data base
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static void editQuestionsTable(ArrayList<Question> newQuestions, Connection connection) throws SQLException {
 		PreparedStatement update = connection.prepareStatement(SqlUtilities.UPDATE_Questions_Table);
@@ -670,8 +731,11 @@ public class SqlUtilities {
 	 * adds new question to the DB
 	 * 
 	 * @param question
+	 *            The new question to add
 	 * @param connection
+	 *            Connection to the data base
 	 * @throws SQLException
+	 *             Something went wrong with the query
 	 */
 	public static void insertNewQuestion(Question question, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_Question);
@@ -696,9 +760,13 @@ public class SqlUtilities {
 	/**
 	 * Inserts new exam into the DB
 	 * 
-	 * @param exam Exam
-	 * @param connection A connection (session) with a specific database.
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @param exam
+	 *            Exam
+	 * @param connection
+	 *            A connection (session) with a specific database.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static void insertNewExam(Exam exam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERET_EXAM);
@@ -719,9 +787,13 @@ public class SqlUtilities {
 	/**
 	 * Inserts a new record to ActiveExam table in database
 	 * 
-	 * @param activeExam Active exam.
-	 * @param connection A connection (session) with a specific database.
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @param activeExam
+	 *            Active exam.
+	 * @param connection
+	 *            A connection (session) with a specific database.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static void insertActiveExam(ActiveExam activeExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_ActiveExam);
@@ -744,10 +816,14 @@ public class SqlUtilities {
 	/**
 	 * Locks specific active exam by updating it's locked to 1.
 	 * 
-	 * @param activeExam Active exam.
-	 * @param connection A connection (session) with a specific database.
+	 * @param activeExam
+	 *            Active exam.
+	 * @param connection
+	 *            A connection (session) with a specific database.
 	 * @return Exam's execution code.
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static String lockActiveExam(ActiveExam activeExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.LOCK_Exam);
@@ -763,9 +839,13 @@ public class SqlUtilities {
 	/**
 	 * Inserts a new record to WaitingActiveExam table in database.
 	 * 
-	 * @param waitingActiveExam Waiting active exam. 
-	 * @param connection A connection (session) with a specific database.
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @param waitingActiveExam
+	 *            Waiting active exam.
+	 * @param connection
+	 *            A connection (session) with a specific database.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static void insertWaitingActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
 			throws SQLException {
@@ -784,9 +864,15 @@ public class SqlUtilities {
 	/**
 	 * Changes the current time of an active exam.
 	 * 
-	 * @param waitingActiveExam Waiting active exam. 
-	 * @param connection A connection (session) with a specific database.
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @param waitingActiveExam
+	 *            Waiting active exam.
+	 * @param connection
+	 *            A connection (session) with a specific database.
+	 * @return The new time of the exam and the execution code of the exam as one
+	 *         string
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static String changeTimeActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
 			throws SQLException {
@@ -804,9 +890,13 @@ public class SqlUtilities {
 	/**
 	 * Removes WaitingActiveExam because principal approved it's new time
 	 * 
-	 * @param waitingActiveExam Waiting active exam. 
-	 * @param connection A connection (session) with a specific database.
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @param waitingActiveExam
+	 *            Waiting active exam.
+	 * @param connection
+	 *            A connection (session) with a specific database.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static void removeWaitingActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
 			throws SQLException {
@@ -822,9 +912,13 @@ public class SqlUtilities {
 	/**
 	 * removes questions from DB
 	 * 
-	 * @param questions List of questions.
-	 * @param connection A connection (session) with a specific database.
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @param questions
+	 *            List of questions.
+	 * @param connection
+	 *            A connection (session) with a specific database.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static void removeQuestions(ArrayList<Question> questions, Connection connection) throws SQLException {
 		PreparedStatement remove = connection.prepareStatement(SqlUtilities.REMOVE_Questions);
@@ -840,9 +934,13 @@ public class SqlUtilities {
 	 * Inserts a new record to ApprovedExamForStudent table in database and keep the
 	 * specific comments.
 	 * 
-	 * @param checkedExam The specific exam.
-	 * @param connection A connection (session) with a specific database.
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @param checkedExam
+	 *            The specific exam.
+	 * @param connection
+	 *            A connection (session) with a specific database.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static void approveCheckedExam(CheckedExam checkedExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_ApprovedExamForStudent);
@@ -871,9 +969,13 @@ public class SqlUtilities {
 	/**
 	 * Deletes checked exam.
 	 * 
-	 * @param checkedExam The specific exam.
-	 * @param connection A connection (session) with a specific database.
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @param checkedExam
+	 *            The specific exam.
+	 * @param connection
+	 *            A connection (session) with a specific database.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static void removeCheckedExam(CheckedExam checkedExam, Connection connection) throws SQLException {
 		PreparedStatement remove = connection.prepareStatement(SqlUtilities.REMOVE_checkedExam);
@@ -892,9 +994,13 @@ public class SqlUtilities {
 	/**
 	 * Changes the grade by the teacher that reviews student's exam.
 	 * 
-	 * @param checkedExam The specific exam.
-	 * @param connection A connection (session) with a specific database.
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @param checkedExam
+	 *            The specific exam.
+	 * @param connection
+	 *            A connection (session) with a specific database.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static void changeGradeByTeacher(CheckedExam checkedExam, Connection connection) throws SQLException {
 		PreparedStatement update = connection.prepareStatement(SqlUtilities.CHANGE_GradeByTeacher);
@@ -915,9 +1021,13 @@ public class SqlUtilities {
 	/**
 	 * Add additional comments after reviewing the exam.
 	 * 
-	 * @param checkedExam The specific exam.
-	 * @param connection A connection (session) with a specific database.
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @param checkedExam
+	 *            The specific exam.
+	 * @param connection
+	 *            A connection (session) with a specific database.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static void addCommentsByTeacher(CheckedExam checkedExam, Connection connection) throws SQLException {
 		PreparedStatement update = connection.prepareStatement(SqlUtilities.ADD_CommentsInCheckedExam);
@@ -937,11 +1047,15 @@ public class SqlUtilities {
 	/**
 	 * Returns a report of the specific exam.
 	 * 
-	 * @param examReportHandle Exam's specific report
-	 * @param connection A connection (session) with a specific database.
+	 * @param examReportHandle
+	 *            Exam's specific report
+	 * @param connection
+	 *            A connection (session) with a specific database.
 	 * @return ReportAboutExam that contains average, median and distribution of the
 	 *         specific exam
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static ReportAboutExam calculateExamStatistic(ExamReportHandle examReportHandle, Connection connection)
 			throws SQLException {
@@ -991,12 +1105,18 @@ public class SqlUtilities {
 	/**
 	 * Returns the average of all the grades of specific exam.
 	 * 
-	 * @param subjectID Exam's subject number
-	 * @param courseID Exam's course number
-	 * @param examNum Exam's number
-	 * @param connection A connection (session) with a specific database.
+	 * @param subjectID
+	 *            Exam's subject number
+	 * @param courseID
+	 *            Exam's course number
+	 * @param examNum
+	 *            Exam's number
+	 * @param connection
+	 *            A connection (session) with a specific database.
 	 * @return the average
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static int calculateExamAVG(String subjectID, String courseID, String examNum, Connection connection)
 			throws SQLException {
@@ -1013,11 +1133,15 @@ public class SqlUtilities {
 	/**
 	 * Calculates average, median and distribution of specific student.
 	 * 
-	 * @param reportHandle The specific report
-	 * @param connection A connection (session) with a specific database.
+	 * @param reportHandle
+	 *            The specific report
+	 * @param connection
+	 *            A connection (session) with a specific database.
 	 * @return ReportAboutStudent that contains average, median and distribution of
 	 *         specific student
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static ReportAboutStudent calculateStudentStatistic(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
@@ -1050,11 +1174,15 @@ public class SqlUtilities {
 	/**
 	 * Calculates average, median and distribution of specific course.
 	 * 
-	 * @param reportHandle The specific report
-	 * @param connection A connection (session) with a specific database.
+	 * @param reportHandle
+	 *            The specific report
+	 * @param connection
+	 *            A connection (session) with a specific database.
 	 * @return ReportAboutCourse that contains average, median and distribution of
 	 *         specific course
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static ReportAboutCourse calculateCourseStatistic(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
@@ -1084,11 +1212,15 @@ public class SqlUtilities {
 	/**
 	 * Calculates average, median and distribution of specific teacher.
 	 * 
-	 * @param reportHandle The specific report
-	 * @param connection A connection (session) with a specific database.
+	 * @param reportHandle
+	 *            The specific report
+	 * @param connection
+	 *            A connection (session) with a specific database.
 	 * @return ReportAboutTeacher that contains average, median and distribution of
 	 *         specific teacher
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static ReportAboutTeacher calculateTeacherStatistic(ReportHandle reportHandle, Connection connection)
 			throws SQLException {
@@ -1119,12 +1251,18 @@ public class SqlUtilities {
 	/**
 	 * Returns the Subjects\Courses filtered by subject
 	 * 
-	 * @param query Statement
-	 * @param insertIntoQuery Statement
-	 * @param type Subject or Course
-	 * @param connection A connection (session) with a specific database.
+	 * @param query
+	 *            Statement
+	 * @param insertIntoQuery
+	 *            Statement
+	 * @param type
+	 *            Subject or Course
+	 * @param connection
+	 *            A connection (session) with a specific database.
 	 * @return the list of subjects filtered by user
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static TypeHandle getTypeFromDB(String query, String insertIntoQuery, String type, Connection connection)
 			throws SQLException {
@@ -1156,10 +1294,14 @@ public class SqlUtilities {
 	/**
 	 * Checks if the specific execution code is exist.
 	 * 
-	 * @param code Specific exam execution code.
-	 * @param connection A connection (session) with a specific database.
-	 * @return true or false 
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @param code
+	 *            Specific exam execution code.
+	 * @param connection
+	 *            A connection (session) with a specific database.
+	 * @return True if the execution code exists in the data base
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static Boolean checkCode(ExecutionCodeHandle code, Connection connection) throws SQLException {
 		PreparedStatement check = connection.prepareStatement(SqlUtilities.CHECK_ExecutionCodeExist);
@@ -1171,11 +1313,16 @@ public class SqlUtilities {
 	/**
 	 * Returns list of exams by the teacher that activates them.
 	 * 
-	 * @param activatorsID Teacher's id
-	 * @param course Specific course
-	 * @param connection A connection (session) with a specific database.
-	 * @return ActiveExamHandle that contains the list of exams
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @param activatorsID
+	 *            Teacher's id
+	 * @param course
+	 *            Specific course
+	 * @param connection
+	 *            A connection (session) with a specific database.
+	 * @return Active Exam Handle that contains the list of exams
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static ActiveExamHandle getActiveExamsByActivatorsID(String activatorsID, String course,
 			Connection connection) throws SQLException {
@@ -1196,10 +1343,14 @@ public class SqlUtilities {
 	/**
 	 * Returns list of exams by the subject.
 	 * 
-	 * @param courseID Exam's course number.
-	 * @param connection A connection (session) with a specific database.
+	 * @param courseID
+	 *            Exam's course number.
+	 * @param connection
+	 *            A connection (session) with a specific database.
 	 * @return The exam
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static ActiveExamHandle getActiveExamsBySubject(String courseID, Connection connection) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_ActiveExamsByCourse);
@@ -1217,11 +1368,16 @@ public class SqlUtilities {
 	/**
 	 * Returns the correct answer of specific question.
 	 * 
-	 * @param subjectID The specific question's subject number.
-	 * @param questionNum The specific question number.
-	 * @param connection A connection (session) with a specific database.
+	 * @param subjectID
+	 *            The specific question's subject number.
+	 * @param questionNum
+	 *            The specific question number.
+	 * @param connection
+	 *            A connection (session) with a specific database.
 	 * @return String that represent the answer of the specified Question
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static String getCorrectAnswer(String subjectID, String questionNum, Connection connection)
 			throws SQLException {
@@ -1241,12 +1397,18 @@ public class SqlUtilities {
 	/**
 	 * Returns the teacher who activated the exam by execution code.
 	 * 
-	 * @param subjectID The specific exam subject number.
-	 * @param courseID The specific exam course number.
-	 * @param examNumber The specific exam number.
-	 * @param connection A connection (session) with a specific database.
+	 * @param subjectID
+	 *            The specific exam subject number.
+	 * @param courseID
+	 *            The specific exam course number.
+	 * @param examNumber
+	 *            The specific exam number.
+	 * @param connection
+	 *            A connection (session) with a specific database.
 	 * @return Name that represent the activator
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static String getActivatorsID(String subjectID, String courseID, String examNumber, Connection connection)
 			throws SQLException {
@@ -1264,13 +1426,20 @@ public class SqlUtilities {
 	/**
 	 * Returns the points of specific question.
 	 * 
-	 * @param subjectID The specific exam subject number.
-	 * @param questionNum The specific question in the exam.
-	 * @param courseID The specific exam course number.
-	 * @param examNum The specific exam number.
-	 * @param connection A connection (session) with a specific database.
+	 * @param subjectID
+	 *            The specific exam subject number.
+	 * @param questionNum
+	 *            The specific question in the exam.
+	 * @param courseID
+	 *            The specific exam course number.
+	 * @param examNum
+	 *            The specific exam number.
+	 * @param connection
+	 *            A connection (session) with a specific database.
 	 * @return The points of at the specified Question
-	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static int getPointsOfQuestion(String subjectID, String questionNum, String courseID, String examNum,
 			Connection connection) throws SQLException {
@@ -1291,9 +1460,13 @@ public class SqlUtilities {
 	/**
 	 * Inserts a new record to CheckedExam table in database, so first calculate
 	 * 
-	 * @param submittedExam The specific submitted exam
-	 * @param connection A connection (session) with a specific database.
-	 * @throws SQLException An exception that provides information on a database access error or other errors. 
+	 * @param submittedExam
+	 *            The specific submitted exam
+	 * @param connection
+	 *            A connection (session) with a specific database.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static void insertCheckedExam(SubmittedExam submittedExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_CheckedExam);
@@ -1317,9 +1490,13 @@ public class SqlUtilities {
 	/**
 	 * Inserts a new record to SubmittedExam table in database
 	 * 
-	 * @param submittedExam The specific submitted exam
-	 * @param connection A connection (session) with a specific database.
-	 * @throws SQLException An exception that provides information on a database access error or other errors. 
+	 * @param submittedExam
+	 *            The specific submitted exam
+	 * @param connection
+	 *            A connection (session) with a specific database.
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static void insertSubmittedExam(SubmittedExam submittedExam, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERT_SubmittedExam);
@@ -1337,9 +1514,13 @@ public class SqlUtilities {
 	/**
 	 * Deletes the selected exam from the data base
 	 * 
-	 * @param exam The specific exam
-	 * @param connection A connection (session) with a specific database
-	 * @throws SQLException An exception that provides information on a database access error or other errors. 
+	 * @param exam
+	 *            The specific exam
+	 * @param connection
+	 *            A connection (session) with a specific database
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors.
 	 */
 	public static void deleteExam(Exam exam, Connection connection) throws SQLException {
 		PreparedStatement delete = connection.prepareStatement(DELETE_Exam_from_Exam_Table);
@@ -1358,10 +1539,14 @@ public class SqlUtilities {
 	/**
 	 * Returns a HashMap a of students that had copied in the specified exam.
 	 * 
-	 * @param examH An active exam
-	 * @param connection A connection (session) with a specific database
+	 * @param examH
+	 *            An active exam
+	 * @param connection
+	 *            A connection (session) with a specific database
 	 * @return StudentHandle that contains a HashMap of copied students
-	 * @throws SQLException An exception that provides information on a database access error or other errors
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors
 	 */
 	@SuppressWarnings("deprecation")
 	public static StudentHandle findExamHaveExamineesThatCopy(ActiveExamHandle examH, Connection connection)
@@ -1447,14 +1632,16 @@ public class SqlUtilities {
 		return new StudentHandle("Copiers", copied);
 	}
 
-	// end region -> Public Methods
-
 	/**
 	 * Closes the objects that are a table of data representing our database.
 	 * 
-	 * @param resultSet Object maintains a cursor pointing to its current row of data
-	 * @param statement Object used for executing a static SQL statement and returning the results it produces.
-	 * @param preparedStatement Object that represents a precompiled SQL statement. 
+	 * @param resultSet
+	 *            Object maintains a cursor pointing to its current row of data
+	 * @param statement
+	 *            Object used for executing a static SQL statement and returning the
+	 *            results it produces.
+	 * @param preparedStatement
+	 *            Object that represents a precompiled SQL statement.
 	 */
 	private static void closeResultSetAndStatement(ResultSet resultSet, Statement statement,
 			PreparedStatement preparedStatement) {
@@ -1476,9 +1663,14 @@ public class SqlUtilities {
 	/**
 	 * Get subject as name and return as id
 	 * 
-	 * @param subject Subject Name
+	 * @param subject
+	 *            Subject Name
+	 * @param connection
+	 *            A connection (session) with a specific database
 	 * @return The subject ID
-	 * @throws SQLException An exception that provides information on a database access error or other errors
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors
 	 */
 	private static String getSubjectID(String subject, Connection connection) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_subjectID_FROM_Subject);
@@ -1493,9 +1685,14 @@ public class SqlUtilities {
 	/**
 	 * Get course as name and return as id
 	 * 
-	 * @param course Course Name
-	 * @return The Course ID 
-	 * @throws SQLException An exception that provides information on a database access error or other errors
+	 * @param course
+	 *            Course Name
+	 * @param connection
+	 *            A connection (session) with a specific database
+	 * @return The Course ID
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors
 	 */
 	private static String getCourseID(String course, Connection connection) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_courseID_FROM_Course);
@@ -1510,10 +1707,15 @@ public class SqlUtilities {
 	/**
 	 * Adds the questions into the QuestionInExam table
 	 * 
-	 * @param exam The specific exam
-	 * @param examNumber The id number of the exam
-	 * @param connection A connection (session) with a specific database
-	 * @throws SQLException An exception that provides information on a database access error or other errors
+	 * @param exam
+	 *            The specific exam
+	 * @param examNumber
+	 *            The id number of the exam
+	 * @param connection
+	 *            A connection (session) with a specific database
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors
 	 */
 	private static void insertQuestionInExam(Exam exam, String examNumber, Connection connection) throws SQLException {
 		PreparedStatement insert = connection.prepareStatement(SqlUtilities.INSERET_QUESTION_IN_EXAM);
@@ -1532,10 +1734,14 @@ public class SqlUtilities {
 	 * returns the current amount of exams of a specific course and updates the new
 	 * amount in the DB
 	 * 
-	 * @param courseID The course of the exams
-	 * @param connection A connection (session) with a specific database
+	 * @param courseID
+	 *            The course of the exams
+	 * @param connection
+	 *            A connection (session) with a specific database
 	 * @return The amount of exams
-	 * @throws SQLException An exception that provides information on a database access error or other errors
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors
 	 */
 	private static Integer getExamCount(String courseID, Connection connection) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_FROM_Course);
@@ -1555,10 +1761,14 @@ public class SqlUtilities {
 	 * Returns the current amount of questions of a specific subject and updates the
 	 * new amount in the DB.
 	 * 
-	 * @param subjectID The subject of the questions
-	 * @param connection A connection (session) with a specific database
-	 * @return The amount of questions 
-	 * @throws SQLException An exception that provides information on a database access error or other errors
+	 * @param subjectID
+	 *            The subject of the questions
+	 * @param connection
+	 *            A connection (session) with a specific database
+	 * @return The amount of questions
+	 * @throws SQLException
+	 *             An exception that provides information on a database access error
+	 *             or other errors
 	 */
 	private static Integer getQuestionCount(String subjectID, Connection connection) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(SqlUtilities.SELECT_FROM_Subject);

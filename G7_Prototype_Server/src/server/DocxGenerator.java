@@ -33,8 +33,11 @@ public class DocxGenerator {
 	/**
 	 * 
 	 * @param executionCode
+	 *            Execution Code
 	 * @param studentID
+	 *            Student ID
 	 * @throws FileNotFoundException
+	 *             The file does not Exist
 	 */
 	public DocxGenerator(String executionCode, String studentID) throws FileNotFoundException {
 		document = new XWPFDocument();
@@ -53,7 +56,8 @@ public class DocxGenerator {
 
 	/**
 	 * 
-	 * @param document that sets the word document for this object 
+	 * @param document
+	 *            that sets the word document for this object
 	 */
 	public void setDocument(XWPFDocument document) {
 		this.document = document;
@@ -69,7 +73,8 @@ public class DocxGenerator {
 
 	/**
 	 * 
-	 * @param docxFile that sets the docx file for this object
+	 * @param docxFile
+	 *            that sets the docx file for this object
 	 */
 	public void setDocxFile(File docxFile) {
 		this.docxFile = docxFile;
@@ -80,12 +85,18 @@ public class DocxGenerator {
 	/**
 	 * Adding the question and the answers into the word file.
 	 * 
-	 * @param questionText The question's text
-	 * @param firstPossibleAnswer The question's first answer
-	 * @param secondPossibleAnswer The question's second answer
-	 * @param thirdPossibleAnswer The question's third answer
-	 * @param fourthPossibleAnswer The question's fourth answer
-	 * @throws IOException Signals that an I/O exception of some sort has occurred 
+	 * @param questionText
+	 *            The question's text
+	 * @param firstPossibleAnswer
+	 *            The question's first answer
+	 * @param secondPossibleAnswer
+	 *            The question's second answer
+	 * @param thirdPossibleAnswer
+	 *            The question's third answer
+	 * @param fourthPossibleAnswer
+	 *            The question's fourth answer
+	 * @throws IOException
+	 *             Signals that an I/O exception of some sort has occurred
 	 */
 	public void addQuestionToWord(String questionText, String firstPossibleAnswer, String secondPossibleAnswer,
 			String thirdPossibleAnswer, String fourthPossibleAnswer) throws IOException {
@@ -96,8 +107,10 @@ public class DocxGenerator {
 	/**
 	 * Adding the question
 	 * 
-	 * @param questionText The question's text
-	 * @throws IOException Signals that an I/O exception of some sort has occurred
+	 * @param questionText
+	 *            The question's text
+	 * @throws IOException
+	 *             Signals that an I/O exception of some sort has occurred
 	 */
 	private void addQuestion(String questionText) throws IOException {
 		fileOutputStream = new FileOutputStream(docxFile);
@@ -114,11 +127,16 @@ public class DocxGenerator {
 	/**
 	 * Adding the answers
 	 * 
-	 * @param firstPossibleAnswer The question's first answer
-	 * @param secondPossibleAnswer The question's second answer
-	 * @param thirdPossibleAnswer The question's third answer
-	 * @param fourthPossibleAnswer The question's fourth answer
-	 * @throws IOException Signals that an I/O exception of some sort has occurred 
+	 * @param firstPossibleAnswer
+	 *            The question's first answer
+	 * @param secondPossibleAnswer
+	 *            The question's second answer
+	 * @param thirdPossibleAnswer
+	 *            The question's third answer
+	 * @param fourthPossibleAnswer
+	 *            The question's fourth answer
+	 * @throws IOException
+	 *             Signals that an I/O exception of some sort has occurred
 	 */
 	private void addQuestionAnswers(String firstPossibleAnswer, String secondPossibleAnswer, String thirdPossibleAnswer,
 			String fourthPossibleAnswer) throws IOException {
@@ -143,8 +161,10 @@ public class DocxGenerator {
 	/**
 	 * Adding the instructions
 	 * 
-	 * @param instruction The question's instruction
-	 * @throws IOException Signals that an I/O exception of some sort has occurred
+	 * @param instruction
+	 *            The question's instruction
+	 * @throws IOException
+	 *             Signals that an I/O exception of some sort has occurred
 	 */
 	public void addInstruction(String instruction) throws IOException {
 		fileOutputStream = new FileOutputStream(docxFile);
@@ -163,7 +183,8 @@ public class DocxGenerator {
 	/**
 	 * Add tab and break
 	 * 
-	 * @param run object defines a region of text with a common set of properties
+	 * @param run
+	 *            object defines a region of text with a common set of properties
 	 */
 	private void tabAndBreak(XWPFRun run) {
 		run.addBreak();

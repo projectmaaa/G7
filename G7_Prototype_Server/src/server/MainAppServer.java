@@ -37,6 +37,7 @@ public class MainAppServer extends Application {
 	/**
 	 * 
 	 * @param server
+	 *            Server
 	 */
 	public static void setServer(Server server) {
 		MainAppServer.server = server;
@@ -47,6 +48,7 @@ public class MainAppServer extends Application {
 	/**
 	 * 
 	 * @param args
+	 *            The IP
 	 */
 	public static void main(String[] args) {
 		int port = 0; // Port to listen on
@@ -61,6 +63,7 @@ public class MainAppServer extends Application {
 
 	/**
 	 * @param primaryStage
+	 *            The stage to load
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
