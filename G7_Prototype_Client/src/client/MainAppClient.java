@@ -83,7 +83,7 @@ public class MainAppClient extends Application {
 	 * 
 	 * @param args
 	 *            The IP of the server
-	 * @throws IOException
+	 * @throws IOException that signals that an I/O exception of some sort has occurred.
 	 */
 	public static void main(String[] args) throws IOException {
 		try {

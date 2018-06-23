@@ -1032,11 +1032,11 @@ public class PrincipalWindowController implements Initializable, IScreenControll
 	}
 
 	/**
-	 * create report button was pressed
+	 * create report button was pressed.
 	 * 
 	 * @param event
 	 *            The button is clicked
-	 * @throws InterruptedException
+	 * @throws InterruptedException that thrown when a thread is waiting, sleeping, or otherwise occupied 
 	 */
 	public void createReportInStudentReportHandler(ActionEvent event) throws InterruptedException {
 		averageTextFieldInStudentReport.setEditable(false);

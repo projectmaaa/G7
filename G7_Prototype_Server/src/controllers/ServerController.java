@@ -82,7 +82,7 @@ public class ServerController implements Initializable {
 	/**
 	 * Open settings option for the server
 	 * 
-	 * @param event
+	 * @param event An event which indicates that a mouse action occurred in a open component
 	 */
 	public void openSetting(MouseEvent event) {
 		if (!turnSettings) {
@@ -101,7 +101,7 @@ public class ServerController implements Initializable {
 	/**
 	 * Saves the new settings for the server
 	 * 
-	 * @param event
+	 * @param event An event which indicates that a mouse action occurred in a save component
 	 */
 	public void saveSettings(MouseEvent event) {
 		if (server.getPort() != Integer.parseInt(portField.getText())) {
@@ -132,7 +132,7 @@ public class ServerController implements Initializable {
 	/**
 	 * Turn off/on the server handler
 	 * 
-	 * @param event
+	 * @param event An event which indicates that a mouse action occurred in the turn On/Off component
 	 */
 	public void turnOnOffServer(MouseEvent event) {
 		if (!saveX) {
@@ -165,7 +165,7 @@ public class ServerController implements Initializable {
 	/**
 	 * Turn on/off the connection to the db
 	 * 
-	 * @param event
+	 * @param event An event which indicates that a mouse action occurred in the turn On/Off component
 	 */
 	public void turnOnOffDB(MouseEvent event) {
 		if (!saveX) {

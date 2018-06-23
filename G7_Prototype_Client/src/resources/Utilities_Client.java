@@ -95,12 +95,12 @@ public class Utilities_Client {
 		primaryStage.show();
 	}
 
-	/**
-	 * This method is loading the word file
-	 * 
-	 * @param myFile
-	 *            The word file
-	 */
+/**
+ * Loads the word file.
+ * 
+ * @param myFile represents the word file
+ * @param open represents the status of word file
+ */
 	public static void writeWordFile(MyFile myFile, Boolean open) {
 		try {
 			File file = new File(myFile.getFileName());
