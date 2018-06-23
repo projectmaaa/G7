@@ -43,7 +43,7 @@ public class Utilities_Server {
 	 * @param exam
 	 * @param connection
 	 * @return the grade
-	 * @throws SQLException
+	 * @throws SQLException 
 	 */
 	public static int getCalculateExamGrade(SubmittedExam exam, Connection connection) throws SQLException {
 		int grade = 0;

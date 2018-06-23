@@ -36,7 +36,7 @@ public class MainAppServer extends Application {
 
 	/**
 	 * 
-	 * @param server
+	 * @param server Server Object
 	 */
 	public static void setServer(Server server) {
 		MainAppServer.server = server;
@@ -46,7 +46,7 @@ public class MainAppServer extends Application {
 
 	/**
 	 * 
-	 * @param args
+	 * @param args Argument for the user that want to change the port.
 	 */
 	public static void main(String[] args) {
 		int port = 0; // Port to listen on
@@ -60,7 +60,7 @@ public class MainAppServer extends Application {
 	}
 
 	/**
-	 * @param primaryStage
+	 * @param primaryStage The primary Stage is constructed by the platform. 
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {

@@ -31,7 +31,10 @@ public class Server extends AbstractServer {
 	private String passWordDBcon = "project7";
 
 	/******************** Constructors ********************/
-
+	/**
+	 * 
+	 * @param port Port for the connection.
+	 */
 	public Server(int port) {
 		super(port);
 	}
@@ -48,7 +51,7 @@ public class Server extends AbstractServer {
 
 	/**
 	 * 
-	 * @param connection
+	 * @param connection Connection object.
 	 */
 	public void setConnection(Connection connection) {
 		this.connection = connection;
@@ -64,7 +67,7 @@ public class Server extends AbstractServer {
 
 	/**
 	 * 
-	 * @param userNameDBcon
+	 * @param userNameDBcon Username of the user that connect to the database.
 	 */
 	public void setUserNameDBcon(String userNameDBcon) {
 		this.userNameDBcon = userNameDBcon;
@@ -80,7 +83,7 @@ public class Server extends AbstractServer {
 
 	/**
 	 * 
-	 * @param passWordDBcon
+	 * @param passWordDBcon Password of the user that connect to the database.
 	 */
 	public void setPassWordDBcon(String passWordDBcon) {
 		this.passWordDBcon = passWordDBcon;

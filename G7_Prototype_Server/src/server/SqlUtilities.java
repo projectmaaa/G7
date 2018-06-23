@@ -176,7 +176,7 @@ public class SqlUtilities {
 	 * this method creates connection to the db using driver with userName and
 	 * passWord.
 	 * 
-	 * @param userName
+	 * @param userName 
 	 * @param passWord
 	 * @return The connection to the data base
 	 */
@@ -787,6 +787,7 @@ public class SqlUtilities {
 	 * @param waitingActiveExam Waiting active exam. 
 	 * @param connection A connection (session) with a specific database.
 	 * @throws SQLException An exception that provides information on a database access error or other errors.
+	 * @return The new duration time of an exam.
 	 */
 	public static String changeTimeActiveExam(WaitingActiveExam waitingActiveExam, Connection connection)
 			throws SQLException {
@@ -1477,6 +1478,7 @@ public class SqlUtilities {
 	 * Get subject as name and return as id
 	 * 
 	 * @param subject Subject Name
+	 * @param connection A connection (session) with a specific database
 	 * @return The subject ID
 	 * @throws SQLException An exception that provides information on a database access error or other errors
 	 */
@@ -1494,6 +1496,7 @@ public class SqlUtilities {
 	 * Get course as name and return as id
 	 * 
 	 * @param course Course Name
+	 * @param connection A connection (session) with a specific database
 	 * @return The Course ID 
 	 * @throws SQLException An exception that provides information on a database access error or other errors
 	 */
@@ -1512,7 +1515,7 @@ public class SqlUtilities {
 	 * 
 	 * @param exam The specific exam
 	 * @param examNumber The id number of the exam
-	 * @param connection A connection (session) with a specific database
+	 * @param connection A connection (session) with a specific database.
 	 * @throws SQLException An exception that provides information on a database access error or other errors
 	 */
 	private static void insertQuestionInExam(Exam exam, String examNumber, Connection connection) throws SQLException {
