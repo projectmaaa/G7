@@ -182,7 +182,6 @@ public class SqlUtilities {
 	 *            Password
 	 * @return The connection to the data base
 	 */
-	@SuppressWarnings("deprecation")
 	public static Connection connection(String userName, String passWord) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -1546,7 +1545,6 @@ public class SqlUtilities {
 	 *             An exception that provides information on a database access error
 	 *             or other errors
 	 */
-	@SuppressWarnings("deprecation")
 	public static StudentHandle findExamHaveExamineesThatCopy(ActiveExamHandle examH, Connection connection)
 			throws SQLException {
 		HashMap<Student, ArrayList<Student>> copied = new HashMap<>();
