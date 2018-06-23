@@ -33,11 +33,12 @@ public class DocxGenerator {
 	/**
 	 * 
 	 * @param executionCode
-	 *            Execution Code
+	 *            Exam's execution code.
 	 * @param studentID
-	 *            Student ID
+	 *            Examinee's id.
 	 * @throws FileNotFoundException
-	 *             The file does not Exist
+	 *             Signals that an attempt to open the file denoted by a specified
+	 *             pathname has failed.
 	 */
 	public DocxGenerator(String executionCode, String studentID) throws FileNotFoundException {
 		document = new XWPFDocument();
