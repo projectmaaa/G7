@@ -201,7 +201,11 @@ public class Server extends AbstractServer {
 					/**
 					 * send to the teacher all the students that copied in the exam.
 					 */
-					client.sendToClient(SqlUtilities.findExamHaveExamineesThatCopy(activeExamHandle, connection));
+					StudentHandle studentHandele = SqlUtilities.findExamHaveExamineesThatCopy(activeExamHandle,
+							connection);
+					if (!studentHandele.getCopeied().keySet().isEmpty()) {
+						client.sendToClient(studentHandele);
+					}
 				} catch (SQLException | IOException e) {
 					e.printStackTrace();
 				}

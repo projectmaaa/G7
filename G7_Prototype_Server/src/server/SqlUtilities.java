@@ -190,9 +190,7 @@ public class SqlUtilities {
 			/* handle the error */
 		}
 		try {
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://group7project.c2ntivjwkagb.eu-central-1.rds.amazonaws.com:3306/group7db", userName,
-					passWord);
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/aes7", userName, passWord);
 			System.out.println("SQL connection succeed");
 			return conn;
 		} catch (SQLException ex) {/* handle any errors */
