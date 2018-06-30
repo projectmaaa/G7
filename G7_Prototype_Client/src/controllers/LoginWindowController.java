@@ -199,7 +199,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	/**
 	 * check login user details
 	 */
-	private void loginCheck() {
+	public void loginCheck() {
 		if ((!un.getText().isEmpty()) && (!pw.getText().isEmpty())) {
 			if (anchorPaneSetting.isVisible()) {
 				anchorPaneSetting.setVisible(false);
