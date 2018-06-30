@@ -67,6 +67,11 @@ public class LoginWindowController implements Initializable, IScreenController {
 	private Client client;
 
 	private ScreensController myController;
+	
+	private boolean connectedFlag;
+
+	private boolean noSuchUserFlag;
+
 
 	/******************** Getters and Setters ********************/
 
@@ -86,6 +91,39 @@ public class LoginWindowController implements Initializable, IScreenController {
 	@Override
 	public void setScreenParent(ScreensController screenParent) {
 		myController = screenParent;
+	}
+
+	/**
+	 * 
+	 * @return The client who's connected
+	 */
+	public Client getClient() {
+		return client;
+	}
+
+	/**
+	 * 
+	 * @param client
+	 *            The client who's connected
+	 */
+	public void setClient(Client client) {
+		this.client = client;
+	}
+	
+	public boolean isConnectedFlag() {
+		return connectedFlag;
+	}
+
+	public void setConnectedFlag(boolean connectedFlag) {
+		this.connectedFlag = connectedFlag;
+	}
+
+	public boolean isNoSuchUserFlag() {
+		return noSuchUserFlag;
+	}
+
+	public void setNoSuchUserFlag(boolean noSuchUserFlag) {
+		this.noSuchUserFlag = noSuchUserFlag;
 	}
 
 	/******************** Initialization ********************/
@@ -192,24 +230,36 @@ public class LoginWindowController implements Initializable, IScreenController {
 	 *            The message of connection status
 	 */
 	public void setLoginStatus(String msg) {
-		loginText.setVisible(true);
-		loginText.setText(msg);
+		if (loginText != null) {
+			loginText.setVisible(true);
+			loginText.setText(msg);
+		}
 	}
 
 	/**
 	 * check login user details
 	 */
-	public void loginCheck() {
+	private void loginCheck() {
 		if ((!un.getText().isEmpty()) && (!pw.getText().isEmpty())) {
 			if (anchorPaneSetting.isVisible()) {
 				anchorPaneSetting.setVisible(false);
 			}
-			client.handleMessageFromClientUI(Message.login + " " + un.getText() + " " + pw.getText());
+			client.handleMessageFromClientUI(Message.login + " " + un.getText() + " " + un.getText());
 			client.setId(un.getText());
 			clearFields();
 			return;
 		}
 		setLoginStatus("Incorrect username or password.");
+	}
+
+	/**
+	 * check login user details for the test class
+	 */
+	public void loginCheck(String userNameField, String passwordField) {
+		if ((!userNameField.isEmpty()) && (!passwordField.isEmpty())) {
+			client.handleMessageFromClientUI(Message.login + " " + userNameField + " " + passwordField);
+			client.setId(userNameField);
+		}
 	}
 
 	/**

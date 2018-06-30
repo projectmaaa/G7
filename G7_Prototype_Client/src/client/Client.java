@@ -658,9 +658,11 @@ public class Client extends AbstractClient implements IScreenController {
 				break;
 			case Message.userAlreadyConnected:
 				loginWindowController.setLoginStatus("User Already Connected");
+				loginWindowController.setConnectedFlag(true);
 				break;
 			case Message.noSuchUser:
 				loginWindowController.setLoginStatus("Wrong Username or Pasword");
+				loginWindowController.setNoSuchUserFlag(true);
 				break;
 			case Message.getQuestionBySubject:
 				break;
