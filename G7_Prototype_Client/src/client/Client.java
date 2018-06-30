@@ -73,6 +73,8 @@ public class Client extends AbstractClient implements IScreenController {
 
 	private boolean executionCodeExistFlag;
 
+	private String messageFromServer;
+
 	/******************** Constructors ********************/
 
 	/**
@@ -455,6 +457,14 @@ public class Client extends AbstractClient implements IScreenController {
 		this.executionCodeExistFlag = executionCodeExistFlag;
 	}
 
+	public String getMessageFromServer() {
+		return messageFromServer;
+	}
+
+	public void setMessageFromServer(String messageFromServer) {
+		this.messageFromServer = messageFromServer;
+	}
+
 	/**
 	 * get Checked Exams From DB
 	 * 
@@ -615,6 +625,7 @@ public class Client extends AbstractClient implements IScreenController {
 		} else if (msg instanceof String) {
 			String str = (String) msg;
 			String[] strArray = str.split(" ");
+			setMessageFromServer(strArray[0]);
 			switch (strArray[0]) {
 			case Message.principal:
 				firstName = strArray[1];
@@ -658,11 +669,9 @@ public class Client extends AbstractClient implements IScreenController {
 				break;
 			case Message.userAlreadyConnected:
 				loginWindowController.setLoginStatus("User Already Connected");
-				loginWindowController.setConnectedFlag(true);
 				break;
 			case Message.noSuchUser:
 				loginWindowController.setLoginStatus("Wrong Username or Pasword");
-				loginWindowController.setNoSuchUserFlag(true);
 				break;
 			case Message.getQuestionBySubject:
 				break;

@@ -1,11 +1,14 @@
 package unittests;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import client.Client;
 import controllers.LoginWindowController;
 import junit.framework.TestCase;
+import resources.Message;
 
 /**
  * The class that tests the login cases.
@@ -16,9 +19,10 @@ import junit.framework.TestCase;
 class LoginTests extends TestCase {
 
 	private Client client;
-	private String anatDahanID = "1";
-	private String arkadyKoretskyID = "3";
-	private String dvoraToledanoID = "1212";
+	private String anatDahanID;
+	private String arkadyKoretskyID;
+	private String dvoraToledanoID;
+	private String jamesBondID;
 	private LoginWindowController login;
 
 	/**
@@ -30,6 +34,10 @@ class LoginTests extends TestCase {
 		client = new Client("localhost", 5555);
 		login = new LoginWindowController();
 		login.setClient(new Client("localhost", 5555));
+		anatDahanID = "1";
+		arkadyKoretskyID = "3";
+		dvoraToledanoID = "1212";
+		jamesBondID = "007";
 	}
 
 	/**
@@ -37,10 +45,15 @@ class LoginTests extends TestCase {
 	 */
 	@Test
 	void testTeacherLogin() {
-		client.setId(anatDahanID);
-		login.loginCheck("1", "1");
-		String ID = login.getClient().getId();
-		Assert.assertTrue(ID.equals(client.getId()));
+		client.setMessageFromServer(Message.teacher);
+		login.loginCheck(anatDahanID, anatDahanID);
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		String messageFromServer = login.getClient().getMessageFromServer();
+		Assert.assertTrue(messageFromServer.equals(client.getMessageFromServer()));
 	}
 
 	/**
@@ -48,10 +61,15 @@ class LoginTests extends TestCase {
 	 */
 	@Test
 	void testStudentLogin() {
-		client.setId(arkadyKoretskyID);
-		login.loginCheck("3", "3");
-		String ID = login.getClient().getId();
-		Assert.assertTrue(ID.equals(client.getId()));
+		client.setMessageFromServer(Message.studnet);
+		login.loginCheck(arkadyKoretskyID, arkadyKoretskyID);
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		String messageFromServer = login.getClient().getMessageFromServer();
+		Assert.assertTrue(messageFromServer.equals(client.getMessageFromServer()));
 	}
 
 	/**
@@ -59,10 +77,15 @@ class LoginTests extends TestCase {
 	 */
 	@Test
 	void testPrincipalLogin() {
-		client.setId(dvoraToledanoID);
-		login.loginCheck("1212", "1212");
-		String ID = login.getClient().getId();
-		Assert.assertTrue(ID.equals(client.getId()));
+		client.setMessageFromServer(Message.principal);
+		login.loginCheck(dvoraToledanoID, dvoraToledanoID);
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		String messageFromServer = login.getClient().getMessageFromServer();
+		Assert.assertTrue(messageFromServer.equals(client.getMessageFromServer()));
 	}
 
 	/**
@@ -70,23 +93,31 @@ class LoginTests extends TestCase {
 	 */
 	@Test
 	void testAlreadyConnected() {
-		LoginWindowController expectedResult = new LoginWindowController();
-		expectedResult.setConnectedFlag(true);
-		login.loginCheck("6", "6");
-		boolean connected = login.isConnectedFlag();
-		Assert.assertTrue(connected == expectedResult.isConnectedFlag());
+		client.setMessageFromServer(Message.userAlreadyConnected);
+		login.loginCheck(jamesBondID, jamesBondID);
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		String messageFromServer = login.getClient().getMessageFromServer();
+		Assert.assertTrue(messageFromServer.equals(client.getMessageFromServer()));
 	}
 
 	/**
-	 * Test the Wrong user name and password case
+	 * Test the wrong user name and password case
 	 */
 	@Test
 	void testWrongUserNameAndPassword() {
-		LoginWindowController expectedResult = new LoginWindowController();
-		expectedResult.setNoSuchUserFlag(true);
-		login.loginCheck("5", "12");
-		boolean notExist = login.isNoSuchUserFlag();
-		Assert.assertTrue(notExist == expectedResult.isNoSuchUserFlag());
+		client.setMessageFromServer(Message.noSuchUser);
+		login.loginCheck(jamesBondID, dvoraToledanoID);
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		String messageFromServer = login.getClient().getMessageFromServer();
+		Assert.assertTrue(messageFromServer.equals(client.getMessageFromServer()));
 	}
 
 } /* end of class */

@@ -67,11 +67,6 @@ public class LoginWindowController implements Initializable, IScreenController {
 	private Client client;
 
 	private ScreensController myController;
-	
-	private boolean connectedFlag;
-
-	private boolean noSuchUserFlag;
-
 
 	/******************** Getters and Setters ********************/
 
@@ -108,22 +103,6 @@ public class LoginWindowController implements Initializable, IScreenController {
 	 */
 	public void setClient(Client client) {
 		this.client = client;
-	}
-	
-	public boolean isConnectedFlag() {
-		return connectedFlag;
-	}
-
-	public void setConnectedFlag(boolean connectedFlag) {
-		this.connectedFlag = connectedFlag;
-	}
-
-	public boolean isNoSuchUserFlag() {
-		return noSuchUserFlag;
-	}
-
-	public void setNoSuchUserFlag(boolean noSuchUserFlag) {
-		this.noSuchUserFlag = noSuchUserFlag;
 	}
 
 	/******************** Initialization ********************/
