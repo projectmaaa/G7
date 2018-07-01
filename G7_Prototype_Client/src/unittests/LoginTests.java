@@ -1,7 +1,6 @@
 package unittests;
 
 import java.util.concurrent.TimeUnit;
-
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,20 +17,37 @@ import resources.Message;
  */
 class LoginTests extends TestCase {
 
-	private Client client;
+	/**
+	 * Teacher's ID - not logged in
+	 */
 	private String anatDahanID;
+
+	/**
+	 * Student's ID
+	 */
 	private String arkadyKoretskyID;
+
+	/**
+	 * Principal's ID
+	 */
 	private String dvoraToledanoID;
+
+	/**
+	 * Teacher's ID - logged in
+	 */
 	private String jamesBondID;
+
+	/**
+	 * The class with the testing method
+	 */
 	private LoginWindowController login;
 
 	/**
-	 * Initialize the client
+	 * Initialize the controller and the ID's
 	 */
 	@BeforeEach
 	protected void setUp() throws Exception {
 		super.setUp();
-		client = new Client("localhost", 5555);
 		login = new LoginWindowController();
 		login.setClient(new Client("localhost", 5555));
 		anatDahanID = "1";
@@ -45,15 +61,15 @@ class LoginTests extends TestCase {
 	 */
 	@Test
 	void testTeacherLogin() {
-		client.setMessageFromServer(Message.teacher);
 		login.loginCheck(anatDahanID, anatDahanID);
+		login.getClient().handleMessageFromClientUI(Message.logout); // Initialize back the value in the data base
 		try {
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(1); // Force the context switch
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		String messageFromServer = login.getClient().getMessageFromServer();
-		Assert.assertTrue(messageFromServer.equals(client.getMessageFromServer()));
+		Assert.assertTrue(messageFromServer.equals(Message.teacher));
 	}
 
 	/**
@@ -61,15 +77,15 @@ class LoginTests extends TestCase {
 	 */
 	@Test
 	void testStudentLogin() {
-		client.setMessageFromServer(Message.studnet);
 		login.loginCheck(arkadyKoretskyID, arkadyKoretskyID);
+		login.getClient().handleMessageFromClientUI(Message.logout); // Initialize back the value in the data base
 		try {
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(1); // Force the context switch
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		String messageFromServer = login.getClient().getMessageFromServer();
-		Assert.assertTrue(messageFromServer.equals(client.getMessageFromServer()));
+		Assert.assertTrue(messageFromServer.equals(Message.studnet));
 	}
 
 	/**
@@ -77,15 +93,15 @@ class LoginTests extends TestCase {
 	 */
 	@Test
 	void testPrincipalLogin() {
-		client.setMessageFromServer(Message.principal);
 		login.loginCheck(dvoraToledanoID, dvoraToledanoID);
+		login.getClient().handleMessageFromClientUI(Message.logout); // Initialize back the value in the data base
 		try {
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(1); // Force the context switch
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		String messageFromServer = login.getClient().getMessageFromServer();
-		Assert.assertTrue(messageFromServer.equals(client.getMessageFromServer()));
+		Assert.assertTrue(messageFromServer.equals(Message.principal));
 	}
 
 	/**
@@ -93,15 +109,14 @@ class LoginTests extends TestCase {
 	 */
 	@Test
 	void testAlreadyConnected() {
-		client.setMessageFromServer(Message.userAlreadyConnected);
 		login.loginCheck(jamesBondID, jamesBondID);
 		try {
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(1); // Force the context switch
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		String messageFromServer = login.getClient().getMessageFromServer();
-		Assert.assertTrue(messageFromServer.equals(client.getMessageFromServer()));
+		Assert.assertTrue(messageFromServer.equals(Message.userAlreadyConnected));
 	}
 
 	/**
@@ -109,15 +124,14 @@ class LoginTests extends TestCase {
 	 */
 	@Test
 	void testWrongUserNameAndPassword() {
-		client.setMessageFromServer(Message.noSuchUser);
 		login.loginCheck(jamesBondID, dvoraToledanoID);
 		try {
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(1); // Force the context switch
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		String messageFromServer = login.getClient().getMessageFromServer();
-		Assert.assertTrue(messageFromServer.equals(client.getMessageFromServer()));
+		Assert.assertTrue(messageFromServer.equals(Message.noSuchUser));
 	}
 
 } /* end of class */
