@@ -234,10 +234,10 @@ public class LoginWindowController implements Initializable, IScreenController {
 	/**
 	 * check login user details for the test class
 	 */
-	public void loginCheck(String userNameField, String passwordField) {
-		if ((!userNameField.isEmpty()) && (!passwordField.isEmpty())) {
-			client.handleMessageFromClientUI(Message.login + " " + userNameField + " " + passwordField);
-			client.setId(userNameField);
+	public void loginCheck(String userName, String password) {
+		if ((!userName.isEmpty()) && (!password.isEmpty())) {
+			client.handleMessageFromClientUI(Message.login + " " + userName + " " + password);
+			client.setId(userName);
 		}
 	}
 

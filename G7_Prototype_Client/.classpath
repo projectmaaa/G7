@@ -8,6 +8,6 @@
 	<classpathentry kind="lib" path="/G7_Server/libs/apache/poi-ooxml-3.17.jar"/>
 	<classpathentry kind="lib" path="/G7_Server/libs/apache/poi-ooxml-schemas-3.17.jar"/>
 	<classpathentry kind="lib" path="/G7_Server/libs/apache/xmlbeans-2.6.0.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -2,8 +2,8 @@ package unittests;
 
 import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.Before;
 import client.Client;
 import controllers.LoginWindowController;
 import junit.framework.TestCase;
@@ -15,7 +15,7 @@ import resources.Message;
  * @author Group 7
  *
  */
-class LoginTests extends TestCase {
+public class LoginTests extends TestCase {
 
 	/**
 	 * Teacher's ID - not logged in
@@ -45,7 +45,7 @@ class LoginTests extends TestCase {
 	/**
 	 * Initialize the controller and the ID's
 	 */
-	@BeforeEach
+	@Before
 	protected void setUp() throws Exception {
 		super.setUp();
 		login = new LoginWindowController();
@@ -60,7 +60,7 @@ class LoginTests extends TestCase {
 	 * Test the login of teacher user
 	 */
 	@Test
-	void testTeacherLogin() {
+	public void testTeacherLogin() {
 		login.loginCheck(anatDahanID, anatDahanID);
 		login.getClient().handleMessageFromClientUI(Message.logout); // Initialize back the value in the data base
 		try {
@@ -76,7 +76,7 @@ class LoginTests extends TestCase {
 	 * Test the login of student user
 	 */
 	@Test
-	void testStudentLogin() {
+	public void testStudentLogin() {
 		login.loginCheck(arkadyKoretskyID, arkadyKoretskyID);
 		login.getClient().handleMessageFromClientUI(Message.logout); // Initialize back the value in the data base
 		try {
@@ -92,7 +92,7 @@ class LoginTests extends TestCase {
 	 * Test the login of principal user
 	 */
 	@Test
-	void testPrincipalLogin() {
+	public void testPrincipalLogin() {
 		login.loginCheck(dvoraToledanoID, dvoraToledanoID);
 		login.getClient().handleMessageFromClientUI(Message.logout); // Initialize back the value in the data base
 		try {
@@ -108,7 +108,7 @@ class LoginTests extends TestCase {
 	 * Test the already connected case
 	 */
 	@Test
-	void testAlreadyConnected() {
+	public void testAlreadyConnected() {
 		login.loginCheck(jamesBondID, jamesBondID);
 		try {
 			TimeUnit.SECONDS.sleep(1); // Force the context switch
@@ -123,7 +123,7 @@ class LoginTests extends TestCase {
 	 * Test the wrong user name and password case
 	 */
 	@Test
-	void testWrongUserNameAndPassword() {
+	public void testWrongUserNameAndPassword() {
 		login.loginCheck(jamesBondID, dvoraToledanoID);
 		try {
 			TimeUnit.SECONDS.sleep(1); // Force the context switch
