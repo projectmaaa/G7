@@ -98,8 +98,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 
 	/**
 	 * 
-	 * @param client
-	 *            The client who's connected
+	 * @param client The client who's connected
 	 */
 	public void setClient(Client client) {
 		this.client = client;
@@ -123,8 +122,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	/**
 	 * login Button Handler
 	 * 
-	 * @param event
-	 *            The Button has been clicked
+	 * @param event The Button has been clicked
 	 */
 	public void loginButtonHandler(ActionEvent event) {
 		loginText.setText("");
@@ -134,8 +132,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	/**
 	 * define open setting to start
 	 * 
-	 * @param event
-	 *            The Button has been clicked
+	 * @param event The Button has been clicked
 	 */
 	public void openSetting(MouseEvent event) {
 		if (!turnSettings) {
@@ -153,8 +150,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	/**
 	 * save setting
 	 * 
-	 * @param event
-	 *            The Button has been clicked
+	 * @param event The Button has been clicked
 	 */
 	public void saveSettings(MouseEvent event) {
 		if (!(MainAppClient.getClient().getHost().equals(hostField.getText()))
@@ -177,8 +173,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	/**
 	 * This handler is for move between fields with tab.
 	 * 
-	 * @param event
-	 *            Tab is pressed
+	 * @param event Tab is pressed
 	 */
 	public void keyHandler(KeyEvent event) {
 		KeyCode code = event.getCode();
@@ -205,8 +200,7 @@ public class LoginWindowController implements Initializable, IScreenController {
 	/**
 	 * set Login Status
 	 * 
-	 * @param msg
-	 *            The message of connection status
+	 * @param msg The message of connection status
 	 */
 	public void setLoginStatus(String msg) {
 		if (loginText != null) {
@@ -238,7 +232,8 @@ public class LoginWindowController implements Initializable, IScreenController {
 		if ((!userName.isEmpty()) && (!password.isEmpty())) {
 			client.handleMessageFromClientUI(Message.login + " " + userName + " " + password);
 			client.setId(userName);
-		}
+		} else
+			client.setMessageFromServer(Message.noSuchUser);
 	}
 
 	/**

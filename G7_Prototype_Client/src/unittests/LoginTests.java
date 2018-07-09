@@ -134,4 +134,49 @@ public class LoginTests extends TestCase {
 		Assert.assertTrue(messageFromServer.equals(Message.noSuchUser));
 	}
 
+	/**
+	 * Test user name field is missing
+	 */
+	@Test
+	public void testUserNameFieldIsMissing() {
+		login.loginCheck("", dvoraToledanoID);
+		try {
+			TimeUnit.SECONDS.sleep(1); // Force the context switch
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		String messageFromServer = login.getClient().getMessageFromServer();
+		Assert.assertTrue(messageFromServer.equals(Message.noSuchUser));
+	}
+
+	/**
+	 * Test password field is missing
+	 */
+	@Test
+	public void testPasswordFieldIsMissing() {
+		login.loginCheck(jamesBondID, "");
+		try {
+			TimeUnit.SECONDS.sleep(1); // Force the context switch
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		String messageFromServer = login.getClient().getMessageFromServer();
+		Assert.assertTrue(messageFromServer.equals(Message.noSuchUser));
+	}
+
+	/**
+	 * Test both fields is missing
+	 */
+	@Test
+	public void testBothFieldsIsMissing() {
+		login.loginCheck("", "");
+		try {
+			TimeUnit.SECONDS.sleep(1); // Force the context switch
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		String messageFromServer = login.getClient().getMessageFromServer();
+		Assert.assertTrue(messageFromServer.equals(Message.noSuchUser));
+	}
+
 } /* end of class */
